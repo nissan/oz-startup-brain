@@ -24,4 +24,8 @@ OSB_RENDER_NODE_MODULES=/tmp/osb-render/node_modules \
 
 The tests run the real renderer in temporary copies. They verify all committed boards and component previews, shrink SB3-Route to clip its supporting-passage button, inject a JavaScript error into the artboard, remove an asset mapping from `mockups/assets.json` (unmapped blob ID), delete a mapped brand file (mapped but missing), and move a canvas title note onto an artboard (layout overlap). Every negative case must fail in both themes and name the relevant failure. The working tree and committed PNGs are not modified. Missing dependencies are an error, not a skipped success.
 
-A successful run checks fallback-font export geometry and renderer failure handling only. It does not establish the private hosted artifact's exact font metrics, responsive layouts, keyboard/screen-reader behaviour, accessibility conformance, owner design approval or any founder UX outcome.
+## Continuous integration
+
+`.github/workflows/checks.yml` runs `tokens_css.py --check` and this regression suite on every pull request and on pushes to `main`, rendering into the runner's temp directory; the PNGs under `design/exports/` remain a manual export step and are never written by CI. `design/tools/tokens_css.py` regenerates `design/system/tokens.css` from `tokens.json` (run it after a token change) and `--check` fails if the two disagree.
+
+A successful run, locally or in CI, checks fallback-font export geometry and renderer failure handling only. It does not establish the private hosted artifact's exact font metrics, responsive layouts, keyboard/screen-reader behaviour, accessibility conformance, owner design approval or any founder UX outcome.

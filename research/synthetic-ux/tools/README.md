@@ -25,4 +25,6 @@ When validation reports `scenario-review`:
 
 4. Commit the checkpoint with the feature/scope changes. Include the rationale in the PR for another reviewer to assess, then run normal validation and regression tests.
 
+`.github/workflows/checks.yml` runs the validator and these tests on every pull request and on pushes to `main`. CI never runs `--record-scenario-review`: a `scenario-review` failure there is a review task for a person, not something to fix in the workflow. A green run establishes no UX outcome, no hosted-artifact behaviour and no owner approval.
+
 The initial checkpoint was recorded by Codex after reviewing all 16 task mappings against the feature definitions. It is an agent review record, not human approval. A hash detects changed inputs, not semantic correctness: the explicit record command can accept incorrect prose if its operator skips review. It must never run automatically as a fix in CI. Existing ID, variant and actor-boundary checks still run before a checkpoint can be recorded. Neither checkpoint freshness nor passing tests demonstrates any UX outcome.
