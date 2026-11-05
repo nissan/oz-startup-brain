@@ -8,6 +8,10 @@ Recent Google generative-UI research reports user preference for richer interfac
 
 Voice design guidance supports brief, relevant conversational turns. WCAG provides requirements for equivalent access, focus and audio control. [R16–R17]
 
+## Visual quality as a product requirement
+
+Visual presentation has equal priority with functionality. Apply the [visual quality standard](visual-quality.md) to every frontend/design increment: review the rendered experience as an art director, identify and fix its largest visual weaknesses, then inspect the revised result before declaring completion. Functional success is not sufficient. Keep this craft review separate from the usability evidence described below.
+
 ## Interaction model
 
 Use a persistent **journey workspace**: editable context at the top; next actions in the main area; evidence accessible alongside each claim. Chat is one input mechanism. Users can also choose a starter task, change a context chip, compare cards or select a prerequisite. Those visual actions update typed context, rather than being translated through an unnecessary chat round-trip.

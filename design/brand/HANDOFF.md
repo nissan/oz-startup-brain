@@ -32,3 +32,7 @@ Every lockup has a light file (dark lettering, for `paper`/`paper-raised`) and a
 - Fonts were outlined from the `@fontsource/fraunces` 5.1.0 and `@fontsource/atkinson-hyperlegible` 5.1.0 packages (SIL Open Font License), so the SVG lockups render identically everywhere; live UI still sets the name with the Google-hosted faces.
 - Reproduce the rasters with `rsvg-convert` from the SVGs (sizes as named). The brand sheet PNGs come from `../tools/render.py`, which resolves the canvas's uploaded assets through `../mockups/assets.json`.
 - Nothing here is trademark-cleared; the name "Oz Startup Brain" has not been searched against existing marks. That is an owner task before any public deployment.
+
+## Visual quality requirement for future changes
+
+Apply the [standing visual quality standard](../../docs/ux/visual-quality.md) before completing any revision or frontend implementation based on this handoff. Identify the largest visual weaknesses, fix material issues, and inspect the revised render; include before/after evidence and the reviewed version. Check intended fonts, relevant themes and actual placements, not only fallback-font geometry. This requirement does not change the artifact version or approve the current design retrospectively; owner approval above remains separate.

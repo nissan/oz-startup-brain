@@ -1,5 +1,11 @@
 # Design export validation
 
+## Required visual inspection after validation
+
+A passing renderer is the start of visual review, not visual sign-off. Follow the [visual quality standard](../../docs/ux/visual-quality.md): inspect the results, rank the biggest visual weaknesses, refine them and inspect again. Offline renders with verified intended fonts from pinned local `@fontsource` packages are sanctioned once [#22](https://github.com/nissan/oz-startup-brain/issues/22) lands; until then, typography sign-off requires an actual browser/artifact/build with verified loading and use of those faces, and fallback-font exports leave it incomplete. A CSS font-family declaration or network access alone is not proof. Preserve before/after evidence with version identifiers. Automated geometry and image checks cannot establish polished composition or replace this review.
+
+## Render the exports
+
 The renderer already includes the bounds check added in PR #5 (`542fa5d`). Run from the repository root with Python 3, Playwright, Chromium/Chrome and React 18 installed:
 
 ```sh

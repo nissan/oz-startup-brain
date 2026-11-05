@@ -28,3 +28,7 @@ Versioned export of the "Oz Startup Brain Mock-ups" Claude Design canvas: the ar
 Every program, round, source and person on these boards is a labelled fictional fixture. The `.dc.html` files mount the design system's components with `<x-import>`; `../tools/render.py` reproduces the PNGs with a minimal stand-in for the canvas runtime (fallback fonts) and resolves uploaded canvas assets through `assets.json`, failing on any unmapped image.
 
 The low-fidelity paper SVGs in `docs/ux/` remain the printed-session versions; these are the higher-fidelity source. Observations in the review report about these boards are simulated design critiques, not user research.
+
+## Visual quality requirement for future changes
+
+Apply the [standing visual quality standard](../../docs/ux/visual-quality.md) before completing any revision or frontend implementation based on this handoff. Identify the largest visual weaknesses, fix material issues, and inspect the revised render; include before/after evidence and the reviewed version. Check intended fonts, relevant themes and actual placements, not only fallback-font geometry. This requirement does not change the artifact version or approve the current design retrospectively; owner approval above remains separate.

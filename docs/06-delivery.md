@@ -15,6 +15,12 @@ This is an implementation backlog, not a calendar commitment. No databases, paid
 | 6: Public demonstration | Publish a personal non-commercial Vercel demo and reproducible educational walkthrough | Budget controls, session-hint sub-quotas, the weekly maintenance and resume policy for the free-tier stores with the pre-demo readiness procedure, a rehearsed restore drill from versioned exports (Qdrant is deleted after four idle weeks and Aura after 30 paused days), current corpus release, documented limitations and no leaked private data |
 | 7: External and agent access | Onboard independent API consumers; add an MCP adapter when needed | Independent key revocation and quotas; API12 passes; MCP interoperability, OAuth and policy-parity checks |
 
+## Visual completion gate for every frontend increment
+
+Owner direction, 6 November 2026: visual presentation is as important as functionality, from the first frontend delivery. Follow the [visual quality and art-direction standard](ux/visual-quality.md) for every frontend/design increment, including Stage 0a artifacts, slice 1B, Stage 4 and later multimodal work. Inspect the rendered experience, rank its biggest visual weaknesses, fix material issues, and inspect again before declaring completion. Include before/after evidence and limitations in the PR. Passing functional or geometry checks alone does not meet this gate.
+
+Allocate polish within each increment rather than deferring it to launch. Keep the existing owner design approval separate, and do not treat current exports as retrospectively approved. API-only slice 1A-0 can proceed independently; backend-only work records the visual gate as not applicable.
+
 ## First vertical slice
 
 One founder task: an early-stage founder asks for a next support step. The app clarifies stage if needed, retrieves current sources, presents up to three options with conditions and dates, and lets the founder inspect a citation. A synthetic closed-round fixture exercises abstention from recommending a closed application route. This slice must work without Neo4j before graph complexity is added. Business logic must not depend on a browser session or Next.js runtime.

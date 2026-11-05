@@ -6,6 +6,10 @@ An educational, evidence-backed Australian founder journey planner demonstrating
 
 The product hypothesis is that a founder can identify a useful next action, understand its prerequisites and inspect its evidence faster than by searching scattered ecosystem pages. This uses an existing LLM with retrieval; it does not train a new foundation model.
 
+## Contribution and completion standards
+
+All contributors and AI builders must follow [AGENTS.md](AGENTS.md). **Visual presentation has equal priority with functionality.** Every frontend increment requires a dedicated [visual-polish pass](docs/ux/visual-quality.md): identify the biggest weaknesses, address them, inspect the revised result and provide review evidence before declaring completion.
+
 ## Review the proposal
 
 1. [Plan assessment and decisions](docs/01-plan-assessment.md)
