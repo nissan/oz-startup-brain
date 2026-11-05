@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Oz Startup Brain">
+<title>Oz Startup Brain avatar</title>
+<rect width="512" height="512" fill="#f5f0e4"/>
+<g transform="translate(96 96) scale(5)"><g>
+  <rect width="64" height="64" rx="14.00" fill="#2e4a5a"/>
+  <path d="M17.92 46.08 V29.44 a5.12 5.12 0 0 1 5.12 -5.12 H40.96" fill="none" stroke="#f5f0e4" stroke-width="5.44" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="17.92" cy="47.36" r="5.44" fill="#f5f0e4"/>
+  <circle cx="44.80" cy="24.32" r="7.36" fill="#e8eddf" stroke="#f5f0e4" stroke-width="2.56"/>
+</g></g>
+</svg>

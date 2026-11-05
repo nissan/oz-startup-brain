@@ -13,7 +13,7 @@ export CHROME="$(/tmp/osb-render-venv/bin/python -c 'from playwright.sync_api im
 
 An existing Chrome binary also works: set `CHROME` to its absolute path. The renderer defaults to `/usr/bin/google-chrome`. These commands install local development tools, not hosted services. The documented Playwright version is the version used for the maintenance regression run; upgrade deliberately and rerun the checks.
 
-The renderer checks the listed controls, paragraphs and headings against fixed `canvas.json` frames in both themes. It reports offending artboards/elements and exits 1 for bounds overflow or page errors. Component previews use full-page screenshots and have no fixed-frame bounds check. This is a targeted export check; it does not inspect every painted pixel, ancestor clipping or every possible text node.
+The renderer resolves the canvas's uploaded assets (`/_blob/<id>` references) through `design/mockups/assets.json` and reports any unmapped image as a page error. It checks the listed controls, paragraphs and headings against fixed `canvas.json` frames in both themes. It reports offending artboards/elements and exits 1 for bounds overflow or page errors. Component previews use full-page screenshots and have no fixed-frame bounds check. This is a targeted export check; it does not inspect every painted pixel, ancestor clipping or every possible text node.
 
 ## Regression tests
 

@@ -23,7 +23,7 @@ class RenderRegressionTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.design = self.root / 'design'
-        for folder in ('system', 'mockups'):
+        for folder in ('system', 'mockups', 'brand'):
             shutil.copytree(DESIGN / folder, self.design / folder)
         (self.design / 'tools').mkdir()
         shutil.copy(DESIGN / 'tools/render.py', self.design / 'tools/render.py')

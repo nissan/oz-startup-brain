@@ -18,6 +18,9 @@ differ from the hosted artifact while colours, layout and copy are identical.
 The artboard renderer is a minimal stand-in for the Design canvas runtime: it resolves
 `{{hole}}` attributes from `renderVals()` and mounts each `<x-import>` with React. It does
 not implement `<sc-for>`, `<sc-if>` or events; the committed artboards use none of them.
+Uploaded canvas assets (`/_blob/<id>` references) are resolved through mockups/assets.json,
+which maps each id to a committed file under design/; an unmapped id renders as a broken
+image and is reported as a page error.
 """
 import glob, os, re, sys
 
@@ -65,15 +68,27 @@ for pv in sorted(glob.glob(os.path.join(DS, "components/*/preview.html"))):
         pages.append((f"components/{name}-{theme}", 720, None,
                       f'<!doctype html><html data-theme="{theme}"><head>{HEAD}<style>{style}</style></head><body>{body}</body></html>', False))
 sizes = {}
-import json
+import json, base64, mimetypes
 canvas = json.load(open(os.path.join(MOCK, "canvas.json")))
+ASSETS = json.load(open(os.path.join(MOCK, "assets.json"))) if os.path.exists(os.path.join(MOCK, "assets.json")) else {}
+def inline_assets(html):
+    def repl(m):
+        rel = ASSETS.get(m.group(1))
+        if not rel:
+            return m.group(0)
+        path = os.path.join(ROOT, rel)
+        if not os.path.isfile(path):
+            return m.group(0)  # left unresolved; reported below as a broken image
+        mime = mimetypes.guess_type(path)[0] or "application/octet-stream"
+        return "data:" + mime + ";base64," + base64.b64encode(open(path, "rb").read()).decode()
+    return re.sub(r"/_blob/([0-9a-f]{32})", repl, html)
 for ab in sorted(glob.glob(os.path.join(MOCK, "*.dc.html"))):
     name = os.path.basename(ab)[:-len(".dc.html")]
     board = canvas["boards"].get(os.path.basename(ab), {})
     src = open(ab).read()
     helm = re.search(r"<helmet>(.*?)</helmet>", src, re.S).group(1)
     hstyle = "".join(re.findall(r"<style>(.*?)</style>", helm, re.S))
-    inner = re.search(r"</helmet>(.*?)</x-dc>", src, re.S).group(1)
+    inner = inline_assets(re.search(r"</helmet>(.*?)</x-dc>", src, re.S).group(1))
     script = re.search(r'(<script type="text/x-dc"[^>]*>.*?</script>)', src, re.S).group(1)
     for theme in ("light", "dark"):
         pages.append((f"mockups/{name}-{theme}", board.get("w", 1280), board.get("h", 900),
@@ -107,6 +122,9 @@ with sync_playwright() as pw:
         if check:
             for item in page.evaluate(BOUNDS_JS, [w, h]):
                 overflow.append(f"BOUNDS {name}: {item}")
+            broken = page.evaluate("() => [...document.images].filter(i => i.complete && i.naturalWidth === 0).map(i => i.getAttribute('src').slice(0, 60))")
+            if broken:
+                errors[name] = errors.get(name, []) + ["broken image: " + b for b in broken]
         page.close()
     browser.close()
 for line in overflow:
