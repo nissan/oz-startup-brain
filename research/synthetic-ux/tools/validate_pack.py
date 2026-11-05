@@ -46,13 +46,31 @@ def normalised_feature(text):
 
     Whole files are hashed deliberately, because Background, Examples and tags
     can change a scenario's meaning without changing its ID or step text. Only
-    what Gherkin itself ignores is dropped first: trailing whitespace on each
-    line, lines whose first non-space character is '#' (comments), and runs of
-    blank lines, which collapse to one. Indentation, step order, tags, docstring
-    and table contents stay byte for byte.
+    what Gherkin itself ignores is dropped first, and only OUTSIDE docstrings:
+    trailing whitespace on each line, lines whose first non-space character is
+    '#' (comments), and runs of blank lines, which collapse to one. Everything
+    inside a docstring (opened and closed by a matching \"\"\" or ``` delimiter,
+    optionally followed by a content type) is payload, not formatting, and is
+    kept byte for byte, including its '#' lines, blank lines and trailing
+    whitespace. Indentation, step order, tags and table contents stay byte for
+    byte everywhere.
     """
-    out, blank = [], False
+    out, blank, delimiter = [], False, None
     for line in text.splitlines():
+        if delimiter is not None:
+            out.append(line)                     # payload: verbatim
+            if line.strip() == delimiter:
+                delimiter = None
+            continue
+        stripped = line.strip()
+        for candidate in ('"""', '```'):
+            if stripped.startswith(candidate):   # opening line, possibly with a content type
+                delimiter = candidate
+                break
+        if delimiter is not None:
+            out.append(line)                     # the opening line, verbatim as well
+            blank = False
+            continue
         line = line.rstrip()
         if line.lstrip().startswith('#'):
             continue
