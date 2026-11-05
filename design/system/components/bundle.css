@@ -14,7 +14,7 @@
 
 /* Evidence label */
 .osb-label { display: inline-flex; align-items: center; gap: var(--space-1); padding: 2px var(--space-2); border-radius: var(--radius-sm); font-size: 15px; line-height: 20px; font-weight: 700; max-width: 100%; white-space: nowrap; }
-.osb-label--wrap, .osb-table .osb-label, .osb-card__row .osb-label { white-space: normal; text-align: left; }
+.osb-label--wrap, .osb-table .osb-label, .osb-card__row .osb-label, .osb-map__list .osb-label { white-space: normal; text-align: left; }
 .osb-label svg { flex: none; }
 .osb-label--checked { color: var(--ink); background: var(--paper-raised); border: 1px solid var(--border-strong); }
 .osb-label--needs-check { color: var(--ochre); background: var(--ochre-tint); }
@@ -65,8 +65,8 @@
 .osb-link { color: var(--ironbark); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
 
 /* Prerequisite map */
-.osb-map { display: grid; gap: var(--space-4); max-width: 640px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.osb-map__svg { width: 100%; height: auto; }
+.osb-map { display: grid; gap: var(--space-4); max-width: 640px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.osb-map__svg { width: 100%; max-width: 320px; height: auto; }
 .osb-map__rail { stroke: var(--ironbark); stroke-width: 2; fill: none; }
 .osb-map__rail--editorial { stroke-dasharray: 4 4; }
 .osb-map__node { fill: var(--paper-raised); stroke: var(--border-strong); stroke-width: 1.5; }

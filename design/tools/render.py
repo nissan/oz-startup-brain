@@ -97,7 +97,7 @@ def build_pages(node_modules):
 
 BOUNDS_JS = """([w, h]) => {
   const out = [];
-  for (const el of document.querySelectorAll('button, a, input, textarea, select, p, h1, h2, h3, h4')) {
+  for (const el of document.querySelectorAll('button, a, input, textarea, select, p, h1, h2, h3, h4, .osb-label, .osb-status')) {
     const r = el.getBoundingClientRect();
     if (r.width === 0 || r.height === 0) continue;
     if (r.bottom > h + 0.5 || r.right > w + 0.5 || r.top < -0.5 || r.left < -0.5) {

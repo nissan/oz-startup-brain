@@ -5,8 +5,8 @@ Versioned export of the "Oz Startup Brain Mock-ups" Claude Design canvas: the ar
 | Item | Value |
 | --- | --- |
 | Artifact | https://claude.ai/artifact/Dh4MHqWBNHXCYJRzAudKfc |
-| Artifact version exported | `1793911885-c30c` (version 17) |
-| Design system used | `../system/` at artifact version `1793911862-01d8` (version 11); `canvas.json` → `designSystems[0].version` carries the same identifier |
+| Artifact version exported | `1793913319-21a3` (version 18) |
+| Design system used | `../system/` at artifact version `1793913295-8883` (version 12); `canvas.json` → `designSystems[0].version` carries the same identifier |
 | Export date | 6 November 2026 |
 | Owner approval | **Pending** — one review with the design system and brand kit (#8) |
 
@@ -27,7 +27,9 @@ Versioned export of the "Oz Startup Brain Mock-ups" Claude Design canvas: the ar
 
 **Primary-action hierarchy (owner review on #17, recorded in #8).** Each real screen now has one intentional sage action: on the journey workspace it is the first next-step card's "Show supporting passage" (opening evidence beside the first action is the product's core move, O2); the other cards' inspect actions and "Export checklist" are secondary. SB3 Ask: "Start recording" (the persona's task); SB3 Route: the single card's inspect action; SB3 Summary: "Read summary", with export secondary. `NextStepCard` no longer hard-codes primary — the parent passes `emphasis`. A pressed starter task is a selected state (`ironbark-tint` with an `ironbark` border), not an action. SB5a/SB5b are comparison sheets of separate scenarios, so each `LimitPanel` keeps its own recovery action, as the review allowed. The mark's sage destination node is decorative and part of the logo.
 
-**Voice disclosure (same review).** SB3 Ask and SB3 Transcript now say that the recording is sent to the transcription provider to make the transcript and that only the text the founder confirms is sent to the planner; the provider and its retention line are explicitly provisional until the provider is chosen, and `TranscriptReview` renders a visible placeholder if a consumer omits the disclosure.
+**Voice disclosure (same review).** SB3 Ask and SB3 Transcript now say that the recording is sent to the transcription provider to make the transcript and that only the text the founder confirms is sent to the planner; the provider and its retention line are explicitly provisional until the provider is chosen, and `TranscriptReview` renders a visible placeholder if a consumer omits the disclosure. After the owner's density critique on #20 the Ask disclosure is a two-row labelled list ("Audio goes to" / "The planner gets") and the transcript line is one sentence, so the facts stay visible before recording without competing with the input.
+
+**Density and balance (owner critique on #20, design critique not a usability finding).** The workspace's evidence rail was widened (cards capped at 688px, rail flex 2 from 400px) so dates, links and metadata are no longer cramped, and the prerequisite map stacks its drawing above its list in rails narrower than two 300px columns, with the drawing capped at 320px. Before/after evidence: the committed exports at the previous and this commit, fallback fonts, both themes. **Visual sign-off is not claimed**: the standard in #21 asks for inspection at the intended fonts, which these exports cannot show until the renderer loads the OFL faces; owner design approval remains #8.
 
 Every program, round, source and person on these boards is a labelled fictional fixture. The `.dc.html` files mount the design system's components with `<x-import>`; `../tools/render.py` reproduces the PNGs with a minimal stand-in for the canvas runtime (fallback fonts) and resolves uploaded canvas assets through `assets.json`, failing on any unmapped image.
 

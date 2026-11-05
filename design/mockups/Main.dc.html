@@ -44,14 +44,14 @@ a{color:var(--ironbark)}a:hover{color:var(--ink)}
   </section>
 
   <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
-    <section style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+    <section style="flex: 3 1 560px; max-width: 688px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
       <h2 style="margin: 0; font-size: 20px; line-height: 26px; font-weight: 700;">Your next steps</h2>
       <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Clarify your IP position" why="Whether the university or you own the prototype changes which support routes make sense." check="{{ipChecks}}" evidence="{{ipEvidence}}" door="Your university commercialisation contact" on-ask="{{noop}}" emphasis="primary"></x-import>
       <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Check whether Round A1 is open before preparing anything" why="The only material about Round A1 is from an earlier snapshot, so its status today is unverified." check="{{roundChecks}}" evidence="{{roundEvidence}}" door="The official Program A page (fictional fixture)"></x-import>
       <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Gather customer evidence" why="Most support conversations ask what customers have said; this is sequencing advice, not a documented requirement." check="{{custChecks}}" evidence="{{custEvidence}}" door="Your first three customer conversations"></x-import>
     </section>
 
-    <aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+    <aside style="flex: 2 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
       <h2 style="margin: 0; font-size: 20px; line-height: 26px; font-weight: 700;">Evidence</h2>
       <x-import component-from-global-scope="OzStartupBrain.SourcePanel" title="University IP policy for student projects (fictional fixture)" publisher="University commercialisation office" url="https://example.org/university/ip-policy" source-version-date="3 June 2026" verified-at="22 July 2026" state="checked" excerpt-before="Ownership of intellectual property created by a student " excerpt-mark="depends on the agreements signed when the project began" excerpt=", and should be confirmed with the commercialisation office."></x-import>
       <h2 style="margin: 8px 0 0; font-size: 20px; line-height: 26px; font-weight: 700;">What comes first</h2>

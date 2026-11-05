@@ -166,7 +166,7 @@
   };
   function StatusNotice(p) {
     var s = SERVICE[p.status] || { word: p.status || 'Service status' };
-    return h('span', { className: 'osb osb-status osb-status--' + (SERVICE[p.status] ? p.status : 'other'), role: 'status' },
+    return h('span', { className: 'osb osb-status osb-status--' + (SERVICE[p.status] ? p.status : 'other'), role: p.live === false ? undefined : 'status' },
       Icon('service'), s.word, p.detail ? h('span', { className: 'osb-status__detail' }, ' \u00b7 ' + p.detail) : null);
   }
 
@@ -181,7 +181,7 @@
     }[p.kind] || {};
     var isService = !!copy.status;
     return h('section', { className: 'osb osb-card osb-limit osb-limit--' + p.kind + (isService ? ' osb-limit--service' : ''), role: isService ? 'status' : 'alert' },
-      h('div', null, isService ? h(StatusNotice, { status: copy.status, detail: p.detail }) : h(EvidenceLabel, { state: copy.state })),
+      h('div', null, isService ? h(StatusNotice, { status: copy.status, detail: p.detail, live: false }) : h(EvidenceLabel, { state: copy.state })),
       h('h3', { className: 'osb-card__title', style: { marginTop: '8px' } }, p.title || copy.title),
       h('p', { style: { margin: 0, fontSize: '17px', lineHeight: '26px' } }, p.body || copy.body),
       p.draft ? h('div', { className: 'osb-limit__draft' }, h('span', { className: 'osb-caption' }, 'Your draft, kept: '), p.draft) : null,
