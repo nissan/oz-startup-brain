@@ -14,6 +14,8 @@
 - Corpus version / pinned as-of / actual run time:
 - Primed inspection or separated actor/evaluator context:
 - Tool limitations / unavailable criteria:
+- Capability registry/evidence and preflight outcome:
+- Initial readiness status / whether an action was actually attempted:
 
 ## Assigned brief
 
@@ -29,6 +31,7 @@
 
 - Task outcome: `not_run`
 - Applicable required criteria:
+- Variant `observes` / context-only `related` / limited observation scope:
 - Met / not met / unverified / not applicable, each with evidence:
 - Next action the actor could identify from visible content:
 - Scope of that conclusion (browser/artifact/API; mock/live):
