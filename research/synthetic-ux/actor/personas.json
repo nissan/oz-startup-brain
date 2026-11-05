@@ -1,0 +1,145 @@
+{
+  "version": "0.2",
+  "synthetic": true,
+  "profiles": [
+    {
+      "id": "P1",
+      "name": "Mei",
+      "role": "Student founder building an AI prototype",
+      "context": "Has a working university project and wants one useful action before applying for support. Has not clarified ownership with the institution.",
+      "starting_facts": {
+        "stage": "working prototype",
+        "jurisdiction": "deliberately unknown",
+        "IP_ownership": "unknown"
+      },
+      "surface": "Desktop, 1366×768 CSS pixels, text and pointer; keyboard smoke variant.",
+      "disclosure_boundary": "No nationality, visa status, institution name or personal identity documents are supplied or inferred.",
+      "autonomy": "May edit and inspect. Will not submit an application or contact anyone.",
+      "knowledge": "Comfortable with web forms; unfamiliar with grant and commercialisation terminology.",
+      "preferences": "Prefers discreet text input and short explanations. Makes her own choices about what to disclose.",
+      "goal": "Find a useful first step for a university prototype."
+    },
+    {
+      "id": "P2",
+      "name": "Arun",
+      "role": "Research founder planning commercialisation",
+      "context": "Has a laboratory prototype and early customer discussions. Preparing a meeting with a commercialisation adviser.",
+      "starting_facts": {
+        "stage": "working prototype",
+        "jurisdiction": "Queensland",
+        "customer_evidence": "early discussions",
+        "IP_access": "not yet confirmed"
+      },
+      "surface": "Desktop, 1440×900 CSS pixels, pointer and keyboard.",
+      "disclosure_boundary": "Uses fictional project details; does not share unpublished research or actual institution documents.",
+      "autonomy": "May mark a personal task and export a local checklist; cannot change shared program requirements.",
+      "knowledge": "Has subject expertise and experience reading research evidence; new to funding pathways.",
+      "preferences": "Prefers structured comparisons and something portable for an adviser meeting.",
+      "goal": "Prepare for a commercialisation adviser meeting."
+    },
+    {
+      "id": "P3",
+      "name": "Jess",
+      "role": "Regional Queensland software founder",
+      "context": "Works on a prototype in Gympie and has a short break to find support that can be used locally or remotely.",
+      "starting_facts": {
+        "stage": "working prototype",
+        "jurisdiction": "Queensland",
+        "town": "Gympie",
+        "remote_support": "acceptable"
+      },
+      "surface": "Mobile viewport 390×844 CSS pixels. This is emulation unless real device/browser details are recorded.",
+      "disclosure_boundary": "Only fictional business context. No location permissions or microphone access beyond an explicitly prepared test fixture.",
+      "autonomy": "May edit a transcript and choose text instead. Never grants recording permission just to satisfy the test.",
+      "knowledge": "Knows her product and town; unfamiliar with ecosystem organisation names.",
+      "preferences": "Uses a phone in short sessions. Open to speech input when convenient, but also types.",
+      "goal": "Find relevant support from a phone."
+    },
+    {
+      "id": "P4",
+      "name": "Sam",
+      "role": "Experienced payments founder",
+      "context": "Sketching a marketplace payment workflow; has not decided whether the platform or a third party holds customer funds.",
+      "starting_facts": {
+        "product": "fictional marketplace payment workflow",
+        "funds_holder": "unknown",
+        "jurisdiction": "Australia"
+      },
+      "surface": "Desktop 1440×900; later visual-input fixture with an intentionally ambiguous arrow.",
+      "disclosure_boundary": "Synthetic flow diagrams only. No customer records, account numbers or genuine compliance conclusions.",
+      "autonomy": "May prepare an adviser checklist. Will not open an account, submit a regulatory form or execute a payment.",
+      "knowledge": "Experienced in product operations, without specialist regulatory expertise.",
+      "preferences": "Prefers precise answers and compact diagrams; may ask a direct follow-up when a response seems vague.",
+      "goal": "Prepare questions about the proposed payment workflow."
+    },
+    {
+      "id": "P5",
+      "name": "Alex",
+      "role": "Ecosystem navigator and source curator",
+      "context": "Helping a founder understand conflicting information and reviewing a proposed graph relationship.",
+      "starting_facts": {
+        "role": "curator",
+        "operator_privileges": false,
+        "review_inputs": "fictional claims only"
+      },
+      "surface": "Desktop 1440×900; founder evidence panel plus read-only repository review artifact.",
+      "disclosure_boundary": "Cannot infer operator privileges or access private archives. Public feedback contains no real participant context.",
+      "autonomy": "Draft a review decision locally. Do not approve a corpus release, publish a comment or alter production data during the session.",
+      "knowledge": "Works with ecosystem information and reads source documents regularly.",
+      "preferences": "Prefers to inspect original material and document the reason for a recommendation.",
+      "goal": "Help a founder understand source material."
+    },
+    {
+      "id": "P6",
+      "name": "Priya",
+      "role": "Developer integrating the API and studying GraphRAG",
+      "context": "Wants to build a separate interface and reproduce the educational demo without configuring paid services first.",
+      "starting_facts": {
+        "consumer": "independent developer",
+        "production_keys": false,
+        "paid_provider_access": false
+      },
+      "surface": "Desktop documentation browser; HTTP/CLI companion is separate and only run when the session authorises it.",
+      "disclosure_boundary": "Use only disposable local fixture credentials through an authorised test setup. Never paste live keys into a browser, prompt, report or repository.",
+      "autonomy": "Read docs and inspect examples. No provisioning, deployment, key rotation or external paid calls.",
+      "knowledge": "Knows HTTP and JSON; unfamiliar with this repository and its tooling.",
+      "preferences": "Prefers concise quickstarts and examples. Has no production API credentials or paid-provider account for this exercise.",
+      "goal": "Understand how to try and integrate the project."
+    },
+    {
+      "id": "UX7",
+      "name": "Taylor",
+      "role": "Founder using keyboard navigation and zoom",
+      "context": "Needs a short prerequisite route and sources while using keyboard input and enlarged content.",
+      "starting_facts": {
+        "stage": "working prototype",
+        "jurisdiction": "Queensland",
+        "IP_access": "unknown"
+      },
+      "surface": "Desktop 1280×800 CSS viewport, keyboard-only; repeat at actual 200% browser zoom if supported. Record zoom separately from viewport.",
+      "disclosure_boundary": "No diagnosis is assigned. This is an input/display constraint, not an emulation of lived disability or a screen-reader user.",
+      "autonomy": "May use documented keyboard controls and text alternatives; no pointer rescue during the unassisted attempt.",
+      "knowledge": "Comfortable with web forms and online research; unfamiliar with this interface.",
+      "preferences": "Uses keyboard navigation and enlarged content. No diagnosis or lived experience is being simulated.",
+      "goal": "Research a prototype route with keyboard and enlarged content."
+    },
+    {
+      "id": "UX8",
+      "name": "Morgan",
+      "role": "Returning founder with changed context",
+      "context": "Previously explored an idea-stage route. Now has a prototype and wants to recover work after a service interruption.",
+      "starting_facts": {
+        "previous_stage": "idea",
+        "new_stage": "working prototype",
+        "jurisdiction": "Queensland",
+        "private_marker": "SYNTH-MORGAN-ONLY-042"
+      },
+      "surface": "Desktop 1366×768; fresh isolated browser context for the second-session check, not merely a new tab.",
+      "disclosure_boundary": "Only the synthetic marker is used to probe isolation. No real secrets or personal information.",
+      "autonomy": "May change own test draft and inspect a fresh session. No account deletion or other-user access.",
+      "knowledge": "Has previously used the planner for an idea-stage project; does not remember every control.",
+      "preferences": "Wants to update previous work without having to start over. Does not assume what the application remembers.",
+      "goal": "Continue research after the project has progressed."
+    }
+  ]
+}

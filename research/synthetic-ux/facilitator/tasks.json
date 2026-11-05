@@ -1,0 +1,698 @@
+{
+  "version": "0.2",
+  "synthetic": true,
+  "status": "prepared_not_executed",
+  "audience": "facilitator_only",
+  "coverage_rule": "observes names only the UI subset in observation_scope; count executed variant evidence, never whole-scenario passes from these lists. related is context only.",
+  "tasks": [
+    {
+      "id": "T01",
+      "persona": "P1",
+      "required_capabilities": [
+        "founder_text",
+        "context_edit",
+        "evidence_panel"
+      ],
+      "fixture_id": "F01",
+      "outcomes": [
+        "O1",
+        "O2",
+        "O3"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [
+        "SC04",
+        "SC05",
+        "SC22"
+      ],
+      "related": [],
+      "observation_scope": "Visible unknown conditions, citation/date access and absence of a repeated explicit-Unknown clarification. No SC01 missing-jurisdiction variant is assigned.",
+      "variants": [
+        {
+          "id": "T01-base",
+          "observes": [
+            "SC04",
+            "SC05",
+            "SC22"
+          ],
+          "related": [],
+          "fixture_id": "F01",
+          "required_capabilities": [
+            "founder_text",
+            "context_edit",
+            "evidence_panel"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T02",
+      "persona": "P1",
+      "required_capabilities": [
+        "founder_text",
+        "evidence_panel"
+      ],
+      "fixture_id": "F02",
+      "outcomes": [
+        "O2",
+        "O4"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "blocked_pending_test_controls",
+      "observes": [
+        "SC05",
+        "SC06"
+      ],
+      "related": [],
+      "observation_scope": "Displayed current-status limitation and source/date access at pinned fixture time.",
+      "variants": [
+        {
+          "id": "T02-base",
+          "observes": [
+            "SC05",
+            "SC06"
+          ],
+          "related": [],
+          "fixture_id": "F02",
+          "required_capabilities": [
+            "founder_text",
+            "evidence_panel"
+          ],
+          "initial_status": "blocked_pending_test_controls"
+        }
+      ]
+    },
+    {
+      "id": "T03",
+      "persona": "P2",
+      "required_capabilities": [
+        "founder_text",
+        "prerequisite_view",
+        "evidence_panel"
+      ],
+      "fixture_id": "F03",
+      "outcomes": [
+        "O1",
+        "O3",
+        "O4"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "blocked_pending_test_controls",
+      "observes": [
+        "SC03",
+        "SC04",
+        "SC23"
+      ],
+      "related": [],
+      "observation_scope": "Displayed sourced/editorial sequencing, unresolved condition and future-effective qualifier at pinned fixture time.",
+      "variants": [
+        {
+          "id": "T03-base",
+          "observes": [
+            "SC03",
+            "SC04",
+            "SC23"
+          ],
+          "related": [],
+          "fixture_id": "F03",
+          "required_capabilities": [
+            "founder_text",
+            "prerequisite_view",
+            "evidence_panel"
+          ],
+          "initial_status": "blocked_pending_test_controls"
+        }
+      ]
+    },
+    {
+      "id": "T04",
+      "persona": "P2",
+      "required_capabilities": [
+        "comparison",
+        "evidence_panel",
+        "local_export"
+      ],
+      "fixture_id": "F04",
+      "outcomes": [
+        "O2",
+        "O3"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [
+        "SC05",
+        "SC08",
+        "SC09"
+      ],
+      "related": [],
+      "observation_scope": "Comparison and downloaded checklist fields, including sources, dates and unresolved conditions. Export criterion is unverified if the file cannot be inspected.",
+      "variants": [
+        {
+          "id": "T04-base",
+          "observes": [
+            "SC05",
+            "SC08",
+            "SC09"
+          ],
+          "related": [],
+          "fixture_id": "F04",
+          "required_capabilities": [
+            "comparison",
+            "evidence_panel",
+            "local_export"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T05",
+      "persona": "P3",
+      "required_capabilities": [
+        "founder_text",
+        "coverage_notice",
+        "mobile_layout"
+      ],
+      "fixture_id": "F05",
+      "outcomes": [
+        "O1",
+        "O2",
+        "O4"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [
+        "SC05"
+      ],
+      "related": [],
+      "observation_scope": "Visible citation/source details only. Out-of-coverage response is a UX criterion, not SC18 outage coverage.",
+      "variants": [
+        {
+          "id": "T05-base",
+          "observes": [
+            "SC05"
+          ],
+          "related": [],
+          "fixture_id": "F05",
+          "required_capabilities": [
+            "founder_text",
+            "coverage_notice",
+            "mobile_layout"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T06",
+      "persona": "P3",
+      "required_capabilities": [
+        "voice_input",
+        "transcript_edit",
+        "text_fallback",
+        "mobile_layout"
+      ],
+      "fixture_id": "F06",
+      "outcomes": [
+        "O6"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "blocked_pending_fixture",
+      "observes": [
+        "SC10",
+        "SC11"
+      ],
+      "related": [],
+      "observation_scope": "Recording/transcript controls, corrected visible submission and text fallback only. Actual submitted payload and raw-audio retention need separate instrumented verification.",
+      "variants": [
+        {
+          "id": "T06-correction",
+          "fixture_state": "misheard_location",
+          "observes": [
+            "SC10"
+          ],
+          "related": [],
+          "fixture_id": "F06",
+          "required_capabilities": [
+            "voice_input",
+            "transcript_edit",
+            "text_fallback",
+            "mobile_layout"
+          ],
+          "initial_status": "blocked_pending_fixture"
+        },
+        {
+          "id": "T06-denied",
+          "fixture_state": "microphone_denied",
+          "observes": [
+            "SC11"
+          ],
+          "related": [],
+          "fixture_id": "F06",
+          "required_capabilities": [
+            "voice_input",
+            "transcript_edit",
+            "text_fallback",
+            "mobile_layout"
+          ],
+          "initial_status": "blocked_pending_fixture"
+        },
+        {
+          "id": "T06-timeout",
+          "fixture_state": "transcription_timeout",
+          "observes": [
+            "SC11"
+          ],
+          "related": [],
+          "fixture_id": "F06",
+          "required_capabilities": [
+            "voice_input",
+            "transcript_edit",
+            "text_fallback",
+            "mobile_layout"
+          ],
+          "initial_status": "blocked_pending_fixture"
+        }
+      ]
+    },
+    {
+      "id": "T07",
+      "persona": "P4",
+      "required_capabilities": [
+        "founder_text",
+        "classification_fixture",
+        "evidence_panel"
+      ],
+      "fixture_id": "F07",
+      "outcomes": [
+        "O2",
+        "O3"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [
+        "SC05",
+        "SC13"
+      ],
+      "related": [],
+      "observation_scope": "Visible missing-fact questions, references and absence of invented launch permission. Source/legal correctness remains separate.",
+      "variants": [
+        {
+          "id": "T07-base",
+          "observes": [
+            "SC05",
+            "SC13"
+          ],
+          "related": [],
+          "fixture_id": "F07",
+          "required_capabilities": [
+            "founder_text",
+            "classification_fixture",
+            "evidence_panel"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T08",
+      "persona": "P4",
+      "required_capabilities": [
+        "visual_upload",
+        "extraction_confirmation",
+        "classification_fixture"
+      ],
+      "fixture_id": "F08",
+      "outcomes": [
+        "O3",
+        "O6"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "blocked_pending_fixture",
+      "observes": [
+        "SC12"
+      ],
+      "related": [
+        "SC13",
+        "SC21"
+      ],
+      "observation_scope": "Visible extraction preview, correction/rejection and confirmation sequence only. Exclusion from backend decisions and storage remains unverified.",
+      "variants": [
+        {
+          "id": "T08-base",
+          "observes": [
+            "SC12"
+          ],
+          "related": [
+            "SC13",
+            "SC21"
+          ],
+          "fixture_id": "F08",
+          "required_capabilities": [
+            "visual_upload",
+            "extraction_confirmation",
+            "classification_fixture"
+          ],
+          "initial_status": "blocked_pending_fixture"
+        }
+      ]
+    },
+    {
+      "id": "T09",
+      "persona": "P5",
+      "required_capabilities": [
+        "founder_text",
+        "evidence_panel"
+      ],
+      "fixture_id": "F09",
+      "outcomes": [
+        "O2",
+        "O4"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [
+        "SC05",
+        "SC07"
+      ],
+      "related": [],
+      "observation_scope": "Visible conflict disclosure and both dated claims.",
+      "variants": [
+        {
+          "id": "T09-base",
+          "observes": [
+            "SC05",
+            "SC07"
+          ],
+          "related": [],
+          "fixture_id": "F09",
+          "required_capabilities": [
+            "founder_text",
+            "evidence_panel"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T10",
+      "persona": "P5",
+      "required_capabilities": [
+        "repository_review_artifact"
+      ],
+      "fixture_id": "F10",
+      "outcomes": [
+        "O4"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [],
+      "related": [
+        "SC14"
+      ],
+      "observation_scope": "Artifact usability and local candidate-review explanation only; cannot prove graph-ingestion rejection (SC14).",
+      "variants": [
+        {
+          "id": "T10-base",
+          "observes": [],
+          "related": [
+            "SC14"
+          ],
+          "fixture_id": "F10",
+          "required_capabilities": [
+            "repository_review_artifact"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T11",
+      "persona": "P6",
+      "required_capabilities": [
+        "api_quickstart",
+        "api_contract"
+      ],
+      "fixture_id": "F11",
+      "outcomes": [
+        "O7"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [],
+      "related": [
+        "API01",
+        "API02",
+        "API03",
+        "API10",
+        "API13"
+      ],
+      "observation_scope": "Documentation discoverability only. No API scenario can pass from reading a quickstart; optional HTTP companion must have its own executed checks and evidence.",
+      "variants": [
+        {
+          "id": "T11-base",
+          "observes": [],
+          "related": [
+            "API01",
+            "API02",
+            "API03",
+            "API10",
+            "API13"
+          ],
+          "fixture_id": "F11",
+          "required_capabilities": [
+            "api_quickstart",
+            "api_contract"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T12",
+      "persona": "P6",
+      "required_capabilities": [
+        "evaluation_report"
+      ],
+      "fixture_id": "F12",
+      "outcomes": [
+        "O5"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [],
+      "related": [
+        "SC16"
+      ],
+      "observation_scope": "Interpretation of a supplied report only, not execution or reproducibility of SC16.",
+      "variants": [
+        {
+          "id": "T12-base",
+          "observes": [],
+          "related": [
+            "SC16"
+          ],
+          "fixture_id": "F12",
+          "required_capabilities": [
+            "evaluation_report"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T13",
+      "persona": "UX7",
+      "required_capabilities": [
+        "founder_text",
+        "prerequisite_view",
+        "evidence_panel",
+        "keyboard_controls"
+      ],
+      "fixture_id": "F13",
+      "outcomes": [
+        "O2",
+        "O3",
+        "O6"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [
+        "SC03",
+        "SC05",
+        "SC19"
+      ],
+      "related": [],
+      "observation_scope": "Operated keyboard route, evidence access and textual sequence; no full accessibility conformance claim.",
+      "variants": [
+        {
+          "id": "T13-base",
+          "observes": [
+            "SC03",
+            "SC05",
+            "SC19"
+          ],
+          "related": [],
+          "fixture_id": "F13",
+          "required_capabilities": [
+            "founder_text",
+            "prerequisite_view",
+            "evidence_panel",
+            "keyboard_controls"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T14",
+      "persona": "UX7",
+      "required_capabilities": [
+        "founder_text",
+        "context_edit",
+        "keyboard_controls",
+        "browser_zoom"
+      ],
+      "fixture_id": "F14",
+      "outcomes": [
+        "O1",
+        "O6"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [
+        "SC02",
+        "SC19"
+      ],
+      "related": [],
+      "observation_scope": "Operated keyboard/zoom correction and visible old/new context labels; actual request state requires separate verification.",
+      "variants": [
+        {
+          "id": "T14-base",
+          "observes": [
+            "SC02",
+            "SC19"
+          ],
+          "related": [],
+          "fixture_id": "F14",
+          "required_capabilities": [
+            "founder_text",
+            "context_edit",
+            "keyboard_controls",
+            "browser_zoom"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    },
+    {
+      "id": "T15",
+      "persona": "UX8",
+      "required_capabilities": [
+        "founder_text",
+        "context_edit",
+        "recoverable_error"
+      ],
+      "fixture_id": "F15",
+      "outcomes": [
+        "O1",
+        "O4"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "blocked_pending_test_controls",
+      "observes": [
+        "SC02",
+        "SC17",
+        "SC18"
+      ],
+      "related": [],
+      "observation_scope": "Visible fallback, draft preservation and stale-answer labelling; budget/concurrency accounting is not observed.",
+      "variants": [
+        {
+          "id": "T15-vector",
+          "fault": "vector_timeout",
+          "observes": [
+            "SC02",
+            "SC18"
+          ],
+          "related": [],
+          "fixture_id": "F15",
+          "required_capabilities": [
+            "founder_text",
+            "context_edit",
+            "recoverable_error"
+          ],
+          "initial_status": "blocked_pending_test_controls"
+        },
+        {
+          "id": "T15-budget",
+          "fault": "budget_exhausted",
+          "observes": [
+            "SC02",
+            "SC18"
+          ],
+          "related": [],
+          "fixture_id": "F15",
+          "required_capabilities": [
+            "founder_text",
+            "context_edit",
+            "recoverable_error"
+          ],
+          "initial_status": "blocked_pending_test_controls"
+        },
+        {
+          "id": "T15-graph",
+          "fault": "graph_unavailable",
+          "observes": [
+            "SC02",
+            "SC17"
+          ],
+          "related": [],
+          "fixture_id": "F15",
+          "required_capabilities": [
+            "founder_text",
+            "context_edit",
+            "recoverable_error"
+          ],
+          "initial_status": "blocked_pending_test_controls"
+        }
+      ]
+    },
+    {
+      "id": "T16",
+      "persona": "UX8",
+      "required_capabilities": [
+        "founder_text",
+        "isolated_sessions"
+      ],
+      "fixture_id": "F16",
+      "outcomes": [
+        "O6"
+      ],
+      "reset": "Fresh isolated session. No prior task output or navigation history.",
+      "initial_status": "not_run",
+      "observes": [
+        "SC21"
+      ],
+      "related": [],
+      "observation_scope": "Absence/presence of the synthetic marker in a separate session UI only; server retrieval and logging isolation remain unverified.",
+      "variants": [
+        {
+          "id": "T16-base",
+          "observes": [
+            "SC21"
+          ],
+          "related": [],
+          "fixture_id": "F16",
+          "required_capabilities": [
+            "founder_text",
+            "isolated_sessions"
+          ],
+          "initial_status": "not_run"
+        }
+      ]
+    }
+  ]
+}

@@ -22,6 +22,8 @@ The product hypothesis is that a founder can identify a useful next action, unde
 12. [API access acceptance scenarios](features/api-access.feature)
 13. [Independent design review, findings and readiness verdict](docs/reviews/claude-design-review.md)
 
+14. [Synthetic UX persona profiles, browser tasks and review runbook](research/synthetic-ux/README.md)
+
 ## Starting evidence
 
 The [Founder Journey Planner article](https://www.reddi.ai/blog/founder-journey-planner-australian-digital-economy) is the conceptual starting point. Its published verification date is **22 July 2026**, not the current date.
@@ -40,4 +42,5 @@ The [Founder Journey Planner article](https://www.reddi.ai/blog/founder-journey-
 
 Free infrastructure does not imply free model inference, transcription, embeddings or X API access. All operational limits and acceptance targets below are proposals, not measured results.
 
-No private research notes, credentials, user profiles, X post bodies or third-party raw documents are included in this public repository.
+No private research notes, credentials, real user profiles, X post bodies or third-party raw documents are included in this public repository.
+

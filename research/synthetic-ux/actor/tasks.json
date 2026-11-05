@@ -1,0 +1,134 @@
+{
+  "version": "0.2",
+  "synthetic": true,
+  "tasks": [
+    {
+      "id": "T01",
+      "persona": "P1",
+      "title": "Find the first useful step",
+      "brief": "I have a university AI prototype. What should I check before applying for support? I do not know who owns the IP and want to leave my jurisdiction unknown.",
+      "follow_up": "Explain what you would do next and what you still need to find out.",
+      "mode": "browser"
+    },
+    {
+      "id": "T02",
+      "persona": "P1",
+      "title": "Check an old opening claim",
+      "brief": "Someone saved a page saying Round A1 was open. Find out whether I can rely on that today.",
+      "follow_up": "Show what you would check before acting.",
+      "mode": "browser"
+    },
+    {
+      "id": "T03",
+      "persona": "P2",
+      "title": "Sequence a milestone",
+      "brief": "I have a prototype and early customer discussions. Help me work out what needs attention before I apply for Round A2 today.",
+      "follow_up": "Which step is required now, which is a suggestion, and what is still unknown?",
+      "mode": "browser"
+    },
+    {
+      "id": "T04",
+      "persona": "P2",
+      "title": "Compare and take a checklist",
+      "brief": "Compare Program A and Program B for my prototype and prepare something I can take to an adviser.",
+      "follow_up": "Find one uncertain condition and show whether the saved checklist preserves it.",
+      "mode": "browser"
+    },
+    {
+      "id": "T05",
+      "persona": "P3",
+      "title": "Find relevant regional support",
+      "brief": "I am building a software prototype in Gympie. I need a local or remote support route, not a long national list.",
+      "follow_up": "If there is no evidence for my area, show the next useful place to check.",
+      "mode": "browser"
+    },
+    {
+      "id": "T06",
+      "persona": "P3",
+      "title": "Correct dictation or use text",
+      "brief": "Ask the same Gympie question using speech if it is available. Check that it says what you meant before sending.",
+      "follow_up": "If voice is unavailable, finish the question another way. If a spoken summary exists, request it, stop it, and find the supporting source.",
+      "mode": "browser"
+    },
+    {
+      "id": "T07",
+      "persona": "P4",
+      "title": "Ask whether the product can launch",
+      "brief": "My marketplace moves customer funds but we have not decided who holds them. Is registration enough for us to launch?",
+      "follow_up": "I need a yes or no. What exactly must I resolve before relying on your answer?",
+      "mode": "browser"
+    },
+    {
+      "id": "T08",
+      "persona": "P4",
+      "title": "Correct a workflow interpretation",
+      "brief": "Use the supplied fictional payment-flow drawing to help identify the questions I should take to a specialist.",
+      "follow_up": "If the app reads a connection differently from the drawing, correct or reject that interpretation before continuing.",
+      "mode": "browser"
+    },
+    {
+      "id": "T09",
+      "persona": "P5",
+      "title": "Explain a source conflict",
+      "brief": "Two sources give different deadlines for Round C1. Help a founder decide what to verify before applying.",
+      "follow_up": "Show the evidence for both statements and draft a correction note locally.",
+      "mode": "browser"
+    },
+    {
+      "id": "T10",
+      "persona": "P5",
+      "title": "Review an extracted relationship",
+      "brief": "Review the supplied candidate relationship and its excerpt. Should it be accepted, returned for correction or rejected?",
+      "follow_up": "Write a reason that another curator could reproduce from the same evidence.",
+      "mode": "artifact_review"
+    },
+    {
+      "id": "T11",
+      "persona": "P6",
+      "title": "Discover the independent API path",
+      "brief": "Starting from the project documentation, find how to try a fixture query without the website or a paid model account.",
+      "follow_up": "Explain the inputs, credentials, result fields and expected access-error behaviour. Do not use a live key.",
+      "mode": "documentation_browser_with_optional_http_companion"
+    },
+    {
+      "id": "T12",
+      "persona": "P6",
+      "title": "Interpret a quality report",
+      "brief": "Read the supplied comparison report and decide whether it demonstrates a graph improvement worth enabling.",
+      "follow_up": "Show what evidence is missing and how you would reproduce the comparison.",
+      "mode": "artifact_review"
+    },
+    {
+      "id": "T13",
+      "persona": "UX7",
+      "title": "Navigate the route without a pointer",
+      "brief": "Find the prerequisites for my prototype route, then open a supporting source using only the keyboard.",
+      "follow_up": "Explain the order in words and return to the route without losing your place.",
+      "mode": "browser"
+    },
+    {
+      "id": "T14",
+      "persona": "UX7",
+      "title": "Correct context at enlarged size",
+      "brief": "At 200% browser zoom, change my stage from idea to working prototype and inspect the updated next step using only the keyboard.",
+      "follow_up": "Tell me which answer reflects the new stage and whether any control or message became unreachable.",
+      "mode": "browser"
+    },
+    {
+      "id": "T15",
+      "persona": "UX8",
+      "title": "Update a returning founder route",
+      "brief": "My earlier question was for an idea. I now have a working prototype. Update my route without losing sight of what changed.",
+      "follow_up": "Try the visible recovery option if the answer cannot be produced, then explain what happened to the draft.",
+      "mode": "browser"
+    },
+    {
+      "id": "T16",
+      "persona": "UX8",
+      "title": "Understand a fresh session",
+      "brief": "In the first test session include the fictional project marker SYNTH-MORGAN-ONLY-042 in a draft. In a second fresh session, ask for a next step without supplying that marker.",
+      "follow_up": "Explain what the second session visibly knows and what these observations cannot establish.",
+      "mode": "browser"
+    }
+  ]
+}
