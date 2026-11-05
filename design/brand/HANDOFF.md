@@ -4,8 +4,8 @@ Versioned export of the brand assets kept in the "Oz Startup Brain" Design Syste
 
 | Item | Value |
 | --- | --- |
-| Design system artifact version | `1793907871-f437` (version 8) |
-| Mock-ups canvas version (Brand sheet) | `1793907876-4a56` (version 11) |
+| Design system artifact version | `1793909088-3a56` (version 9) |
+| Mock-ups canvas version (Brand sheet) | `1793909145-03de` (version 14) |
 | Export date | 6 November 2026 |
 | Owner approval | **Pending** — reviewed together with the design system and mock-ups under #8 |
 
@@ -15,8 +15,8 @@ Versioned export of the brand assets kept in the "Oz Startup Brain" Design Syste
 | --- | --- |
 | `mark.svg`, `mark-dark.svg` | The mark for light and dark grounds. Ironbark tile, paper route, sage destination; built from the system's own tokens and radii |
 | `wordmark-horizontal.svg`, `-dark.svg` | Mark beside "Oz Startup Brain" in Fraunces 600, text outlined to paths (no font dependency) |
-| `wordmark-stacked.svg` | Mark above a two-line wordmark for square or narrow placements |
-| `wordmark-tagline.svg` | Horizontal lockup with the tagline in Atkinson Hyperlegible 400 |
+| `wordmark-stacked.svg`, `-dark.svg` | Mark above a two-line wordmark for square or narrow placements |
+| `wordmark-tagline.svg`, `-dark.svg` | Horizontal lockup with the tagline in Atkinson Hyperlegible 400 |
 | `favicon.svg`, `favicon.ico`, `png/favicon-16.png`, `png/favicon-32.png` | Browser icons |
 | `png/apple-touch-icon-180.png`, `png/mark-512.png` | iOS and PWA icons |
 | `avatar.svg`, `png/avatar-512.png` | Square social avatar |
@@ -24,7 +24,7 @@ Versioned export of the brand assets kept in the "Oz Startup Brain" Design Syste
 | `png/wordmark-*.png` | Raster lockups for places that cannot use SVG |
 | `../exports/mockups/Brand-Sheet-light.png`, `-dark.png` | The brand sheet artboard rendered |
 
-Usage rules (clear space, minimum sizes, forbidden treatments) are in `../system/assets/Logos/README.md` and in the brand book's "Logo and wordmark" section.
+Every lockup has a light file (dark lettering, for `paper`/`paper-raised`) and a dark file (light lettering, for dark `paper`/`paper-raised`); choose by the ground the lockup sits on. Usage rules (clear space, minimum sizes, permitted grounds, forbidden treatments) are in `../system/assets/Logos/README.md` and in the brand book's "Logo and wordmark" section.
 
 ## Provenance and limits
 

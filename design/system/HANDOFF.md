@@ -5,7 +5,7 @@ This folder is a versioned export of the "Oz Startup Brain" design system kept a
 | Item | Value |
 | --- | --- |
 | Artifact | https://claude.ai/artifact/S3Nuo9DbM5XgTDkHdi5y9a |
-| Artifact version exported | `1793907871-f437` (version 8) |
+| Artifact version exported | `1793909088-3a56` (version 9) |
 | Export date | 6 November 2026 |
 | Exported by | Claude, on the owner's instruction (owner decision 10) |
 | Owner approval | **Pending** — one review covers the design system, the mock-ups and the brand kit (#8); nothing here is approved for implementation until that review is recorded in this file |
@@ -16,7 +16,7 @@ This folder is a versioned export of the "Oz Startup Brain" design system kept a
 - `tokens.json` — the token source (colours in light and dark themes, type scale, spacing, radius). `tokens.css` is the compiled form used by the previews and the mock-ups.
 - `components/bundle.js`, `components/bundle.css`, `components/index.d.ts` — the fifteen React components as one classic script assigning `window.OzStartupBrain`, their stylesheet, and their prop types as documentation. `StatusNotice` carries the planner's operational conditions and is deliberately separate from `EvidenceLabel`.
 - `components/<Name>/README.md` and `preview.html` — guidelines and a live preview per component; `components/Cover/preview.html` is the artifact's cover.
-- `assets/Logos/` and `assets/Icons and social/` — the asset-group READMEs (usage rules). The files themselves are uploads in the artifact's asset store; their committed copies are in `../brand/` (see `../brand/HANDOFF.md`).
+- `assets/Logos/` and `assets/Icons and social/` — the asset-group READMEs (usage rules, including which ground each lockup file is permitted on). The files themselves are uploads in the artifact's asset store; their committed copies are in `../brand/` (see `../brand/HANDOFF.md`).
 - `../exports/components/<Name>-light.png` and `-dark.png` — every preview rendered in both themes with `../tools/render.py` (fallback fonts; see that script's notes).
 
 ## Status of what this establishes
