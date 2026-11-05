@@ -29,3 +29,7 @@ This folder is a versioned export of the "Oz Startup Brain" design system kept a
 ## Updating
 
 Edit the artifact or these files, not both: when the artifact changes, re-export (copy its `project/` files here, regenerate `tokens.css`, rerun `../tools/render.py`) and update the version and date above.
+
+## Visual quality requirement for future changes
+
+Apply the [standing visual quality standard](../../docs/ux/visual-quality.md) before completing any revision or frontend implementation based on this handoff. Identify the largest visual weaknesses, fix material issues, and inspect the revised render; include before/after evidence and the reviewed version. Check intended fonts, relevant themes and actual placements, not only fallback-font geometry. This requirement does not change the artifact version or approve the current design retrospectively; owner approval above remains separate.

@@ -25,3 +25,7 @@ OSB_RENDER_NODE_MODULES=/tmp/osb-render/node_modules \
 The tests run the real renderer in temporary copies. They verify all committed boards and component previews, shrink SB3-Route to clip its supporting-passage button, inject a JavaScript error into the artboard, remove an asset mapping from `mockups/assets.json` (unmapped blob ID), delete a mapped brand file (mapped but missing), and move a canvas title note onto an artboard (layout overlap). Every negative case must fail in both themes and name the relevant failure. The working tree and committed PNGs are not modified. Missing dependencies are an error, not a skipped success.
 
 A successful run checks fallback-font export geometry and renderer failure handling only. It does not establish the private hosted artifact's exact font metrics, responsive layouts, keyboard/screen-reader behaviour, accessibility conformance, owner design approval or any founder UX outcome.
+
+## Required visual inspection after validation
+
+A passing renderer is the start of visual review, not visual sign-off. Follow the [visual quality standard](../../docs/ux/visual-quality.md): inspect the results, rank the biggest visual weaknesses, refine them and inspect again. For typography sign-off, also inspect the intended fonts in the actual artifact/build. Preserve before/after evidence with version identifiers. Automated geometry and image checks cannot establish polished composition or replace this review.
