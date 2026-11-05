@@ -3,11 +3,17 @@ Feature: Bounded task-intent decisions inside the NestJS workflow
   These component/evaluation scenarios complement the founder and API scenarios.
 
   @DEC01 @US16 @O5 @O7
-  Scenario: Keep classification off without decision credentials
+  Scenario Outline: Keep classification off with a consistent rules baseline
     Given decision mode is off and no decision-provider credential exists
-    When a valid request without an explicit task is classified
-    Then the frozen rules baseline selects its allowed route
+    When a valid question "<question>" without an explicit task is classified
+    Then the frozen rules baseline emits "<intent>" and selects its allowed route
     And no decision-provider call or decision charge occurs
+    Examples:
+      | question                                      | intent       |
+      | Where should I begin?                         | lookup       |
+      | Compare A with B                              | comparison   |
+      | What must happen before applying to A?        | prerequisite |
+      | Compare A and B, and map all dependencies      | unclear      |
 
   @DEC02 @US16 @O1
   Scenario: Preserve an explicit task and confirmed Unknown
@@ -21,27 +27,33 @@ Feature: Bounded task-intent decisions inside the NestJS workflow
   Scenario: Shadow decisions cannot change the selected route
     Given the live workflow remains off
     And an approved offline replay input has a baseline route of lookup
-    When a shadow candidate recommends prerequisite
+    When a manually triggered shadow replay job in the intended API deployment region produces a prerequisite candidate
     Then the report records the disagreement without changing a live request
     And shadow cost is charged only to its admitted evaluation budget
+    And network-inclusive cold and warm timing is recorded before canary activation
+    And shadow is rejected as a live mode and founder requests start no shadow work
+    And slice 1A exercises the job contract with fakes while regional measurements remain pending Stage 2b
 
   @DEC04 @US16 @O1
   Scenario Outline: Fall back without a provider cascade
-    Given enabled mode has budget admission and a still-live request
+    Given enabled mode passed preflight and reserved decision work for a still-live request
+    And exactly one decision-provider call has started
     When the adapter yields "<result>"
     Then the selected route remains the frozen baseline route
     And a specific fallback code is recorded
     And no retry or second model call is started for classification
+    And the decision reservation is settled against reported usage or conservatively if unknown
     Examples:
-      | result                       |
-      | low probability or margin    |
-      | unclear or tied top choices  |
-      | provider refusal             |
-      | timeout or unavailable       |
-      | invalid label or distribution |
-      | no approved calibration      |
-      | missing distribution         |
-      | input exceeds bounded size   |
+      | result                                |
+      | low probability or margin             |
+      | unclear or tied top choices           |
+      | provider refusal                      |
+      | timeout or unavailable                |
+      | invalid label or distribution         |
+      | missing distribution                  |
+      | choice differs from unique raw argmax |
+      | calibration changes top class         |
+      | unexpected model version              |
 
   @DEC05 @US16 @O3 @O4
   Scenario: Accept a candidate only inside the deterministic workflow
@@ -83,9 +95,26 @@ Feature: Bounded task-intent decisions inside the NestJS workflow
 
   @DEC10 @US16 @O5
   Scenario: Keep calibration and evaluation independent
-    Given decision thresholds and prompts were frozen using development and validation cases
+    Given decision thresholds, prompts and rules version were frozen using development and validation cases
     When the held-out experiment is reported
     Then test labels were not used to retune the policy
     And candidate models did not supply authoritative labels or judge their own answers
     And retrieval, generation and corpus configuration differences are disclosed
     And unavailable arms and fallback cases retain explicit counts
+
+  @DEC11 @US16 @O5 @O7
+  Scenario Outline: Skip ineligible decisions before reserving or calling
+    Given baseline work is admitted and the request is still live
+    And optional enabled classification has preflight condition "<condition>"
+    When task classification runs
+    Then no decision-provider call starts and no decision reservation is taken
+    And no decision charge occurs and skip code "<code>" is recorded
+    And the baseline route continues within its existing allowance
+    Examples:
+      | condition                         | code                        |
+      | no approved calibration policy    | no_approved_policy          |
+      | input exceeds bounded size        | input_limit_exceeded        |
+      | no decision credential            | no_decision_credential      |
+      | unsupported configured capability | unsupported_configuration   |
+      | insufficient remaining deadline   | insufficient_remaining_time |
+      | request outside canary cohort     | outside_cohort              |

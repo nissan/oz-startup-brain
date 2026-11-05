@@ -45,5 +45,5 @@ Checked 5 November 2026. These establish provider capabilities only; the task vo
 | ID | Primary source | Used for |
 | --- | --- | --- |
 | R23 | [TypeSafe introduction](https://docs.typesafe.ai/introduction) | Jev typed questions, choice distributions and separate confidence semantics |
-| R24 | [OpenAI Decisions guide](https://developers.openai.com/api/docs/guides/decisions) | Dedicated decision endpoint, bounded answer types, current model support, refusal and usage mapping |
+| R24 | [OpenAI Decisions guide](https://developers.openai.com/api/docs/guides/decisions), [API response schema](https://developers.openai.com/api/reference/resources/decisions/methods/create), [changelog](https://developers.openai.com/api/docs/changelog) | Rechecked 5 November 2026: guide says generally available; changelog records GA on 22 October 2026. A successful response can contain `type: "refusal"`; map at answer level. Endpoint/model and usage remain adapter concerns |
 | R25 | [Vercel Decisions API integration](https://vercel.com/changelog/openai-decisions-api-now-available-on-ai-gateway) | Optional gateway transport and distinction between direct and gateway model identifiers |

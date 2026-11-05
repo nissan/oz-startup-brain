@@ -46,7 +46,7 @@ Fictional names make the design discussable. Needs are hypotheses, and a person 
 | US13 | P6 | I can call a documented API with my own credentials so I can build another interface | UC13 Independent API consumer | API01–API03, API08–API10, API13 | Developer integration flow |
 | US14 | Operator (the owner for the hobby deployment; not a curator role) / P6 | I can scope, rotate and revoke credentials and cap each consumer so access remains controllable | UC14 Manage consumer access | API02–API07, API11, API13, API14 | Operator flow |
 | US15 | P6 | I can expose the same capabilities to an agent without losing evidence or access controls | UC15 MCP access | API12 | Future agent flow |
-| US16 | P6 / operator | I can compare bounded decision providers and retain a dependable fallback so any routing benefit is measured and reversible | UC16 Decision experiment | DEC01–DEC10 ([component specifications](../evaluation/decisions/decision-routing.feature)) | Developer report; existing founder screens |
+| US16 | P6 / operator | I can compare bounded decision providers and retain a dependable fallback so any routing benefit is measured and reversible | UC16 Decision experiment | DEC01–DEC11 ([component specifications](../evaluation/decisions/decision-routing.feature)); API15 (HTTP contract) | Developer report; existing founder screens |
 
 ## Main use-case flows
 
