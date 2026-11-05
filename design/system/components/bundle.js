@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"OzStartupBrain","components":[{"name":"Button"},{"name":"EvidenceLabel"},{"name":"StarterTask"},{"name":"ContextChip"},{"name":"ClarificationPrompt"},{"name":"NextStepCard"},{"name":"SourcePanel"},{"name":"ComparisonTable"},{"name":"PrerequisiteMap"},{"name":"Checklist"},{"name":"CoverageBanner"},{"name":"WaitingState"},{"name":"LimitPanel"},{"name":"TranscriptReview"}]} */
+/* @ds-bundle: {"format":4,"namespace":"OzStartupBrain","components":[{"name":"Button"},{"name":"EvidenceLabel"},{"name":"StarterTask"},{"name":"ContextChip"},{"name":"ClarificationPrompt"},{"name":"NextStepCard"},{"name":"SourcePanel"},{"name":"ComparisonTable"},{"name":"PrerequisiteMap"},{"name":"Checklist"},{"name":"CoverageBanner"},{"name":"WaitingState"},{"name":"LimitPanel"},{"name":"StatusNotice"},{"name":"TranscriptReview"}]} */
 (function () {
   var React = window.React;
   var h = React.createElement;
@@ -9,7 +9,8 @@
     disagree: 'M4 8h12m0 0l-3-3m3 3l-3 3M20 16H8m0 0l3-3m-3 3l3 3',
     arrow: 'M5 12h14m0 0l-5-5m5 5l-5 5',
     outside: 'M12 3a9 9 0 0 1 0 18M12 3a9 9 0 0 0 0 18',
-    pencil: 'M4 20l4-1 11-11-3-3L5 16l-1 4zM13 6l3 3'
+    pencil: 'M4 20l4-1 11-11-3-3L5 16l-1 4zM13 6l3 3',
+    service: 'M12 3v4M5.6 6.6l2.8 2.8M3 13h4M18.4 6.6l-2.8 2.8M21 13h-4M8 21h8M12 17v4M7 13a5 5 0 0 1 10 0v4H7z'
   };
   function Icon(name) {
     var extra = name === 'outside' ? { strokeDasharray: '3 3' } : {};
@@ -157,16 +158,30 @@
       h('ol', { className: 'osb-wait__steps' }, steps.map(function (s, i) { return h('li', { key: i, 'aria-current': i === idx ? 'step' : undefined }, (i < idx ? '✓ ' : '') + s); })));
   }
 
+  var SERVICE = {
+    'graph-degraded': { word: 'Graph unavailable: passage evidence only' },
+    'retrieval-unavailable': { word: 'Source retrieval unavailable' },
+    'budget-exhausted': { word: 'Daily budget reached' },
+    'paused': { word: 'Graph paused; resume requested' }
+  };
+  function StatusNotice(p) {
+    var s = SERVICE[p.status] || { word: p.status || 'Service status' };
+    return h('span', { className: 'osb osb-status osb-status--' + (SERVICE[p.status] ? p.status : 'other'), role: 'status' },
+      Icon('service'), s.word, p.detail ? h('span', { className: 'osb-status__detail' }, ' \u00b7 ' + p.detail) : null);
+  }
+
   function LimitPanel(p) {
     var copy = {
       historical: { title: 'Current status is unverified', body: 'The only material about this round is from an earlier snapshot. The planner will not present it as current.', state: 'needs-check', action: 'Open the official source' },
       disagree: { title: 'Two sources disagree', body: 'Both are shown with their dates. The planner does not pick one or average them.', state: 'disagree', action: 'Show both sources' },
       outside: { title: 'Outside current coverage', body: 'This jurisdiction is not in the reviewed corpus yet. The maintained source directory is the honest alternative to a generic national list.', state: 'outside', action: 'Open the source directory' },
-      outage: { title: 'Live answers are unavailable', body: 'Source retrieval is not responding. Your draft is kept; a labelled static source directory is available meanwhile.', state: 'outside', action: 'Retry' },
-      budget: { title: 'Today’s inference budget is used up', body: 'The planner has stopped paid work for today rather than keep charging. Your draft is kept.', state: 'needs-check', action: 'Open the source directory' }
+      'graph-degraded': { title: 'Answer from passages only', body: 'The dependency graph is not available right now, so this answer uses source passages alone. Prerequisite sequencing and multi-step links are left out rather than guessed; the evidence shown is still dated and checked.', status: 'graph-degraded', action: 'Retry with the graph' },
+      outage: { title: 'Live answers are unavailable', body: 'Source retrieval is not responding, so no answer is shown rather than a made-up one. Your draft is kept; a static source directory is available meanwhile and is labelled as such.', status: 'retrieval-unavailable', action: 'Retry' },
+      budget: { title: 'Today\u2019s inference budget is used up', body: 'The planner has stopped paid work for today rather than keep charging. This is a service limit, not a statement about any source. Your draft is kept.', status: 'budget-exhausted', action: 'Open the source directory' }
     }[p.kind] || {};
-    return h('section', { className: 'osb osb-card osb-limit osb-limit--' + p.kind, role: 'alert' },
-      h('div', null, h(EvidenceLabel, { state: copy.state })),
+    var isService = !!copy.status;
+    return h('section', { className: 'osb osb-card osb-limit osb-limit--' + p.kind + (isService ? ' osb-limit--service' : ''), role: isService ? 'status' : 'alert' },
+      h('div', null, isService ? h(StatusNotice, { status: copy.status, detail: p.detail }) : h(EvidenceLabel, { state: copy.state })),
       h('h3', { className: 'osb-card__title', style: { marginTop: '8px' } }, p.title || copy.title),
       h('p', { style: { margin: 0, fontSize: '17px', lineHeight: '26px' } }, p.body || copy.body),
       p.draft ? h('div', { className: 'osb-limit__draft' }, h('span', { className: 'osb-caption' }, 'Your draft, kept: '), p.draft) : null,
@@ -189,6 +204,6 @@
     Button: Button, EvidenceLabel: EvidenceLabel, StarterTask: StarterTask, ContextChip: ContextChip,
     ClarificationPrompt: ClarificationPrompt, NextStepCard: NextStepCard, SourcePanel: SourcePanel,
     ComparisonTable: ComparisonTable, PrerequisiteMap: PrerequisiteMap, Checklist: Checklist,
-    CoverageBanner: CoverageBanner, WaitingState: WaitingState, LimitPanel: LimitPanel, TranscriptReview: TranscriptReview
+    CoverageBanner: CoverageBanner, WaitingState: WaitingState, LimitPanel: LimitPanel, StatusNotice: StatusNotice, TranscriptReview: TranscriptReview
   };
 })();

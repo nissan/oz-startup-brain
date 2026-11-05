@@ -31,6 +31,8 @@ Build on `paper` with `paper-raised` for anything that sits on it; separate them
 
 `sage` is the fill of the one primary action per view and nothing else; it is deliberately a tint, not a green signal, so that nothing in the interface reads as "approved". States are told apart by their word and icon as well as colour: ochre and plum differ in lightness, and no state uses red or green.
 
+Operational conditions of the planner (graph unavailable, retrieval unavailable, daily budget reached, graph paused) are never shown with an evidence label. They use `StatusNotice`: ink on `paper` with a dashed `border-strong` edge, so they read as machinery rather than as a judgment about a source or a jurisdiction. A `graph-degraded` answer still carries its normal evidence labels on each passage.
+
 Every text colour above reads at 4.5:1 or better on the grounds named in its usage note in both themes; `hairline` is decorative, so meaningful borders use `border-strong` (3:1 or better). The focus ring is `ochre`, solid, 2px, offset 2px, on every control.
 
 ## Type
@@ -55,4 +57,4 @@ Every interactive element is keyboard reachable with the ochre focus ring; the p
 
 ## Components
 
-`StarterTask`, `ContextChip`, `ClarificationPrompt`, `NextStepCard`, `EvidenceLabel`, `SourcePanel`, `ComparisonTable`, `PrerequisiteMap`, `Checklist`, `CoverageBanner`, `WaitingState`, `LimitPanel`, `TranscriptReview` and `Button`. Each README says what the consumer provides and when to use it. Intentional additions beyond the design documents: `Button` (the registry needs one) and `CoverageBanner` (the capabilities response had no visual home).
+`StarterTask`, `ContextChip`, `ClarificationPrompt`, `NextStepCard`, `EvidenceLabel`, `StatusNotice`, `SourcePanel`, `ComparisonTable`, `PrerequisiteMap`, `Checklist`, `CoverageBanner`, `WaitingState`, `LimitPanel`, `TranscriptReview` and `Button`. Each README says what the consumer provides and when to use it. Intentional additions beyond the design documents: `Button` (the registry needs one), `CoverageBanner` (the capabilities response had no visual home) and `StatusNotice` (so service conditions are never dressed as evidence states).

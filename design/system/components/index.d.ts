@@ -15,5 +15,7 @@ export interface PrerequisiteMapProps { nodes: PrerequisiteNode[] }
 export interface ChecklistProps { title?: string; items: { text: string; done?: boolean; evidence?: Evidence }[]; context?: string; corpusVersion?: string; asOf?: string; onToggle?: (index: number, done: boolean) => void; onExport?: () => void; onEditContext?: () => void }
 export interface CoverageBannerProps { jurisdictions: string[]; corpusVersion?: string; asOf?: string; credentialMode?: 'development' | 'live' }
 export interface WaitingStateProps { stage: 'finding' | 'checking' | 'building' }
-export interface LimitPanelProps { kind: 'historical' | 'disagree' | 'outside' | 'outage' | 'budget'; title?: string; body?: string; draft?: string; onAction?: () => void; actionLabel?: string; onSecondary?: () => void; secondaryLabel?: string }
+export type ServiceStatus = 'graph-degraded' | 'retrieval-unavailable' | 'budget-exhausted' | 'paused';
+export interface StatusNoticeProps { status: ServiceStatus; detail?: string }
+export interface LimitPanelProps { kind: 'historical' | 'disagree' | 'outside' | 'graph-degraded' | 'outage' | 'budget'; title?: string; body?: string; draft?: string; detail?: string; onAction?: () => void; actionLabel?: string; onSecondary?: () => void; secondaryLabel?: string }
 export interface TranscriptReviewProps { transcript: string; flagged?: { word: string; reason: string }[]; onSend?: (text: string) => void; onDiscard?: () => void }

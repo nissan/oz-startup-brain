@@ -1,25 +1,112 @@
 {
   "v": 3,
-  "createdOnFiles": {"v": 1, "at": "2026-11-05T12:10:00Z"},
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-11-05T12:10:00Z"
+  },
   "title": "Oz Startup Brain Mock-ups",
-  "launch": {"view": "canvas"},
+  "launch": {
+    "view": "canvas"
+  },
   "pages": [],
   "boards": {
-    "Main.dc.html": {"x": 0, "y": 0, "w": 1280, "h": 1240, "title": "Journey workspace (desktop)", "expand": "fill"},
-    "SB5-Limits.dc.html": {"x": 0, "y": 1480, "w": 1440, "h": 1080, "title": "SB5 · Limits and failure states"},
-    "SB3-Ask.dc.html": {"x": 0, "y": 2800, "w": 390, "h": 844, "title": "SB3 mobile · 1 Ask"},
-    "SB3-Transcript.dc.html": {"x": 470, "y": 2800, "w": 390, "h": 844, "title": "SB3 mobile · 2 Review transcript"},
-    "SB3-Route.dc.html": {"x": 940, "y": 2800, "w": 390, "h": 844, "title": "SB3 mobile · 3 Route and coverage"},
-    "SB3-Summary.dc.html": {"x": 1410, "y": 2800, "w": 390, "h": 844, "title": "SB3 mobile · 4 Listen or read"}
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 1800,
+      "title": "Journey workspace (desktop)",
+      "expand": "fill"
+    },
+    "SB3-Ask.dc.html": {
+      "x": 0,
+      "y": 3600,
+      "w": 390,
+      "h": 844,
+      "title": "SB3 mobile · 1 Ask"
+    },
+    "SB3-Transcript.dc.html": {
+      "x": 470,
+      "y": 3600,
+      "w": 390,
+      "h": 844,
+      "title": "SB3 mobile · 2 Review transcript"
+    },
+    "SB3-Route.dc.html": {
+      "x": 940,
+      "y": 3600,
+      "w": 390,
+      "h": 844,
+      "title": "SB3 mobile · 3 Route and coverage"
+    },
+    "SB3-Summary.dc.html": {
+      "x": 1410,
+      "y": 3600,
+      "w": 390,
+      "h": 844,
+      "title": "SB3 mobile · 4 Listen or read"
+    },
+    "SB5a-Evidence.dc.html": {
+      "x": 0,
+      "y": 2040,
+      "w": 1440,
+      "h": 1080,
+      "title": "SB5a · Evidence limits"
+    },
+    "SB5b-Service.dc.html": {
+      "x": 1520,
+      "y": 2040,
+      "w": 1440,
+      "h": 1320,
+      "title": "SB5b · Service limits"
+    }
   },
-  "order": ["Main.dc.html", "SB5-Limits.dc.html", "SB3-Ask.dc.html", "SB3-Transcript.dc.html", "SB3-Route.dc.html", "SB3-Summary.dc.html"],
+  "order": [
+    "Main.dc.html",
+    "SB5a-Evidence.dc.html",
+    "SB5b-Service.dc.html",
+    "SB3-Ask.dc.html",
+    "SB3-Transcript.dc.html",
+    "SB3-Route.dc.html",
+    "SB3-Summary.dc.html"
+  ],
   "notes": {
-    "t1": {"x": 0, "y": -300, "text": "Journey workspace — one founder task, evidence beside every action", "kind": "title1", "maxW": 1280},
-    "t2": {"x": 0, "y": 1180, "text": "SB5 — the five limit states the paper sessions must test", "kind": "title1", "maxW": 1440},
-    "t3": {"x": 0, "y": 2500, "text": "SB3 at phone width — Jess dictates, corrects, and gets an honest coverage answer", "kind": "title1", "maxW": 1800},
-    "s1": {"x": 1360, "y": 0, "w": 300, "text": "Every program, round and source shown here is a fictional fixture. Nothing is a live result or a verified fact.", "fill": "orange"}
+    "t1": {
+      "x": 0,
+      "y": -300,
+      "text": "Journey workspace — one founder task, evidence beside every action",
+      "kind": "title1",
+      "maxW": 1280
+    },
+    "t2": {
+      "x": 0,
+      "y": 1740,
+      "text": "SB5 — evidence limits (a) and service limits (b): what the paper sessions must test",
+      "kind": "title1",
+      "maxW": 2960
+    },
+    "t3": {
+      "x": 0,
+      "y": 3300,
+      "text": "SB3 at phone width — Jess dictates, corrects, and gets an honest coverage answer",
+      "kind": "title1",
+      "maxW": 1800
+    },
+    "s1": {
+      "x": 1360,
+      "y": 0,
+      "w": 300,
+      "text": "Every program, round and source shown here is a fictional fixture. Nothing is a live result or a verified fact.",
+      "fill": "orange"
+    }
   },
   "designSystems": [
-    {"title": "Oz Startup Brain", "namespace": "oz-startup-brain", "artifact": "https://claude.ai/artifact/S3Nuo9DbM5XgTDkHdi5y9a", "version": "1793879797-c0e1", "copiedAt": "2026-11-05T12:10:00Z"}
+    {
+      "title": "Oz Startup Brain",
+      "namespace": "oz-startup-brain",
+      "artifact": "https://claude.ai/artifact/S3Nuo9DbM5XgTDkHdi5y9a",
+      "version": "1793905318-938d",
+      "copiedAt": "2026-11-05T19:30:00Z"
+    }
   ]
 }

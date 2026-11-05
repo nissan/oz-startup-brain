@@ -25,6 +25,8 @@ Use a persistent **journey workspace**: editable context at the top; next action
 
 Evidence state labels: **Source checked [date]**, **Needs a current check**, **Sources disagree**, **Suggested next step**, and **Outside current coverage**. Do not display an uncalibrated numeric confidence gauge. Avoid green eligibility badges or reassuring language that overstates the available evidence.
 
+Evidence state labels describe claims and coverage only. The planner's own operational conditions (graph unavailable, retrieval unavailable, daily budget reached, graph paused) are shown with a separate service-status notice, never with an evidence label: an outage is not "Outside current coverage" and an exhausted budget is not "Needs a current check". A graph-only degradation still returns a usable passage-based answer with its normal evidence labels and says what was omitted (SC17); a retrieval outage or budget stop shows no answer (SC18).
+
 ## Voice input and response
 
 Phase 1 text input must complete every core task. Phase 2 uses optional push-to-talk with visible recording, stop and cancel. Show an editable transcript before Send; highlight ambiguous names, locations, numbers and program acronyms. Ask a targeted clarification when a transcription uncertainty changes the route. Denied permissions or unsupported devices retain the full text path.

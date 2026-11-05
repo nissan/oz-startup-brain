@@ -1,0 +1,3 @@
+The operational state of the service, kept separate from the five evidence states. An evidence label describes a claim or the corpus (fresh, stale, disputed, editorial, outside coverage); a status notice describes the planner itself (graph unavailable, retrieval unavailable, daily budget reached, graph paused). The two never substitute for each other: an outage is not "outside coverage" and an exhausted budget is not "needs a current check". The notice is neutral paper with a dashed border so it reads as machinery, not as a judgment about any source.
+
+Consumer provides: `status` (`graph-degraded`, `retrieval-unavailable`, `budget-exhausted`, `paused`) and an optional `detail` such as a retry time.

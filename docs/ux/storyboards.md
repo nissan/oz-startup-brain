@@ -29,15 +29,19 @@ Trigger: Jess wants relevant support near a regional Queensland town and is tire
 
 Trigger: Sam describes a proposed payments workflow. The app asks which party holds funds and which product details are confirmed. It displays questions to resolve and separate source tracks. It does not collapse registration, licensing and participation in a pilot into one approval. Sam leaves with an adviser-question checklist, not a launch authorisation.
 
-## SB5: Limits and failure states (drawn 5 November 2026 as a Claude Design mock-up)
+## SB5: Limits and failure states (drawn 5 November 2026 as two Claude Design sheets, SB5a and SB5b)
 
 The four boards above are happy paths. None shows the evidence-state labels that the design treats as its main safety feature, and the feedback protocol below requires a stale-source or service-failure task, so a fifth board is required before paper sessions. It must use the exact labels from the [interaction design](research-and-design.md): **Source checked [date]**, **Needs a current check**, **Sources disagree**, **Suggested next step** and **Outside current coverage**. Panels:
 
 1. Historical-only evidence: Round A1 was "open" in a July snapshot; the card shows "Needs a current check", the official source door, and no current status (SC06; SB1 failure variant).
 2. Sources disagree: two dated claims about one deadline shown side by side with no averaged verdict (SC07).
 3. Outside current coverage: Jess's jurisdiction is not covered; the app says so and offers the maintained source directory, not a generic national list.
-4. Service limits: vector retrieval outage or daily budget reached; the draft is preserved and a retry or labelled static directory is offered; no live answer is shown (SC17, SC18).
-5. Context changed: after a chip edit, the previous answer is visibly marked as based on the earlier context (SC02), and a comparison cell shows its per-cell evidence affordance (SC08).
+4. Graph unavailable, passages fine (SC17): a usable answer from passage evidence with its normal dated labels, the prerequisite sequence omitted, and a service notice saying why.
+5. Retrieval outage (SC18): no answer is shown; the draft is preserved; a retry and a labelled static directory are offered.
+6. Daily budget reached (SC18): paid work stopped; the draft is preserved; the notice says this is a service limit, not a statement about any source.
+7. Context changed: after a chip edit, the previous answer is visibly marked as based on the earlier context (SC02), and a comparison cell shows its per-cell evidence affordance (SC08).
+
+Panels 1–3 and 7 are evidence and coverage limits and carry evidence-state labels; panels 4–6 are service limits and carry a separate service-status notice (the `StatusNotice` design component), never an evidence label, so an outage is never shown as "Outside current coverage" and an exhausted budget is never shown as "Needs a current check". SB5a holds the evidence panels and SB5b the service panels so that every recovery control and the feedback footer fit on a printed sheet.
 
 Also required before testing dictation: a phone-width variant of SB3, because the board as drawn uses desktop proportions while the persona's task is mobile. In SB3 panel 2, "Stage: working prototype" is a chip the founder set earlier, not an inference from speech.
 
@@ -45,7 +49,7 @@ Also required before testing dictation: a phone-width variant of SB3, because th
 
 Both SB5 and the phone-width SB3 now exist as Claude Design artifacts built from the project's design system, alongside a desktop journey-workspace mock-up. The editable originals are owner-private; versioned exports that any reviewer can inspect are committed under [`design/`](../../design/system/HANDOFF.md): the design-system sources and PNG renders ([system](../../design/system/HANDOFF.md)) and the artboard sources and renders ([mock-ups](../../design/mockups/HANDOFF.md)), each stamped with the artifact version and export date. Owner approval of both is pending.
 
-The five evidence-state words are defined once, in the `EvidenceLabel` design component, which is the proposed implementation contract for the website, the API's export and these boards; no application code consumes it yet, so label parity across surfaces is a Stage 4 acceptance check rather than an established property. Contrast was computed from the tokens and the boards were rendered in both themes; keyboard operation and WCAG conformance remain pending validation with real users. The paper SVGs in this folder remain the low-fidelity versions for printed sessions.
+The five evidence-state words are defined once, in the `EvidenceLabel` design component, and the planner's own operational conditions once, in `StatusNotice`; together they are the proposed implementation contract for the website, the API's export and these boards; no application code consumes them yet, so label parity across surfaces is a Stage 4 acceptance check rather than an established property. Contrast was computed from the tokens and the boards were rendered in both themes; keyboard operation and WCAG conformance remain pending validation with real users. The paper SVGs in this folder remain the low-fidelity versions for printed sessions.
 
 ## Curator and developer journeys
 
