@@ -29,7 +29,7 @@ Trigger: Jess wants relevant support near a regional Queensland town and is tire
 
 Trigger: Sam describes a proposed payments workflow. The app asks which party holds funds and which product details are confirmed. It displays questions to resolve and separate source tracks. It does not collapse registration, licensing and participation in a pilot into one approval. Sam leaves with an adviser-question checklist, not a launch authorisation.
 
-## SB5: Limits and failure states (to be drawn before Stage 0 sessions)
+## SB5: Limits and failure states (drawn 5 November 2026 as a Claude Design mock-up)
 
 The four boards above are happy paths. None shows the evidence-state labels that the design treats as its main safety feature, and the feedback protocol below requires a stale-source or service-failure task, so a fifth board is required before paper sessions. It must use the exact labels from the [interaction design](research-and-design.md): **Source checked [date]**, **Needs a current check**, **Sources disagree**, **Suggested next step** and **Outside current coverage**. Panels:
 
@@ -40,6 +40,15 @@ The four boards above are happy paths. None shows the evidence-state labels that
 5. Context changed: after a chip edit, the previous answer is visibly marked as based on the earlier context (SC02), and a comparison cell shows its per-cell evidence affordance (SC08).
 
 Also required before testing dictation: a phone-width variant of SB3, because the board as drawn uses desktop proportions while the persona's task is mobile. In SB3 panel 2, "Stage: working prototype" is a chip the founder set earlier, not an inference from speech.
+
+### Design system and higher-fidelity mock-ups
+
+Both SB5 and the phone-width SB3 now exist as Claude Design artifacts built from the project's design system, alongside a desktop journey-workspace mock-up. They are owner-private until shared from the artifact's Share menu:
+
+- Design system "Oz Startup Brain" (tokens in light and dark themes, type scale, 14 components with live previews and guidelines, cover): https://claude.ai/artifact/S3Nuo9DbM5XgTDkHdi5y9a
+- Mock-ups canvas (journey workspace page, SB5 limits board with six states, four phone screens for SB3): https://claude.ai/artifact/Dh4MHqWBNHXCYJRzAudKfc
+
+The five evidence-state words are implemented once, as the `EvidenceLabel` component, so the storyboards, the website and the API's export share the same labels. The paper SVGs in this folder remain the low-fidelity versions for printed sessions; the canvas is the source for anything higher fidelity.
 
 ## Curator and developer journeys
 

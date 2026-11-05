@@ -74,7 +74,7 @@ Remaining open item: which real founders and navigators will participate (recrui
 
 | Stage | Outcome and deliverable | Exit evidence |
 | --- | --- | --- |
-| 0a: Design system and mock-ups | A design system (colour, type, spacing, evidence-state components, cards, chips, comparison table, prerequisite map, failure states) and mock-ups for SB5 and phone-width SB3, plus basic branding | Design system artifact reviewed by the owner; every evidence-state label has a component; mock-ups cover every failure state in SC06, SC07, SC17, SC18; contrast and keyboard-equivalence notes recorded |
+| 0a: Design system and mock-ups | A design system (colour, type, spacing, evidence-state components, cards, chips, comparison table, prerequisite map, failure states) and mock-ups for SB5 and phone-width SB3, plus basic branding | First version delivered 5 November 2026 (links in [storyboards](ux/storyboards.md)); remaining exit evidence: owner review of the design system; mock-ups cover SC06, SC07, SC17, SC18 and SC02; contrast checked at 4.5:1 or better in both themes for every text token; keyboard-equivalence notes recorded per component |
 | 2a: Corpus expansion to national coverage | Per-jurisdiction source discovery beyond the article (every state and territory plus federal), dispositioned and rights-reviewed with the Stage 1 process | A coverage table by jurisdiction with approved-source counts; the capabilities response reports exactly which jurisdictions are covered; "Outside current coverage" is returned for the rest |
 
 The API-first NestJS direction is owner-requested; the remaining design choices are proposals, and no empirical validation is claimed.
