@@ -1,5 +1,38 @@
 # Oz Startup Brain
 
-An educational Australian startup ecosystem application demonstrating LangChain, LangGraph, vector retrieval and knowledge graphs.
+An educational, evidence-backed Australian founder journey planner demonstrating **LangChain, LangGraph, Qdrant and a knowledge graph**.
 
-Status: design and research in progress. Product documentation and low-fidelity prototypes are being prepared for review; no application is deployed yet.
+**Status: proposed design, 5 November 2026.** This repository contains research, product documentation, acceptance scenarios and paper-style prototypes. There is no running application, populated database, validated benchmark or deployment yet.
+
+The product hypothesis is that a founder can identify a useful next action, understand its prerequisites and inspect its evidence faster than by searching scattered ecosystem pages. This uses an existing LLM with retrieval; it does not train a new foundation model.
+
+## Review the proposal
+
+1. [Plan assessment and decisions](docs/01-plan-assessment.md)
+2. [Outcomes, personas, user stories and use cases](docs/02-product.md)
+3. [Architecture and operations](docs/03-architecture.md)
+4. [Corpus, provenance and ontology](docs/04-data-and-ontology.md)
+5. [Evaluation and social question discovery](docs/05-evaluation.md)
+6. [AI UX research and interaction design](docs/ux/research-and-design.md)
+7. [Persona storyboards and feedback plan](docs/ux/storyboards.md)
+8. [Gherkin acceptance scenarios](features/founder-journeys.feature)
+9. [Delivery roadmap and decision gates](docs/06-delivery.md)
+10. [Research references](docs/references.md)
+
+## Starting evidence
+
+The [Founder Journey Planner article](https://www.reddi.ai/blog/founder-journey-planner-australian-digital-economy) is the conceptual starting point. Its published verification date is **22 July 2026**, not the current date.
+
+[The recovered bibliography](data/sources/article-bibliography.json) contains **135 distinct external URLs** extracted from the public article on 5 November 2026. These are discovery records: the linked documents have not been ingested, checked for current facts or cleared for redistribution. The original raw research archive has not been recovered. A fresh fetch must not be described as the historical snapshot used to write the paper.
+
+## Proposed stack
+
+- Next.js / TypeScript on Vercel Hobby for a personal, non-commercial demo.
+- LangChain integrations and LangGraph.js bounded retrieval workflow.
+- Qdrant Cloud Free for passage retrieval; Neo4j AuraDB Free for reviewed relationships.
+- Offline ingestion and Python Ragas evaluation, run locally or in manually triggered CI.
+- Text and structured cards first; optional push-to-talk and constrained visual input later.
+
+Free infrastructure does not imply free model inference, transcription, embeddings or X API access. All operational limits and acceptance targets below are proposals, not measured results.
+
+No private research notes, credentials, user profiles, X post bodies or third-party raw documents are included in this public repository.
