@@ -177,30 +177,126 @@ Correction: note that Phase 2 voice requires a transcription endpoint or provide
 
 ## 5. Round-by-round resolution log
 
-Round 1: findings recorded above before any edit (commit "docs: record Claude design review findings").
+**Round 1.** Findings recorded before any edit (commit `b3397ed`). Documentation corrections then applied on `docs/claude-design-review` (commit `4292fb3`): `06-delivery.md`, `03-architecture.md`, `decisions/001-api-first-nestjs.md`, `04-data-and-ontology.md`, `05-evaluation.md`, `02-product.md`, `ux/storyboards.md`, both feature files, `evaluation/seed-questions.jsonl`, `ux/sb1-student.svg`, `ux/sb2-research.svg`, `README.md`. No owner requirement was changed.
 
-Round 1 edits and Round 2 re-review: see the table appended below after edits were applied.
+**Round 2.** Re-review of the affected documents and cross-document consistency. Checks re-run: relative links and anchors (0 broken, including the new `#answer-time-currency-rule` anchor); scenario tags in both directions between `02-product.md` and the feature files; JSON/JSONL validity; SVG parse and re-render of the two edited boards. Two traceability defects were found and fixed in the same round (R2-01 below). One wording gap in the new session-hint contract was closed (R2-02). Reviewing my own edits is not independent validation; the owner should read the diff of `4292fb3` and the Round 2 commit with the same scepticism applied to the originals.
+
+**Round 3.** Not run. After Round 2 no Critical or High finding remains unresolved at the design level; the remaining High items are public-deployment prerequisites that need implementation or owner decisions, not further document edits. No findings were manufactured to fill the round.
+
+| ID | Severity | Status after Round 2 | Evidence / reason |
+| --- | --- | --- | --- |
+| P-01 | High | Resolved | `06-delivery.md`: slice 1A/1B split with distinct exit evidence; 1A has no rights-review or hosted-service dependency |
+| P-02 | Medium | Resolved | SC22 added; ADR and UC01 define explicit `unknown`; SB1 label aligned |
+| P-03 | Medium | Resolved | ADR: export is a client rendering of the envelope; required fields listed; UC04 cross-references it |
+| P-04 | Medium | Resolved in documentation; decision deferred to owner | Counts recorded in `06-delivery.md`; first-jurisdiction choice remains open; slice 1A independent of it. Note: `01-plan-assessment.md` still states a federal + Queensland start; left as the owner's stated preference (R2-03) |
+| P-05 | Low | Resolved | US14 now assigned to an Operator role |
+| P-06 | Low | Resolved as a recommended default; owner to confirm | `06-delivery.md` layout and open-decision list |
+| A-01 | High | Resolved | Lease/reconcile rule in `03` step 1 and ADR; cancellation mechanism paragraph; API06 extended |
+| A-02 | High | Resolved at design level; store selection deferred to owner with a recommended default | Development credential mode defined in ADR; API06/API07 gated on durable stores; `06` open-decision entry |
+| A-03 | High | Resolved at design level; drill is a Stage 6 exit criterion | "Expected paused states and restoration" in `03`; Stage 6 row updated |
+| A-04 | Medium | Resolved | Hosting table row, cost-control bullets and usage-ledger requirement in `03`, with verification date |
+| A-05 | Medium | Resolved | `status` enumeration, HTTP mapping and JSON Schema requirement in ADR |
+| A-06 | Medium | Resolved | Release-switch paragraph in `03`; SC15 wording references the manifest |
+| A-07 | Low | Resolved | Driver-lifecycle paragraph in `03` |
+| S-01 | High (public) | Resolved at design level; remains a public-deployment prerequisite until implemented | Session-hint contract in ADR; API11 rewritten; API14 added; `03` fairness bullet |
+| S-02 | Medium | Resolved | Explicit no-model-tools statement in `03` step 1 |
+| S-03 | Medium | Resolved | API13 added; endpoint row updated |
+| S-04 | Low | Resolved | Key format and digest sentence in ADR |
+| S-05 | Medium | Resolved | Preview rules paragraph in ADR |
+| S-06 | Low | Resolved | MCP 2026-07-28 note in ADR |
+| D-01 | High | Resolved | "Answer-time currency rule" in `04`; referenced from `03` step 6; SC06 cites the label and window |
+| D-02 | Medium | Resolved | "Expectations for prerequisite evidence" in `04`; UC02 and Stage 3 updated |
+| D-03 | Medium | Resolved | Leakage paragraph in `05` |
+| D-04 | Low | Deferred to owner | Changes a data file's schema; listed in `06` open decisions |
+| D-05 | Low | Resolved | Count in `06` Stage 1 row |
+| D-06 | Low | Resolved | Identifier sentence in `04` |
+| E-01 | High | Resolved | Gate text in `05` requires ≥30 multi-hop questions and intervals; Stage 3 row updated |
+| E-02 | Medium | Resolved | `kind` field added to all 12 records; explained in `05` |
+| E-03 | Low | Resolved | κ target and failure action in `05` |
+| E-04 | Low | Resolved | Contracts package now lists trace and run-manifest schemas |
+| U-01 | High | Resolved at specification level; drawing deferred | SB5 specified in `storyboards.md` with the five exact labels; SVG to be drawn before Stage 0 sessions (owner/designer) |
+| U-02 | Medium | Deferred (drawing task) | Requirement recorded in `storyboards.md` |
+| U-03 | Medium | Resolved | SB1/SB2 text edits applied and re-rendered; contrast unchanged |
+| U-04 | Medium | Resolved at specification level | SB5 panel 5 |
+| U-05 | Low | Resolved | Sentence in `storyboards.md` |
+| U-06 | Low | No action | Positive finding |
+| U-07 | Low | Resolved | Sentence in ADR deployment section |
+| R2-01 | Low | Resolved (Round 2) | Pre-existing: `API03` carried `@US13` only while the US14 row cites API02–API07; introduced in Round 1: API13 tagged `@US13` without appearing in the US13 row. Both fixed; both-direction tag check now passes |
+| R2-02 | Low | Resolved (Round 2) | ADR now states the BFF overwrites and never forwards a browser-supplied `X-Session-Hint` |
+| R2-03 | Low | Disputed / left for owner | `01-plan-assessment.md` asserts a federal + Queensland start; `06-delivery.md` (at the reviewed SHA and after edits) treats it as open. I did not change `01` because it reads as the owner's preference; the owner should either confirm it or soften `01` |
 
 ## 6. Traceability gaps
 
-Filled in after Round 2.
+Outcome → persona → story → use case → scenario → storyboard was traced for every row of `02-product.md`. Gaps that remain after Round 2 (none blocks slice 1A):
+
+- SC01 (one clarification) and SC02 (previous answer marked as based on earlier context) are mapped to SB1–SB3 but no drawn panel shows either; SB5 panel 5 covers SC02 once drawn, and SB4 panel 2 is the only drawn clarification.
+- SC06, SC07, SC17 and SC18 are mapped to "All" boards but no drawn board shows a limit or failure state; SB5 is specified for this.
+- SB3 renders "Compare options" and "Export my checklist" (SC08, SC09) but the storyboard table lists only SC01/02/05/10/11 for SB3; SB1 renders "Compare options" for a persona with nothing to compare (template artefact). Minor table update for the owner when SB5 is drawn.
+- US08 (curator) and US09 (developer) have scenarios SC14–SC16 and prose journeys but no board; the design says a console is unnecessary for the first demo, which is consistent.
+- O5 (reproducibility) depended on an unspecified trace format; now named in the contracts package but no schema exists yet.
+- No scenario yet covers the per-request usage ledger or the keep-alive/restore behaviour; both are listed in `06` implementation checks and should get scenarios when slice 1B is specified.
+- `article_html_sha256` and the 135-link count in the manifest could not be verified from this session (section 2).
 
 ## 7. Simulated storyboard observations
 
-Filled in after Round 2.
+These are my own walkthroughs of the rendered boards, playing each persona. They are design critiques, not participant data, and must not be reported as usability findings.
+
+- **SB1 (Mei).** The route from goal to a university conversation is legible in four panels and the success criterion ("I know the next conversation") is testable. Likely stumbles: panel 1 offers "Compare options" before she has anything to compare; panel 3's evidence line is a placeholder ("source + checked date"), so a participant cannot attempt the O2 task of finding the date; nothing on the board shows what happens when the only material is historical, so the failure variant cannot be tested from this board.
+- **SB2 (Arun).** The prerequisite list mixes a user status ("Customer evidence: in progress") with corpus conditions ("Program conditions: to check") without saying who set which; a participant will reasonably ask whether the app is tracking them. The comparison now shows the defined "Source checked [date]" label and an evidence affordance per row, but the only criteria are stage and conditions, which is thin for a "consistent criteria" test. "Add a diagram (later)" is visible but inert, which may draw attention away from the task.
+- **SB3 (Jess).** The intentional-start recording and editable transcript are clear. The board is desktop-proportioned, so the mobile constraints that motivate the persona (thumb reach, keyboard over transcript) are untested. "Cancel recording" in the review panel occurs after recording has stopped; "Discard transcript" would describe the action. Coverage is "shown explicitly" in words only; the outside-coverage state the persona most needs is not drawn.
+- **SB4 (Sam).** The single clarification ("who holds customer funds?") with a "Keep as unknown" option is the strongest panel in the set and directly exercises SC13. "Source track A / B" is abstract; a participant will not know what a track is without an example. The success framing ("a better adviser conversation") avoids any permission language, as intended.
 
 ## 8. Remaining decisions, owners and recommended defaults
 
-Filled in after Round 2.
+| Decision | Owner | Recommended default | Needed by |
+| --- | --- | --- | --- |
+| Accept the slice 1A/1B split and the development credential mode | Owner | Accept; it preserves every stated requirement and removes the dependency of first code on rights review and hosted services | Before slice 1A |
+| Durable credential registry and atomic budget/usage store | Owner | One managed Postgres with a free tier, single transaction per reservation; Redis-compatible store as the alternative | Slice 1B |
+| Model provider and monthly spend ceiling | Owner | Not needed for slice 1A acceptance (deterministic fixture responder); set a currency-specific cap before any live call | Slice 1B / Stage 2 |
+| First real jurisdiction | Owner | Keep federal + Queensland as the hypothesis but confirm after seeing Stage 1 dispositions; `01-plan-assessment.md` wording to match | Stage 1 |
+| Ingestion language | Owner | TypeScript sharing `packages/contracts` | Stage 1 |
+| Bibliography manifest schema extension (`publisher`, `source_class`, `jurisdiction`) | Owner | Extend at Stage 1 with `manifest_version` bump | Stage 1 |
+| Draw SB5 and a phone-width SB3 | Owner / designer | Use the five exact evidence-state labels | Before Stage 0 sessions |
+| Original research archive location | Owner | If unrecoverable within Stage 1, state so in the README and proceed on fresh fetches | Stage 1 |
+| Recruitment of real founders/navigators | Owner | Start with P2 and P3 as the storyboards doc already suggests | Stage 0/4 |
+| Keep-alive scheduler for free-tier stores | Owner | Manual weekly trigger documented in the restore drill; external scheduler only if cost is known | Stage 6 |
+| Hobby eligibility if the demo is linked from a company property | Owner | Keep the demo on a personal account and unbranded until the commercial question is settled | Stage 6 |
 
 ## 9. Blockers: starting development versus public deployment
 
-Filled in after Round 2.
+Blockers to starting development (slice 1A): **none remaining** after the Round 1 edits, provided the owner accepts the slice split and development credential mode (first row of section 8). Everything slice 1A needs is specified: contract shape, status enumeration, explicit-unknown rule, currency rule, fixture-mode behaviour, no-tools boundary, development credentials.
+
+Prerequisites before any public deployment (slice 1B / Stage 6), each traceable to a finding:
+
+1. Durable credential registry and atomic budget store selected and implemented; API04–API07 passing (A-02).
+2. Session-hint sub-quotas implemented and API11/API14 passing, because one visitor can otherwise exhaust the site (S-01).
+3. Reservation leases and cancellation validated on the actual Vercel runtime (A-01).
+4. Keep-alive policy and a rehearsed restore drill with recorded cost, because both free-tier stores pause and are eventually deleted (A-03).
+5. Acceptance of Vercel Hobby behaviour: no spend management, 30-day feature pause on overage, one-hour logs; usage ledger implemented (A-04).
+6. Rights gate on `/v1/sources` implemented and every served real source dispositioned (S-03, D-04).
+7. Model-provider spend cap and monthly ceiling set (open decision).
+8. No claim about O1–O3 until real participants have been observed; SB5 drawn before paper sessions (U-01).
 
 ## 10. Readiness verdict
 
-Filled in after Round 2.
+**Ready for the first slice (1A) with specified prerequisites.** The proposal is coherent, its security model is sound at the design level, and after the Round 1 corrections it is specified tightly enough to begin a fixture-mode NestJS slice today. It is **not** ready for public deployment: the eight prerequisites in section 9 stand between slice 1A and a live demo, and most of them are decisions or operational work rather than design gaps.
+
+Scope judgment: the design is appropriately ambitious for a learning project but carries a long tail (voice, visual input, MCP, OAuth, X discovery, curator tooling) that is correctly deferred. The corrections keep that tail deferred and make the head small enough to build.
 
 ## 11. Smallest recommended next implementation task
 
-Filled in after Round 2.
+**Task: slice 1A-0, "fixture-mode `/v1/queries` contract".** Build `apps/api` as a NestJS project that serves the query contract end to end against a fictional fixture corpus, with development credentials, no Next.js, no hosted service, no Neo4j and no paid call. Generation uses a deterministic fixture responder behind the same interface a model-backed generator will later implement.
+
+Acceptance criteria (all checkable without credentials, in CI):
+
+1. `apps/api` boots locally; `GET /health/live` returns `200` with no authentication and no configuration details.
+2. `packages/contracts/query-envelope.schema.json` exists; the OpenAPI document generated from the NestJS DTOs is committed, and a CI check validates the envelope examples against the schema and fails on a removed required field (API10 in its simplest form).
+3. Development credential registry loads from environment configuration: a key in `ozsb_<key_id>_<secret>` form with scopes `query:execute`, `sources:read`, `capabilities:read`; a missing, malformed or unknown key gets a generic `401`; a key holding only `sources:read` gets `403` on `POST /v1/queries`; tests assert that no retrieval call starts in either case (API02 for the `missing`/`invalid` rows, API03).
+4. A fictional fixture corpus of at least ten passages across at least three invented programs, including one round whose status passage is dated outside the 14-day window and one closed round, loaded into a local Qdrant container or an in-process vector adapter behind the retrieval interface; the fixture README states that every program, round and source is invented.
+5. `POST /v1/queries` with the early-stage founder fixture question returns `status: answer`, at most three actions, `as_of`, `corpus_version`, `retrieval_mode: dense`, and citation IDs that all resolve to fixture passages; the stale fixture's citation carries the computed label "Needs a current check" (D-01; SC05, SC06).
+6. The closed-round fixture question returns no action that recommends applying to that round, and the condition is shown as unresolved (SC04, SC06 fixture).
+7. A question whose fixture pathways differ by jurisdiction returns `status: clarification` when jurisdiction is absent, and `status: answer` with a coverage warning when `confirmed_context.jurisdiction` is `unknown` (SC01, SC22).
+8. `GET /v1/capabilities` returns `credential_mode: development`, the corpus version and the coverage statement; `GET /v1/sources/{id}` returns metadata for every fixture source and an excerpt only for fixtures marked `cleared` (API13 with fixtures).
+9. A standalone fixture client (a script, not Next.js) runs criteria 3–8 over real HTTP against the running API and exits non-zero on any failure; CI runs it. This is the O7/API01 evidence in its smallest form.
+
+Explicitly out of scope for this task: Next.js, Qdrant Cloud, Neo4j, durable stores, real sources, streaming, voice, MCP, and any model call (a model-backed generator may be added behind a flag with a key, but acceptance does not depend on it).

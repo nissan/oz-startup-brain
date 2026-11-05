@@ -43,7 +43,7 @@ Fictional names make the design discussable. Needs are hypotheses, and a person 
 | US10 | All | I receive an honest fallback when a service or budget is unavailable | UC10 Degraded mode | SC17, SC18 | All error variants |
 | US11 | All | I can use equivalent text and keyboard controls for every core visual interaction | UC11 Accessible navigation | SC19 | All |
 | US12 | All | My private context does not become shared knowledge and untrusted documents cannot redirect the system | UC12 Data boundary | SC20, SC21 | All |
-| US13 | P6 | I can call a documented API with my own credentials so I can build another interface | UC13 Independent API consumer | API01–API03, API08–API10 | Developer integration flow |
+| US13 | P6 | I can call a documented API with my own credentials so I can build another interface | UC13 Independent API consumer | API01–API03, API08–API10, API13 | Developer integration flow |
 | US14 | Operator (the owner for the hobby deployment; not a curator role) / P6 | I can scope, rotate and revoke credentials and cap each consumer so access remains controllable | UC14 Manage consumer access | API02–API07, API11, API13, API14 | Operator flow |
 | US15 | P6 | I can expose the same capabilities to an agent without losing evidence or access controls | UC15 MCP access | API12 | Future agent flow |
 

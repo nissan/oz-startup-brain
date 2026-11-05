@@ -22,7 +22,7 @@ Feature: API-first access through a designated NestJS backend
       | expired |
       | revoked |
 
-  @API03 @US13 @O7 @TR04
+  @API03 @US13 @US14 @O7 @TR04
   Scenario: Enforce operation scope
     Given a valid consumer key has only sources:read scope
     When it calls the query endpoint
