@@ -50,6 +50,13 @@ class A11yCheckTests(unittest.TestCase):
         findings, trace = a11y_check.keyboard_pass(page, "light")
         self.assertTrue(any(f[0] == "fail" and "trap" in f[1].lower() for f in findings), findings)
 
+    def test_reverse_trap_on_the_first_control_is_reported(self):
+        page = self.open('<button class="osb osb-btn" id="first">First</button><button class="osb osb-btn">Second</button>'
+                         '<script>document.getElementById("first").addEventListener("keydown", e => { if (e.key === "Tab" && e.shiftKey) e.preventDefault(); });</script>')
+        findings, trace = a11y_check.keyboard_pass(page, "light")
+        self.assertEqual([(r, n) for r, n, _ in trace], [("button", "First"), ("button", "Second")])
+        self.assertTrue(any(f[0] == "fail" and "Shift+Tab cannot leave the first control" in f[1] for f in findings), findings)
+
     def test_control_that_cannot_be_reached_is_reported(self):
         page = self.open('<button class="osb osb-btn">First</button>'
                          '<button class="osb osb-btn" id="x">Steals focus back</button>'

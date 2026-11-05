@@ -150,6 +150,15 @@ def keyboard_pass(page, theme, phone=False):
             back.append(int(a["idx"]))
         if back != list(reversed(seen)):
             findings.append(("fail", f"Shift+Tab does not retrace Tab: {back} vs {list(reversed(seen))}"))
+        else:
+            # Focus is on the first control; one more Shift+Tab must leave it (to the document or,
+            # in a headless browser with no chrome, round to the last control), or the first control
+            # traps reverse traversal.
+            page.keyboard.press("Shift+Tab")
+            after = page.evaluate(ACTIVE_JS)["idx"]
+            if after == str(seen[0]):
+                role, name = focused_name(page)
+                findings.append(("fail", f"keyboard trap: Shift+Tab cannot leave the first control {role} '{name}'"))
     return findings, trace
 
 
