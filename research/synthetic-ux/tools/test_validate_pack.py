@@ -81,6 +81,32 @@ class PackValidationTests(unittest.TestCase):
         path.write_text('{')
         self.assert_failure(self.run_validator(), 'input:', 'scenario-review.json')
 
+    def test_comment_and_whitespace_only_feature_edits_do_not_require_review(self):
+        path = self.repo / 'features/api-access.feature'
+        text = path.read_text()
+        lines = text.splitlines()
+        lines.insert(1, '# reviewer note: formatting only')
+        lines[3] = lines[3] + '   '
+        path.write_text('\n'.join(lines) + '\n\n\n')
+        result = self.run_validator()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_one_word_background_change_still_requires_review(self):
+        path = self.repo / 'features/founder-journeys.feature'
+        text = path.read_text()
+        self.assertIn('Background:', text)
+        head, tail = text.split('Background:', 1)
+        tail = tail.replace('coverage statement', 'coverage claim', 1)
+        path.write_text(head + 'Background:' + tail)
+        self.assert_failure(self.run_validator(), 'scenario-review', 'features/founder-journeys.feature')
+
+    def test_docstring_and_table_whitespace_inside_steps_still_count(self):
+        path = self.repo / 'features/api-access.feature'
+        text = path.read_text()
+        self.assertIn('| "lookup"       | 200         | explicit         |', text)
+        path.write_text(text.replace('| "lookup"       | 200         | explicit         |', '| "lookup"       | 200         | explicit  |', 1))
+        self.assert_failure(self.run_validator(), 'scenario-review', 'features/api-access.feature')
+
 
 if __name__ == '__main__':
     unittest.main()

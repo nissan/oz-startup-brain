@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "review_note": "PR16 feedback revision: reviewed the API-access diff; API01-API14 are unchanged and API15 adds task_intent HTTP/schema/client/BFF requirements only. Rechecked all 16 task observation scopes: no existing browser task proves API15, and T11 remains documentation-only with no observes claims. DEC01-DEC11 remain separate component/evaluation specifications, not browser coverage. No task mappings, actor material or UX outcomes changed.",
+  "review_note": "Hash normalisation (#15): feature hashes are now taken over a normalised form (trailing whitespace, comment lines and repeated blank lines ignored). Both committed feature files normalise to their current bytes, so the recorded hashes are unchanged and no mapping review was performed for this record. Previous note retained: PR16 feedback revision: reviewed the API-access diff; API01-API14 are unchanged and API15 adds task_intent HTTP/schema/client/BFF requirements only. Rechecked all 16 task observation scopes: no existing browser task proves API15, and T11 remains documentation-only with no observes claims. DEC01-DEC11 remain separate component/evaluation specifications, not browser coverage. No task mappings, actor material or UX outcomes changed.",
   "features": {
     "features/api-access.feature": "df836c4573a5de99aed3971bdde53751b5b970a12a5c0456c06ea8f9dcef93ae",
     "features/founder-journeys.feature": "ee0cc16fa3c856213641dbfb08675f40ad395aacc82031bdbd4cc83dd056f3f2"
