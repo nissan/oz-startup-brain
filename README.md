@@ -18,6 +18,8 @@ The product hypothesis is that a founder can identify a useful next action, unde
 8. [Gherkin acceptance scenarios](features/founder-journeys.feature)
 9. [Delivery roadmap and decision gates](docs/06-delivery.md)
 10. [Research references](docs/references.md)
+11. [API-first NestJS requirements and MCP evolution](docs/decisions/001-api-first-nestjs.md)
+12. [API access acceptance scenarios](features/api-access.feature)
 
 ## Starting evidence
 
@@ -27,8 +29,10 @@ The [Founder Journey Planner article](https://www.reddi.ai/blog/founder-journey-
 
 ## Proposed stack
 
-- Next.js / TypeScript on Vercel Hobby for a personal, non-commercial demo.
-- LangChain integrations and LangGraph.js bounded retrieval workflow.
+- API-first monorepo: `apps/web` for Next.js and `apps/api` for an independently deployable NestJS backend.
+- Next.js calls NestJS using a server-only API key; external consumers receive separate scoped keys.
+- NestJS owns the LangChain integrations, LangGraph.js workflow and versioned OpenAPI contract.
+- Two Vercel projects are the initial non-commercial hosting proposal; MCP is a later adapter to the same backend services.
 - Qdrant Cloud Free for passage retrieval; Neo4j AuraDB Free for reviewed relationships.
 - Offline ingestion and Python Ragas evaluation, run locally or in manually triggered CI.
 - Text and structured cards first; optional push-to-talk and constrained visual input later.

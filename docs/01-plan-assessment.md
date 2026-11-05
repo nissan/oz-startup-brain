@@ -12,7 +12,8 @@ Proceed as a staged learning project with two explicit goals: help founders choo
 | Reason over raw data to discover relationships | Useful for candidate extraction, unsafe as automatic fact publication | A typed ontology, evidence spans, schema checks, alias resolution and human approval before promotion. |
 | Ragas and LLM judges | Useful complementary measurement | Add deterministic citation, date, workflow and security checks; calibrate judges against humans. |
 | X hashtags and highly reposted answers | Useful demand research; weak correctness evidence | Use engagement only for question sampling. Reference answers need dated source evidence and review. |
-| Vercel Hobby | Suitable for this non-commercial demonstration | Short online requests; ingestion and evaluations run outside request handlers. Check terms before commercial use. |
+| API-first backend | Required for website, external developer and agent reuse | Designated NestJS API project; server-side Next.js key; per-consumer scopes and quotas; later MCP adapter. |
+| Vercel Hobby | Suitable for this non-commercial demonstration | Separate web/API projects with shared limits; short requests and offline jobs. Check terms before commercial use. |
 | Voice and visualisations | Promising when they remove task friction | Stable, accessible UI with typed input first. Add speech and visual input through measured experiments. |
 
 ## Product scope
@@ -32,6 +33,7 @@ Start with federal and Queensland sources for early usability work; keep nationa
 5. **Short online workflow:** deterministic routing and bounded graph lookups, with one optional recovery attempt. No open-ended research agent during a visitor's request.
 6. **Visible limits:** stale, disputed, unknown and unavailable are distinct UI states.
 7. **Stable interface with adaptable content:** schema-validated cards and controls, not arbitrary model-generated executable UI.
+8. **API-first reuse:** NestJS owns the backend and its versioned contract. Next.js, external API clients and a future MCP adapter share capabilities and policy; see [ADR 001](decisions/001-api-first-nestjs.md).
 
 ## Current evidence and uncertainty
 

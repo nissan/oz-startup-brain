@@ -12,6 +12,7 @@ All numerical targets are initial acceptance hypotheses. Small usability samples
 | O4 | Recommendations reflect current evidence or disclose gaps | No expired-status claim presented as current in the release test set | Date fixtures, stale-source and conflict scenarios |
 | O5 | Contributors can reproduce quality comparisons | Another developer reproduces a report from pinned inputs; graph gain measured by question slice | Run manifests, baseline outputs and evaluator reports |
 | O6 | Different input needs do not block task completion | Core task is keyboard usable; voice errors can be corrected before sending | Keyboard, assistive technology and noisy-audio task checks |
+| O7 | Developers and agents can reuse the backend independently | A standalone API client completes the same task as the website; separate credentials and limits work | HTTP contract tests and later MCP policy-parity tests |
 
 ## Core personas
 
@@ -24,7 +25,7 @@ Fictional names make the design discussable. Needs are hypotheses, and a person 
 | P3 | Jess, regional Queensland software founder | Find a relevant local or remote support route without an insider network | Mobile use, limited time, may prefer dictation; needs geographic coverage to be honest | Yes |
 | P4 | Sam, payments founder with operating experience | Understand which product facts must be clarified before choosing a regulator pathway | High consequence of category errors; needs distinctions and qualified referral | Later pilot, synthetic fixtures first |
 | P5 | Alex, ecosystem navigator and source curator | Explain a route and correct stale or unsupported statements | Needs provenance, change history and a review queue; not a paid recommendation ranking | Internal maintenance persona |
-| P6 | Priya, developer studying GraphRAG | Reproduce the pipeline and determine what each framework contributes | Needs traces, small fixtures, baseline comparisons and explicit limitations | Documentation/demo persona |
+| P6 | Priya, developer studying GraphRAG and building an integration | Reproduce the pipeline and consume it without the website | Needs traces, fixtures, OpenAPI contracts, scoped keys and evidence-preserving agent tools | Documentation/API persona; MCP later |
 
 ## User stories and use cases
 
@@ -42,6 +43,9 @@ Fictional names make the design discussable. Needs are hypotheses, and a person 
 | US10 | All | I receive an honest fallback when a service or budget is unavailable | UC10 Degraded mode | SC17, SC18 | All error variants |
 | US11 | All | I can use equivalent text and keyboard controls for every core visual interaction | UC11 Accessible navigation | SC19 | All |
 | US12 | All | My private context does not become shared knowledge and untrusted documents cannot redirect the system | UC12 Data boundary | SC20, SC21 | All |
+| US13 | P6 | I can call a documented API with my own credentials so I can build another interface | UC13 Independent API consumer | API01–API03, API08–API10 | Developer integration flow |
+| US14 | P5/P6 | I can scope, rotate and revoke credentials and cap each consumer so access remains controllable | UC14 Manage consumer access | API02–API07, API11 | Operator flow |
+| US15 | P6 | I can expose the same capabilities to an agent without losing evidence or access controls | UC15 MCP access | API12 | Future agent flow |
 
 ## Main use-case flows
 
@@ -64,3 +68,8 @@ An offline extraction job proposes a typed claim with evidence spans and provena
 ### UC09: Developer reproduction
 
 Priya runs the labelled synthetic fixture smoke tests without credentials, then optionally runs paid evaluation against a pinned, approved corpus. The report shows slice-level scores, failed cases, model and prompt identifiers, cost, latency and graph availability. A mock or fixture run cannot be presented as live benchmark evidence.
+
+
+### UC13–UC15: API and agent reuse
+
+Priya receives her own scoped key through a secure channel, reads the OpenAPI contract and submits a query without loading Next.js. Her client receives the same evidence, dates and coverage contract as the website. Invalid keys, missing scopes and exhausted limits have documented error responses. Alex can rotate or revoke one consumer without affecting others. A later MCP client discovers typed tools and receives equivalent results through the same policy/application services. See [ADR 001](decisions/001-api-first-nestjs.md) and [API scenarios](../features/api-access.feature).

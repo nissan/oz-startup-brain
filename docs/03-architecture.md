@@ -2,28 +2,29 @@
 
 ## System boundary
 
-Proposed online stack: Next.js with TypeScript and Node.js route handlers on Vercel; LangChain model, embedding and retrieval adapters; LangGraph.js for bounded orchestration; Qdrant for passages and Neo4j AuraDB for reviewed relationships. Python is confined to offline Ragas evaluation initially. No second always-on application server is required.
+Required direction: an API-first monorepo with a designated NestJS project (`apps/api`) and Next.js project (`apps/web`). Next.js server handlers are a thin backend-for-frontend, calling the versioned NestJS HTTP API with a dedicated server-only key. NestJS owns authentication, authorisation, quotas, LangChain integrations, LangGraph.js orchestration and retrieval through Qdrant and Neo4j. Python remains confined to offline Ragas evaluation initially. The applications deploy independently; no always-on server is required if both use Vercel Functions.
+
+The [API-first decision record](decisions/001-api-first-nestjs.md) specifies TR01–TR07, REST contracts, credential lifecycle, external consumer access and the future MCP adapter. Next.js never holds database/model credentials or becomes the canonical location for backend business logic.
 
 LangGraph's execution graph is distinct from the Neo4j knowledge graph: the former controls processing steps, the latter stores domain relationships. LangChain supplies reusable integrations rather than a competing orchestration loop. [R5]
 
 ```mermaid
 flowchart TD
-  U["Founder interface"] --> W["Bounded LangGraph workflow"]
+  U["Browser"] --> B["Next.js server BFF"]
+  B -->|"Website API key"| A["NestJS REST boundary"]
+  X["External server client"] -->|"Own scoped API key"| A
+  M["Future MCP adapter"] --> P["Shared policy and application services"]
+  A --> P
+  P --> W["LangGraph workflow"]
   W --> V["Qdrant passages"]
   W --> G["Neo4j reviewed claims"]
-  V --> E["Evidence bundle"]
-  G --> E
-  E --> A["Validated answer cards"]
-  A --> U
-  C["Offline corpus release"] --> V
-  C --> G
 ```
 
 ## Online workflow
 
 State carries a request ID, confirmed context, question, corpus version, retrieval mode, retrieved passages, accepted claim IDs, conflicts, evidence sufficiency, output and a budget ledger.
 
-1. Validate input, payload size and request budget; treat supplied text as data.
+1. In NestJS, authenticate the consumer, authorise its scope and atomically reserve request allowance before paid work. Validate input and payload size; treat supplied text as data.
 2. Classify task with typed output. Use deterministic routes where possible.
 3. If a missing field changes the route, return one clarification; do not start an unbounded conversational loop.
 4. Retrieve dense/sparse passages with source type, jurisdiction, date and corpus filters. Starting candidates: top 20, fuse, rerank, keep up to 8 within a token budget. Tune using development data.
@@ -31,13 +32,13 @@ State carries a request ID, confirmed context, question, corpus version, retriev
 6. Assemble evidence, detect stale/conflicting assertions and mark unresolved questions. Deduplicate article excerpts and underlying sources so a derivative claim does not appear independently corroborated.
 7. Generate structured action/compare/referral output using only the evidence bundle.
 8. Validate schema, reference IDs, required dates and prohibited certainty. A citation existing is not proof it supports the claim; release evaluation separately checks entailment. Permit at most one bounded recovery retrieval if evidence is insufficient.
-9. Return validated cards or an honest partial answer. Stream progress states immediately; do not stream unvalidated regulatory claims as final content.
+9. Return a typed answer, clarification or insufficient-evidence envelope. The website renders this contract as cards. JSON comes first; later streaming may emit progress states and a terminal validated result, never unvalidated regulatory claims as final content.
 
-Set an initial 30-second application deadline with smaller per-service timeouts, cancellation and bounded retry. This is a design target, not a platform limit. Respect the selected Vercel runtime's current limits. [R6]
+Apply the deadline across the BFF/API boundary and propagate cancellation. Set an initial 30-second application deadline with smaller per-service timeouts, cancellation and bounded retry. This is a design target, not a platform limit. Respect the selected Vercel runtime's current limits. [R6]
 
 ## Persistence
 
-MVP: request-scoped state and explicit user-confirmed context on each turn. A browser-held draft can survive navigation with user control; do not claim server-side durable memory. Never use process memory as cross-request persistence on Vercel.
+MVP workflow: request-scoped state and explicit user-confirmed context on each turn. Authentication and quotas separately require a durable credential registry and atomic budget store before live activation; their failure denies new paid work. A browser-held draft can survive navigation with user control; do not claim server-side durable memory. Never use process memory as cross-request persistence on Vercel.
 
 Offline ingestion: checkpointed job files keyed by content hash and schema version; resume from the last completed stage. Curator approval is recorded in reviewed files/PRs. If true online LangGraph interrupts or multi-session memory become required, choose a durable checkpointer and access-control model in a new decision record. Qdrant and the domain graph are not automatically LangGraph checkpoints.
 
@@ -56,7 +57,7 @@ Raw corpus storage is not the serverless filesystem. Start with rights-cleared l
 | Qdrant Cloud Free | Hosted passage index | 1 GB RAM, 4 GB disk, single node, 0.5 vCPU. Inactivity suspension after one week and deletion after four weeks if not reactivated. [R2] |
 | Neo4j AuraDB Free | Hosted property graph | 200,000 nodes, 400,000 relationships, 1 GB storage; no uptime SLA. [R3] |
 | Aura inactivity | Operational recovery is required | Instance actions docs state auto-pause after 72 hours and deletion after over 30 days paused; verify the current console policy before launch. [R4] |
-| Vercel Hobby | Non-commercial personal demo | Free tier is restricted to personal/non-commercial use. Ingestion and benchmark runs stay offline. [R6–R7] |
+| Vercel Hobby | Separate Next.js and NestJS projects | Personal/non-commercial use; shared account limits still apply. NestJS runs as a Vercel Function. Check latency and streaming across both deployments. Ingestion and benchmark runs stay offline. [R6–R7, R21] |
 
 Neo4j is selected for a well-documented hosted free tier and explicit property-graph traversal. It is a pragmatic default, not an assertion that it is universally better than alternatives. Keep retrieval behind adapters so a future alternative can be compared without rewriting the UX.
 

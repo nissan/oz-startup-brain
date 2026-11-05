@@ -23,3 +23,16 @@ Consulted 5 November 2026. Product recommendations are project design judgments;
 | R17 | [W3C: Understanding WCAG 2.2](https://www.w3.org/WAI/WCAG22/understanding/) | Accessible equivalents, interaction and audio controls |
 
 No X post is cited as a discovered popular question or as a reference answer. Add post-level provenance only after a permitted, reproducible collection has been performed.
+
+
+## API-first architecture references
+
+Checked 5 November 2026. These document supported mechanisms; the detailed security and API requirements in ADR 001 are project design decisions.
+
+| ID | Primary source | Used for |
+| --- | --- | --- |
+| R18 | [Next.js environment variables](https://nextjs.org/docs/app/guides/environment-variables) and [next.config.js env](https://nextjs.org/docs/pages/api-reference/config/next-config-js/env) | Keep the BFF credential out of browser bundles and public configuration |
+| R19 | [NestJS authentication](https://docs.nestjs.com/security/authentication) and [authorisation](https://docs.nestjs.com/security/authorization) | Enforce consumer authentication and route/service policies |
+| R20 | [NestJS OpenAPI](https://docs.nestjs.com/openapi/introduction) | Generate and verify API contracts |
+| R21 | [NestJS on Vercel](https://vercel.com/docs/frameworks/backend/nestjs) | Separate serverless API deployment; function constraints still apply |
+| R22 | [MCP HTTP authorisation](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization) | Future interoperable remote access; OAuth discovery and resource-bound credentials |
