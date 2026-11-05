@@ -1,3 +1,7 @@
-The honest fallbacks. Five kinds: `historical` (only old material; status unverified), `disagree` (two dated sources, no averaging), `outside` (jurisdiction not covered), `outage` (retrieval unavailable; static directory offered) and `budget` (daily inference budget reached; no further charging). Each keeps the founder's draft when one is supplied, names the official door, and never shows a fabricated live answer.
+The honest fallbacks, in two families that must not be confused.
 
-Consumer provides: `kind`, optional `title`/`body` overrides, optional `draft`, `onAction`, `actionLabel`, optional `onSecondary`.
+Evidence and coverage limits carry an `EvidenceLabel`: `historical` (only old material; status unverified), `disagree` (two dated sources, no averaging) and `outside` (jurisdiction not covered). They are about the sources.
+
+Service limits carry a `StatusNotice` instead, on neutral paper with a dashed border, because they are about the planner: `graph-degraded` (the graph is unavailable but passages are, so a dated, checked answer is still given with prerequisite sequencing and multi-step links omitted; SC17), `outage` (retrieval unavailable; no answer is shown and a static directory is offered as such; SC18) and `budget` (daily inference budget reached; paid work stopped; SC18). Each keeps the founder's draft when one is supplied and names the next door. None of them ever shows a fabricated live answer, and none implies a freshness or geographic problem.
+
+Consumer provides: `kind`, optional `title`/`body` overrides, optional `draft`, optional `detail` for service kinds, `onAction`, `actionLabel`, optional `onSecondary`.

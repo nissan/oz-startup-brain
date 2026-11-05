@@ -12,7 +12,8 @@
 .osb-btn[disabled] { background: var(--grey-tint); color: var(--ink-muted); cursor: not-allowed; }
 
 /* Evidence label */
-.osb-label { display: inline-flex; align-items: center; gap: var(--space-1); padding: 2px var(--space-2); border-radius: var(--radius-sm); font-size: 15px; line-height: 20px; font-weight: 700; max-width: 100%; }
+.osb-label { display: inline-flex; align-items: center; gap: var(--space-1); padding: 2px var(--space-2); border-radius: var(--radius-sm); font-size: 15px; line-height: 20px; font-weight: 700; max-width: 100%; white-space: nowrap; }
+.osb-label--wrap, .osb-table .osb-label, .osb-card__row .osb-label { white-space: normal; text-align: left; }
 .osb-label svg { flex: none; }
 .osb-label--checked { color: var(--ink); background: var(--paper-raised); border: 1px solid var(--border-strong); }
 .osb-label--needs-check { color: var(--ochre); background: var(--ochre-tint); }
@@ -88,11 +89,17 @@
 .osb-wait__steps li { color: var(--ink-muted); }
 .osb-wait__steps li[aria-current="step"] { color: var(--ink); font-weight: 700; }
 
+/* Status notice: operational state of the service, never an evidence state. Neutral ground, dashed border, ink text. */
+.osb-status { display: inline-flex; align-items: center; text-align: left; gap: var(--space-1); padding: 2px var(--space-2); border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); background: var(--paper); color: var(--ink); font-size: 15px; line-height: 20px; font-weight: 700; max-width: 100%; }
+.osb-status svg { flex: none; }
+.osb-status__detail { font-weight: 400; color: var(--ink-muted); }
+
 /* Limit panel */
 .osb-limit { border: 1px solid var(--border-strong); }
-.osb-limit--historical, .osb-limit--budget { background: var(--ochre-tint); }
+.osb-limit--historical { background: var(--ochre-tint); }
 .osb-limit--disagree { background: var(--plum-tint); }
-.osb-limit--outside, .osb-limit--outage { background: var(--grey-tint); }
+.osb-limit--outside { background: var(--grey-tint); }
+.osb-limit--service { background: var(--paper); border-style: dashed; }
 .osb-limit .osb-card__title { font-size: 20px; line-height: 26px; font-family: var(--font-sans); font-weight: 700; }
 .osb-limit__draft { margin-top: var(--space-3); padding: var(--space-3); background: var(--paper-raised); border: 1px solid var(--hairline); border-radius: var(--radius-sm); font-size: 15px; line-height: 22px; }
 
