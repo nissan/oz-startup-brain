@@ -50,19 +50,34 @@ Jurisdiction for the first real corpus remains an open decision (see below); sli
 
 Exact package versions are selected and locked during implementation, not guessed in the design.
 
-## Decisions still requiring input or implementation evidence
+## Owner decisions recorded 5 November 2026
 
-- Location of the original raw research archive, beyond the recovered published bibliography.
-- Monthly spend ceiling and preferred model provider; provider accounts/credentials belong in secret storage.
-- Durable credential-registry and quota-store provider, API/frontend environment pairing and eventual MCP client targets. Recommended default for review: one managed Postgres instance with a free tier holding the credential registry, the per-request usage ledger and budget counters (atomic reservation through a single transaction), reached from NestJS only; a hosted Redis-compatible store is the alternative if latency matters more than a single store. Slice 1A does not need this decision; slice 1B does. Nothing is provisioned by this document.
-- Whether federal plus Queensland is the preferred first coverage slice, or another state is more useful for recruitment. The discovered bibliography contains 3 Queensland-government URLs against 5 for NSW; whichever state is chosen will need sources beyond the article's links. Slice 1A is independent of this decision.
-- Ingestion implementation language (recommended default: TypeScript, see layout above).
-- Whether the bibliography manifest schema should be extended at Stage 1 to carry the `SourceDocument` fields (`publisher`, `source_class`, `jurisdiction`) rather than keeping two record shapes.
-- Who draws storyboard SB5 (limits and failure states) and the phone-width variant of SB3 before Stage 0 sessions.
-- Which real founders/navigators can participate in early feedback.
-- Whether future use remains personal/non-commercial; reassess hosting before turning it into a business offering.
+Decided by the owner after the design review; each replaces the corresponding open item. Nothing below provisions a service or spends money.
 
-These do not block review of the documentation. They do affect live-data completeness, paid service activation and user validation. The API-first NestJS direction is owner-requested; the remaining design and operational choices are proposals, and no empirical validation is claimed.
+| # | Decision | Effect on the plan |
+| --- | --- | --- |
+| 1 | Slice 1A/1B split and development credential mode accepted | Slice 1A-0 (fixture-mode `/v1/queries`) may start now |
+| 2 | Durable credential registry, budget counters and usage ledger in one managed Postgres: **Supabase free tier first; Neon if Supabase does not fit** | Selected at slice 1B; reached only from NestJS; single-transaction reservation and settlement |
+| 3 | Model access is **provider-agnostic** behind one adapter interface. Before the first live call, probe which providers carry free credits on the owner's existing subscriptions and use that provider first; set a currency-specific monthly cap | Slice 1A uses the deterministic fixture responder; the adapter and the credit probe are slice 1B tasks |
+| 4 | Keep-alive: manual weekly trigger, documented in the restore drill | Stage 6 exit evidence |
+| 5 | Hosting starts on a personal Hobby account; **Redditech's Vercel Pro team is the fallback** if the free tier fails or usage pauses the demo | Keep the demo unbranded on Hobby; moving to Pro changes the non-commercial assumption and must be re-recorded |
+| 6 | First jurisdiction decided after Stage 1 dispositions; **national coverage of every Australian state and territory is the target**, so corpus expansion beyond the article's 135 links is planned work, not an afterthought | New Stage 2a below; `01-plan-assessment.md` wording aligned |
+| 7 | Ingestion in TypeScript, sharing `packages/contracts/` | Layout above |
+| 8 | Extend the bibliography manifest with `publisher`, `source_class`, `jurisdiction` at Stage 1 (bump `manifest_version`) | Stage 1 deliverable |
+| 9 | Original research archive is not pursued; the corpus is built from **fresh fetches**, each recorded as a new source version | README statement to be updated at Stage 1; no historical-completeness claim |
+| 10 | Claude designs the remaining storyboards (SB5, phone-width SB3), the mock-ups, branding materials and a **design system** of look-and-feel tokens and reusable components, using Claude Design artifacts | New Stage 0a below |
+| 11 | Early feedback starts with P2 and P3, five participants each; untested pathways are reported | Stage 0 and Stage 4 |
+
+Remaining open item: which real founders and navigators will participate (recruitment itself).
+
+### Stages added by these decisions
+
+| Stage | Outcome and deliverable | Exit evidence |
+| --- | --- | --- |
+| 0a: Design system and mock-ups | A design system (colour, type, spacing, evidence-state components, cards, chips, comparison table, prerequisite map, failure states) and mock-ups for SB5 and phone-width SB3, plus basic branding | Design system artifact reviewed by the owner; every evidence-state label has a component; mock-ups cover every failure state in SC06, SC07, SC17, SC18; contrast and keyboard-equivalence notes recorded |
+| 2a: Corpus expansion to national coverage | Per-jurisdiction source discovery beyond the article (every state and territory plus federal), dispositioned and rights-reviewed with the Stage 1 process | A coverage table by jurisdiction with approved-source counts; the capabilities response reports exactly which jurisdictions are covered; "Outside current coverage" is returned for the rest |
+
+The API-first NestJS direction is owner-requested; the remaining design choices are proposals, and no empirical validation is claimed.
 
 ## Implementation checks
 

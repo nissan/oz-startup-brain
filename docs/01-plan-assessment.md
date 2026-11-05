@@ -22,7 +22,7 @@ The first release answers three question families: where to begin, how two pathw
 
 The article motivates routing by founder circumstances, product, stage, geography and relevant interpreters. We turn that into a small maintained application rather than reproducing the article as a chatbot persona. Its July verification date makes temporal provenance a core requirement. [R1]
 
-Start with federal and Queensland sources for early usability work; keep national coverage as the stated destination. When a jurisdiction is not covered, say so. Seed research, student and regional founder paths, then broaden after representative feedback. Do not silently infer a person's citizenship, visa, gender or finances from their chosen path.
+Start with federal sources plus one state chosen after the Stage 1 source dispositions; coverage of every Australian state and territory is the destination, and the corpus expansion to reach it is planned work (Stage 2a in the [delivery plan](06-delivery.md)). When a jurisdiction is not covered, say so. Seed research, student and regional founder paths, then broaden after representative feedback. Do not silently infer a person's citizenship, visa, gender or finances from their chosen path.
 
 ## Main design decisions
 
