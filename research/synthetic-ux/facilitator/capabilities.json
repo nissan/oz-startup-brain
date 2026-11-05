@@ -1,0 +1,315 @@
+{
+  "version": "0.2",
+  "authority": "Planning registry, not implemented API schema. Stage 0 paper/0a design inspection never proves runtime availability. Earlier working prototypes may qualify with recorded evidence.",
+  "stage_reference": "../../../docs/06-delivery.md",
+  "capabilities": [
+    {
+      "id": "api_contract",
+      "delivery_stage": "1A",
+      "kind": "artifact",
+      "presence_evidence": "Versioned v1 schema/OpenAPI exists and its fixture examples are readable.",
+      "contract_mapping": "No capability-response field establishes contract validity.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "api_quickstart",
+      "delivery_stage": "1A",
+      "kind": "artifact",
+      "presence_evidence": "Repository quickstart specifies local fixture startup, disposable credentials and standalone client command.",
+      "contract_mapping": "No runtime field; inspect docs and separately run commands if authorised.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "browser_zoom",
+      "delivery_stage": "4",
+      "kind": "runner",
+      "presence_evidence": "Runner demonstrates actual browser zoom at 200%, recorded separately from CSS viewport.",
+      "contract_mapping": "Not an API feature; tool support required.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "classification_fixture",
+      "delivery_stage": "4",
+      "kind": "fixture",
+      "presence_evidence": "F07/F08 fictional classification source states are loaded for the later payments pilot.",
+      "contract_mapping": "Optional later-pilot scope, not a first founder UI release requirement.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "comparison",
+      "delivery_stage": "4",
+      "kind": "ui",
+      "presence_evidence": "Two options can be selected and a common-criteria table is visibly operable.",
+      "contract_mapping": "Browser evidence; no GET /v1/capabilities field specified.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "context_edit",
+      "delivery_stage": "4",
+      "kind": "ui",
+      "presence_evidence": "A context field can be edited and the answer/context change observed.",
+      "contract_mapping": "Browser evidence; may be prototyped earlier.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "coverage_notice",
+      "delivery_stage": "1B",
+      "kind": "ui",
+      "presence_evidence": "Declared geographic coverage is returned and visibly rendered.",
+      "contract_mapping": "ADR 001 describes coverage; pin actual response schema/version, do not invent a JSON field.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "evaluation_report",
+      "delivery_stage": "2",
+      "kind": "artifact",
+      "presence_evidence": "A versioned report or explicitly fictional comparison report is readable.",
+      "contract_mapping": "No runtime capability; record report mode and provenance.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "evidence_panel",
+      "delivery_stage": "4",
+      "kind": "ui",
+      "presence_evidence": "Source/date/passage view opens from a rendered material claim.",
+      "contract_mapping": "Browser evidence; underlying evidence contract alone is insufficient.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "extraction_confirmation",
+      "delivery_stage": "5",
+      "kind": "ui",
+      "presence_evidence": "Uploaded-diagram extraction preview can be corrected and explicitly confirmed.",
+      "contract_mapping": "Browser evidence and F08; storage guarantees need separate tests.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "founder_text",
+      "delivery_stage": "1B",
+      "kind": "ui",
+      "presence_evidence": "Founder text form submits through the BFF to a labelled fixture or actual API response.",
+      "contract_mapping": "Record actual UI build; API health alone is insufficient.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "isolated_sessions",
+      "delivery_stage": "1B",
+      "kind": "runner",
+      "presence_evidence": "Runner proves contexts have separate cookie/storage state without clearing unrelated data.",
+      "contract_mapping": "Not an API field; new tab is insufficient.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "keyboard_controls",
+      "delivery_stage": "4",
+      "kind": "ui",
+      "presence_evidence": "Applicable controls are operated by keyboard with recorded visible focus.",
+      "contract_mapping": "Not a boolean API promise; demonstrate on the selected UI.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "local_export",
+      "delivery_stage": "4",
+      "kind": "ui",
+      "presence_evidence": "Checklist can be exported and the downloaded fixture file inspected.",
+      "contract_mapping": "No export endpoint; rendering stays client-side per ADR 001.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "mobile_layout",
+      "delivery_stage": "4",
+      "kind": "ui",
+      "presence_evidence": "Selected founder UI is rendered and operable at the recorded phone viewport.",
+      "contract_mapping": "Record emulation vs actual device; a static board is design inspection only.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "prerequisite_view",
+      "delivery_stage": "4",
+      "kind": "ui",
+      "presence_evidence": "Short prerequisite map and equivalent text route are reachable.",
+      "contract_mapping": "Fixture-backed UI is allowed; does not imply Stage 3 graph retrieval exists.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "recoverable_error",
+      "delivery_stage": "1B",
+      "kind": "fixture",
+      "presence_evidence": "Local development harness supplies named vector_timeout, budget_exhausted or graph_unavailable responses to a real UI.",
+      "contract_mapping": "Controls prepared in 1A, consumed once UI exists; never public/live fault injection.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_test_controls"
+      }
+    },
+    {
+      "id": "repository_review_artifact",
+      "delivery_stage": "3",
+      "kind": "artifact",
+      "presence_evidence": "Read-only candidate claim has an excerpt, dates, IDs and review context (F10).",
+      "contract_mapping": "Can be prepared earlier as a mock; no admin console is required.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "text_fallback",
+      "delivery_stage": "5",
+      "kind": "ui",
+      "presence_evidence": "With voice unavailable, text input remains usable and draft is preserved.",
+      "contract_mapping": "Test the unavailable-voice state; generic text form alone is insufficient.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "transcript_edit",
+      "delivery_stage": "5",
+      "kind": "ui",
+      "presence_evidence": "Transcript review can be changed before explicit submission.",
+      "contract_mapping": "F06 fixture evidence, not proof of recognition quality.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "visual_upload",
+      "delivery_stage": "5",
+      "kind": "ui",
+      "presence_evidence": "Authorised local test interface accepts an authored synthetic diagram.",
+      "contract_mapping": "F08 asset required; no live/private documents.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    },
+    {
+      "id": "voice_input",
+      "delivery_stage": "5",
+      "kind": "ui",
+      "presence_evidence": "Explicit start/stop UI is wired to a recorded synthetic fixture or explicitly authorised audio setup.",
+      "contract_mapping": "No real microphone grant by default; distinguish recognition from transcript UI.",
+      "when_absent": {
+        "if_not_in_declared_scope": "deferred_not_implemented",
+        "if_promised_product_capability_missing": "failed",
+        "if_scope_unknown": "blocked_environment",
+        "if_runner_missing": "blocked_environment",
+        "if_fixture_missing": "blocked_pending_fixture"
+      }
+    }
+  ]
+}
