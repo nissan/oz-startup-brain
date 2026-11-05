@@ -49,6 +49,8 @@ Also required before testing dictation: a phone-width variant of SB3, because th
 
 Both SB5 and the phone-width SB3 now exist as Claude Design artifacts built from the project's design system, alongside a desktop journey-workspace mock-up. The editable originals are owner-private; versioned exports that any reviewer can inspect are committed under [`design/`](../../design/system/HANDOFF.md): the design-system sources and PNG renders ([system](../../design/system/HANDOFF.md)) and the artboard sources and renders ([mock-ups](../../design/mockups/HANDOFF.md)), each stamped with the artifact version and export date. Owner approval of both is pending.
 
+A brand kit (mark, wordmark lockups, favicon, app icons, avatar and Open Graph image) is exported under [`design/brand/`](../../design/brand/HANDOFF.md) and shown on the canvas's Brand sheet; it is original work built from the system's tokens, with no photography, illustration or generated imagery. The design system, mock-ups and brand kit are reviewed together under one owner review (#8).
+
 The five evidence-state words are defined once, in the `EvidenceLabel` design component, and the planner's own operational conditions once, in `StatusNotice`; together they are the proposed implementation contract for the website, the API's export and these boards; no application code consumes them yet, so label parity across surfaces is a Stage 4 acceptance check rather than an established property. Contrast was computed from the tokens and the boards were rendered in both themes; keyboard operation and WCAG conformance remain pending validation with real users. The paper SVGs in this folder remain the low-fidelity versions for printed sessions.
 
 ## Curator and developer journeys

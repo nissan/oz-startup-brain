@@ -49,7 +49,11 @@ The journey workspace is one column on phones (16px gutter) and two columns from
 
 ## Iconography
 
-Glyphs are small inline SVG strokes drawn in the current text colour, 16px on a 24px box, 1.75px stroke: tick (checked), clock (needs a check), two opposed arrows (disagree), arrow (suggested), dashed circle (outside coverage), pencil (edit). No emoji, no icon font, no decorative illustration. There is no logo: set the name in `display-xl` and leave it at that.
+Glyphs are small inline SVG strokes drawn in the current text colour, 16px on a 24px box, 1.75px stroke: tick (checked), clock (needs a check), two opposed arrows (disagree), arrow (suggested), dashed circle (outside coverage), pencil (edit), plug (service status). No emoji, no icon font, no decorative illustration.
+
+## Logo and wordmark
+
+The mark is an `ironbark` tile carrying a paper-coloured route with a `sage` destination node: the journey, drawn from the system's own tokens. Use `Logos/mark.svg` on light grounds and `Logos/mark-dark.svg` on dark ones; the horizontal lockup (`Logos/wordmark-horizontal.svg`) in page headers and the OG image, the stacked lockup where the space is square, and the tagline lockup only on the landing page and social previews. Each lockup has a light file for `paper`/`paper-raised` grounds and a `-dark` file for dark `paper`/`paper-raised` grounds; choose by the ground the lockup sits on, never by the page's theme. The wordmark text is outlined, so lockups need no font; in live UI the name beside the mark is set in `display-xl` or `display-md` in `ink`. Clear space is four route-stroke widths; the mark is never smaller than 16px and never recoloured, rotated, shadowed or placed on `ochre`, `plum` or `sage`. Favicon, app icons, avatar and the Open Graph image are in `Icons and social/`. No generated imagery, photography or illustration is part of the brand.
 
 ## Accessibility
 

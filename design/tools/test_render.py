@@ -23,7 +23,7 @@ class RenderRegressionTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.design = self.root / 'design'
-        for folder in ('system', 'mockups'):
+        for folder in ('system', 'mockups', 'brand'):
             shutil.copytree(DESIGN / folder, self.design / folder)
         (self.design / 'tools').mkdir()
         shutil.copy(DESIGN / 'tools/render.py', self.design / 'tools/render.py')
@@ -44,7 +44,7 @@ class RenderRegressionTests(unittest.TestCase):
     def test_all_committed_boards_and_component_previews_render(self):
         result = self.render()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn('page errors: none ; bounds overflow: 0', result.stdout)
+        self.assertIn('page errors: none ; bounds overflow: 0 ; layout overlaps: 0', result.stdout)
         boards = json.loads((self.design / 'mockups/canvas.json').read_text())['boards']
         for source in boards:
             for theme in ('light', 'dark'):
@@ -74,6 +74,49 @@ class RenderRegressionTests(unittest.TestCase):
         self.assertIn('injected-render-failure', result.stdout)
         for theme in ('light', 'dark'):
             self.assertIn(f'mockups/SB3-Route-{theme}', result.stdout)
+
+    def only_brand(self):
+        for source in (self.design / 'mockups').glob('*.dc.html'):
+            if source.name != 'Brand-Sheet.dc.html':
+                source.unlink()
+        for preview in (self.design / 'system/components').glob('*/preview.html'):
+            preview.unlink()
+
+    def test_unmapped_asset_id_fails_in_both_themes(self):
+        self.only_brand()
+        path = self.design / 'mockups/assets.json'
+        assets = json.loads(path.read_text())
+        removed = next(k for k, v in assets.items() if v == 'brand/wordmark-stacked.svg')
+        del assets[removed]
+        path.write_text(json.dumps(assets))
+        result = self.render()
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        for theme in ('light', 'dark'):
+            self.assertIn(f'mockups/Brand-Sheet-{theme}', result.stdout)
+        self.assertIn('broken image: /_blob/' + removed, result.stdout)
+
+    def test_mapped_but_missing_asset_file_fails_in_both_themes(self):
+        self.only_brand()
+        (self.design / 'brand/wordmark-tagline-dark.svg').unlink()
+        result = self.render()
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        for theme in ('light', 'dark'):
+            self.assertIn(f'mockups/Brand-Sheet-{theme}', result.stdout)
+        self.assertIn('broken image: /_blob/', result.stdout)
+        self.assertEqual(result.stdout.count('broken image:'), 2, result.stdout)
+
+
+    def test_canvas_note_overlapping_a_board_fails(self):
+        self.only_brand()
+        path = self.design / 'mockups/canvas.json'
+        canvas = json.loads(path.read_text())
+        canvas['notes']['t4']['y'] = canvas['boards']['Brand-Sheet.dc.html']['y'] + 10
+        path.write_text(json.dumps(canvas))
+        result = self.render()
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn('LAYOUT note t4', result.stdout)
+        self.assertIn('overlaps board Brand-Sheet.dc.html', result.stdout)
+        self.assertIn('layout overlaps: 1', result.stdout)
 
 
 if __name__ == '__main__':

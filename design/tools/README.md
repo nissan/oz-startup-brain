@@ -13,7 +13,7 @@ export CHROME="$(/tmp/osb-render-venv/bin/python -c 'from playwright.sync_api im
 
 An existing Chrome binary also works: set `CHROME` to its absolute path. The renderer defaults to `/usr/bin/google-chrome`. These commands install local development tools, not hosted services. The documented Playwright version is the version used for the maintenance regression run; upgrade deliberately and rerun the checks.
 
-The renderer checks the listed controls, paragraphs and headings against fixed `canvas.json` frames in both themes. It reports offending artboards/elements and exits 1 for bounds overflow or page errors. Component previews use full-page screenshots and have no fixed-frame bounds check. This is a targeted export check; it does not inspect every painted pixel, ancestor clipping or every possible text node.
+The renderer resolves the canvas's uploaded assets (`/_blob/<id>` references) through `design/mockups/assets.json` and reports any unmapped image as a page error. It checks the listed controls, paragraphs and headings against fixed `canvas.json` frames in both themes. It reports offending artboards/elements and exits 1 for bounds overflow or page errors. Component previews use full-page screenshots and have no fixed-frame bounds check. This is a targeted export check; it does not inspect every painted pixel, ancestor clipping or every possible text node.
 
 ## Regression tests
 
@@ -22,6 +22,6 @@ OSB_RENDER_NODE_MODULES=/tmp/osb-render/node_modules \
   /tmp/osb-render-venv/bin/python -m unittest discover -s design/tools -p 'test_*.py' -v
 ```
 
-The tests run the real renderer in temporary copies. They verify all committed boards and component previews, shrink SB3-Route to clip its supporting-passage button, and inject a JavaScript error into the artboard. Both negative cases must fail in both themes and name the relevant failure. The working tree and committed PNGs are not modified. Missing dependencies are an error, not a skipped success.
+The tests run the real renderer in temporary copies. They verify all committed boards and component previews, shrink SB3-Route to clip its supporting-passage button, inject a JavaScript error into the artboard, remove an asset mapping from `mockups/assets.json` (unmapped blob ID), delete a mapped brand file (mapped but missing), and move a canvas title note onto an artboard (layout overlap). Every negative case must fail in both themes and name the relevant failure. The working tree and committed PNGs are not modified. Missing dependencies are an error, not a skipped success.
 
 A successful run checks fallback-font export geometry and renderer failure handling only. It does not establish the private hosted artifact's exact font metrics, responsive layouts, keyboard/screen-reader behaviour, accessibility conformance, owner design approval or any founder UX outcome.

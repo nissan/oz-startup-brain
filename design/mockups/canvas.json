@@ -59,6 +59,13 @@
       "w": 1440,
       "h": 1320,
       "title": "SB5b · Service limits"
+    },
+    "Brand-Sheet.dc.html": {
+      "x": 0,
+      "y": 4700,
+      "w": 1440,
+      "h": 1480,
+      "title": "Brand sheet"
     }
   },
   "order": [
@@ -68,7 +75,8 @@
     "SB3-Ask.dc.html",
     "SB3-Transcript.dc.html",
     "SB3-Route.dc.html",
-    "SB3-Summary.dc.html"
+    "SB3-Summary.dc.html",
+    "Brand-Sheet.dc.html"
   ],
   "notes": {
     "t1": {
@@ -80,14 +88,14 @@
     },
     "t2": {
       "x": 0,
-      "y": 1740,
+      "y": 1900,
       "text": "SB5 — evidence limits (a) and service limits (b): what the paper sessions must test",
       "kind": "title1",
       "maxW": 2960
     },
     "t3": {
       "x": 0,
-      "y": 3300,
+      "y": 3460,
       "text": "SB3 at phone width — Jess dictates, corrects, and gets an honest coverage answer",
       "kind": "title1",
       "maxW": 1800
@@ -98,6 +106,13 @@
       "w": 300,
       "text": "Every program, round and source shown here is a fictional fixture. Nothing is a live result or a verified fact.",
       "fill": "orange"
+    },
+    "t4": {
+      "x": 0,
+      "y": 4560,
+      "text": "Brand — mark, wordmark lockups, favicon, OG image and usage rules",
+      "kind": "title1",
+      "maxW": 1440
     }
   },
   "designSystems": [
@@ -105,8 +120,8 @@
       "title": "Oz Startup Brain",
       "namespace": "oz-startup-brain",
       "artifact": "https://claude.ai/artifact/S3Nuo9DbM5XgTDkHdi5y9a",
-      "version": "1793905318-938d",
-      "copiedAt": "2026-11-05T19:30:00Z"
+      "version": "1793909088-3a56",
+      "copiedAt": "2026-11-05T20:05:00Z"
     }
   ]
 }
