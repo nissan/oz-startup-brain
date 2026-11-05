@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "review_note": "Codex review: checked all 16 parent scopes and 20 variant mappings against founder/API scenarios at main 19f1841. UI observations remain bounded; T10/T11/T12 retain context-only references, T06/T08/T16 exclude backend retention/isolation proof, and T15 distinguishes SC17 graph fallback from SC18 live-answer failure. No UX outcomes or human approval claimed.",
+  "features": {
+    "features/api-access.feature": "594241ee92437b23eab425c270aebc271ee039b83528eca03ca930fb520ddaef",
+    "features/founder-journeys.feature": "ee0cc16fa3c856213641dbfb08675f40ad395aacc82031bdbd4cc83dd056f3f2"
+  },
+  "task_scopes": {
+    "T01": "2feaf1074f051b0f295ebe6ac90331c91e318dd0a7992365c1e83d1d08029bb9",
+    "T02": "f7318f9db9af3091270cd598a2f75aec28ab29fea7853d7a3c0884247ca1f039",
+    "T03": "4b794d6c6c37bb7c3daff3a8bb23c99488dd04853a2bbc22ccee63fec583ddc5",
+    "T04": "642dc39dddba9dba5655bcba5b5977f29868627e149155b5e409933f6f2828ae",
+    "T05": "20352ef8821c6798a4e45b069647dfd1354229a131caeffbecb97ec6b092ec0c",
+    "T06": "7833cce3b2939d8b6932c291521eeeff78fca29f6d0fdcc118bc988acae7f483",
+    "T07": "25af5d916825d5a21ef88827fb3fa4b599d424dda79e2ae3f830c31d7435f480",
+    "T08": "b2d53aaefdb6503f3199fabd7c70da612b9fc2c2dd5b4fa7c1aa920709a2fd93",
+    "T09": "5dfdac3bc7e952e892f9a7128edb394814bb87430c50dd1659b7f2858d35ea72",
+    "T10": "7db959cd3a8190cf5dd8fb1f0d178efbf2c4f7fc6dd60d89b719c4fe73127fec",
+    "T11": "87cfe3291c4f6fa3cc8ebb3ecade354c0b3a0ae4d4ad3531b746dd15bb6d03b9",
+    "T12": "de33e7758dca334b2777937aae54ae739c65e75ae0ac57ef307666816aa295da",
+    "T13": "e903a1c71a06cad58f82dcedb806ff71373450c408a21128815bb579a2ffc0cb",
+    "T14": "926b758dc534db34e827cfd9120dce41583709a3942b633b92565ea6530842a8",
+    "T15": "2884136003c5d73479cde37bceda7e8a8f122d7c9c29908824fc417d08e73da3",
+    "T16": "231e4ce41030eaefe9f9b16d85bc5ddd020c1b0e9ccdfddcf8132541ccefa7ae"
+  }
+}
