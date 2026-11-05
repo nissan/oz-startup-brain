@@ -129,9 +129,20 @@ Feature: Evidence-backed Australian founder journeys
     Given a new graph export passes validation
     And the matching vector index fails to publish
     When release promotion is attempted
-    Then the release manifest's active version remains unchanged
-    And every graph query is parameterised on that active version
+    Then no new release manifest is written and the active pointer does not move
     And no answer combines the new graph with the old passage index
+
+  @SC24 @US08 @O4
+  Scenario: Pin every request to one immutable release across promotion and rollback
+    Given a request resolved release manifest M1 at its start
+    And it recorded M1's concrete Qdrant collection identifier and graph corpus version
+    When the active pointer is flipped to release M2 while the request is still running
+    Then the request completes retrieval, graph lookup and recovery entirely on M1
+    And M1's collection and graph data are retained for at least the maximum request deadline after the flip
+    And the response envelope reports corpus version M1
+    When the active pointer is rolled back from M2 to M1
+    Then requests that started on M2 complete on M2 and requests that start afterwards use M1
+    And no response cites vector evidence from one release and graph evidence from another
 
   @SC16 @US09 @O5
   Scenario: Compare the graph fairly
@@ -193,3 +204,14 @@ Feature: Evidence-backed Australian founder journeys
     Then the planner does not ask for the jurisdiction again
     And the answer states which options were excluded or left unresolved because jurisdiction is unknown
     And no jurisdiction is inferred from other context
+
+  @SC23 @US02 @O4
+  Scenario: Do not present a future-effective requirement as applicable today
+    Given a reviewed claim says Round A2 requires a security assessment
+    And the claim's effective interval starts after the request's as-of date
+    And the claim's source version was verified within the staleness window
+    When the founder asks what is required to apply to Round A2 today
+    Then the requirement is not listed among today's prerequisites or actions
+    And the citation may be shown as fresh with the qualifier "takes effect from [date]"
+    And a claim with no stated effective date carries the caveat "effective date not stated"
+    And no effective date is invented

@@ -32,13 +32,13 @@ Fictional names make the design discussable. Needs are hypotheses, and a person 
 | Story | Persona | Story / desired outcome | Use case | Acceptance scenarios | Storyboard |
 | --- | --- | --- | --- | --- | --- |
 | US01 | P1/P2/P3 | As a founder, I can describe my goal and correct the extracted context so the route fits my situation | UC01 Guided route | SC01, SC02, SC22 | SB1, SB2, SB3 |
-| US02 | P1/P2 | I can distinguish prerequisites from later opportunities so I avoid doing work in the wrong order | UC02 Dependency route | SC03, SC04 | SB1, SB2 |
+| US02 | P1/P2 | I can distinguish prerequisites from later opportunities so I avoid doing work in the wrong order | UC02 Dependency route | SC03, SC04, SC23 | SB1, SB2 |
 | US03 | All founders | I can inspect dated sources and limits so I know what to verify | UC03 Inspect evidence | SC05, SC06, SC07 | All |
 | US04 | P2/P3 | I can compare two options using consistent criteria and export my checklist | UC04 Compare and keep | SC08, SC09 | SB2, SB3 |
 | US05 | P3 | I can dictate, edit and cancel a question so speech recognition does not change my intent | UC05 Voice input | SC10, SC11 | SB3 |
 | US06 | P2/P4 | I can attach a simple diagram and confirm its interpretation before it influences the route | UC06 Visual input | SC12 | SB2 extension |
 | US07 | P4 | I can see which product facts are unknown and who can interpret them without receiving a false permission to operate | UC07 Classification questions | SC13 | SB4 |
-| US08 | P5 | I can accept, reject or revise extracted relationships with source evidence so the graph remains accountable | UC08 Review graph claims | SC14, SC15 | Curator flow |
+| US08 | P5 | I can accept, reject or revise extracted relationships with source evidence so the graph remains accountable | UC08 Review graph claims | SC14, SC15, SC24 | Curator flow |
 | US09 | P6 | I can compare retrieval approaches on identical inputs and inspect provenance | UC09 Reproduce benchmark | SC16 | Developer report |
 | US10 | All | I receive an honest fallback when a service or budget is unavailable | UC10 Degraded mode | SC17, SC18 | All error variants |
 | US11 | All | I can use equivalent text and keyboard controls for every core visual interaction | UC11 Accessible navigation | SC19 | All |

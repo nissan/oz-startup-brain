@@ -181,7 +181,7 @@ Correction: note that Phase 2 voice requires a transcription endpoint or provide
 
 **Round 2.** Re-review of the affected documents and cross-document consistency. Checks re-run: relative links and anchors (0 broken, including the new `#answer-time-currency-rule` anchor); scenario tags in both directions between `02-product.md` and the feature files; JSON/JSONL validity; SVG parse and re-render of the two edited boards. Two traceability defects were found and fixed in the same round (R2-01 below). One wording gap in the new session-hint contract was closed (R2-02). Reviewing my own edits is not independent validation; the owner should read the diff of `4292fb3` and the Round 2 commit with the same scepticism applied to the originals.
 
-**Round 3.** Not run. After Round 2 no Critical or High finding remains unresolved at the design level; the remaining High items are public-deployment prerequisites that need implementation or owner decisions, not further document edits. No findings were manufactured to fill the round.
+**Round 3 (external review by the repository owner).** After Round 2 I had recorded that no Critical or High finding remained at the design level. The owner then reviewed commit `5873e4c` on PR #2 (comment 6656764382, 5 November 2026) and raised four findings, two High and two Medium, all of which I accept as real defects in my Round 1 corrections. This is the independent validation that Rounds 1–2 could not provide. Corrections applied in the Round 3 commit; each is linked below (R3-01 to R3-04). No further rounds: the loop is at its three-round limit and the owner's findings are closed at the design level.
 
 | ID | Severity | Status after Round 2 | Evidence / reason |
 | --- | --- | --- | --- |
@@ -223,6 +223,10 @@ Correction: note that Phase 2 voice requires a transcription endpoint or provide
 | U-07 | Low | Resolved | Sentence in ADR deployment section |
 | R2-01 | Low | Resolved (Round 2) | Pre-existing: `API03` carried `@US13` only while the US14 row cites API02–API07; introduced in Round 1: API13 tagged `@US13` without appearing in the US13 row. Both fixed; both-direction tag check now passes |
 | R2-02 | Low | Resolved (Round 2) | ADR now states the BFF overwrites and never forwards a browser-supplied `X-Session-Hint` |
+| R3-01 | High (owner) | Resolved (Round 3) | Currency rule conflated freshness with applicability: `valid_from` was not checked, so a verified-but-future-effective requirement could be presented as applicable today. `04-data-and-ontology.md` now defines two independent tests (fresh at `as_of`; in effect at `as_of`), the future-effective qualifier "takes effect from [date]", the "effective date not stated" caveat, and a lower bound of `published_at` for null `valid_from`. SC23 added; a future-effective fixture is in the next task (criterion 5) |
+| R3-02 | High (owner) | Resolved (Round 3) | Lease expiry released a monetary reservation even if a provider call had already incurred charges. ADR 001 now separates the concurrency lease (reclaimed on expiry) from the monetary reservation (never released on expiry; settled exactly once, idempotently by reservation ID, either reconciled to a usage report or conservatively at the reserved amount; late reports credited at most once); `03` step 1 and the cancellation paragraph updated; API06 extended with crash-after-paid-start and late-report cases, with the expected remaining budget stated |
+| R3-03 | Medium (owner) | Resolved (Round 3) | A Qdrant alias switch plus a manifest update is not atomic across stores. `03` now pins each request to one immutable manifest (concrete collection identifier plus graph corpus version) resolved once at request start and carried through retrieval, graph lookup and recovery; old releases are retained for at least the maximum request deadline; partial failure writes no manifest; rollback flips the pointer. SC15 reworded; SC24 added for requests spanning promotion, partial failure and rollback |
+| R3-04 | Medium (owner) | Resolved (Round 3) | Slice 1A required API08–API10 (which need `apps/web`) and slice 1B required API12 (which needs the MCP adapter). `06-delivery.md` roadmap rows and slice descriptions now gate 1A on API01–API03, API13 (fixtures) and the standalone part of API10; API08, API09 and the website-dependent part of API10 on 1B; API12 on Stage 7. Deferred checks are listed as pending, not implied to pass. Section 11 below updated to match |
 | R2-03 | Low | Disputed / left for owner | `01-plan-assessment.md` asserts a federal + Queensland start; `06-delivery.md` (at the reviewed SHA and after edits) treats it as open. I did not change `01` because it reads as the owner's preference; the owner should either confirm it or soften `01` |
 
 ## 6. Traceability gaps
@@ -234,7 +238,7 @@ Outcome → persona → story → use case → scenario → storyboard was trace
 - SB3 renders "Compare options" and "Export my checklist" (SC08, SC09) but the storyboard table lists only SC01/02/05/10/11 for SB3; SB1 renders "Compare options" for a persona with nothing to compare (template artefact). Minor table update for the owner when SB5 is drawn.
 - US08 (curator) and US09 (developer) have scenarios SC14–SC16 and prose journeys but no board; the design says a console is unnecessary for the first demo, which is consistent.
 - O5 (reproducibility) depended on an unspecified trace format; now named in the contracts package but no schema exists yet.
-- No scenario yet covers the per-request usage ledger or the keep-alive/restore behaviour; both are listed in `06` implementation checks and should get scenarios when slice 1B is specified.
+- No scenario yet covers the keep-alive/restore behaviour; it is listed in `06` implementation checks and should get a scenario when slice 1B is specified. The usage ledger is now exercised indirectly by API06's settlement cases.
 - `article_html_sha256` and the 135-link count in the manifest could not be verified from this session (section 2).
 
 ## 7. Simulated storyboard observations
@@ -270,16 +274,17 @@ Prerequisites before any public deployment (slice 1B / Stage 6), each traceable 
 
 1. Durable credential registry and atomic budget store selected and implemented; API04–API07 passing (A-02).
 2. Session-hint sub-quotas implemented and API11/API14 passing, because one visitor can otherwise exhaust the site (S-01).
-3. Reservation leases and cancellation validated on the actual Vercel runtime (A-01).
+3. Concurrency leases, conservative monetary settlement and cancellation validated on the actual Vercel runtime (A-01, R3-02).
 4. Keep-alive policy and a rehearsed restore drill with recorded cost, because both free-tier stores pause and are eventually deleted (A-03).
 5. Acceptance of Vercel Hobby behaviour: no spend management, 30-day feature pause on overage, one-hour logs; usage ledger implemented (A-04).
 6. Rights gate on `/v1/sources` implemented and every served real source dispositioned (S-03, D-04).
 7. Model-provider spend cap and monthly ceiling set (open decision).
 8. No claim about O1–O3 until real participants have been observed; SB5 drawn before paper sessions (U-01).
+9. Per-request release pinning (SC24) demonstrated across a promotion and a rollback before the first corpus release is swapped under live traffic (R3-03).
 
 ## 10. Readiness verdict
 
-**Ready for the first slice (1A) with specified prerequisites.** The proposal is coherent, its security model is sound at the design level, and after the Round 1 corrections it is specified tightly enough to begin a fixture-mode NestJS slice today. It is **not** ready for public deployment: the eight prerequisites in section 9 stand between slice 1A and a live demo, and most of them are decisions or operational work rather than design gaps.
+**Ready for the first slice (1A) with specified prerequisites.** The proposal is coherent, its security model is sound at the design level, and after the Round 1 and Round 3 corrections it is specified tightly enough to begin a fixture-mode NestJS slice. The owner's Round 3 review found two High defects in my own Round 1 corrections (freshness versus applicability; monetary settlement on lease expiry), which is a reminder that the verdict rests on the owner's reading of the final diff, not on my re-review. It is **not** ready for public deployment: the nine prerequisites in section 9 stand between slice 1A and a live demo, and most of them are decisions or operational work rather than design gaps.
 
 Scope judgment: the design is appropriately ambitious for a learning project but carries a long tail (voice, visual input, MCP, OAuth, X discovery, curator tooling) that is correctly deferred. The corrections keep that tail deferred and make the head small enough to build.
 
@@ -290,13 +295,15 @@ Scope judgment: the design is appropriately ambitious for a learning project but
 Acceptance criteria (all checkable without credentials, in CI):
 
 1. `apps/api` boots locally; `GET /health/live` returns `200` with no authentication and no configuration details.
-2. `packages/contracts/query-envelope.schema.json` exists; the OpenAPI document generated from the NestJS DTOs is committed, and a CI check validates the envelope examples against the schema and fails on a removed required field (API10 in its simplest form).
+2. `packages/contracts/query-envelope.schema.json` exists; the OpenAPI document generated from the NestJS DTOs is committed, and a CI check validates the envelope examples against the schema and fails on a removed required field (the standalone part of API10; the website-dependent part waits for `apps/web` in slice 1B).
 3. Development credential registry loads from environment configuration: a key in `ozsb_<key_id>_<secret>` form with scopes `query:execute`, `sources:read`, `capabilities:read`; a missing, malformed or unknown key gets a generic `401`; a key holding only `sources:read` gets `403` on `POST /v1/queries`; tests assert that no retrieval call starts in either case (API02 for the `missing`/`invalid` rows, API03).
-4. A fictional fixture corpus of at least ten passages across at least three invented programs, including one round whose status passage is dated outside the 14-day window and one closed round, loaded into a local Qdrant container or an in-process vector adapter behind the retrieval interface; the fixture README states that every program, round and source is invented.
-5. `POST /v1/queries` with the early-stage founder fixture question returns `status: answer`, at most three actions, `as_of`, `corpus_version`, `retrieval_mode: dense`, and citation IDs that all resolve to fixture passages; the stale fixture's citation carries the computed label "Needs a current check" (D-01; SC05, SC06).
+4. A fictional fixture corpus of at least ten passages across at least three invented programs, including one round whose status passage is dated outside the 14-day window, one closed round, and one requirement whose `valid_from` is after the fixture `as_of` date, loaded into a local Qdrant container or an in-process vector adapter behind the retrieval interface; the fixture README states that every program, round and source is invented.
+5. `POST /v1/queries` with the early-stage founder fixture question returns `status: answer`, at most three actions, `as_of`, `corpus_version`, `retrieval_mode: dense`, and citation IDs that all resolve to fixture passages; the stale fixture's citation carries the computed label "Needs a current check"; the future-effective requirement is absent from today's prerequisites and, where cited, carries "takes effect from [date]" (D-01, R3-01; SC05, SC06, SC23).
 6. The closed-round fixture question returns no action that recommends applying to that round, and the condition is shown as unresolved (SC04, SC06 fixture).
 7. A question whose fixture pathways differ by jurisdiction returns `status: clarification` when jurisdiction is absent, and `status: answer` with a coverage warning when `confirmed_context.jurisdiction` is `unknown` (SC01, SC22).
 8. `GET /v1/capabilities` returns `credential_mode: development`, the corpus version and the coverage statement; `GET /v1/sources/{id}` returns metadata for every fixture source and an excerpt only for fixtures marked `cleared` (API13 with fixtures).
 9. A standalone fixture client (a script, not Next.js) runs criteria 3–8 over real HTTP against the running API and exits non-zero on any failure; CI runs it. This is the O7/API01 evidence in its smallest form.
+
+Explicitly pending after this task, not implied to pass: API04–API09, API11, API12, API14, the website-dependent part of API10, SC15/SC24 under live promotion, and all durable-store behaviour (slice 1B and later).
 
 Explicitly out of scope for this task: Next.js, Qdrant Cloud, Neo4j, durable stores, real sources, streaming, voice, MCP, and any model call (a model-backed generator may be added behind a flag with a key, but acceptance does not depend on it).

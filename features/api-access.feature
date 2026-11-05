@@ -53,7 +53,14 @@ Feature: API-first access through a designated NestJS backend
     Then at most one request starts paid execution
     And the other receives a documented 429 response
     When the started request is aborted by its client before completion
-    Then its reservation is reconciled and the allowance is not held beyond the lease
+    Then its concurrency slot is released no later than lease expiry
+    And its monetary reservation is reconciled to reported usage, or settled at the reserved amount if usage is unknown
+    When a request crashes after paid execution has started and no usage report arrives
+    Then the reservation is settled conservatively at the reserved amount exactly once
+    And the consumer's remaining budget equals its allowance less the full reserved amount
+    When a late usage report for that reservation arrives afterwards
+    Then it is recorded and credited at most once, only against a conservatively settled reservation
+    And no allowance is released twice for one reservation ID
 
   @API07 @US14 @O7 @TR01
   Scenario Outline: Fail closed when access controls cannot be checked
