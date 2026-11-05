@@ -87,3 +87,25 @@ Example using fictional fixtures: Program A → HAS_ROUND → Round A1 → HAS_R
 ## Freshness policy proposal
 
 Check imminent deadlines and open/paused status weekly, stable program descriptions monthly, and slower-changing ecosystem context quarterly. These are maintainer targets, not guarantees that a source cannot change sooner. Use event-triggered checks when a correction arrives. Stale or failed checks downgrade the answer to unverified status, with a direct official source link. No background automation is configured by this documentation.
+
+## Answer-time currency rule
+
+Check cadences describe when a maintainer intends to look; they do not decide what the founder sees. Currency is computed at answer time from the records, so a missed check cannot leave an old status presented as current:
+
+Two separate tests apply, because freshness (is the evidence recently verified?) and applicability (is the condition in effect at `as_of`?) are independent:
+
+- **Fresh at `as_of`:** `SourceVersion.last_verified_at` is not null and is within the staleness window for the source's class. A passage or claim that is not fresh is labelled "Needs a current check", the answer must link the official source, and a round status or deadline that is not fresh can never be stated as open or closed today (SC06).
+- **In effect at `as_of`:** the effective interval contains `as_of`: `valid_from` is null or not later than `as_of`, and `valid_to` is null or later than `as_of`. A claim whose `valid_from` is later than `as_of` is **future-effective**: it may be shown as a dated, fresh citation with the qualifier "takes effect from [date]", but it is never placed among today's prerequisites, requirements or actions, and never used to decide that something is required or available now (SC23). A claim whose `valid_to` is earlier than `as_of` is historical and is shown only as history.
+- **Unknown effective dates:** `valid_from` and `valid_to` are null when the source states no commencement or end date. A null `valid_from` is bounded below by `SourceVersion.published_at`: the claim cannot be in effect before the document that supports it existed. A null `valid_to` means open-ended. Where a source class normally states effective dates (legislation, program rounds, regulator guidance) and the claim has none, the citation carries the caveat "effective date not stated" and reviewers are asked to supply one; the claim is still usable if fresh. Dates are never invented to satisfy either test.
+- A claim enters the answer as current evidence only if it passes both tests; freshness alone is not applicability, and applicability alone is not freshness.
+- When two current claims disagree for the same subject and period, the label is "Sources disagree" and both are shown with dates (SC07).
+- Proposed staleness windows: round status, deadlines and intake criteria 14 days; program descriptions, operators and contacts 90 days; ecosystem reports and context 365 days. These are proposals to tune; shorter is safer.
+- A fetch timestamp is not a verification timestamp; `fetched_at` never substitutes for `last_verified_at` in this rule.
+
+Both tests are evaluated in the evidence-assembly step of the online workflow and recorded per citation in the response envelope (freshness label, effective interval and any qualifier), so website, API and future MCP clients show identical labels.
+
+## Expectations for prerequisite evidence
+
+Official sources seldom state that one milestone must precede another; the article does. Most reviewed `BEFORE` edges will therefore carry `assertion_kind: editorial` and surface as "Suggested next step", not as sourced requirements. This is correct behaviour, not a defect, but it bounds what the dependency view can show. The prerequisite map must display the assertion kind for every edge, and the Stage 3 edge audit must report sourced and editorial `BEFORE` edges separately.
+
+Entity resolution identifiers: key Organisation nodes by canonical domain plus ABN or ACN where the publisher states one; key Program nodes by operator plus canonical program URL; ProgramRound by program plus the round's own dates or identifier. Ambiguous merges go to review, as above.

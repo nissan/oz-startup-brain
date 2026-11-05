@@ -20,6 +20,7 @@ The product hypothesis is that a founder can identify a useful next action, unde
 10. [Research references](docs/references.md)
 11. [API-first NestJS requirements and MCP evolution](docs/decisions/001-api-first-nestjs.md)
 12. [API access acceptance scenarios](features/api-access.feature)
+13. [Independent design review, findings and readiness verdict](docs/reviews/claude-design-review.md)
 
 ## Starting evidence
 

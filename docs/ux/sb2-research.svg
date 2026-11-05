@@ -79,10 +79,10 @@
 <path d="M362 722 V833" stroke="#b3b2a8"/>
 <text x="81" y="770" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Stage: evidence</text>
 <text x="379" y="770" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Stage: unknown</text>
-<text x="81" y="798" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Conditions: view</text>
-<text x="379" y="798" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Conditions: view</text>
-<text x="81" y="826" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Checked: date</text>
-<text x="379" y="826" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Checked: date</text>
+<text x="81" y="798" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Conditions: open evidence</text>
+<text x="379" y="798" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Conditions: open evidence</text>
+<text x="81" y="826" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Source checked [date]</text>
+<text x="379" y="826" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#292d31" font-weight="normal">Source checked [date]</text>
 <rect x="79" y="846" width="280" height="48" rx="5" fill="#e8eddf" stroke="#71786b"/>
 <text x="91" y="876" font-family="DejaVu Sans, sans-serif" font-size="16" fill="#292d31" font-weight="bold">Inspect a condition</text>
 <rect x="372" y="846" width="280" height="48" rx="5" fill="#f8f6ee" stroke="#71786b"/>

@@ -22,7 +22,7 @@ Feature: API-first access through a designated NestJS backend
       | expired |
       | revoked |
 
-  @API03 @US13 @O7 @TR04
+  @API03 @US13 @US14 @O7 @TR04
   Scenario: Enforce operation scope
     Given a valid consumer key has only sources:read scope
     When it calls the query endpoint
@@ -48,13 +48,24 @@ Feature: API-first access through a designated NestJS backend
   @API06 @US14 @O7 @TR04
   Scenario: Enforce a budget across concurrent requests
     Given the consumer has allowance for one more query
+    And the durable atomic budget store is in use
     When two requests attempt to reserve allowance concurrently
     Then at most one request starts paid execution
     And the other receives a documented 429 response
+    When the started request is aborted by its client before completion
+    Then its concurrency slot is released no later than lease expiry
+    And its monetary reservation is reconciled to reported usage, or settled at the reserved amount if usage is unknown
+    When a request crashes after paid execution has started and no usage report arrives
+    Then the reservation is settled conservatively at the reserved amount exactly once
+    And the consumer's remaining budget equals its allowance less the full reserved amount
+    When a late usage report for that reservation arrives afterwards
+    Then it is recorded and credited at most once, only against a conservatively settled reservation
+    And no allowance is released twice for one reservation ID
 
   @API07 @US14 @O7 @TR01
   Scenario Outline: Fail closed when access controls cannot be checked
-    Given the "<store>" is unavailable
+    Given the durable stores are in use (not development credential mode)
+    And the "<store>" is unavailable
     When a paid query is submitted
     Then no model call is started
     And a documented temporary-unavailability response is returned
@@ -88,11 +99,34 @@ Feature: API-first access through a designated NestJS backend
 
   @API11 @US14 @O7 @TR02 @TR04
   Scenario: Apply website and backend limits together
-    Given a public visitor exhausts the BFF session allowance
+    Given a public visitor exhausts their session sub-quota within the website consumer
     When they request another paid answer through the website
-    Then the BFF rejects the request before contacting the API
+    Then the API rejects the request with a documented 429 before paid execution
+    And the BFF may reject earlier on best-effort checks but is not the authority
     And the API independently enforces the website consumer and global allowances
     And anonymous session hints cannot grant ownership of private resources
+
+  @API13 @US13 @US14 @O7 @TR01
+  Scenario Outline: Gate source excerpts on rights status
+    Given source S has rights status "<rights_status>"
+    When a client with sources:read scope requests GET /v1/sources/S
+    Then the response contains the public citation metadata and canonical URL
+    And the response "<excerpt_behaviour>"
+    And no snapshot location or raw archive path is returned
+    Examples:
+      | rights_status | excerpt_behaviour                               |
+      | cleared       | contains an excerpt no longer than the cap      |
+      | not_reviewed  | contains no excerpt text                        |
+      | rejected      | contains no excerpt text                        |
+
+  @API14 @US14 @O7 @TR02 @TR04
+  Scenario: Session hints are accepted only from the website consumer
+    Given the BFF forwards an HMAC session hint for an anonymous visitor
+    When the website consumer key submits a query with that hint
+    Then the API counts the request against both the consumer allowance and the hint's sub-quota
+    When an external consumer submits a query carrying any session hint header
+    Then the API ignores the header and applies only that consumer's allowance
+    And a hint never identifies a person or unlocks a private resource
 
   @API12 @US15 @O7 @TR06
   Scenario: Preserve policy through a future MCP adapter

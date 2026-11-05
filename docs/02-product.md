@@ -31,31 +31,31 @@ Fictional names make the design discussable. Needs are hypotheses, and a person 
 
 | Story | Persona | Story / desired outcome | Use case | Acceptance scenarios | Storyboard |
 | --- | --- | --- | --- | --- | --- |
-| US01 | P1/P2/P3 | As a founder, I can describe my goal and correct the extracted context so the route fits my situation | UC01 Guided route | SC01, SC02 | SB1, SB2, SB3 |
-| US02 | P1/P2 | I can distinguish prerequisites from later opportunities so I avoid doing work in the wrong order | UC02 Dependency route | SC03, SC04 | SB1, SB2 |
+| US01 | P1/P2/P3 | As a founder, I can describe my goal and correct the extracted context so the route fits my situation | UC01 Guided route | SC01, SC02, SC22 | SB1, SB2, SB3 |
+| US02 | P1/P2 | I can distinguish prerequisites from later opportunities so I avoid doing work in the wrong order | UC02 Dependency route | SC03, SC04, SC23 | SB1, SB2 |
 | US03 | All founders | I can inspect dated sources and limits so I know what to verify | UC03 Inspect evidence | SC05, SC06, SC07 | All |
 | US04 | P2/P3 | I can compare two options using consistent criteria and export my checklist | UC04 Compare and keep | SC08, SC09 | SB2, SB3 |
 | US05 | P3 | I can dictate, edit and cancel a question so speech recognition does not change my intent | UC05 Voice input | SC10, SC11 | SB3 |
 | US06 | P2/P4 | I can attach a simple diagram and confirm its interpretation before it influences the route | UC06 Visual input | SC12 | SB2 extension |
 | US07 | P4 | I can see which product facts are unknown and who can interpret them without receiving a false permission to operate | UC07 Classification questions | SC13 | SB4 |
-| US08 | P5 | I can accept, reject or revise extracted relationships with source evidence so the graph remains accountable | UC08 Review graph claims | SC14, SC15 | Curator flow |
+| US08 | P5 | I can accept, reject or revise extracted relationships with source evidence so the graph remains accountable | UC08 Review graph claims | SC14, SC15, SC24 | Curator flow |
 | US09 | P6 | I can compare retrieval approaches on identical inputs and inspect provenance | UC09 Reproduce benchmark | SC16 | Developer report |
 | US10 | All | I receive an honest fallback when a service or budget is unavailable | UC10 Degraded mode | SC17, SC18 | All error variants |
 | US11 | All | I can use equivalent text and keyboard controls for every core visual interaction | UC11 Accessible navigation | SC19 | All |
 | US12 | All | My private context does not become shared knowledge and untrusted documents cannot redirect the system | UC12 Data boundary | SC20, SC21 | All |
-| US13 | P6 | I can call a documented API with my own credentials so I can build another interface | UC13 Independent API consumer | API01–API03, API08–API10 | Developer integration flow |
-| US14 | P5/P6 | I can scope, rotate and revoke credentials and cap each consumer so access remains controllable | UC14 Manage consumer access | API02–API07, API11 | Operator flow |
+| US13 | P6 | I can call a documented API with my own credentials so I can build another interface | UC13 Independent API consumer | API01–API03, API08–API10, API13 | Developer integration flow |
+| US14 | Operator (the owner for the hobby deployment; not a curator role) / P6 | I can scope, rotate and revoke credentials and cap each consumer so access remains controllable | UC14 Manage consumer access | API02–API07, API11, API13, API14 | Operator flow |
 | US15 | P6 | I can expose the same capabilities to an agent without losing evidence or access controls | UC15 MCP access | API12 | Future agent flow |
 
 ## Main use-case flows
 
 ### UC01: Guided route
 
-Trigger: the founder has a question or selects a starter task. Preconditions: the app displays its current coverage and corpus date. Founder enters a goal; the app proposes editable context chips. It asks only the missing question that would materially change the result. Retrieval returns up to three actions with prerequisites and evidence. The founder inspects a source, edits context or exports a checklist. Success means the founder can state the next action and what remains uncertain. Missing evidence leads to a clearly labelled gap and a source or human referral, not a guessed answer.
+Trigger: the founder has a question or selects a starter task. Preconditions: the app displays its current coverage and corpus date. Founder enters a goal; the app proposes editable context chips. It asks only the missing question that would materially change the result, and it asks it once: a chip the founder deliberately sets to Unknown is never asked again; the route instead states which options were excluded or left unresolved because of it (SC22). Retrieval returns up to three actions with prerequisites and evidence. The founder inspects a source, edits context or exports a checklist. Success means the founder can state the next action and what remains uncertain. Missing evidence leads to a clearly labelled gap and a source or human referral, not a guessed answer.
 
 ### UC02 / UC04: Dependencies and comparison
 
-The founder selects two options or a milestone. The app renders a common comparison table and a small prerequisite sequence. Every factual cell can open a source; unknown cells remain unknown. The user can mark a personal task complete without changing the corpus's claim about that task. Export captures the question, user-confirmed context, corpus version, dates, citations and unresolved conditions.
+The founder selects two options or a milestone. The app renders a common comparison table and a small prerequisite sequence. Every factual cell can open a source; unknown cells remain unknown. Each prerequisite edge shows whether it is a sourced requirement or an editorial suggestion. The user can mark a personal task complete without changing the corpus's claim about that task. Export captures the question, user-confirmed context, corpus version, dates, citations and unresolved conditions. Export is a client-side rendering of the response envelope; there is no export endpoint, so the envelope must carry every field the export needs (see [ADR 001](decisions/001-api-first-nestjs.md)).
 
 ### UC05 / UC06: Alternate input
 
