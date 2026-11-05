@@ -1,0 +1,31 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+  html,body{margin:0;background:var(--paper);}
+  .cover{position:relative;width:960px;height:288px;overflow:hidden;background:var(--paper);}
+  .cover svg{position:absolute;inset:0;width:960px;height:288px;}
+  .ironbark{fill:var(--ironbark)} .ochre{fill:var(--ochre)} .sage{fill:var(--sage)} .plum{fill:var(--plum)}
+  .rule{stroke:var(--hairline);stroke-width:1;fill:none}
+  .tile{rx:14px}
+  .name{position:absolute;left:48px;bottom:58px;width:440px;margin:0;font-family:var(--font-display);font-weight:600;font-size:76px;line-height:.95;color:var(--ink);font-variation-settings:"opsz" 72;}
+  .tag{position:absolute;left:48px;bottom:30px;width:440px;margin:0;font-family:var(--font-sans);font-size:14px;line-height:20px;color:var(--ink-muted);}
+</style></head>
+<body><div class="cover">
+<!--
+blocks: ironbark 176×288 slab (bleeds top and bottom), ochre 112×112, sage 208×112 (bleeds right), plum 80×112; corners radius-lg (14px), sides multiples of space-4/space-12
+arrangement: one tall slab with satellites stacked to its right, right of x=560, nothing crossing the name
+pattern: the editorial row — a few hairline rules at space-12 pitch crossing the blocks, because the storyboards are ruled notebook paper and the system says "borders, not shadows"
+scales: hairline token at its own strength, pitch space-12 (48px), gaps space-4 (16px), radius-lg
+-->
+<svg viewBox="0 0 960 288" aria-hidden="true">
+  <rect class="ironbark tile" x="560" y="-14" width="176" height="316"/>
+  <rect class="ochre tile" x="752" y="48" width="112" height="112"/>
+  <rect class="plum tile" x="880" y="48" width="80" height="112"/>
+  <rect class="sage tile" x="752" y="176" width="224" height="112"/>
+  <path class="rule" d="M560 72 H960 M560 120 H960 M560 168 H960 M560 216 H960 M560 264 H960"/>
+</svg>
+<h1 class="name">Oz Startup<br>Brain</h1>
+<p class="tag">Evidence-backed next steps for Australian founders.</p>
+</div></body></html>

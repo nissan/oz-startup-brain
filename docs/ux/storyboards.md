@@ -43,12 +43,9 @@ Also required before testing dictation: a phone-width variant of SB3, because th
 
 ### Design system and higher-fidelity mock-ups
 
-Both SB5 and the phone-width SB3 now exist as Claude Design artifacts built from the project's design system, alongside a desktop journey-workspace mock-up. They are owner-private until shared from the artifact's Share menu:
+Both SB5 and the phone-width SB3 now exist as Claude Design artifacts built from the project's design system, alongside a desktop journey-workspace mock-up. The editable originals are owner-private; versioned exports that any reviewer can inspect are committed under [`design/`](../../design/system/HANDOFF.md): the design-system sources and PNG renders ([system](../../design/system/HANDOFF.md)) and the artboard sources and renders ([mock-ups](../../design/mockups/HANDOFF.md)), each stamped with the artifact version and export date. Owner approval of both is pending.
 
-- Design system "Oz Startup Brain" (tokens in light and dark themes, type scale, 14 components with live previews and guidelines, cover): https://claude.ai/artifact/S3Nuo9DbM5XgTDkHdi5y9a
-- Mock-ups canvas (journey workspace page, SB5 limits board with six states, four phone screens for SB3): https://claude.ai/artifact/Dh4MHqWBNHXCYJRzAudKfc
-
-The five evidence-state words are implemented once, as the `EvidenceLabel` component, so the storyboards, the website and the API's export share the same labels. The paper SVGs in this folder remain the low-fidelity versions for printed sessions; the canvas is the source for anything higher fidelity.
+The five evidence-state words are defined once, in the `EvidenceLabel` design component, which is the proposed implementation contract for the website, the API's export and these boards; no application code consumes it yet, so label parity across surfaces is a Stage 4 acceptance check rather than an established property. Contrast was computed from the tokens and the boards were rendered in both themes; keyboard operation and WCAG conformance remain pending validation with real users. The paper SVGs in this folder remain the low-fidelity versions for printed sessions.
 
 ## Curator and developer journeys
 
