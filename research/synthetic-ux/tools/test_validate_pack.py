@@ -81,6 +81,68 @@ class PackValidationTests(unittest.TestCase):
         path.write_text('{')
         self.assert_failure(self.run_validator(), 'input:', 'scenario-review.json')
 
+    def test_comment_and_whitespace_only_feature_edits_do_not_require_review(self):
+        path = self.repo / 'features/api-access.feature'
+        text = path.read_text()
+        lines = text.splitlines()
+        lines.insert(1, '# reviewer note: formatting only')
+        lines[3] = lines[3] + '   '
+        path.write_text('\n'.join(lines) + '\n\n\n')
+        result = self.run_validator()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_one_word_background_change_still_requires_review(self):
+        path = self.repo / 'features/founder-journeys.feature'
+        text = path.read_text()
+        self.assertIn('Background:', text)
+        head, tail = text.split('Background:', 1)
+        tail = tail.replace('coverage statement', 'coverage claim', 1)
+        path.write_text(head + 'Background:' + tail)
+        self.assert_failure(self.run_validator(), 'scenario-review', 'features/founder-journeys.feature')
+
+    def test_table_cell_inner_whitespace_still_counts(self):
+        path = self.repo / 'features/api-access.feature'
+        text = path.read_text()
+        self.assertIn('| "lookup"       | 200         | explicit         |', text)
+        path.write_text(text.replace('| "lookup"       | 200         | explicit         |', '| "lookup"       | 200         | explicit  |', 1))
+        self.assert_failure(self.run_validator(), 'scenario-review', 'features/api-access.feature')
+
+    def normalised(self, text):
+        # The normaliser itself, imported from the validator module (no side effects on import).
+        import importlib.util
+        spec = importlib.util.spec_from_file_location('validate_pack', self.repo / PACK / 'tools/validate_pack.py')
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.normalised_feature(text)
+
+    DOCSTRING_FEATURE = (
+        'Feature: docstrings\n'
+        '  Scenario: payload\n'
+        '    Given this source text:\n'
+        '      {open}\n'
+        '      {payload}\n'
+        '      {close}\n'
+        '    Then it is kept\n'
+    )
+
+    def test_docstring_payload_changes_change_the_hash(self):
+        for opener, closer in (('"""', '"""'), ('"""markdown', '"""'), ('```', '```')):
+            base = self.DOCSTRING_FEATURE.format(open=opener, close=closer, payload='# retain this source warning\n      text\n\n\n      next')
+            variants = {
+                'hash-prefixed payload line': base.replace('# retain this source warning', '# different instruction'),
+                'repeated blank lines in payload': base.replace('text\n\n\n      next', 'text\n\n      next'),
+                'trailing payload whitespace': base.replace('      text\n', '      text   \n'),
+            }
+            reference = self.normalised(base)
+            for label, variant in variants.items():
+                self.assertNotEqual(reference, self.normalised(variant), f'{opener}: {label} must change the hash')
+
+    def test_formatting_outside_docstrings_is_still_ignored(self):
+        base = self.DOCSTRING_FEATURE.format(open='"""', close='"""', payload='# keep\n      text').replace('  Scenario: payload\n', '  Scenario: payload\n\n')
+        reformatted = '# file comment\n' + base.replace('  Scenario: payload\n\n', '  Scenario: payload   \n\n\n\n')
+        self.assertEqual(self.normalised(base), self.normalised(reformatted))
+        self.assertIn('# keep', self.normalised(base))
+
 
 if __name__ == '__main__':
     unittest.main()
