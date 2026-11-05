@@ -4,11 +4,13 @@
 
 1. Pin the target commit, deployment URL/build identity, interface version, corpus/fixture version and test clock. Verify the deployment corresponds to that commit; if this cannot be verified, record `build_match: unverified` and do not attribute findings to a PR as confirmed regressions.
 2. Record the declared release scope and available capabilities. Read the relevant repository instructions. Use the installed browser-control integration and its documented APIs; do not invent selectors, endpoints or controls. No browser session is needed merely to prepare this pack.
-3. Map the selected fixture from [the evaluator guide](evaluator-guide.md) to actual setup. Default to local/preview fixtures with paid calls disabled. Failure injection, data resets and configured spend limits are facilitator setup, outside the actor's role. Avoid live-account mutations and third-party form submissions.
+3. Map the selected fixture from [the evaluator guide](facilitator/evaluator-guide.md) and [capability registry](facilitator/capabilities.json) to actual setup. Public previews may show fixed fictional states, but configurable clocks/fault injection are restricted to local development credential mode, never a public deployment. Failure injection, data resets and configured spend limits are facilitator setup, outside the actor's role. Avoid live-account mutations and third-party form submissions.
 4. Use one persona per isolated browser context. Record browser/version, CSS viewport, zoom, input mode, session reset and network settings. A second tab shares storage and is not isolation. If the integration cannot isolate or reset safely, record the limitation and block the affected task. Never clear an unrelated user's browser state.
-5. Start from the normal landing page/docs entry, not a hidden deep link. Each task starts clean unless its recorded setup explicitly seeds a prior answer. Present the profile and initial brief only; reveal `follow_up` after the initial attempt. The actor must not see expected paths, source code, old findings or the evaluator's answer key before its first attempt.
+5. Start from the normal landing page/docs entry, not a hidden deep link. Each task starts clean unless its recorded setup explicitly seeds a prior answer. Present only the assigned `actor/personas.json` record and initial `actor/tasks.json` brief; reveal `follow_up` after the initial attempt. The actor must not read this runbook, facilitator files, root `personas.md`, source code, old findings or expected outcomes before its first attempt. Record any early exposure, including follow-up wording.
 
-If a single agent serves as actor and evaluator, explicitly label it a **primed inspection** once it has seen the oracle. Do not claim independence. Separate roles are an optional execution arrangement, not permission to spawn agents automatically.
+If the actor saw the oracle before acting, explicitly label it a **primed inspection**. Reading the oracle after freezing a first-pass trace does not retroactively prime that trace, but subsequent attempts in that context are exposed. Role labels do not establish independence. Separate contexts are optional, not permission to spawn agents automatically.
+
+Preflight: for each named variant in `facilitator/tasks.json`, record capabilities as `present`, `absent` or `unknown` with evidence, and separately record whether each is in declared release scope. Apply the registry's `when_absent` rules. Unknown scope blocks the environment; explicitly deferred product features use `deferred_not_implemented`; a promised product feature that is absent is a failure. Missing runner facilities are environment blocks; missing controls/assets use `blocked_pending_test_controls`/`blocked_pending_fixture`. Readiness is separate from executed observations. Count attempted only after an action is recorded; count preflight failures separately. Never turn a skipped variant into a pass.
 
 ## Run and collect evidence
 
@@ -20,6 +22,7 @@ If a single agent serves as actor and evaluator, explicitly label it a **primed 
 - For speech, use an explicitly prepared synthetic audio/transcript fixture and record whether recognition or only its UI was exercised. If the tool cannot play/record audio, mark those parts unverified. Never fabricate heard speech or a successful microphone test.
 - For images, use the authored synthetic drawing specified by F08. Upload only to the authorised test app. A rendered preview alone cannot prove that unconfirmed extraction was excluded from backend decisions.
 - Record only synthetic data and redacted evidence. Never copy credentials, authenticated URLs or actual personal data into screenshots, logs, PRs or the public repository. If an unexpected disclosure occurs, stop that path and preserve a redacted reproduction record.
+- `SYNTH-MORGAN-ONLY-042` is deliberately fictional. Its appearance in another isolated session is a finding involving synthetic test data, never evidence that real user data was disclosed.
 - At the end ask the actor to explain its next action and uncertainty using only what it saw. Store this under hypothetical interpretation, separate from the observed trace. A fluent explanation does not validate the underlying source claim.
 
 ## Record one run
@@ -40,7 +43,7 @@ Manifest template (null means unknown/not yet recorded):
   "run_id": null,
   "status": "not_run",
   "synthetic": true,
-  "pack_version": "0.1",
+  "pack_version": "0.2",
   "pack_commit": null,
   "target_commit": null,
   "deployment_url": null,
@@ -49,6 +52,8 @@ Manifest template (null means unknown/not yet recorded):
   "interface_mode": null,
   "declared_release_scope": [],
   "available_capabilities": [],
+  "capability_evidence": {},
+  "preflight_outcomes": {},
   "fixture_mapping": {},
   "corpus_version": null,
   "as_of": null,
@@ -83,7 +88,7 @@ Quote CSV cells with commas/newlines using a CSV writer. Use finding states `ope
 
 ## Review and regression loop
 
-Summarise planned, attempted, completed, assisted, failed, environment-blocked and deferred variants with explicit denominators. Keep design inspections separate from executed variants. Do not pool browser, artifact and API completion or report fictional personas as participants. No satisfaction/retention/adoption percentage is justified by this exercise.
+Summarise planned, preflight-blocked, attempted, completed, assisted, failed and deferred variants with explicit denominators. `not_run`, `blocked_pending_test_controls` and `blocked_pending_fixture` never count as attempted without recorded actions. Use the variant's `observes` and parent `observation_scope`; `related` contributes no observed coverage. These are UI subsets, not whole Gherkin scenario passes. Keep design inspections separate from executed variants. Do not pool browser, artifact and API completion or report fictional personas as participants. No satisfaction/retention/adoption percentage is justified by this exercise.
 
 Before changes, finish the current run and preserve its artifacts. Propose the smallest fixes with acceptance checks. After a reviewable change, rerun the failing variants and adjacent core text/evidence/correction paths on the new pinned build. Keep fixture version, task wording, viewport, input method and runner settings constant where possible; record every difference. Repeated stochastic runs provide repeated observations, not independent human samples.
 
