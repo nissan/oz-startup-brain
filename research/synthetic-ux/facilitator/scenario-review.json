@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "review_note": "Codex review: checked all 16 parent scopes and 20 variant mappings against founder/API scenarios at main 19f1841. UI observations remain bounded; T10/T11/T12 retain context-only references, T06/T08/T16 exclude backend retention/isolation proof, and T15 distinguishes SC17 graph fallback from SC18 live-answer failure. No UX outcomes or human approval claimed.",
+  "review_note": "PR16 feedback revision: reviewed the API-access diff; API01-API14 are unchanged and API15 adds task_intent HTTP/schema/client/BFF requirements only. Rechecked all 16 task observation scopes: no existing browser task proves API15, and T11 remains documentation-only with no observes claims. DEC01-DEC11 remain separate component/evaluation specifications, not browser coverage. No task mappings, actor material or UX outcomes changed.",
   "features": {
-    "features/api-access.feature": "594241ee92437b23eab425c270aebc271ee039b83528eca03ca930fb520ddaef",
+    "features/api-access.feature": "df836c4573a5de99aed3971bdde53751b5b970a12a5c0456c06ea8f9dcef93ae",
     "features/founder-journeys.feature": "ee0cc16fa3c856213641dbfb08675f40ad395aacc82031bdbd4cc83dd056f3f2"
   },
   "task_scopes": {

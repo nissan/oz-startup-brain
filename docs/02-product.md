@@ -46,6 +46,7 @@ Fictional names make the design discussable. Needs are hypotheses, and a person 
 | US13 | P6 | I can call a documented API with my own credentials so I can build another interface | UC13 Independent API consumer | API01–API03, API08–API10, API13 | Developer integration flow |
 | US14 | Operator (the owner for the hobby deployment; not a curator role) / P6 | I can scope, rotate and revoke credentials and cap each consumer so access remains controllable | UC14 Manage consumer access | API02–API07, API11, API13, API14 | Operator flow |
 | US15 | P6 | I can expose the same capabilities to an agent without losing evidence or access controls | UC15 MCP access | API12 | Future agent flow |
+| US16 | P6 / operator | I can compare bounded decision providers and retain a dependable fallback so any routing benefit is measured and reversible | UC16 Decision experiment | DEC01–DEC11 ([component specifications](../evaluation/decisions/decision-routing.feature)); API15 (HTTP contract) | Developer report; existing founder screens |
 
 ## Main use-case flows
 
@@ -73,3 +74,7 @@ Priya runs the labelled synthetic fixture smoke tests without credentials, then 
 ### UC13–UC15: API and agent reuse
 
 Priya receives her own scoped key through a secure channel, reads the OpenAPI contract and submits a query without loading Next.js. Her client receives the same evidence, dates and coverage contract as the website. Invalid keys, missing scopes and exhausted limits have documented error responses. Alex can rotate or revoke one consumer without affecting others. A later MCP client discovers typed tools and receives equivalent results through the same policy/application services. See [ADR 001](decisions/001-api-first-nestjs.md) and [API scenarios](../features/api-access.feature).
+
+### UC16: Reproduce and control a decision experiment
+
+Priya runs credential-free task-intent fixtures, then an authorised offline comparison of rules, structured generation and decision-model candidates. The report separates classification errors, calibration, fallback coverage and end-to-end answer quality/cost. The operator can keep routing off or approve a bounded canary based on a frozen report/policy; a decision cannot override confirmed founder context or backend controls. Existing P1–P4 flows and response cards remain unchanged. See [ADR 002](decisions/002-decision-models.md). DEC scenarios are component/evaluation specifications, not additional browser coverage assigned to the synthetic persona pack.
