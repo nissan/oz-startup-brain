@@ -34,10 +34,12 @@ These are prerequisites, not new roadmap gates. A declared API-only release must
 | --- | --- | --- |
 | Static SVG/paper boards (0/0a) | Inspect language, hierarchy and expected affordances | [Registry](facilitator/capabilities.json): design inspection only; no runtime capabilities proven |
 | Fixture-only NestJS slice 1A | P6 documentation inspection and separately authorised HTTP fixture checks | [Registry](facilitator/capabilities.json): `api_quickstart`, `api_contract`; no founder browser completion |
-| Founder UI (1B initial surface; Stage 4 full interface) | Core text tasks; controlled fixture states that exist | [Registry](facilitator/capabilities.json): `founder_text`, `context_edit`, `evidence_panel`, `comparison` etc.; record mock/live backing |
+| Founder UI (1A-UI local fixtures; 1B live; Stage 4 full interface) | Core text tasks; controlled fixture states that exist | [Registry](facilitator/capabilities.json): `founder_text`, `context_edit`, `evidence_panel`, `comparison` etc.; record mock/live backing |
 | Graph/curator artifacts (Stage 3; baseline reports Stage 2) | P5/P6 artifact tasks | [Registry](facilitator/capabilities.json): `repository_review_artifact`, `evaluation_report`; no admin console required |
 | Voice/visual experiment (Stage 5) | T06 and T08 with explicit supported-input setup | [Registry](facilitator/capabilities.json): `voice_input`, `transcript_edit`, `text_fallback`, `visual_upload`, `extraction_confirmation` |
 | Later MCP adapter (Stage 7) | Separate policy/interoperability tests | [Registry](facilitator/capabilities.json): deliberately no MCP capability or pass assigned by this pack |
+
+The [early fixture UI and first run](../../docs/delivery/iterations/iteration-01.md) bring supported text tasks forward. Registry stage labels remain the broader planned delivery stages; its existing earlier-prototype rule requires actual presence evidence before a task can run. This planning change does not mark any capability or task as passed. T04 remains deferred until comparison/export exists.
 
 The registry lists each of the 22 capability IDs once, its planned delivery stage, presence evidence, contract mapping and absent-state handling. These are planning identifiers, not invented fields in `GET /v1/capabilities`. Bind them to actual implementation evidence in the run manifest. A stage label alone never proves a capability exists.
 

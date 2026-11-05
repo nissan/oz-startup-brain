@@ -1,0 +1,45 @@
+name: UX finding
+description: Reproducible observed friction with a bounded fix and retest.
+title: "[UX] "
+body:
+  - type: textarea
+    id: delivery
+    attributes:
+      label: Delivery
+      value: |
+        Status: Backlog
+        Priority: Untriaged
+        Iteration: Unscheduled
+        Accountable owner/coordinator:
+        Role / agent / model / run: unclaimed
+        Dependencies:
+    validations:
+      required: true
+  - type: textarea
+    id: conditions
+    attributes:
+      label: Reproduction conditions
+      description: Persona/task/variant, synthetic or human, primed or unprimed, model/run, exact commit/build, fixture/clock, viewport/theme/browser, input method and actual zoom.
+    validations:
+      required: true
+  - type: textarea
+    id: observation
+    attributes:
+      label: Actions and observed result
+      description: Reproduction steps and evidence links; separate observation from inferred cause or hypothetical persona reaction. Do not upload secrets or private participant data.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact and requested change
+      description: Severity with rationale, affected outcome, related/duplicate issue and bounded proposed change. Use the persona evaluator guide's severity definitions when applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: retest
+    attributes:
+      label: Acceptance and retest
+      description: Observable success, affected and adjacent tasks, required visual reinspection, independent verifier and remaining evidence limits.
+    validations:
+      required: true

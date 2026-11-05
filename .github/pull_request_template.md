@@ -2,9 +2,19 @@
 
 What problem does this solve, and what can the user do or understand afterwards?
 
+## Delivery and handoff
+
+- Issue and iteration links; acceptance criteria covered and explicitly remaining:
+- Role / agent / model / run ID; confirmed builder and branch:
+- Base/head SHA and build or artifact identity:
+- Dependencies, linked follow-ups and next reviewer/verifier:
+- Use `Refs #N` for partial work or pending post-merge verification. Do not auto-close before the issue's completion evidence exists.
+
 ## Validation
 
 Checks actually run, results and material limitations. Separate functional, visual and usability evidence.
+
+Record the reviewed head and whether the reviewer/verifier used an independent context. Synthetic UX reports must identify task/variant, fixture, runner and priming; passing CI is not a user study. Recheck affected evidence after new commits. Merge authorization and owner design approval are separate records.
 
 ## Visual polish
 

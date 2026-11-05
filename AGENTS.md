@@ -2,6 +2,12 @@
 
 These instructions apply throughout this repository, including work by OpenAI/Codex, Claude and future agents. Read the relevant product, architecture and delivery documents before changing their implementation. More specific instructions must preserve the visual-quality requirement below.
 
+## Shared work and actor isolation
+
+Builders, planners, reviewers and verifiers start at [the delivery home](docs/delivery/README.md) and follow [the agent workflow](docs/delivery/agent-workflow.md). Claim one Ready issue with a coordinator-confirmed role/run/branch; keep dependencies, changes, evidence and next handoffs visible in GitHub. The iteration permits at most two active implementation issues. A comment or suggested agent name does not automatically dispatch work. Review the exact PR head; do not self-certify independent review, merge authority or owner approval.
+
+**Synthetic UX actors are a separate role.** They receive only their assigned actor profile/task brief, starting URL and input constraints. Do not read facilitator documents, expected outcomes, issue acceptance criteria or the linked delivery workflow while acting. Facilitators must use fresh isolated actor contexts; a context already exposed to expectations must be labelled a primed inspection. Builders and reviewers may read the fuller pack for their own roles.
+
 ## Visual quality is a completion requirement
 
 Owner direction, 6 November 2026: visual presentation is as important as underlying functionality. The product must look exceptionally polished and visually impressive from its first frontend delivery. Approach work with both senior engineering judgement and experienced art direction. Do not rush visual design or settle for basic graphics because a feature works.
@@ -19,4 +25,4 @@ Preserve accessibility, truthful evidence states and usable performance while po
 
 ## Checks to run
 
-Run the applicable checks documented in the [persona-pack tooling guide](research/synthetic-ux/tools/README.md) and [design tooling guide](design/tools/README.md), including their regression suites; do not record a scenario review automatically to make validation pass. PR #19 supplies the CI validator, token-consistency and renderer checks once merged. The accessibility checker from PR #20 must satisfy its review findings before being treated as keyboard/accessibility-tree evidence or added as that CI gate. Passing these checks does not replace the visual-polish pass.
+Run the applicable checks documented in the [persona-pack tooling guide](research/synthetic-ux/tools/README.md) and [design tooling guide](design/tools/README.md), including their regression suites; do not record a scenario review automatically to make validation pass. CI runs the persona-pack validator and regression tests, token-consistency checks and renderer regression tests on every PR. The accessibility checker is not a CI gate until its review findings are closed and gate integration is explicitly reviewed; its keyboard/accessibility-tree evidence must state any unresolved review limitations. Passing these checks does not replace the visual-polish pass.

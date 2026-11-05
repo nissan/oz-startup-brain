@@ -1,0 +1,37 @@
+name: Delivery task
+description: A bounded outcome ready for planner, builder, reviewer or verifier handoff.
+title: "[Delivery] "
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome and scope
+      description: What can the user do afterwards? Include explicit exclusions.
+    validations:
+      required: true
+  - type: textarea
+    id: delivery
+    attributes:
+      label: Delivery
+      value: |
+        Status: Backlog
+        Priority: P1
+        Iteration: Unscheduled
+        Accountable owner/coordinator:
+        Role / agent / model / run: unclaimed
+        Confirmed branch:
+        Dependencies / blockers:
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance and evidence
+      description: Observable criteria, scenario IDs, persona/task variants, checks and visual gate (or N/A reason). State which approvals remain required.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: Context and handoff
+      description: Link the iteration, decisions, related issues/PRs and evidence. Facilitator material must never be placed in an actor's unprimed task packet.
