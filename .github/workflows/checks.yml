@@ -1,0 +1,50 @@
+# Repository checks (#14). These are specification and design-export checks only: they establish
+# no founder UX outcome, no hosted-artifact font metrics, no accessibility conformance and no owner
+# design approval. They never record a scenario review; a `scenario-review` failure is a review
+# task for a person (see research/synthetic-ux/tools/README.md).
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  persona-pack:
+    name: Synthetic persona pack validator and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate the pack (read-only; never --record-scenario-review)
+        run: python research/synthetic-ux/tools/validate_pack.py
+      - name: Validator regression tests
+        run: python -m unittest discover -s research/synthetic-ux/tools -p 'test_*.py' -v
+
+  design-exports:
+    name: Design token and renderer checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: tokens.css matches tokens.json
+        run: python design/tools/tokens_css.py --check
+      - name: Install the documented renderer dependencies
+        run: |
+          pip install playwright==1.51.0
+          python -m playwright install --with-deps chromium
+          npm install --prefix "$RUNNER_TEMP/osb-render" react@18.3.1 react-dom@18.3.1
+          echo "CHROME=$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')" >> "$GITHUB_ENV"
+          echo "OSB_RENDER_NODE_MODULES=$RUNNER_TEMP/osb-render/node_modules" >> "$GITHUB_ENV"
+      - name: Renderer regression tests (renders to a temp dir; never commits PNGs)
+        run: python -m unittest discover -s design/tools -p 'test_*.py' -v
