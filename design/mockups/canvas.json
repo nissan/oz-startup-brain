@@ -62,7 +62,7 @@
     },
     "Brand-Sheet.dc.html": {
       "x": 0,
-      "y": 4600,
+      "y": 4700,
       "w": 1440,
       "h": 1480,
       "title": "Brand sheet"
@@ -88,14 +88,14 @@
     },
     "t2": {
       "x": 0,
-      "y": 1740,
+      "y": 1900,
       "text": "SB5 — evidence limits (a) and service limits (b): what the paper sessions must test",
       "kind": "title1",
       "maxW": 2960
     },
     "t3": {
       "x": 0,
-      "y": 3300,
+      "y": 3460,
       "text": "SB3 at phone width — Jess dictates, corrects, and gets an honest coverage answer",
       "kind": "title1",
       "maxW": 1800
@@ -109,7 +109,7 @@
     },
     "t4": {
       "x": 0,
-      "y": 4300,
+      "y": 4560,
       "text": "Brand — mark, wordmark lockups, favicon, OG image and usage rules",
       "kind": "title1",
       "maxW": 1440

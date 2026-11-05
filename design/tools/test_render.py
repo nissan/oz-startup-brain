@@ -44,7 +44,7 @@ class RenderRegressionTests(unittest.TestCase):
     def test_all_committed_boards_and_component_previews_render(self):
         result = self.render()
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn('page errors: none ; bounds overflow: 0', result.stdout)
+        self.assertIn('page errors: none ; bounds overflow: 0 ; layout overlaps: 0', result.stdout)
         boards = json.loads((self.design / 'mockups/canvas.json').read_text())['boards']
         for source in boards:
             for theme in ('light', 'dark'):
@@ -104,6 +104,19 @@ class RenderRegressionTests(unittest.TestCase):
             self.assertIn(f'mockups/Brand-Sheet-{theme}', result.stdout)
         self.assertIn('broken image: /_blob/', result.stdout)
         self.assertEqual(result.stdout.count('broken image:'), 2, result.stdout)
+
+
+    def test_canvas_note_overlapping_a_board_fails(self):
+        self.only_brand()
+        path = self.design / 'mockups/canvas.json'
+        canvas = json.loads(path.read_text())
+        canvas['notes']['t4']['y'] = canvas['boards']['Brand-Sheet.dc.html']['y'] + 10
+        path.write_text(json.dumps(canvas))
+        result = self.render()
+        self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+        self.assertIn('LAYOUT note t4', result.stdout)
+        self.assertIn('overlaps board Brand-Sheet.dc.html', result.stdout)
+        self.assertIn('layout overlaps: 1', result.stdout)
 
 
 if __name__ == '__main__':

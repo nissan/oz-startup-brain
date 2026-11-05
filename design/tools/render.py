@@ -7,7 +7,8 @@ Usage (from the repository root):
 
 Besides writing PNGs, the script runs a geometric bounds check on every artboard in both
 themes: each button, link, input, textarea, paragraph and heading must lie inside the
-artboard frame recorded in mockups/canvas.json. Any overflow is printed as
+artboard frame recorded in mockups/canvas.json, and the canvas's own annotations (notes) must
+not overlap any artboard. Any overflow or overlap is printed as
 "BOUNDS <artboard> <theme>: <TAG> '<text>' bottom=<px> right=<px>" and the script exits 1.
 Component previews are rendered full-page and are not bounds-checked.
 
@@ -127,8 +128,31 @@ with sync_playwright() as pw:
                 errors[name] = errors.get(name, []) + ["broken image: " + b for b in broken]
         page.close()
     browser.close()
+# Canvas layout: annotations (title notes and sticky notes) are not rendered above, so check their
+# boxes geometrically against every artboard frame. A title is assumed 80px tall and a sticky note
+# as tall as it is wide; the canvas adds nothing below a board's recorded height.
+NOTE_HEIGHT = {"title1": 80, "title2": 56}
+def rect_of_note(n):
+    w = n.get("w") or n.get("maxW") or 600
+    h = NOTE_HEIGHT.get(n.get("kind"), w)
+    return (n["x"], n["y"], n["x"] + w, n["y"] + h)
+def intersects(a, b):
+    return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
+layout = []
+boards = {k: (v["x"], v["y"], v["x"] + v["w"], v["y"] + v["h"]) for k, v in canvas["boards"].items()}
+for key, note in canvas.get("notes", {}).items():
+    nr = rect_of_note(note)
+    for bk, br in boards.items():
+        if intersects(nr, br):
+            layout.append(f"LAYOUT note {key} ({note.get('text', '')[:40]!r}) overlaps board {bk}: note y={nr[1]}..{nr[3]}, board y={br[1]}..{br[3]}")
+bkeys = list(boards)
+for i, a in enumerate(bkeys):
+    for b in bkeys[i + 1:]:
+        if intersects(boards[a], boards[b]):
+            layout.append(f"LAYOUT board {a} overlaps board {b}")
+overflow.extend(layout)
 for line in overflow:
     print(line)
-print("rendered", len(pages), "pages;", "page errors:", errors or "none", "; bounds overflow:", len(overflow))
+print("rendered", len(pages), "pages;", "page errors:", errors or "none", "; bounds overflow:", len(overflow) - len(layout), "; layout overlaps:", len(layout))
 if errors or overflow:
     sys.exit(1)

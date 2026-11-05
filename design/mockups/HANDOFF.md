@@ -5,7 +5,7 @@ Versioned export of the "Oz Startup Brain Mock-ups" Claude Design canvas: the ar
 | Item | Value |
 | --- | --- |
 | Artifact | https://claude.ai/artifact/Dh4MHqWBNHXCYJRzAudKfc |
-| Artifact version exported | `1793909145-03de` (version 14) |
+| Artifact version exported | `1793909931-a1ab` (version 15) |
 | Design system used | `../system/` at artifact version `1793909088-3a56` (version 9); `canvas.json` → `designSystems[0].version` carries the same identifier |
 | Export date | 6 November 2026 |
 | Owner approval | **Pending** — one review with the design system and brand kit (#8) |
@@ -21,7 +21,7 @@ Versioned export of the "Oz Startup Brain Mock-ups" Claude Design canvas: the ar
 | Brand sheet (1440×1480) | `Brand-Sheet.dc.html` | [`Brand-Sheet-light.png`](../exports/mockups/Brand-Sheet-light.png), [`Brand-Sheet-dark.png`](../exports/mockups/Brand-Sheet-dark.png) | Mark and the three lockups in their light and dark files, each on a fixed specimen ground of the kind it is permitted on (so the sheet reads in both themes), favicon sizes, OG preview, icons and usage rules (see `../brand/HANDOFF.md`) |
 | SB3 Listen or read (390×844) | `SB3-Summary.dc.html` | [`SB3-Summary-light.png`](../exports/mockups/SB3-Summary-light.png), [`SB3-Summary-dark.png`](../exports/mockups/SB3-Summary-dark.png) | Spoken summary on request with sources visible (SC11 variant) |
 
-`../tools/render.py` performs a geometric bounds check as part of every render: in both themes, every button, link, input, select, textarea, paragraph and heading on every artboard must lie inside its artboard's frame from `canvas.json`, or the script prints `BOUNDS <artboard> <theme>: <element>` and exits nonzero. The committed exports were produced by a passing run on 6 November 2026. This is a check of the fallback-font render, not of the hosted artifact's exact glyph widths.
+`../tools/render.py` performs a geometric bounds check as part of every render: in both themes, every button, link, input, select, textarea, paragraph and heading on every artboard must lie inside its artboard's frame from `canvas.json`, or the script prints `BOUNDS <artboard> <theme>: <element>` and exits nonzero. The committed exports were produced by a passing run on 6 November 2026. The same run checks the canvas layout itself: no title or sticky note in `canvas.json` may overlap an artboard frame and no two frames may overlap (`LAYOUT …`, exit 1), because the renderer draws artboards only and would otherwise never see an annotation sitting on a board. This is a check of the fallback-font render, not of the hosted artifact's exact glyph widths.
 
 **Embedded design-system version.** The canvas copies the design system's `README.md`, `tokens.json`, `components/bundle.js` and `components/bundle.css` into `ds/oz-startup-brain/` at publish time; `canvas.json` records which artifact version they came from. Before version 14 that stamp still read `1793907664-c590` (the first copy) although the copied files had been refreshed on each republish: the files embedded in canvas version 12 were compared byte for byte with the committed version-8 export of `../system/` and were identical, so the stamp was stale metadata, not a divergent system. The stamp is now set from the version actually copied and must be updated on every re-export; the same comparison (`cmp` of the four files against `../system/`) is the check.
 
