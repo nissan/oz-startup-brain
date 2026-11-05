@@ -31,13 +31,18 @@ class A11yCheckTests(unittest.TestCase):
     def open(self, body):
         page = self.browser.new_page(viewport={"width": 600, "height": 400})
         page.set_content(page_html(body))
+        page.osb_body = body
         self.addCleanup(page.close)
         return page
+
+    def keyboard(self, page):
+        # The reverse pass runs on a new page holding the same document, as run() does.
+        return a11y_check.keyboard_pass(page, "light", reopen=lambda: self.open(page.osb_body))
 
     def test_real_tab_skips_tabindex_minus_one_and_reaches_the_rest_in_order(self):
         page = self.open('<button class="osb osb-btn">First</button><button class="osb osb-btn" tabindex="-1">Skipped by Tab</button>'
                          '<a class="osb-link" href="#x">Link</a><button class="osb osb-btn">Last</button>')
-        findings, trace = a11y_check.keyboard_pass(page, "light")
+        findings, trace = self.keyboard(page)
         self.assertEqual([f for f in findings if f[0] == "fail"], [], findings)
         self.assertEqual([(r, n) for r, n, _ in trace], [("button", "First"), ("link", "Link"), ("button", "Last")])
 
@@ -47,27 +52,42 @@ class A11yCheckTests(unittest.TestCase):
                          '<button class="osb osb-btn">After</button>'
                          '<script>document.getElementById("trap").addEventListener("keydown", e => { if (e.key === "Tab") { e.preventDefault();'
                          ' document.getElementById(document.activeElement.id === "a" ? "b" : "a").focus(); } });</script>')
-        findings, trace = a11y_check.keyboard_pass(page, "light")
+        findings, trace = self.keyboard(page)
         self.assertTrue(any(f[0] == "fail" and "trap" in f[1].lower() for f in findings), findings)
 
     def test_reverse_trap_on_the_first_control_is_reported(self):
         page = self.open('<button class="osb osb-btn" id="first">First</button><button class="osb osb-btn">Second</button>'
                          '<script>document.getElementById("first").addEventListener("keydown", e => { if (e.key === "Tab" && e.shiftKey) e.preventDefault(); });</script>')
-        findings, trace = a11y_check.keyboard_pass(page, "light")
+        findings, trace = self.keyboard(page)
         self.assertEqual([(r, n) for r, n, _ in trace], [("button", "First"), ("button", "Second")])
-        self.assertTrue(any(f[0] == "fail" and "Shift+Tab cannot leave the first control" in f[1] for f in findings), findings)
+        self.assertTrue(any(f[0] == "fail" and "does not exit from the first control" in f[1] and "stays on it" in f[1] for f in findings), findings)
+
+    def test_reverse_cycle_between_controls_is_reported(self):
+        page = self.open('<button class="osb osb-btn" id="first">First</button><button class="osb osb-btn" id="last">Last</button>'
+                         '<script>document.getElementById("first").addEventListener("keydown", e => { if (e.key === "Tab" && e.shiftKey) { e.preventDefault(); document.getElementById("last").focus(); } });</script>')
+        findings, trace = self.keyboard(page)
+        self.assertEqual([(r, n) for r, n, _ in trace], [("button", "First"), ("button", "Last")])
+        self.assertTrue(any(f[0] == "fail" and "does not exit from the first control" in f[1] and "another control" in f[1] for f in findings), findings)
+
+    def test_normal_pages_exit_in_both_directions(self):
+        for body in ('<button class="osb osb-btn">Only</button>',
+                     '<button class="osb osb-btn">First</button><a class="osb-link" href="#x">Link</a><button class="osb osb-btn">Last</button>'):
+            page = self.open(body)
+            findings, trace = self.keyboard(page)
+            self.assertEqual([f for f in findings if f[0] == "fail"], [], (body, findings))
+            self.assertEqual(len(trace), body.count("<button") + body.count("<a "))
 
     def test_control_that_cannot_be_reached_is_reported(self):
         page = self.open('<button class="osb osb-btn">First</button>'
                          '<button class="osb osb-btn" id="x">Steals focus back</button>'
                          '<script>document.getElementById("x").addEventListener("keydown", e => { if (e.key === "Tab") { e.preventDefault(); document.body.focus(); } });</script>'
                          '<button class="osb osb-btn">Never reached</button>')
-        findings, trace = a11y_check.keyboard_pass(page, "light")
+        findings, trace = self.keyboard(page)
         self.assertTrue(any(f[0] == "fail" and "never reached" in f[1] for f in findings), findings)
 
     def test_missing_focus_ring_is_reported_on_real_keyboard_focus(self):
         page = self.open('<button class="osb osb-btn" style="outline: none">No ring</button>')
-        findings, _ = a11y_check.keyboard_pass(page, "light")
+        findings, _ = self.keyboard(page)
         self.assertTrue(any(f[0] == "fail" and "no focus ring" in f[1] for f in findings), findings)
 
     def test_hidden_only_text_gives_no_computed_name(self):

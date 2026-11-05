@@ -11,7 +11,9 @@ different things:
    then back with Shift+Tab. The trace of active elements is compared with the controls that are
    meant to be reachable (focusable, enabled, visible, not tabindex=-1): every intended control is
    reached, in document order, nothing unintended is reached, the sequence returns to the document
-   (no trap), and Shift+Tab retraces it. At every real Tab stop the focus ring is read from computed
+   (no trap), Shift+Tab retraces it, and one further Shift+Tab from the first control reaches the
+   document (headless Chromium exposes that stop; a browser that wrapped natively would make this
+   exit check inconclusive, not a pass). At every real Tab stop the focus ring is read from computed
    style and must be the ochre token.
 2. Computed semantics (browser accessibility representation): roles and accessible names come
    from Playwright's ARIA snapshot of the page, i.e. the browser's own name computation, not DOM
@@ -98,9 +100,11 @@ def focused_name(page):
     return (m.group(1), m.group(2) or "") if m else ("?", "")
 
 
-def keyboard_pass(page, theme, phone=False):
+def keyboard_pass(page, theme, phone=False, reopen=None):
     """Real Tab / Shift+Tab trace. Returns (findings, trace) where trace is a list of
-    (role, name, idx) at each forward Tab stop."""
+    (role, name, idx) at each forward Tab stop. `reopen()` must return a NEW page holding the same
+    document; the reverse pass runs on it (see below). Without it the reverse exit is not verified
+    and a note says so."""
     findings = []
     intended = page.evaluate(MARK_JS)
     limit = len(intended) + 3
@@ -139,26 +143,42 @@ def keyboard_pass(page, theme, phone=False):
             findings.append(("fail", f"Tab reached control(s) meant to be skipped (data-a11y {extra})"))
         if not missing and not extra and seen != intended:
             findings.append(("fail", f"Tab order differs from document order: {seen} vs {intended}"))
-    # Focus is back on the document; Shift+Tab must now retrace the forward order and return to it.
+    # Reverse pass on a NEW page holding the same document. A Chromium page that has performed a
+    # forward Tab wrap no longer exposes the document stop in reverse (the stop survives neither
+    # blur nor a navigation of that page), whereas a fresh page does: last → … → first → document.
+    # So: open the document again, focus the last control, Shift+Tab must retrace the forward
+    # order back to the first control, and one further press must reach the document. Reaching
+    # another control, or an unmarked element, is not an exit: a handler can cycle focus between
+    # controls for ever.
     if seen and not any(f[0] == "fail" for f in findings):
-        back = []
-        for _ in range(len(seen)):
-            page.keyboard.press("Shift+Tab")
-            a = page.evaluate(ACTIVE_JS)
-            if a["idx"] in ("body", "other"):
-                break
-            back.append(int(a["idx"]))
-        if back != list(reversed(seen)):
-            findings.append(("fail", f"Shift+Tab does not retrace Tab: {back} vs {list(reversed(seen))}"))
-        else:
-            # Focus is on the first control; one more Shift+Tab must leave it (to the document or,
-            # in a headless browser with no chrome, round to the last control), or the first control
-            # traps reverse traversal.
-            page.keyboard.press("Shift+Tab")
-            after = page.evaluate(ACTIVE_JS)["idx"]
-            if after == str(seen[0]):
-                role, name = focused_name(page)
-                findings.append(("fail", f"keyboard trap: Shift+Tab cannot leave the first control {role} '{name}'"))
+        if reopen is None:
+            findings.append(("note", "reverse traversal exit not verified (no reopen() supplied)"))
+            return findings, trace
+        rp = reopen()
+        try:
+            rp.wait_for_timeout(200)
+            if rp.evaluate(MARK_JS) != intended:
+                findings.append(("fail", "the reopened page does not expose the same controls; reverse traversal not verified"))
+                return findings, trace
+            rp.evaluate("(idx) => document.querySelector('[data-a11y=\"' + idx + '\"]').focus()", str(seen[-1]))
+            back = []
+            for _ in range(len(seen) - 1):
+                rp.keyboard.press("Shift+Tab")
+                a = rp.evaluate(ACTIVE_JS)
+                if a["idx"] in ("body", "other"):
+                    break
+                back.append(int(a["idx"]))
+            if back != list(reversed(seen))[1:]:
+                findings.append(("fail", f"Shift+Tab does not retrace Tab: {back} vs {list(reversed(seen))[1:]}"))
+            else:
+                rp.keyboard.press("Shift+Tab")
+                after = rp.evaluate(ACTIVE_JS)["idx"]
+                if after != "body":
+                    first_role, first_name = trace[0][0], trace[0][1]
+                    where = "stays on it" if after == str(seen[0]) else "moves to another control instead of the document"
+                    findings.append(("fail", f"keyboard trap: reverse traversal does not exit from the first control {first_role} '{first_name}' (Shift+Tab {where})"))
+        finally:
+            rp.close()
     return findings, trace
 
 
@@ -225,7 +245,11 @@ def run(pages, chrome, report_path):
             page = browser.new_page(viewport={"width": w, "height": h or 400})
             page.set_content(html)
             page.wait_for_timeout(300)
-            kb, trace = keyboard_pass(page, theme, phone=is_board and w <= 480)
+            def reopen(html=html, w=w, h=h):
+                np_ = browser.new_page(viewport={"width": w, "height": h or 400})
+                np_.set_content(html)
+                return np_
+            kb, trace = keyboard_pass(page, theme, phone=is_board and w <= 480, reopen=reopen)
             findings += [(lvl, name, msg) for lvl, msg in kb]
             rec = {"trace": trace}
             if theme == "light":
