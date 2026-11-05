@@ -29,6 +29,18 @@ Trigger: Jess wants relevant support near a regional Queensland town and is tire
 
 Trigger: Sam describes a proposed payments workflow. The app asks which party holds funds and which product details are confirmed. It displays questions to resolve and separate source tracks. It does not collapse registration, licensing and participation in a pilot into one approval. Sam leaves with an adviser-question checklist, not a launch authorisation.
 
+## SB5: Limits and failure states (to be drawn before Stage 0 sessions)
+
+The four boards above are happy paths. None shows the evidence-state labels that the design treats as its main safety feature, and the feedback protocol below requires a stale-source or service-failure task, so a fifth board is required before paper sessions. It must use the exact labels from the [interaction design](research-and-design.md): **Source checked [date]**, **Needs a current check**, **Sources disagree**, **Suggested next step** and **Outside current coverage**. Panels:
+
+1. Historical-only evidence: Round A1 was "open" in a July snapshot; the card shows "Needs a current check", the official source door, and no current status (SC06; SB1 failure variant).
+2. Sources disagree: two dated claims about one deadline shown side by side with no averaged verdict (SC07).
+3. Outside current coverage: Jess's jurisdiction is not covered; the app says so and offers the maintained source directory, not a generic national list.
+4. Service limits: vector retrieval outage or daily budget reached; the draft is preserved and a retry or labelled static directory is offered; no live answer is shown (SC17, SC18).
+5. Context changed: after a chip edit, the previous answer is visibly marked as based on the earlier context (SC02), and a comparison cell shows its per-cell evidence affordance (SC08).
+
+Also required before testing dictation: a phone-width variant of SB3, because the board as drawn uses desktop proportions while the persona's task is mobile. In SB3 panel 2, "Stage: working prototype" is a chip the founder set earlier, not an inference from speech.
+
 ## Curator and developer journeys
 
 P5: review candidate claim → inspect excerpt and effective date → reject unsupported inference or approve with attribution → inspect the release diff. Test whether the curator can explain why an edge was accepted.

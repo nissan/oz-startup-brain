@@ -24,17 +24,21 @@ flowchart TD
 
 State carries a request ID, confirmed context, question, corpus version, retrieval mode, retrieved passages, accepted claim IDs, conflicts, evidence sufficiency, output and a budget ledger.
 
-1. In NestJS, authenticate the consumer, authorise its scope and atomically reserve request allowance before paid work. Validate input and payload size; treat supplied text as data.
+1. In NestJS, authenticate the consumer, authorise its scope and atomically reserve request allowance before paid work. The reservation has an ID and a lease (time to live) slightly longer than the application deadline; completion, abort and timeout paths all reconcile the reservation to actual usage, and the budget store reclaims expired leases so a crashed or disconnected request cannot hold allowance indefinitely. Validate input and payload size; treat supplied text as data.
+
+   The online workflow exposes no model-callable tools. The model produces only typed outputs (task classification, structured answer). Retrieval, graph lookup and the single recovery retrieval are deterministic nodes driven by validated state, never by model-emitted actions. Every citation ID in the output is validated against the assembled evidence bundle. This is the primary defence against instructions embedded in retrieved or uploaded text (SC20): such text can only influence answer content, which schema and prohibited-certainty checks then constrain.
 2. Classify task with typed output. Use deterministic routes where possible.
 3. If a missing field changes the route, return one clarification; do not start an unbounded conversational loop.
 4. Retrieve dense/sparse passages with source type, jurisdiction, date and corpus filters. Starting candidates: top 20, fuse, rerank, keep up to 8 within a token budget. Tune using development data.
 5. For dependency/relationship questions, resolve known entities and run a parameterised, allowlisted graph query. Maximum two hops and 30 returned claims initially. Graph evidence must resolve to original passage IDs.
-6. Assemble evidence, detect stale/conflicting assertions and mark unresolved questions. Deduplicate article excerpts and underlying sources so a derivative claim does not appear independently corroborated.
+6. Assemble evidence, compute currency for each passage and claim using the answer-time currency rule in the [data document](04-data-and-ontology.md#answer-time-currency-rule), detect conflicting assertions and mark unresolved questions. Deduplicate article excerpts and underlying sources so a derivative claim does not appear independently corroborated.
 7. Generate structured action/compare/referral output using only the evidence bundle.
 8. Validate schema, reference IDs, required dates and prohibited certainty. A citation existing is not proof it supports the claim; release evaluation separately checks entailment. Permit at most one bounded recovery retrieval if evidence is insufficient.
 9. Return a typed answer, clarification or insufficient-evidence envelope. The website renders this contract as cards. JSON comes first; later streaming may emit progress states and a terminal validated result, never unvalidated regulatory claims as final content.
 
 Apply the deadline across the BFF/API boundary and propagate cancellation. Set an initial 30-second application deadline with smaller per-service timeouts, cancellation and bounded retry. This is a design target, not a platform limit. Respect the selected Vercel runtime's current limits. [R6]
+
+Cancellation mechanism: the BFF route handler observes the incoming request's abort signal (browser disconnect) and aborts its upstream `fetch` to NestJS; NestJS observes its own request close and the deadline, and passes a single `AbortSignal` into LangGraph (`config.signal`) and into every Qdrant, Neo4j and model call, each of which also has its own shorter timeout. An aborted or timed-out request reconciles its budget reservation like any other outcome. Whether a Vercel Function observes client disconnect promptly must be validated in slice 1B; until then, the lease on the reservation is the backstop.
 
 ## Persistence
 
@@ -48,6 +52,8 @@ Manifest discovery → rights/fetch checks → immutable snapshot → text/table
 
 Every batch is idempotent. Stable IDs derive from source version, content position and extraction version. Source deletions and changed claims are tombstoned; reindexing cannot leave old current-status claims active. Publish an application release manifest only after both stores have the same validated corpus version. On partial promotion, retain the previous release. Keep the previous indexes until the new release has passed checks and capacity allows; otherwise rebuild during a disclosed maintenance window.
 
+Release switching differs per store. Qdrant supports a shadow collection and an atomic alias switch. Neo4j AuraDB Free is a single database with no alias or blue/green facility, so a shadow graph lives in the same database: every reviewed claim, node and relationship carries `corpus_version`, every allowlisted query is parameterised on the active version, and the active version is one value in the application release manifest that both the vector and graph adapters read. Old-version graph data is removed only after the manifest switch has succeeded and only when capacity requires it. This is how SC15 is enforced: no query can read a graph version that the manifest has not activated.
+
 Raw corpus storage is not the serverless filesystem. Start with rights-cleared local archives plus reproducible public-source fetch recipes; select durable private object storage before unattended ingestion. Public git holds manifests and safe fixtures, not arbitrary third-party full text. GitHub Actions is an optional manually triggered worker; private data must never leak through public job logs or downloadable artifacts.
 
 ## Hosting decision
@@ -57,7 +63,18 @@ Raw corpus storage is not the serverless filesystem. Start with rights-cleared l
 | Qdrant Cloud Free | Hosted passage index | 1 GB RAM, 4 GB disk, single node, 0.5 vCPU. Inactivity suspension after one week and deletion after four weeks if not reactivated. [R2] |
 | Neo4j AuraDB Free | Hosted property graph | 200,000 nodes, 400,000 relationships, 1 GB storage; no uptime SLA. [R3] |
 | Aura inactivity | Operational recovery is required | Instance actions docs state auto-pause after 72 hours and deletion after over 30 days paused; verify the current console policy before launch. [R4] |
-| Vercel Hobby | Separate Next.js and NestJS projects | Personal/non-commercial use; shared account limits still apply. NestJS runs as a Vercel Function. Check latency and streaming across both deployments. Ingestion and benchmark runs stay offline. [R6–R7, R21] |
+| Vercel Hobby | Separate Next.js and NestJS projects | Personal/non-commercial use; shared account limits still apply. NestJS runs as a Vercel Function. Check latency and streaming across both deployments. Ingestion and benchmark runs stay offline. Verified 5 November 2026: Hobby has no Spend Management; exceeding an included-usage limit pauses that feature for up to 30 days; runtime logs are retained for one hour and log drains are unavailable; preview deployments can require Vercel Authentication. Each website query consumes provisioned-memory time in two functions because the BFF waits on the API. [R6–R7, R21] |
+
+### Expected paused states and restoration
+
+For a personal deployment with sporadic traffic, paused free-tier stores are the normal state, not an incident. Verified limits (5 November 2026): Aura Free pauses after 72 hours of inactivity, does not resume automatically and is deleted after more than 30 days paused; a Qdrant free cluster is suspended after one idle week and deleted after four idle weeks unless reactivated. [R2, R4] Consequences the design must absorb:
+
+- Distinguish three store states in capability reporting and failure handling: available, paused but recoverable (resume and retry once, otherwise degrade), and deleted (restore from versioned exports; the passage index rebuild re-incurs embedding cost).
+- Keep a keep-alive check whose cadence is shorter than 72 hours for Aura and seven days for Qdrant. This may be a manually triggered job or an external scheduler; it is not assumed to be free, and it is not configured by this documentation.
+- Store every release's versioned exports (passages, claims, manifests) outside both hosted stores so that a rebuild is deterministic. Rehearse the restore drill and record its cost before Stage 6.
+- Write a per-request usage record (request ID, consumer, session hint, retrieval mode, tokens, estimated cost, outcome code) to the durable store, because platform logs on Hobby are gone after one hour. These records contain no prompt text.
+
+Driver lifecycle on serverless: create Qdrant and Neo4j clients lazily as per-instance singletons, set explicit per-call timeouts, and check the provider's connection limits for the free tier at provisioning; the quota page checked for this review does not state a connection limit for Aura Free.
 
 Neo4j is selected for a well-documented hosted free tier and explicit property-graph traversal. It is a pragmatic default, not an assertion that it is universally better than alternatives. Keep retrieval behind adapters so a future alternative can be compared without rewriting the UX.
 
@@ -68,7 +85,8 @@ Budget below the provider limits: initially at most 20,000 chunks, 10,000 entiti
 - Graph unavailable: use vector retrieval with a visible limitation; disable claims requiring missing graph evidence. Benchmark such a run as degraded, not a successful graph run.
 - Vector retrieval unavailable: return a maintained source directory or clearly labelled static examples. Do not fabricate a live answer.
 - Model timeout or daily budget reached: retain the user's draft and provide retry/static navigation. Do not keep charging through retries.
-- Public live inference begins with provider-side spend controls and a server-validated session/rate limit. If no durable quota mechanism is configured, deploy fixture mode only. In-memory counters are not a global spend cap.
+- Public live inference begins with provider-side spend controls on the model provider and a server-validated session/rate limit. Vercel Hobby offers no spend management, so the durable budget store in NestJS is the only platform-independent cap. If no durable quota mechanism is configured, deploy fixture mode only. In-memory counters are not a global spend cap; a development-mode in-process budget is acceptable only for slice 1A on a developer machine and must be labelled as such in the capabilities response.
+- Per-visitor fairness on the website: all website traffic shares one consumer identity, so NestJS additionally enforces per-session sub-quotas within that consumer using the BFF-generated session hint defined in ADR 001. The BFF's own checks (payload size, request shape, simple burst limits) are best-effort; the API is authoritative.
 - Keep credentials server-only. Separate query and ingestion credentials where provider roles allow; otherwise enforce read-only queries through the application boundary and document the residual privilege.
 - No arbitrary model-written Cypher, browser-supplied query execution or model-controlled source fetching. Approved URL fetches need redirect, private-address, MIME, timeout and size checks.
 - Logs record timings, token usage, source IDs and failure codes; omit raw private prompts/audio by default. Pin model IDs, embeddings, package locks, prompts, ontology and corpus versions in reports.

@@ -48,9 +48,10 @@ Feature: Evidence-backed Australian founder journeys
   @SC06 @US03 @O4
   Scenario: Historical material cannot establish current availability
     Given the only evidence for Round A1 being open is a historical snapshot
-    And no current status has been verified
+    And its source version's last verification date is outside the staleness window for round status
     When the founder asks whether applications are open today
     Then the planner states that current status is unverified
+    And the citation carries the label "Needs a current check"
     And it provides the official source to check
     And it does not present the historical status as current
 
@@ -128,7 +129,8 @@ Feature: Evidence-backed Australian founder journeys
     Given a new graph export passes validation
     And the matching vector index fails to publish
     When release promotion is attempted
-    Then the active release remains unchanged
+    Then the release manifest's active version remains unchanged
+    And every graph query is parameterised on that active version
     And no answer combines the new graph with the old passage index
 
   @SC16 @US09 @O5
@@ -182,3 +184,12 @@ Feature: Evidence-backed Australian founder journeys
     When founder B starts another session
     Then founder A's context is absent from founder B's response and retrieval
     And founder A's input is not added to the shared corpus or public logs
+
+  @SC22 @US01 @O1
+  Scenario: Respect an explicit Unknown without repeating the clarification
+    Given the founder has set the jurisdiction chip to "Unknown"
+    And the candidate pathways differ by jurisdiction
+    When the founder submits the question
+    Then the planner does not ask for the jurisdiction again
+    And the answer states which options were excluded or left unresolved because jurisdiction is unknown
+    And no jurisdiction is inferred from other context
