@@ -64,6 +64,15 @@ Exact package versions are selected and locked during implementation, not guesse
 
 These do not block review of the documentation. They do affect live-data completeness, paid service activation and user validation. The API-first NestJS direction is owner-requested; the remaining design and operational choices are proposals, and no empirical validation is claimed.
 
+## Fixture-mode test controls
+
+Slice 1A must provide a deterministic test clock (`as_of`, initially `2026-11-05T00:00:00Z`) and named fault fixtures `vector_timeout`, `budget_exhausted` and `graph_unavailable`, so temporal and degraded-response scenarios can be reproduced without live services. These are local harness inputs or dependency-injected adapters, not public query parameters, browser headers or administrative endpoints. No hosted vector/graph database or paid call is needed to exercise the named states.
+
+Enable configurable clocks/fault injection only when all of these hold: fixture responder selected, development credential mode active, and the process runs in an isolated local test environment. Reject startup with these controls enabled in a public deployment or non-development credential mode. Public previews may render fixed labelled mock states but must not expose these configurable controls. Document configuration and reset behaviour; tests must verify the guard as well as the selected clock/failure response.
+
+The local NestJS harness is a slice 1A deliverable. Later browser tasks consume it only when the corresponding local UI exists; this does not add a Next.js dependency to slice 1A. Synthetic tasks T02/T03/T15 remain blocked pending these controls, and audio/diagram tasks remain blocked until their authored fixtures exist. Simulated budget exhaustion checks response behaviour, not correctness of the durable monetary ledger.
+
 ## Implementation checks
 
 At the relevant stages, test source-table extraction and qualifiers, entity merge ambiguity, unsupported edge rejection, corpus version consistency, temporal status, source injection, allowlisted queries, anonymous-session isolation, keyboard navigation, microphone denial, editable transcription, cancellation, budget exhaustion, graph/vector outages and restoration from versioned exports. Also verify API contract compatibility, unauthorised access, scope enforcement, key rotation/revocation, client isolation, server-only secret boundaries and REST/MCP policy parity as those features are implemented. Keep live-model evaluations separate from deterministic CI.
+
