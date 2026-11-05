@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Journey workspace</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/oz-startup-brain/tokens.css">
+<link rel="stylesheet" href="ds/oz-startup-brain/components/bundle.css">
+<script src="ds/oz-startup-brain/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:opsz,wght@9..144,600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-sans)}
+a{color:var(--ironbark)}a:hover{color:var(--ink)}
+</style>
+</helmet>
+<div style="max-width: 1280px; box-sizing: border-box; padding: 32px 16px 48px; display: flex; flex-direction: column; gap: 24px; background: var(--paper); color: var(--ink); font-family: var(--font-sans);">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--hairline);">
+    <h1 style="margin: 0; font-family: var(--font-display); font-size: 44px; line-height: 48px; font-weight: 600; letter-spacing: -0.01em;">Oz Startup Brain</h1>
+    <p style="margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted);">Evidence-backed next steps for Australian founders.</p>
+  </header>
+
+  <x-import component-from-global-scope="OzStartupBrain.CoverageBanner" jurisdictions="{{jurisdictions}}" corpus-version="2026.11-r1" as-of="2026-11-05"></x-import>
+
+  <section style="display: flex; flex-direction: column; gap: 12px;">
+    <h2 style="margin: 0; font-size: 20px; line-height: 26px; font-weight: 700;">Start with a task</h2>
+    <x-import component-from-global-scope="OzStartupBrain.StarterTask" tasks="{{tasks}}"></x-import>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 12px;">
+    <h2 style="margin: 0; font-size: 20px; line-height: 26px; font-weight: 700;">Your situation</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <x-import component-from-global-scope="OzStartupBrain.ContextChip" label="Path" value="Student founder"></x-import>
+      <x-import component-from-global-scope="OzStartupBrain.ContextChip" label="Stage" value="Prototype"></x-import>
+      <x-import component-from-global-scope="OzStartupBrain.ContextChip" label="Location" unknown="{{yes}}"></x-import>
+      <x-import component-from-global-scope="OzStartupBrain.ContextChip" label="IP ownership" unknown="{{yes}}"></x-import>
+    </div>
+    <p style="margin: 0; font-size: 14px; line-height: 20px; color: var(--ink-muted);">Unknown is a valid answer. The planner never assumes personal status or IP rights.</p>
+  </section>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+    <section style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+      <h2 style="margin: 0; font-size: 20px; line-height: 26px; font-weight: 700;">Your next steps</h2>
+      <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Clarify your IP position" why="Whether the university or you own the prototype changes which support routes make sense." check="{{ipChecks}}" evidence="{{ipEvidence}}" door="Your university commercialisation contact" on-ask="{{noop}}"></x-import>
+      <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Check whether Round A1 is open before preparing anything" why="The only material about Round A1 is from an earlier snapshot, so its status today is unverified." check="{{roundChecks}}" evidence="{{roundEvidence}}" door="The official Program A page (fictional fixture)"></x-import>
+      <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Gather customer evidence" why="Most support conversations ask what customers have said; this is sequencing advice, not a documented requirement." check="{{custChecks}}" evidence="{{custEvidence}}" door="Your first three customer conversations"></x-import>
+    </section>
+
+    <aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+      <h2 style="margin: 0; font-size: 20px; line-height: 26px; font-weight: 700;">Evidence</h2>
+      <x-import component-from-global-scope="OzStartupBrain.SourcePanel" title="University IP policy for student projects (fictional fixture)" publisher="University commercialisation office" url="https://example.org/university/ip-policy" source-version-date="3 June 2026" verified-at="22 July 2026" state="checked" excerpt-before="Ownership of intellectual property created by a student " excerpt-mark="depends on the agreements signed when the project began" excerpt=", and should be confirmed with the commercialisation office."></x-import>
+      <h2 style="margin: 8px 0 0; font-size: 20px; line-height: 26px; font-weight: 700;">What comes first</h2>
+      <x-import component-from-global-scope="OzStartupBrain.PrerequisiteMap" nodes="{{nodes}}"></x-import>
+    </aside>
+  </div>
+
+  <footer style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 16px; border-top: 1px solid var(--hairline);">
+    <x-import component-from-global-scope="OzStartupBrain.Button" variant="primary">Export checklist</x-import>
+    <x-import component-from-global-scope="OzStartupBrain.Button">Compare options</x-import>
+    <x-import component-from-global-scope="OzStartupBrain.Button" variant="quiet">Report a source problem</x-import>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      yes: true,
+      noop: function () {},
+      jurisdictions: ['Federal', 'Queensland'],
+      tasks: [
+        { id: 'next', title: 'Find my next step', hint: 'Start from your goal and situation', active: true },
+        { id: 'compare', title: 'Compare options', hint: 'Same criteria, dated evidence' },
+        { id: 'prereq', title: 'Check a prerequisite', hint: 'What must come first' }
+      ],
+      ipChecks: ['Who owns the prototype under your enrolment agreement', 'Which agreements you signed when the lab project began'],
+      ipEvidence: { state: 'checked', date: '22 July 2026', publisher: 'University IP policy (fixture)' },
+      roundChecks: ['Whether applications are open today', 'Whether a matched contribution would be required'],
+      roundEvidence: { state: 'needs-check', publisher: 'Program A round page, July snapshot (fixture)' },
+      custChecks: ['What problem your first users describe in their own words'],
+      custEvidence: { state: 'suggested', publisher: 'Editorial sequencing from the Founder Journey Planner article' },
+      nodes: [
+        { id: 'ip', label: 'IP access clarified', kind: 'sourced', state: 'checked', date: '22 July 2026', current: true, status: 'unresolved' },
+        { id: 'cust', label: 'Customer evidence gathered', kind: 'editorial', status: 'in progress' },
+        { id: 'cond', label: 'Program conditions checked', kind: 'sourced', state: 'needs-check' },
+        { id: 'apply', label: 'Application prepared', kind: 'editorial' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

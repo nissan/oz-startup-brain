@@ -7,7 +7,7 @@ Proceed as a staged learning project with two explicit goals: help founders choo
 | Original idea | Assessment | Refined decision |
 | --- | --- | --- |
 | Build an LLM about the ecosystem | Good application scope; model training is unnecessary | Use a hosted model with a versioned retrieval corpus. Model choice stays replaceable. |
-| Use the paper and all raw sources | Strong provenance starting point; historical material becomes stale | Recover the original archive if available; independently fetch and classify every cited source. Distinguish historical and current views. |
+| Use the paper and all raw sources | Strong provenance starting point; historical material becomes stale | Fetch and classify every cited source afresh as a new source version; the original archive is not pursued (owner decision 9, 5 November 2026, superseding the earlier "recover if available"). Distinguish historical and current views. |
 | Qdrant plus hosted graph | Feasible for a small corpus, but two stores add operational work | Qdrant Cloud Free plus Neo4j AuraDB Free; keep a vector-only baseline and a labelled fallback. |
 | Reason over raw data to discover relationships | Useful for candidate extraction, unsafe as automatic fact publication | A typed ontology, evidence spans, schema checks, alias resolution and human approval before promotion. |
 | Ragas and LLM judges | Useful complementary measurement | Add deterministic citation, date, workflow and security checks; calibrate judges against humans. |
@@ -22,7 +22,7 @@ The first release answers three question families: where to begin, how two pathw
 
 The article motivates routing by founder circumstances, product, stage, geography and relevant interpreters. We turn that into a small maintained application rather than reproducing the article as a chatbot persona. Its July verification date makes temporal provenance a core requirement. [R1]
 
-Start with federal and Queensland sources for early usability work; keep national coverage as the stated destination. When a jurisdiction is not covered, say so. Seed research, student and regional founder paths, then broaden after representative feedback. Do not silently infer a person's citizenship, visa, gender or finances from their chosen path.
+Start with federal sources plus one state chosen after the Stage 1 source dispositions; coverage of every Australian state and territory is the destination, and the corpus expansion to reach it is planned work (Stage 2a in the [delivery plan](06-delivery.md)). When a jurisdiction is not covered, say so. Seed research, student and regional founder paths, then broaden after representative feedback. Do not silently infer a person's citizenship, visa, gender or finances from their chosen path.
 
 ## Main design decisions
 
@@ -37,7 +37,7 @@ Start with federal and Queensland sources for early usability work; keep nationa
 
 ## Current evidence and uncertainty
 
-- Public article retrieved; 135 unique external source links extracted. Original raw snapshots, research notes and complete research inventory remain unrecovered.
+- Public article retrieved; 135 unique external source links extracted. Original raw snapshots, research notes and complete research inventory are not recovered and are no longer sought; fresh fetches are the corpus.
 - Qdrant and Neo4j free service limits checked in official documentation. This is not account provisioning or a capacity test. [R2–R4]
 - X discovery searches did not establish a reproducible post sample or engagement ranking. No claim is made that the seed questions represent actual popular posts.
 - Personas are design hypotheses, not interviewed participants. Storyboards are discussion aids; no real user feedback has been collected.

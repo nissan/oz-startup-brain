@@ -29,7 +29,7 @@ Trigger: Jess wants relevant support near a regional Queensland town and is tire
 
 Trigger: Sam describes a proposed payments workflow. The app asks which party holds funds and which product details are confirmed. It displays questions to resolve and separate source tracks. It does not collapse registration, licensing and participation in a pilot into one approval. Sam leaves with an adviser-question checklist, not a launch authorisation.
 
-## SB5: Limits and failure states (to be drawn before Stage 0 sessions)
+## SB5: Limits and failure states (drawn 5 November 2026 as a Claude Design mock-up)
 
 The four boards above are happy paths. None shows the evidence-state labels that the design treats as its main safety feature, and the feedback protocol below requires a stale-source or service-failure task, so a fifth board is required before paper sessions. It must use the exact labels from the [interaction design](research-and-design.md): **Source checked [date]**, **Needs a current check**, **Sources disagree**, **Suggested next step** and **Outside current coverage**. Panels:
 
@@ -40,6 +40,12 @@ The four boards above are happy paths. None shows the evidence-state labels that
 5. Context changed: after a chip edit, the previous answer is visibly marked as based on the earlier context (SC02), and a comparison cell shows its per-cell evidence affordance (SC08).
 
 Also required before testing dictation: a phone-width variant of SB3, because the board as drawn uses desktop proportions while the persona's task is mobile. In SB3 panel 2, "Stage: working prototype" is a chip the founder set earlier, not an inference from speech.
+
+### Design system and higher-fidelity mock-ups
+
+Both SB5 and the phone-width SB3 now exist as Claude Design artifacts built from the project's design system, alongside a desktop journey-workspace mock-up. The editable originals are owner-private; versioned exports that any reviewer can inspect are committed under [`design/`](../../design/system/HANDOFF.md): the design-system sources and PNG renders ([system](../../design/system/HANDOFF.md)) and the artboard sources and renders ([mock-ups](../../design/mockups/HANDOFF.md)), each stamped with the artifact version and export date. Owner approval of both is pending.
+
+The five evidence-state words are defined once, in the `EvidenceLabel` design component, which is the proposed implementation contract for the website, the API's export and these boards; no application code consumes it yet, so label parity across surfaces is a Stage 4 acceptance check rather than an established property. Contrast was computed from the tokens and the boards were rendered in both themes; keyboard operation and WCAG conformance remain pending validation with real users. The paper SVGs in this folder remain the low-fidelity versions for printed sessions.
 
 ## Curator and developer journeys
 

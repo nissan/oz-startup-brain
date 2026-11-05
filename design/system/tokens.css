@@ -1,0 +1,59 @@
+/* Oz Startup Brain — generated from tokens.json */
+:root, [data-theme="light"] {
+  --paper: #f5f0e4;
+  --paper-raised: #fffdf7;
+  --ink: #292d31;
+  --ink-muted: #5f5346;
+  --hairline: #cfc8b8;
+  --border-strong: #75695a;
+  --ironbark: #2e4a5a;
+  --on-ironbark: #f5f0e4;
+  --ironbark-tint: #dde6ea;
+  --sage: #e8eddf;
+  --ochre: #9a4d1f;
+  --ochre-tint: #f6e3d3;
+  --plum: #6d3f6b;
+  --plum-tint: #eee0ec;
+  --grey-tint: #e7e4dc;
+}
+[data-theme="dark"] {
+  --paper: #1c1a16;
+  --paper-raised: #272420;
+  --ink: #ece7db;
+  --ink-muted: #b4a893;
+  --hairline: #443e35;
+  --border-strong: #9a8f7f;
+  --ironbark: #9fc0cf;
+  --on-ironbark: #1c1a16;
+  --ironbark-tint: #223640;
+  --sage: #2f3a31;
+  --ochre: #f0a26d;
+  --ochre-tint: #3b2a1f;
+  --plum: #d6a6d2;
+  --plum-tint: #36283a;
+  --grey-tint: #312e29;
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Atkinson Hyperlegible", "DejaVu Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "DejaVu Sans Mono", monospace;
+}
+.display-xl { font-family: var(--font-display); font-size: 44px; line-height: 48px; font-weight: 600; letter-spacing: -0.01em; }
+.display-md { font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 600; }
+.heading { font-family: var(--font-sans); font-size: 20px; line-height: 26px; font-weight: 700; }
+.body { font-family: var(--font-sans); font-size: 17px; line-height: 26px; font-weight: 400; }
+.body-strong { font-family: var(--font-sans); font-size: 17px; line-height: 26px; font-weight: 700; }
+.label { font-family: var(--font-sans); font-size: 15px; line-height: 20px; font-weight: 700; }
+.caption { font-family: var(--font-sans); font-size: 14px; line-height: 20px; font-weight: 400; }
+.mono { font-family: var(--font-mono); font-size: 14px; line-height: 20px; font-weight: 400; }
