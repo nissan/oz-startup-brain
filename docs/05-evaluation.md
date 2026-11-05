@@ -73,3 +73,10 @@ Calibrate on at least 20 human-reviewed cases before trusting aggregate judge sc
 - Product gate: validate O1–O3 on real participants, not simulated persona praise.
 
 Pin code commit, corpus hash, dataset version, schema, package versions, models, embedding model, prompts, metrics and timestamp in each report. Save failure examples and total evaluation cost. Live judge runs are manually triggered and budgeted; credential-free CI checks only fixtures and schemas.
+
+
+## Separate decision-model comparison
+
+The controlled B0–B4 runs above isolate retrieval and retain their fixed-model rule. A separate D0–D3 experiment compares deterministic task-intent rules, a small structured-output LLM, Jev and OpenAI Decisions, as specified in [the decision-model protocol](evaluation/decision-models.md) and [ADR 002](decisions/002-decision-models.md). Start with task classification only; do not simultaneously change retrieval strategy, generator and decision provider.
+
+Required evidence includes independently reviewed labels, per-class errors, calibration and risk/coverage curves, explicit fallback rates, paired end-to-end answer quality, total cost and p50/p95 latency. Ragas does not replace classification or calibration metrics. Keep the existing independent judge protocol and human-reviewed reference authority. No calibration claim follows from a provider confidence field. Offline shadow precedes enabled routing; a small or inconclusive sample leaves the default off. See the protocol for manifests, proposed gates, split controls and builder deliverables.

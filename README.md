@@ -23,6 +23,8 @@ The product hypothesis is that a founder can identify a useful next action, unde
 13. [Independent design review, findings and readiness verdict](docs/reviews/claude-design-review.md)
 
 14. [Synthetic UX persona profiles, browser tasks and review runbook](research/synthetic-ux/README.md)
+15. [Decision-model architecture and Claude builder handoff](docs/decisions/002-decision-models.md)
+16. [Decision-model experiment protocol](docs/evaluation/decision-models.md)
 
 ## Starting evidence
 
@@ -38,6 +40,7 @@ The [Founder Journey Planner article](https://www.reddi.ai/blog/founder-journey-
 - Two Vercel projects are the initial non-commercial hosting proposal; MCP is a later adapter to the same backend services.
 - Qdrant Cloud Free for passage retrieval; Neo4j AuraDB Free for reviewed relationships.
 - Offline ingestion and Python Ragas evaluation, run locally or in manually triggered CI.
+- Optional bounded task-intent decisions: rules and structured-LLM baselines compared with Jev and OpenAI Decisions; default off until evaluated.
 - Text and structured cards first; optional push-to-talk and constrained visual input later.
 
 Free infrastructure does not imply free model inference, transcription, embeddings or X API access. All operational limits and acceptance targets below are proposals, not measured results.

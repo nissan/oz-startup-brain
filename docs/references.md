@@ -36,3 +36,14 @@ Checked 5 November 2026. These document supported mechanisms; the detailed secur
 | R20 | [NestJS OpenAPI](https://docs.nestjs.com/openapi/introduction) | Generate and verify API contracts |
 | R21 | [NestJS on Vercel](https://vercel.com/docs/frameworks/backend/nestjs) | Separate serverless API deployment; function constraints still apply |
 | R22 | [MCP HTTP authorisation](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization) | Future interoperable remote access; OAuth discovery and resource-bound credentials |
+
+
+## Bounded decision-model references
+
+Checked 5 November 2026. These establish provider capabilities only; the task vocabulary, policies, evaluation gates and budgets in ADR 002 are project choices. Verify current model IDs, account access and SDK limits before live implementation; no advertised speed/calibration figure is treated as a project result.
+
+| ID | Primary source | Used for |
+| --- | --- | --- |
+| R23 | [TypeSafe introduction](https://docs.typesafe.ai/introduction) | Jev typed questions, choice distributions and separate confidence semantics |
+| R24 | [OpenAI Decisions guide](https://developers.openai.com/api/docs/guides/decisions) | Dedicated decision endpoint, bounded answer types, current model support, refusal and usage mapping |
+| R25 | [Vercel Decisions API integration](https://vercel.com/changelog/openai-decisions-api-now-available-on-ai-gateway) | Optional gateway transport and distinction between direct and gateway model identifiers |
