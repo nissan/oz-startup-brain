@@ -5,7 +5,7 @@ This folder is a versioned export of the "Oz Startup Brain" design system kept a
 | Item | Value |
 | --- | --- |
 | Artifact | https://claude.ai/artifact/S3Nuo9DbM5XgTDkHdi5y9a |
-| Artifact version exported | `1793909088-3a56` (version 9) |
+| Artifact version exported | `1793911862-01d8` (version 11) |
 | Export date | 6 November 2026 |
 | Exported by | Claude, on the owner's instruction (owner decision 10) |
 | Owner approval | **Pending** — one review covers the design system, the mock-ups and the brand kit (#8); nothing here is approved for implementation until that review is recorded in this file |
@@ -23,7 +23,7 @@ This folder is a versioned export of the "Oz Startup Brain" design system kept a
 
 - **Design contract, not implemented behaviour.** `EvidenceLabel` (the five evidence-state words) and `StatusNotice` (the service conditions) and the other components are the proposed implementation contract. No application code consumes them yet; website/API-export label parity is a Stage 4 acceptance check, not a property this export proves.
 - **Contrast** was computed from the token values (every text token at 4.5:1 or better on the grounds its usage note names, in both themes) and the previews were rendered in both themes without errors. This is a calculation and a render, not a WCAG conformance assessment; real assistive-technology sessions remain required.
-- **Keyboard behaviour** is designed in (real buttons, links and inputs; visible focus ring; textual equivalent beside the prerequisite map) but has not been operated by a keyboard-only tester.
+- **Keyboard and accessibility tree** were checked by an automated pass (`../tools/a11y_check.py`, report in [`../accessibility/automated-pass.md`](../accessibility/automated-pass.md)): every focusable element on every preview and artboard receives focus in order and shows the ochre ring (the pass found the ring missing on components' own elements and on plain controls, now fixed in `bundle.css`); every control has an accessible name; `role=status`/`alert`/`aria-live` regions, table captions and row headers, the map's list equivalent and `aria-pressed` are present; context chips are 44px tall on phone widths (found at 34px, fixed). No screen reader was run and no person with a disability took part: that session (#9) and real assistive-technology participants (Stage 4) remain pending, and 200 % reflow can only be checked on the implemented fluid page, since every artboard is a fixed-size picture.
 - Fonts (Fraunces, Atkinson Hyperlegible, JetBrains Mono) are hosted on Google Fonts; the PNG exports use fallback faces.
 
 ## Updating

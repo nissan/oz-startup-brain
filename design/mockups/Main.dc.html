@@ -46,7 +46,7 @@ a{color:var(--ironbark)}a:hover{color:var(--ink)}
   <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
     <section style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
       <h2 style="margin: 0; font-size: 20px; line-height: 26px; font-weight: 700;">Your next steps</h2>
-      <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Clarify your IP position" why="Whether the university or you own the prototype changes which support routes make sense." check="{{ipChecks}}" evidence="{{ipEvidence}}" door="Your university commercialisation contact" on-ask="{{noop}}"></x-import>
+      <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Clarify your IP position" why="Whether the university or you own the prototype changes which support routes make sense." check="{{ipChecks}}" evidence="{{ipEvidence}}" door="Your university commercialisation contact" on-ask="{{noop}}" emphasis="primary"></x-import>
       <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Check whether Round A1 is open before preparing anything" why="The only material about Round A1 is from an earlier snapshot, so its status today is unverified." check="{{roundChecks}}" evidence="{{roundEvidence}}" door="The official Program A page (fictional fixture)"></x-import>
       <x-import component-from-global-scope="OzStartupBrain.NextStepCard" title="Gather customer evidence" why="Most support conversations ask what customers have said; this is sequencing advice, not a documented requirement." check="{{custChecks}}" evidence="{{custEvidence}}" door="Your first three customer conversations"></x-import>
     </section>
@@ -60,7 +60,7 @@ a{color:var(--ironbark)}a:hover{color:var(--ink)}
   </div>
 
   <footer style="display: flex; flex-wrap: wrap; gap: 8px; padding-top: 16px; border-top: 1px solid var(--hairline);">
-    <x-import component-from-global-scope="OzStartupBrain.Button" variant="primary">Export checklist</x-import>
+    <x-import component-from-global-scope="OzStartupBrain.Button">Export checklist</x-import>
     <x-import component-from-global-scope="OzStartupBrain.Button">Compare options</x-import>
     <x-import component-from-global-scope="OzStartupBrain.Button" variant="quiet">Report a source problem</x-import>
   </footer>

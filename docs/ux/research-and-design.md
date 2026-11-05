@@ -33,7 +33,7 @@ Phase 1 text input must complete every core task. Phase 2 uses optional push-to-
 
 For voice output, offer a short spoken next-step summary on request, with pause/stop and a visible transcript. Keep full citations and comparisons on screen; do not read URLs or long tables aloud. Provide a way to open the sources from the spoken summary. No autoplay and no full-duplex interruption handling in the first voice experiment.
 
-Audio is transient by default. Disclose the transcription provider before enabling voice, minimise retention and allow deletion of any optional saved draft. Test Australian place names, accents, code-switching, background noise and speech impairments with consenting participants. Do not present browser speech recognition as equally available or private across all devices.
+Audio is transient by default on the planner's side, but transcription is not sending: to obtain a transcript the audio has already been transmitted to and processed by the transcription provider. Copy therefore distinguishes the two steps — the transcript is reviewed and only the confirmed text is sent *to the planner* — and never implies on-device processing or zero provider retention unless that has been verified for the chosen provider. Disclose the provider, where audio is processed and its verified retention behaviour before recording starts (the SB3 Ask board and `TranscriptReview` carry this line, provisional until the provider is chosen), minimise retention and allow deletion of any optional saved draft. Test Australian place names, accents, code-switching, background noise and speech impairments with consenting participants. Do not present browser speech recognition as equally available or private across all devices.
 
 ## Visual inputs and outputs
 

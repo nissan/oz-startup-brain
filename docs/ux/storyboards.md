@@ -43,7 +43,7 @@ The four boards above are happy paths. None shows the evidence-state labels that
 
 Panels 1–3 and 7 are evidence and coverage limits and carry evidence-state labels; panels 4–6 are service limits and carry a separate service-status notice (the `StatusNotice` design component), never an evidence label, so an outage is never shown as "Outside current coverage" and an exhausted budget is never shown as "Needs a current check". SB5a holds the evidence panels and SB5b the service panels so that every recovery control and the feedback footer fit on a printed sheet.
 
-Also required before testing dictation: a phone-width variant of SB3, because the board as drawn uses desktop proportions while the persona's task is mobile. In SB3 panel 2, "Stage: working prototype" is a chip the founder set earlier, not an inference from speech.
+Also required before testing dictation: a phone-width variant of SB3, because the board as drawn uses desktop proportions while the persona's task is mobile. In SB3 panel 2, "Stage: working prototype" is a chip the founder set earlier, not an inference from speech. SB3's recording and transcript screens say that audio goes to the transcription provider and that only the confirmed text goes to the planner; the provider and retention line is provisional until the provider is chosen.
 
 ### Design system and higher-fidelity mock-ups
 

@@ -15,6 +15,14 @@ An existing Chrome binary also works: set `CHROME` to its absolute path. The ren
 
 The renderer resolves the canvas's uploaded assets (`/_blob/<id>` references) through `design/mockups/assets.json` and reports any unmapped image as a page error. It checks the listed controls, paragraphs and headings against fixed `canvas.json` frames in both themes. It reports offending artboards/elements and exits 1 for bounds overflow or page errors. Component previews use full-page screenshots and have no fixed-frame bounds check. This is a targeted export check; it does not inspect every painted pixel, ancestor clipping or every possible text node.
 
+## Accessibility pass
+
+```sh
+/tmp/osb-render-venv/bin/python design/tools/a11y_check.py /tmp/osb-render/node_modules design/accessibility/automated-pass.md
+```
+
+Opens the same pages as the renderer (`render.py` exposes `build_pages()`), tabs through every focusable element and records focus, the ochre ring, accessible names, `role=status`/`alert`/`aria-live` regions, table captions and row headers, the prerequisite map's list equivalent, `aria-pressed`, image and SVG labelling, button target size on phone boards, and each artboard at 200 % zoom. It writes the committed report and exits 1 on a failure. It is an automated pass with the real component bundle: it reports what the accessibility tree exposes, which is what a screen reader announces, but no screen reader or assistive-technology user is involved, and reflow can only be judged on the implemented fluid page.
+
 ## Regression tests
 
 ```sh

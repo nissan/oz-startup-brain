@@ -5,3 +5,5 @@ Evidence and coverage limits carry an `EvidenceLabel`: `historical` (only old ma
 Service limits carry a `StatusNotice` instead, on neutral paper with a dashed border, because they are about the planner: `graph-degraded` (the graph is unavailable but passages are, so a dated, checked answer is still given with prerequisite sequencing and multi-step links omitted; SC17), `outage` (retrieval unavailable; no answer is shown and a static directory is offered as such; SC18) and `budget` (daily inference budget reached; paid work stopped; SC18). Each keeps the founder's draft when one is supplied and names the next door. None of them ever shows a fabricated live answer, and none implies a freshness or geographic problem.
 
 Consumer provides: `kind`, optional `title`/`body` overrides, optional `draft`, optional `detail` for service kinds, `onAction`, `actionLabel`, optional `onSecondary`.
+
+`emphasis` (`primary` default, or `secondary`) sets the recovery action. On a comparison sheet that shows several panels side by side, each panel is its own scenario and may keep its primary action; in a real view only one panel is shown at a time.

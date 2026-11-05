@@ -75,7 +75,7 @@
         h('span', null, h(EvidenceLabel, { state: ev.state || 'outside', date: ev.date }), ev.publisher ? h('span', { className: 'osb-caption' }, ' ' + ev.publisher) : null)),
       p.door ? h('div', { className: 'osb-card__row' }, h('span', { className: 'osb-card__key' }, 'Next door'), h('span', null, p.door)) : null,
       h('div', { className: 'osb-card__actions' },
-        h(Button, { variant: 'primary', onClick: p.onInspect }, 'Show supporting passage'),
+        h(Button, { variant: p.emphasis === 'primary' ? 'primary' : 'secondary', onClick: p.onInspect }, 'Show supporting passage'),
         p.onAsk ? h(Button, { onClick: p.onAsk }, 'What should I ask?') : null));
   }
 
@@ -139,7 +139,7 @@
       h('p', { className: 'osb-caption osb-check__meta' }, 'Ticking an item records your progress; it does not change what the sources say.'),
       h('div', { className: 'osb-mono osb-caption' }, 'context: ' + (p.context || '') + ' · corpus ' + (p.corpusVersion || '?') + ' · as of ' + (p.asOf || '?')),
       h('p', { className: 'osb-caption', style: { margin: '8px 0 0' } }, 'This checklist is information and routing, not an application or approval.'),
-      h('div', { className: 'osb-card__actions' }, h(Button, { variant: 'primary', onClick: p.onExport }, 'Export checklist'), h(Button, { onClick: p.onEditContext }, 'Edit an assumption')));
+      h('div', { className: 'osb-card__actions' }, h(Button, { variant: p.emphasis === 'secondary' ? 'secondary' : 'primary', onClick: p.onExport }, 'Export checklist'), h(Button, { onClick: p.onEditContext }, 'Edit an assumption')));
   }
 
   function CoverageBanner(p) {
@@ -185,16 +185,17 @@
       h('h3', { className: 'osb-card__title', style: { marginTop: '8px' } }, p.title || copy.title),
       h('p', { style: { margin: 0, fontSize: '17px', lineHeight: '26px' } }, p.body || copy.body),
       p.draft ? h('div', { className: 'osb-limit__draft' }, h('span', { className: 'osb-caption' }, 'Your draft, kept: '), p.draft) : null,
-      h('div', { className: 'osb-card__actions' }, h(Button, { variant: 'primary', onClick: p.onAction }, p.actionLabel || copy.action), p.onSecondary ? h(Button, { onClick: p.onSecondary }, p.secondaryLabel || 'Change my context') : null));
+      h('div', { className: 'osb-card__actions' }, h(Button, { variant: p.emphasis === 'secondary' ? 'secondary' : 'primary', onClick: p.onAction }, p.actionLabel || copy.action), p.onSecondary ? h(Button, { onClick: p.onSecondary }, p.secondaryLabel || 'Change my context') : null));
   }
 
   function TranscriptReview(p) {
     var ref = React.useRef(null);
     return h('section', { className: 'osb osb-card osb-transcript', 'aria-label': 'Check your transcript' },
       h('h3', { className: 'osb-card__title', style: { fontSize: '20px', lineHeight: '26px', fontFamily: 'var(--font-sans)', fontWeight: 700 } }, 'Check your transcript'),
-      h('label', { className: 'osb-caption', htmlFor: 'osb-transcript' }, 'Edit anything that was heard wrongly. Only the corrected text is sent; the recording is not kept.'),
+      h('label', { className: 'osb-caption', htmlFor: 'osb-transcript' }, 'Edit anything that was heard wrongly. Only the text you confirm is sent to the planner.'),
       h('textarea', { id: 'osb-transcript', className: 'osb-transcript__text', defaultValue: p.transcript, ref: ref }),
       p.flagged && p.flagged.length ? h('ul', { className: 'osb-transcript__flags' }, p.flagged.map(function (f, i) { return h('li', { key: i }, h('mark', null, f.word), ' — ' + f.reason); })) : null,
+      h('p', { className: 'osb-caption osb-transcript__disclosure' }, p.disclosure || '[Transcription provider and audio retention: to be disclosed before recording. This placeholder must be replaced with verified wording.]'),
       h('div', { className: 'osb-card__actions' },
         h(Button, { variant: 'primary', onClick: function () { p.onSend && p.onSend(ref.current ? ref.current.value : p.transcript); } }, 'Send corrected question'),
         h(Button, { onClick: p.onDiscard }, 'Discard transcript')));

@@ -5,8 +5,8 @@ Versioned export of the "Oz Startup Brain Mock-ups" Claude Design canvas: the ar
 | Item | Value |
 | --- | --- |
 | Artifact | https://claude.ai/artifact/Dh4MHqWBNHXCYJRzAudKfc |
-| Artifact version exported | `1793909931-a1ab` (version 15) |
-| Design system used | `../system/` at artifact version `1793909088-3a56` (version 9); `canvas.json` → `designSystems[0].version` carries the same identifier |
+| Artifact version exported | `1793911885-c30c` (version 17) |
+| Design system used | `../system/` at artifact version `1793911862-01d8` (version 11); `canvas.json` → `designSystems[0].version` carries the same identifier |
 | Export date | 6 November 2026 |
 | Owner approval | **Pending** — one review with the design system and brand kit (#8) |
 
@@ -24,6 +24,10 @@ Versioned export of the "Oz Startup Brain Mock-ups" Claude Design canvas: the ar
 `../tools/render.py` performs a geometric bounds check as part of every render: in both themes, every button, link, input, select, textarea, paragraph and heading on every artboard must lie inside its artboard's frame from `canvas.json`, or the script prints `BOUNDS <artboard> <theme>: <element>` and exits nonzero. The committed exports were produced by a passing run on 6 November 2026. The same run checks the canvas layout itself: no title or sticky note in `canvas.json` may overlap an artboard frame and no two frames may overlap (`LAYOUT …`, exit 1), because the renderer draws artboards only and would otherwise never see an annotation sitting on a board. This is a check of the fallback-font render, not of the hosted artifact's exact glyph widths.
 
 **Embedded design-system version.** The canvas copies the design system's `README.md`, `tokens.json`, `components/bundle.js` and `components/bundle.css` into `ds/oz-startup-brain/` at publish time; `canvas.json` records which artifact version they came from. Before version 14 that stamp still read `1793907664-c590` (the first copy) although the copied files had been refreshed on each republish: the files embedded in canvas version 12 were compared byte for byte with the committed version-8 export of `../system/` and were identical, so the stamp was stale metadata, not a divergent system. The stamp is now set from the version actually copied and must be updated on every re-export; the same comparison (`cmp` of the four files against `../system/`) is the check.
+
+**Primary-action hierarchy (owner review on #17, recorded in #8).** Each real screen now has one intentional sage action: on the journey workspace it is the first next-step card's "Show supporting passage" (opening evidence beside the first action is the product's core move, O2); the other cards' inspect actions and "Export checklist" are secondary. SB3 Ask: "Start recording" (the persona's task); SB3 Route: the single card's inspect action; SB3 Summary: "Read summary", with export secondary. `NextStepCard` no longer hard-codes primary — the parent passes `emphasis`. A pressed starter task is a selected state (`ironbark-tint` with an `ironbark` border), not an action. SB5a/SB5b are comparison sheets of separate scenarios, so each `LimitPanel` keeps its own recovery action, as the review allowed. The mark's sage destination node is decorative and part of the logo.
+
+**Voice disclosure (same review).** SB3 Ask and SB3 Transcript now say that the recording is sent to the transcription provider to make the transcript and that only the text the founder confirms is sent to the planner; the provider and its retention line are explicitly provisional until the provider is chosen, and `TranscriptReview` renders a visible placeholder if a consumer omits the disclosure.
 
 Every program, round, source and person on these boards is a labelled fictional fixture. The `.dc.html` files mount the design system's components with `<x-import>`; `../tools/render.py` reproduces the PNGs with a minimal stand-in for the canvas runtime (fallback fonts) and resolves uploaded canvas assets through `assets.json`, failing on any unmapped image.
 

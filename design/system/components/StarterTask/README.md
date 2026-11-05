@@ -1,3 +1,3 @@
-Three starter tasks replace the blank chat box: Find my next step, Compare options, Check a prerequisite. One may be active (`aria-pressed`), shown with the sage fill. Keep titles to four words and hints to one line.
+Three starter tasks replace the blank chat box: Find my next step, Compare options, Check a prerequisite. One may be active (`aria-pressed`). The active state is a *selected* state, not an action: it is drawn with `ironbark-tint` and an `ironbark` border so that it can never be mistaken for the view's one sage primary action. Keep titles to four words and hints to one line.
 
-Consumer provides: `tasks` (`[{id, title, hint, active}]`, three at most) and `onSelect(id)`.
+Consumer provides: `tasks` (`[{id, title, hint, active}]`, three at most) and `onSelect(id)`. The three ids map to the API's explicit `task_intent` values (`lookup`, `comparison`, `prerequisite`); see ADR 002's starter-task contract.
