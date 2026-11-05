@@ -6,7 +6,7 @@ Planning window: **6–12 November 2026, Australia/Sydney**. This is a proposed 
 
 Deliver the fixture API and trustworthy visual foundation, then unlock a polished local founder journey for synthetic browser feedback. No hosted service, model spend or public deployment is needed.
 
-1. Finish the active #20 review corrections. Coordinate renderer ownership before #22.
+1. Finish the active #20 review corrections. **#20 occupies one of the two WIP slots until merged; #22 starts when that slot is freed.** #24 may occupy the other slot with a separate confirmed builder. Coordinate renderer ownership before #22.
 2. Primary implementation slots: **#24 NestJS fixture API** and **#22 intended-font rendering/polish**. Claude is the suggested builder; no agent is dispatched merely by this plan. Separate branches and confirmed claims are required. With one available builder, take #24 first after finishing active corrections, then #22.
 3. Prepare owner review #8 and available accessibility checks #9. They retain separate approval/evidence requirements.
 4. Stretch only when dependencies pass: #25 local fixture UI, then #26 first synthetic round. Carry unfinished work into the next iteration; do not skip visual polish to hit the window.
