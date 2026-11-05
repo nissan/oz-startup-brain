@@ -1,15 +1,17 @@
 # Synthetic UX persona pack
 
-Version 0.1 — prepared 5 November 2026. **Preparation only: no browser sessions or human studies have been run with this pack.** All names, situations, tasks and preferences are fictional design hypotheses. They are not inferred from names, ethnicity, gender or demographic membership.
+Version 0.2 — revised after PR review on 5 November 2026. **Preparation only: no browser sessions or human studies have been run with this pack.** All names, situations, tasks and preferences are fictional design hypotheses. They are not inferred from names, ethnicity, gender or demographic membership.
 
-This pack adapts our previous Workbench approach: goal-driven persona walkthroughs, reproducible interaction traces, separate observations and hypothetical reactions, and bounded revision/retest cycles. It contains no previous project's participant data or results.
+This pack supports goal-driven persona walkthroughs, reproducible interaction traces, separate observations and hypothetical reactions, and bounded revision/retest cycles.
 
 ## Start here
 
-1. Read [the profiles](personas.md); [personas.json](personas.json) contains the same profiles in a machine-readable form.
-2. Choose a persona and one of the 16 [task cards](tasks.json). Give the actor only that profile and task's `brief` and `follow_up` at the appropriate time.
-3. The facilitator reads [fixture requirements and expected observations](evaluator-guide.md), then follows the [runbook](runbook.md).
-4. Use the [Claude handoff prompt](claude-prompt.md) and [session report template](templates/session.md).
+1. The facilitator selects from eight [actor profiles](actor/personas.json) and sixteen [actor task cards](actor/tasks.json). The richer [persona hypotheses](personas.md) are facilitator-only.
+2. For the first attempt give the actor only the assigned record from `actor/personas.json`, the initial brief from `actor/tasks.json`, the starting URL and input constraints. Reveal `follow_up` afterwards. Never include fixture/scenario mappings, success hypotheses or this README's linked facilitator pack in an unprimed actor context.
+3. The facilitator separately reads [task mappings](facilitator/tasks.json), the [capability registry](facilitator/capabilities.json), [expected observations](facilitator/evaluator-guide.md) and [runbook](runbook.md).
+4. Use the [actor-first Claude prompt](claude-prompt.md) and [session report template](templates/session.md). A fresh actor context must not inherit the facilitator conversation; merely changing role labels does not remove prior exposure.
+
+File separation limits accidental exposure; it does not enforce a security boundary or guarantee unbiased simulation. A context that has read expected outcomes before acting must be reported as a primed inspection.
 
 The six core identities retain the IDs in [the product plan](../../docs/02-product.md). UX7 and UX8 are additional testing variants, not a change to product scope or a claim that two new market segments have been validated.
 
@@ -30,12 +32,16 @@ These are prerequisites, not new roadmap gates. A declared API-only release must
 
 | Available surface | Valid activity | Evidence limit |
 | --- | --- | --- |
-| Static SVG/paper boards | Inspect language, hierarchy and expected affordances | Design inspection only; cannot pass interactive tasks |
-| Fixture-only NestJS slice 1A | P6 documentation inspection and separately authorised HTTP fixture checks | No founder browser completion claim |
-| Click-through or functional founder UI | Core text tasks; controlled fixture states that actually exist | Record mock vs live backing; no model-quality claim from a mock |
-| Graph/curator artifacts | P5 review tasks and graph-related variants | Review queue remains repository-based; no admin console requirement |
-| Voice/visual experiment | T06 and T08 with explicit supported-input setup | Never imply speech recognition or upload behaviour from a static mock |
-| Later MCP adapter | Separate policy/interoperability tests | No MCP pass inferred from these browser tasks |
+| Static SVG/paper boards (0/0a) | Inspect language, hierarchy and expected affordances | [Registry](facilitator/capabilities.json): design inspection only; no runtime capabilities proven |
+| Fixture-only NestJS slice 1A | P6 documentation inspection and separately authorised HTTP fixture checks | [Registry](facilitator/capabilities.json): `api_quickstart`, `api_contract`; no founder browser completion |
+| Founder UI (1B initial surface; Stage 4 full interface) | Core text tasks; controlled fixture states that exist | [Registry](facilitator/capabilities.json): `founder_text`, `context_edit`, `evidence_panel`, `comparison` etc.; record mock/live backing |
+| Graph/curator artifacts (Stage 3; baseline reports Stage 2) | P5/P6 artifact tasks | [Registry](facilitator/capabilities.json): `repository_review_artifact`, `evaluation_report`; no admin console required |
+| Voice/visual experiment (Stage 5) | T06 and T08 with explicit supported-input setup | [Registry](facilitator/capabilities.json): `voice_input`, `transcript_edit`, `text_fallback`, `visual_upload`, `extraction_confirmation` |
+| Later MCP adapter (Stage 7) | Separate policy/interoperability tests | [Registry](facilitator/capabilities.json): deliberately no MCP capability or pass assigned by this pack |
+
+The registry lists each of the 22 capability IDs once, its planned delivery stage, presence evidence, contract mapping and absent-state handling. These are planning identifiers, not invented fields in `GET /v1/capabilities`. Bind them to actual implementation evidence in the run manifest. A stage label alone never proves a capability exists.
+
+T02/T03/T15 initially have `blocked_pending_test_controls`; T06/T08 have `blocked_pending_fixture`. Others start `not_run`, which does not imply readiness. There are 20 named variants across 16 parent tasks: T06 has correction/denial/timeout variants and T15 has vector/budget/graph variants. Assess readiness before execution; none are attempted until an actual action is recorded.
 
 Start with P1/T01, P2/T03–T04, P3/T05, UX7/T13 and UX8/T15. Expand to failures and specialist tasks as the corresponding surfaces exist. Repeat source-inspection and correction tasks across multiple personas; do not invent coverage to meet a numerical target.
 
@@ -43,4 +49,6 @@ Start with P1/T01, P2/T03–T04, P3/T05, UX7/T13 and UX8/T15. Expand to failures
 
 These are disclosed development tasks, not a held-out Ragas set or gold reference answers. Keep them out of the production retrieval corpus and frozen evaluation set. UI test success cannot establish retrieval quality, factual accuracy, budget enforcement, security, accessibility conformance or real founder comprehension. In particular, synthetic teach-back cannot satisfy the product's human-participant O1–O3 targets.
 
-Existing authorities remain [founder scenarios](../../features/founder-journeys.feature), [API scenarios](../../features/api-access.feature), [UX principles](../../docs/ux/research-and-design.md), [storyboards](../../docs/ux/storyboards.md) and [delivery gates](../../docs/06-delivery.md). Scenario references in task cards indicate traceability, not complete scenario coverage. If implementation changes these contracts, record the discrepancy for review rather than silently updating the task to make it pass.
+Existing authorities remain [founder scenarios](../../features/founder-journeys.feature), [API scenarios](../../features/api-access.feature), [UX principles](../../docs/ux/research-and-design.md), [storyboards](../../docs/ux/storyboards.md) and [delivery gates](../../docs/06-delivery.md). Facilitator mappings separate `observes` (only the visible subset in `observation_scope`) from `related` (context only). Count executed variant evidence, not entire scenario passes or parent-task union lists. If implementation changes these contracts, record the discrepancy for review rather than silently updating the task to make it pass.
+
+Validate the pack from the repository root with `python research/synthetic-ux/tools/validate_pack.py`. This checks structure and traceability only and executes no browser task.
