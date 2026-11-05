@@ -20,7 +20,7 @@ Versioned export of the "Oz Startup Brain Mock-ups" Claude Design canvas: the ar
 | SB3 Route and coverage (390×844) | `SB3-Route.dc.html` | [`SB3-Route-light.png`](../exports/mockups/SB3-Route-light.png), [`SB3-Route-dark.png`](../exports/mockups/SB3-Route-dark.png) | One next step with dated evidence and an honest outside-coverage gap |
 | SB3 Listen or read (390×844) | `SB3-Summary.dc.html` | [`SB3-Summary-light.png`](../exports/mockups/SB3-Summary-light.png), [`SB3-Summary-dark.png`](../exports/mockups/SB3-Summary-dark.png) | Spoken summary on request with sources visible (SC11 variant) |
 
-Bounds check run on 6 November 2026 with the committed renderer: in both themes, every button, link, input, paragraph and heading on every artboard lies inside its artboard's frame (no clipped recovery controls or footers). This is a geometric check of the fallback-font render, not a review of the hosted artifact's exact glyph widths.
+`../tools/render.py` performs a geometric bounds check as part of every render: in both themes, every button, link, input, select, textarea, paragraph and heading on every artboard must lie inside its artboard's frame from `canvas.json`, or the script prints `BOUNDS <artboard> <theme>: <element>` and exits nonzero. The committed exports were produced by a passing run on 6 November 2026. This is a check of the fallback-font render, not of the hosted artifact's exact glyph widths.
 
 Every program, round, source and person on these boards is a labelled fictional fixture. The `.dc.html` files mount the design system's components with `<x-import>`; `../tools/render.py` reproduces the PNGs with a minimal stand-in for the canvas runtime (fallback fonts).
 
