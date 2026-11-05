@@ -1,6 +1,6 @@
-# Persona profiles
+# Facilitator persona hypotheses
 
-**Fictional testing hypotheses, not research participants.** These cards are generated from [personas.json](personas.json). Edit the JSON and regenerate/update both together. Preferences describe this fictional individual only.
+**Fictional testing hypotheses, not research participants.** Facilitator-only: these cards include intended reactions and success hypotheses. They are kept in step with [facilitator/personas.json](facilitator/personas.json). Do not give them to a first-pass actor; use [actor/personas.json](actor/personas.json) instead. Preferences describe this fictional individual only.
 
 ## P1 — Mei: Student founder building an AI prototype
 
