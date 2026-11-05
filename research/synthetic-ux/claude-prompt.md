@@ -1,51 +1,44 @@
-# Claude handoff prompt
+# Actor-first Claude handoff
 
-Replace the bracketed run inputs before execution. If the build URL or corresponding commit is missing, perform preparation only and report that no browser testing was executed. Task preparation does not authorise paid calls or unrelated account changes.
+The facilitator prepares fixtures and readiness separately using [runbook.md](runbook.md). Do not paste the facilitator guide, mappings, old findings or a conversation containing them into the actor session. Use an existing separate context or explicitly authorise a separate runner; this prompt does not authorise spawning agents.
+
+Give the following prompt to a fresh actor context. Supply only the selected profile/task records, not all profiles and future tasks. If reading from files, use only `actor/` before the first attempt. Hold the follow-up until the initial attempt ends; file readers that see it early must record that exposure.
 
 ```text
-Run a synthetic UX walkthrough of nissan/oz-startup-brain using
-research/synthetic-ux/README.md and its linked pack.
+Perform one fictional persona browser walkthrough of nissan/oz-startup-brain.
+For your first attempt, the only pack files you may read are the assigned
+records in research/synthetic-ux/actor/personas.json and actor/tasks.json.
+Do not read the root pack README, runbook, facilitator folder, source code,
+prior reports or expected results before completing the first attempt.
 
-Inputs:
-- Target commit: [full SHA]
-- Preview/local URL and evidence that it serves that commit: [URL/evidence]
-- Declared release scope and fixture setup: [capabilities, fixture mapping]
-- Persona/task selection: [e.g. P1/T01, P2/T03-T04, P3/T05, UX7/T13, UX8/T15]
-- Allowed test environment: [isolated local or preview]
-- Optional HTTP companion allowed: [yes/no; default no]
-- Output destination: [new run folder]
-- Publishing: local artifacts only unless I explicitly request a PR for this run.
+Run inputs, prepared by the facilitator:
+- Persona ID and selected actor profile: [record]
+- Task ID and initial brief only: [brief]
+- Verified starting URL/build and input constraints: [values]
+- Isolated local/preview environment with paid calls disabled: [values]
+- Output destination for observed trace: [path]
 
-These are fictional profiles. Do not invent observations, quotes from humans,
-usability rates or results. Follow repository instructions and the browser
-integration's documented control workflow. Do not provision, deploy, merge,
-spend on models, grant a real microphone or submit third-party forms.
+If these inputs or an operable browser are missing, report preparation only.
+Do not invent observations or visit an assumed deployment.
+Use the installed browser integration and its documented APIs. Do not guess
+selectors, use hidden deep links, inspect source code or bypass controls.
+Follow the profile's knowledge and preferences; do not act out a predetermined
+success or failure. Record actual actions, visible results and redacted evidence.
+Do not provision, deploy, merge, spend on models, grant a real microphone,
+submit external forms or publish anything as part of this walkthrough.
 
-1. Verify build identity and stage prerequisites. Read the facilitator runbook
-   and map the requested fixtures. Record unsupported actions or missing
-   capabilities. An API-only stage does not fail because it has no website.
-2. Keep actor input separate from the evaluator oracle if the environment
-   supports it. Give the actor only its persona and initial task brief; provide
-   the follow-up afterwards. If the same agent has already read the expected
-   results, label the run primed inspection. Do not claim an independent or
-   blinded test. Do not spawn agents without separate authorisation.
-3. Start fresh for each persona/task, using only observed visible controls.
-   Respect keyboard/mobile/zoom constraints. Preserve evidence before offering
-   a hint. One recovery attempt, then report the obstruction; follow the
-   runbook's bounds rather than forcing completion.
-4. Record actual browser actions, state changes and redacted screenshots.
-   Separate browser_observed, artifact_observed, api_observed, source_inspected
-   and hypothesis. A static mock is not a functional test. The screen cannot
-   prove backend quotas, key isolation, retention or corpus release atomicity.
-5. Complete the session templates and findings matrix. Include positive
-   observations, reproducible defects, hypothetical reactions and real-user
-   questions in distinct sections. Leave unavailable criteria unverified.
-6. Produce a prioritised report with evidence links, severity, scope limits,
-   proposed acceptance checks and the smallest next iteration. Preserve prior
-   runs. Do not repair the app during the baseline run or silently update the
-   scripts to match incorrect behaviour.
+Allow one sensible visible recovery attempt. Stop after two failed attempts
+at the same action, three unproductive navigation loops or 25 meaningful
+UI actions; record the limit, not an invented human abandonment rate.
+Keyboard-only means operate keys, with no pointer rescue. Never claim to hear
+audio or inspect a downloaded file if the tool did not provide it.
 
-Stop after the report. Return what actually ran, what could not run, the
-highest-priority findings, artifact paths and the proposed retest selection.
-No result from this exercise satisfies human-research or live-model gates.
+After the first attempt, explain your next action and uncertainty using only
+what you saw. This is a hypothetical interpretation, not a human quotation.
+Stop and return your trace. The facilitator may then give you the follow-up
+brief as a separate attempt and evaluate the observations afterwards.
+If you previously saw fixtures, expected results or the follow-up, disclose
+that exposure; the evaluator must label the relevant attempt primed inspection.
 ```
+
+After freezing the trace, the facilitator uses [facilitator/tasks.json](facilitator/tasks.json), [facilitator/evaluator-guide.md](facilitator/evaluator-guide.md) and [templates/session.md](templates/session.md). Record reproducible findings and proposed fixes; never retroactively change a trace to match the oracle. A context that read the oracle beforehand remains valid only as a labelled primed inspection. No result satisfies human-research or live-model gates.
