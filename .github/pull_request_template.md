@@ -14,7 +14,7 @@ Required for frontend/design changes; otherwise state why this is not applicable
 - Screens/states, CSS viewport sizes, browser, themes and font/asset loading:
 - Biggest visual weaknesses found, ranked by impact:
 - Changes made to address them:
-- Before/after evidence links and result of inspecting the revised render:
+- Before/after PR attachments or links to final exports at exact commit SHAs (no duplicate image sets committed), and result of inspecting the revised render:
 - Remaining issues, linked follow-ups and any incomplete visual sign-off:
 
 - [ ] Dedicated visual-polish pass and post-fix review completed, or explicitly not applicable with reason.

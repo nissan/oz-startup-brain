@@ -16,3 +16,7 @@ For every frontend or visual-design change, follow [the visual quality standard]
 Passing functional tests, screenshots merely existing, or a successful build does not satisfy this requirement. If visual inspection cannot be performed, record the blocker and leave visual sign-off incomplete. Never fabricate screenshots, review results or user feedback. Backend-only work may mark the gate not applicable with a reason.
 
 Preserve accessibility, truthful evidence states and usable performance while polishing. Use the design system and brand assets deliberately; low-fidelity research sketches are not the production visual target. Owner design approval and synthetic/human usability research remain separate from an agent's visual review.
+
+## Checks to run
+
+Run the applicable checks documented in the [persona-pack tooling guide](research/synthetic-ux/tools/README.md) and [design tooling guide](design/tools/README.md), including their regression suites; do not record a scenario review automatically to make validation pass. PR #19 supplies the CI validator, token-consistency and renderer checks once merged. The accessibility checker from PR #20 must satisfy its review findings before being treated as keyboard/accessibility-tree evidence or added as that CI gate. Passing these checks does not replace the visual-polish pass.
