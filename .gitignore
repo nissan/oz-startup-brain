@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+.venv/
+__pycache__/
+data/raw/
+data/private/
+data/snapshots/
+evaluation/private/
+evaluation/runs/
+*.log
