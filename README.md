@@ -8,6 +8,8 @@ The product hypothesis is that a founder can identify a useful next action, unde
 
 ## Contribution and completion standards
 
+**Ready to assign work:** use [the delivery home](docs/delivery/README.md), [ordered backlog](docs/delivery/backlog.md) and [Iteration 01 hub (#23)](https://github.com/nissan/oz-startup-brain/issues/23). The issue records coordinate planners, builders, reviewers and verifiers across Claude, Codex and other agents. The first sequence is fixture API and intended-font polish, local founder UI, synthetic browser feedback, then fixes and retesting before the live baseline.
+
 All contributors and AI builders must follow [AGENTS.md](AGENTS.md). **Visual presentation has equal priority with functionality.** Every frontend increment requires a dedicated [visual-polish pass](docs/ux/visual-quality.md): identify the biggest weaknesses, address them, inspect the revised result and provide review evidence before declaring completion.
 
 ## Review the proposal
