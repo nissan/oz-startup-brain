@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>Oz Startup Brain technical architecture</title><desc>Browser, Next.js server BFF and NestJS API with proposed separate Vercel projects, managed retrieval and model services, shared design system and API contracts. Supabase and generation providers are candidates. Current implementation uses local fixtures.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2e4a5a"/></marker><marker id="back" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2e4a5a"/></marker></defs>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#f5f0e4" stroke="#f5f0e4" stroke-width="2" />
+<rect x="0" y="0" width="1920" height="12" rx="0" fill="#2e4a5a" stroke="#2e4a5a" stroke-width="2" />
+<text x="60" y="80" font-family="DejaVu Sans" font-size="46" font-weight="700" fill="#292d31" text-anchor="start">Oz Startup Brain</text>
+<text x="60" y="122" font-family="DejaVu Sans" font-size="25" font-weight="400" fill="#5f5346" text-anchor="start">Technology tiers, trust boundaries and shared foundations</text>
+<text x="1860" y="62" font-family="DejaVu Sans" font-size="20" font-weight="700" fill="#2e4a5a" text-anchor="end">QUEENSLAND PILOT</text>
+<text x="1860" y="96" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#5f5346" text-anchor="end">Target architecture · 07 Nov 2026</text>
+<path d="M 60 151 H 1860" fill="none" stroke="#cfc8b8" stroke-width="1.5" stroke-linejoin="round"   />
+<text x="60" y="196" font-family="DejaVu Sans" font-size="18" font-weight="700" fill="#2e4a5a" text-anchor="start">01  BROWSER</text>
+<text x="390" y="196" font-family="DejaVu Sans" font-size="18" font-weight="700" fill="#2e4a5a" text-anchor="start">02  WEB TIER</text>
+<text x="930" y="196" font-family="DejaVu Sans" font-size="18" font-weight="700" fill="#2e4a5a" text-anchor="start">03  APPLICATION TIER</text>
+<text x="1480" y="196" font-family="DejaVu Sans" font-size="18" font-weight="700" fill="#2e4a5a" text-anchor="start">04  MANAGED SERVICES</text>
+<rect x="60" y="245" width="270" height="195" rx="12" fill="#fffdf7" stroke="#2e4a5a" stroke-width="2" />
+<text x="82" y="284" font-family="DejaVu Sans" font-size="24" font-weight="700" fill="#292d31" text-anchor="start">Founder browser</text>
+<text x="82" y="329" font-family="DejaVu Sans" font-size="20" font-weight="400" fill="#292d31" text-anchor="start">React interface</text>
+<text x="82" y="363" font-family="DejaVu Sans" font-size="20" font-weight="400" fill="#292d31" text-anchor="start">User input and cards</text>
+<text x="82" y="397" font-family="DejaVu Sans" font-size="20" font-weight="400" fill="#292d31" text-anchor="start">No upstream secrets</text>
+<rect x="60" y="565" width="270" height="215" rx="12" fill="#e8eddf" stroke="#2e4a5a" stroke-width="2" />
+<text x="82" y="606" font-family="DejaVu Sans" font-size="25" font-weight="700" fill="#292d31" text-anchor="start">Design system</text>
+<text x="82" y="642" font-family="DejaVu Sans Mono" font-size="17" font-weight="400" fill="#5f5346" text-anchor="start">design/system</text>
+<text x="82" y="679" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Tokens + shared CSS</text>
+<text x="82" y="709" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">15 React components</text>
+<text x="82" y="739" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Generated into web app</text>
+<path d="M 195 565 V 445" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrow)" />
+<text x="182" y="492" font-family="DejaVu Sans" font-size="16" font-weight="400" fill="#5f5346" text-anchor="end">Build-time</text>
+<text x="182" y="516" font-family="DejaVu Sans" font-size="16" font-weight="400" fill="#5f5346" text-anchor="end">UI reuse</text>
+<rect x="390" y="225" width="420" height="555" rx="12" fill="#fffdf7" stroke="#2e4a5a" stroke-width="2" stroke-dasharray="9 7"/>
+<text x="415" y="265" font-family="DejaVu Sans" font-size="17" font-weight="700" fill="#2e4a5a" text-anchor="start">VERCEL PROJECT A</text>
+<text x="415" y="308" font-family="DejaVu Sans" font-size="29" font-weight="700" fill="#292d31" text-anchor="start">Next.js web app</text>
+<text x="415" y="342" font-family="DejaVu Sans Mono" font-size="18" font-weight="400" fill="#5f5346" text-anchor="start">apps/web</text>
+<text x="415" y="382" font-family="DejaVu Sans" font-size="21" font-weight="400" fill="#292d31" text-anchor="start">Rendering + presentation</text>
+<rect x="410" y="430" width="380" height="270" rx="12" fill="#dde6ea" stroke="#2e4a5a" stroke-width="2" />
+<text x="434" y="471" font-family="DejaVu Sans" font-size="28" font-weight="700" fill="#292d31" text-anchor="start">Server BFF</text>
+<text x="434" y="522" font-family="DejaVu Sans" font-size="20" font-weight="400" fill="#292d31" text-anchor="start">Fixed upstream routes</text>
+<text x="434" y="558" font-family="DejaVu Sans" font-size="20" font-weight="400" fill="#292d31" text-anchor="start">Input allowlist + deadlines</text>
+<text x="434" y="594" font-family="DejaVu Sans" font-size="20" font-weight="400" fill="#292d31" text-anchor="start">Generated TypeScript client</text>
+<path d="M 434 617 H 766" fill="none" stroke="#2e4a5a" stroke-width="1.5" stroke-linejoin="round"   />
+<text x="434" y="650" font-family="DejaVu Sans" font-size="22" font-weight="700" fill="#2e4a5a" text-anchor="start">Website API key</text>
+<text x="434" y="679" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#2e4a5a" text-anchor="start">Server-only environment</text>
+<text x="415" y="746" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#5f5346" text-anchor="start">Independent web deployment</text>
+<path d="M 390 355 H 335" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"  marker-end="url(#arrow)" />
+<text x="365" y="321" font-family="DejaVu Sans" font-size="14" font-weight="400" fill="#5f5346" text-anchor="middle">HTML</text>
+<text x="365" y="339" font-family="DejaVu Sans" font-size="14" font-weight="400" fill="#5f5346" text-anchor="middle">+ JS</text>
+<path d="M 275 440 V 500 H 405" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"  marker-end="url(#arrow)" marker-start="url(#back)"/>
+<text x="335" y="535" font-family="DejaVu Sans" font-size="16" font-weight="400" fill="#5f5346" text-anchor="middle">Same-origin</text>
+<text x="335" y="557" font-family="DejaVu Sans" font-size="16" font-weight="400" fill="#5f5346" text-anchor="middle">HTTPS / JSON</text>
+<rect x="930" y="225" width="450" height="555" rx="12" fill="#fffdf7" stroke="#2e4a5a" stroke-width="2" stroke-dasharray="9 7"/>
+<text x="955" y="265" font-family="DejaVu Sans" font-size="17" font-weight="700" fill="#2e4a5a" text-anchor="start">VERCEL PROJECT B</text>
+<text x="955" y="308" font-family="DejaVu Sans" font-size="29" font-weight="700" fill="#292d31" text-anchor="start">NestJS API</text>
+<text x="955" y="336" font-family="DejaVu Sans Mono" font-size="18" font-weight="400" fill="#5f5346" text-anchor="start">apps/api · /v1 REST</text>
+<rect x="950" y="355" width="410" height="140" rx="12" fill="#dde6ea" stroke="#2e4a5a" stroke-width="2" />
+<text x="974" y="392" font-family="DejaVu Sans" font-size="25" font-weight="700" fill="#292d31" text-anchor="start">Guards + policy</text>
+<text x="974" y="429" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#292d31" text-anchor="start">API-key guards, scopes, validation</text>
+<text x="974" y="459" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#292d31" text-anchor="start">Live: durable quotas + admission</text>
+<path d="M 1155 495 V 540" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"  marker-end="url(#arrow)" />
+<text x="1180" y="524" font-family="DejaVu Sans" font-size="17" font-weight="400" fill="#5f5346" text-anchor="start">Admitted request</text>
+<rect x="950" y="545" width="410" height="205" rx="12" fill="#e8eddf" stroke="#2e4a5a" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="974" y="584" font-family="DejaVu Sans" font-size="25" font-weight="700" fill="#292d31" text-anchor="start">LangGraph workflow</text>
+<text x="974" y="620" font-family="DejaVu Sans" font-size="21" font-weight="400" fill="#292d31" text-anchor="start">LangChain integrations</text>
+<text x="974" y="657" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#292d31" text-anchor="start">Retrieval + model adapters</text>
+<text x="974" y="688" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#292d31" text-anchor="start">Bounded generation and validation</text>
+<text x="974" y="719" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#292d31" text-anchor="start">Typed evidence response</text>
+<path d="M 790 455 H 945" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"  marker-end="url(#arrow)" marker-start="url(#back)"/>
+<text x="868" y="393" font-family="DejaVu Sans" font-size="17" font-weight="700" fill="#2e4a5a" text-anchor="middle">HTTPS</text>
+<text x="868" y="419" font-family="DejaVu Sans" font-size="18" font-weight="700" fill="#2e4a5a" text-anchor="middle">X-API-Key</text>
+<text x="866" y="491" font-family="DejaVu Sans" font-size="16" font-weight="400" fill="#5f5346" text-anchor="middle">App identity</text>
+<text x="866" y="515" font-family="DejaVu Sans" font-size="16" font-weight="400" fill="#5f5346" text-anchor="middle">not user login</text>
+<rect x="1480" y="240" width="380" height="155" rx="12" fill="#fffdf7" stroke="#9a4d1f" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="1502" y="274" font-family="DejaVu Sans" font-size="26" font-weight="700" fill="#292d31" text-anchor="start">OpenAI / Claude</text>
+<text x="1502" y="307" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#9a4d1f" text-anchor="start">Generation provider candidates</text>
+<text x="1502" y="342" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#292d31" text-anchor="start">Behind provider adapters</text>
+<text x="1502" y="371" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#292d31" text-anchor="start">Embedding provider: TBD</text>
+<rect x="1480" y="425" width="380" height="165" rx="12" fill="#fffdf7" stroke="#2e4a5a" stroke-width="2" stroke-dasharray="9 7"/>
+<text x="1502" y="463" font-family="DejaVu Sans" font-size="24" font-weight="700" fill="#292d31" text-anchor="start">Qdrant Cloud</text>
+<text x="1502" y="491" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#292d31" text-anchor="start">Relevant source passages</text>
+<text x="1502" y="532" font-family="DejaVu Sans" font-size="24" font-weight="700" fill="#292d31" text-anchor="start">Neo4j AuraDB</text>
+<text x="1502" y="561" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#292d31" text-anchor="start">Reviewed relationships</text>
+<rect x="1480" y="620" width="380" height="160" rx="12" fill="#f6e3d3" stroke="#9a4d1f" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="1502" y="657" font-family="DejaVu Sans" font-size="24" font-weight="700" fill="#292d31" text-anchor="start">Supabase / Postgres?</text>
+<text x="1502" y="688" font-family="DejaVu Sans" font-size="19" font-weight="400" fill="#9a4d1f" text-anchor="start">Operational store candidate</text>
+<text x="1502" y="722" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Key registry, budgets, usage</text>
+<text x="1502" y="751" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Atomic controls need validation</text>
+<path d="M 1380 620 H 1425" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"   />
+<path d="M 1425 318 V 710" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"   />
+<path d="M 1425 318 H 1475" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"  marker-end="url(#arrow)" />
+<path d="M 1425 508 H 1475" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"  marker-end="url(#arrow)" />
+<path d="M 1425 710 H 1475" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"  marker-end="url(#arrow)" />
+<circle cx="1425" cy="620" r="4" fill="#2e4a5a"/>
+<text x="1670" y="812" font-family="DejaVu Sans" font-size="17" font-weight="700" fill="#2e4a5a" text-anchor="middle">API owns model + database credentials</text>
+<path d="M 600 845 V 785" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrow)" />
+<path d="M 1155 845 V 785" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="5 7" marker-end="url(#arrow)" />
+<text x="860" y="821" font-family="DejaVu Sans" font-size="16" font-weight="700" fill="#5f5346" text-anchor="middle">SHARED BUILD-TIME FOUNDATION</text>
+<rect x="390" y="845" width="990" height="125" rx="12" fill="#dde6ea" stroke="#cfc8b8" stroke-width="2" />
+<text x="416" y="884" font-family="DejaVu Sans" font-size="25" font-weight="700" fill="#292d31" text-anchor="start">API contract + generated client</text>
+<text x="416" y="920" font-family="DejaVu Sans" font-size="20" font-weight="400" fill="#292d31" text-anchor="start">JSON Schema + validators · OpenAPI · Generated TypeScript client</text>
+<text x="416" y="950" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#5f5346" text-anchor="start">packages/contracts + packages/api-client keep the BFF and API compatible</text>
+<text x="60" y="872" font-family="DejaVu Sans" font-size="18" font-weight="700" fill="#2e4a5a" text-anchor="start">WHY THE BFF?</text>
+<text x="60" y="908" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Same-origin browser calls</text>
+<text x="60" y="937" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Server-only credentials</text>
+<text x="60" y="966" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Reusable backend API</text>
+<text x="1480" y="872" font-family="DejaVu Sans" font-size="18" font-weight="700" fill="#2e4a5a" text-anchor="start">OFFLINE EVIDENCE + QUALITY</text>
+<text x="1480" y="908" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Source review + versioned ingestion</text>
+<text x="1480" y="937" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Python Ragas + scenario evaluation</text>
+<text x="1480" y="966" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#292d31" text-anchor="start">Outside the interactive request</text>
+<path d="M 60 994 H 1860" fill="none" stroke="#cfc8b8" stroke-width="1.5" stroke-linejoin="round"   />
+<text x="60" y="1032" font-family="DejaVu Sans" font-size="19" font-weight="700" fill="#292d31" text-anchor="start">Today: local fixture apps and shared foundations.</text>
+<text x="60" y="1061" font-family="DejaVu Sans" font-size="18" font-weight="400" fill="#5f5346" text-anchor="start">Vercel hosting, live AI, retrieval and durable operational controls remain planned.</text>
+<path d="M 1275 1024 H 1317" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round"   />
+<text x="1328" y="1030" font-family="DejaVu Sans" font-size="17" font-weight="400" fill="#292d31" text-anchor="start">Implemented core</text>
+<path d="M 1530 1024 H 1572" fill="none" stroke="#2e4a5a" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="8 6"  />
+<text x="1583" y="1030" font-family="DejaVu Sans" font-size="17" font-weight="400" fill="#292d31" text-anchor="start">Planned integration</text>
+<path d="M 1275 1054 H 1317" fill="none" stroke="#9a4d1f" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="7 6"  />
+<text x="1328" y="1060" font-family="DejaVu Sans" font-size="17" font-weight="400" fill="#292d31" text-anchor="start">Candidate / decision pending</text>
+</svg>
