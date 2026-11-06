@@ -47,7 +47,7 @@ Also required before testing dictation: a phone-width variant of SB3, because th
 
 ### Design system and higher-fidelity mock-ups
 
-Both SB5 and the phone-width SB3 now exist as Claude Design artifacts built from the project's design system, alongside a desktop journey-workspace mock-up. The editable originals are owner-private; versioned exports that any reviewer can inspect are committed under [`design/`](../../design/system/HANDOFF.md): the design-system sources and PNG renders ([system](../../design/system/HANDOFF.md)) and the artboard sources and renders ([mock-ups](../../design/mockups/HANDOFF.md)), each stamped with the artifact version and export date. Owner approval of both is pending.
+Both SB5 and the phone-width SB3 now exist as Claude Design artifacts built from the project's design system, alongside a desktop journey-workspace mock-up. The editable originals are owner-private; versioned exports that any reviewer can inspect are committed under [`design/`](../../design/system/HANDOFF.md): the design-system sources and PNG renders ([system](../../design/system/HANDOFF.md)) and the artboard sources and renders ([mock-ups](../../design/mockups/HANDOFF.md)), each stamped with the artifact version and export date. Owner approval of both was recorded on 6 November 2026 ([#8](https://github.com/nissan/oz-startup-brain/issues/8#issuecomment-6679674992)).
 
 A brand kit (mark, wordmark lockups, favicon, app icons, avatar and Open Graph image) is exported under [`design/brand/`](../../design/brand/HANDOFF.md) and shown on the canvas's Brand sheet; it is original work built from the system's tokens, with no photography, illustration or generated imagery. The design system, mock-ups and brand kit are reviewed together under one owner review (#8).
 
