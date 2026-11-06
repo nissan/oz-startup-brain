@@ -1,0 +1,82 @@
+{
+  "review_kind": "Codex policy triage, not legal clearance or ingestion approval",
+  "policies": [
+    {
+      "policy_id": "qld_detsi",
+      "url": "https://www.detsi.qld.gov.au/help/legal/copyright",
+      "observed_on": "2026-11-06",
+      "provider_reference": "turn29view0",
+      "status": "conditional_licence_identified",
+      "licence": "CC-BY-4.0",
+      "assessment": "Department-owned text may be reused under the stated licence. Exclude logos, images, trademarks and third-party material; check page-specific exceptions.",
+      "attribution": "Retain copyright notice and credit the State of Queensland, with source URL, licence link and changes noted.",
+      "application_evidence": "All three observed Innovation pages link to this copyright notice."
+    },
+    {
+      "policy_id": "business_gov",
+      "url": "https://business.gov.au/legal-notices/copyright",
+      "observed_on": "2026-11-06",
+      "provider_reference": "turn29search0",
+      "status": "conditional_licence_identified",
+      "licence": "CC-BY-3.0-AU",
+      "assessment": "Department-owned text has a stated reuse licence; exclude third-party content, images, logos, coat of arms and trademarks. Case studies need specific third-party checks.",
+      "attribution": "Use the policy-prescribed Commonwealth of Australia 2020 attribution, source URL, licence link and change notice.",
+      "application_evidence": "Policy explicitly names business.gov.au; application limited to department-owned material on that domain."
+    },
+    {
+      "policy_id": "austrade",
+      "url": "https://www.austrade.gov.au/en/site-information/site-disclaimer.html",
+      "observed_on": "2026-11-06",
+      "provider_reference": "turn42search1",
+      "status": "conditional_licence_identified",
+      "licence": "CC-BY-4.0",
+      "assessment": "Default licence excludes third-party material, photographs/images, marks, logo and coat of arms; page-level exceptions still need review.",
+      "attribution": "Credit Commonwealth of Australia (Austrade), retain copyright notice and link source/licence; indicate changes.",
+      "application_evidence": "Policy explicitly covers Austrade website content, subject to exclusions."
+    },
+    {
+      "policy_id": "csiro",
+      "url": "https://www.csiro.au/about/policies/legal/copyright",
+      "observed_on": "2026-11-06",
+      "provider_reference": "turn42search0",
+      "status": "permission_required",
+      "licence": null,
+      "assessment": "General permission is limited to browsing and a single unchanged research/study copy; this does not clear public RAG storage/redistribution. Seek permission before ingestion.",
+      "attribution": null,
+      "application_evidence": "Kick-Start is a program page, not a media release or Science Image collection."
+    },
+    {
+      "policy_id": "nrf",
+      "url": "https://www.nrf.gov.au/copyright",
+      "observed_on": "2026-11-06",
+      "provider_reference": "turn44search1",
+      "status": "permission_required",
+      "licence": null,
+      "assessment": "Personal/internal unchanged-use terms and prior approval language do not establish public RAG reuse rights. Seek written permission.",
+      "attribution": null,
+      "application_evidence": "Policy for nrf.gov.au; no open licence identified."
+    },
+    {
+      "policy_id": "efa",
+      "url": "https://www.exportfinance.gov.au/admin-pages/terms-and-conditions/",
+      "observed_on": "2026-11-06",
+      "provider_reference": "turn44view0",
+      "status": "permission_required",
+      "licence": null,
+      "assessment": "Terms restrict storage, adaptation and distribution without permission; personal printing permission does not clear public RAG.",
+      "attribution": null,
+      "application_evidence": "Terms linked from Export Finance Australia home page footer."
+    },
+    {
+      "policy_id": "ai_centre",
+      "url": "https://www.ai.gov.au/about/about-national-ai-centre/copyright-and-disclaimer",
+      "observed_on": "2026-11-06",
+      "provider_reference": "turn44search0",
+      "status": "unknown",
+      "licence": null,
+      "assessment": "The reviewed website notice does not establish a blanket open licence. Individual PDFs may differ; do not transfer a PDF licence to this HTML page.",
+      "attribution": null,
+      "application_evidence": "Applies to the observed ai.gov.au destination, not automatically to industry.gov.au."
+    }
+  ]
+}

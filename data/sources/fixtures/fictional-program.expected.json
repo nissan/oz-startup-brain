@@ -1,0 +1,86 @@
+{
+  "extraction_version": "fixture-html/1",
+  "source_url": "https://fixture.invalid/harbour",
+  "raw_content_sha256": "820cf146a8a746bf7c4153a859793c72811016eacccfc6e9c226658f593f2ffb",
+  "blocks": [
+    {
+      "kind": "paragraph",
+      "section_path": [
+        "Fictional Harbour Program"
+      ],
+      "text": "This entirely invented program is an extraction fixture, never a real funding source."
+    },
+    {
+      "kind": "paragraph",
+      "section_path": [
+        "Fictional Harbour Program",
+        "Round status"
+      ],
+      "text": "Applications are closed. A previous deadline is not a current opening."
+    },
+    {
+      "kind": "table",
+      "section_path": [
+        "Fictional Harbour Program",
+        "Contribution"
+      ],
+      "caption": "Fictional contribution requirements",
+      "rows": [
+        [
+          {
+            "text": "Applicant group",
+            "header": true
+          },
+          {
+            "text": "Required contribution",
+            "header": true
+          }
+        ],
+        [
+          {
+            "text": "Metro",
+            "header": true
+          },
+          {
+            "text": "20% cash contribution, excluding tax*",
+            "header": false
+          }
+        ],
+        [
+          {
+            "text": "Regional",
+            "header": true
+          },
+          {
+            "text": "10% cash contribution only if condition R is met*",
+            "header": false
+          }
+        ]
+      ]
+    },
+    {
+      "kind": "paragraph",
+      "section_path": [
+        "Fictional Harbour Program",
+        "Contribution"
+      ],
+      "text": "* Condition R is assessed separately; an unknown location does not establish eligibility."
+    },
+    {
+      "kind": "paragraph",
+      "section_path": [
+        "Fictional Harbour Program",
+        "Effective dates"
+      ],
+      "text": "Published 2026-10-01; effective from 2026-12-01. Fetching earlier does not make the rule effective."
+    },
+    {
+      "kind": "list_item",
+      "section_path": [
+        "Fictional Harbour Program",
+        "Effective dates"
+      ],
+      "text": "Exclude projects already funded for the same activity."
+    }
+  ]
+}

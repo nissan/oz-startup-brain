@@ -36,7 +36,7 @@ All contributors and AI builders must follow [AGENTS.md](AGENTS.md). **Visual pr
 
 The [Founder Journey Planner article](https://www.reddi.ai/blog/founder-journey-planner-australian-digital-economy) is the conceptual starting point. Its published verification date is **22 July 2026**, not the current date.
 
-[The recovered bibliography](data/sources/article-bibliography.json) contains **135 distinct external URLs** extracted from the public article on 5 November 2026. These are discovery records: the linked documents have not been ingested, checked for current facts or cleared for redistribution. The original raw research archive has not been recovered. A fresh fetch must not be described as the historical snapshot used to write the paper.
+[The recovered bibliography](data/sources/article-bibliography.json) contains **135 distinct external URLs** extracted from the public article on 5 November 2026. These are discovery records: the linked documents have not been ingested, checked for current facts or cleared for redistribution. The original raw research archive is not pursued (decision 9). The [Stage 1 metadata audit](data/sources/audit-report.md) classifies all 135 records and proposes 22 candidates; rights, raw retrieval and the owner jurisdiction decision remain release gates. A fresh fetch must not be described as the historical snapshot used to write the paper.
 
 ## Proposed stack
 

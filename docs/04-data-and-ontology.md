@@ -2,9 +2,9 @@
 
 ## Evidence recovery
 
-The public article was fetched on 5 November 2026 and its article-body external links were deduplicated by exact URL. The resulting [135-record manifest](../data/sources/article-bibliography.json) records discovery, not successful retrieval. Navigation links outside the article were excluded. Canonical URLs, redirects and duplicates across host aliases still need review.
+The public article was fetched on 5 November 2026 and its article-body external links were deduplicated by exact URL. The resulting [135-record manifest](../data/sources/article-bibliography.json) records discovery, not successful retrieval. Navigation links outside the article were excluded. The [Stage 1 audit](../data/sources/audit-report.md) adds provisional classifications, provider-reported redirects and explicit dispositions for all 135 records; canonical identity and content equivalence still need review.
 
-The original raw research archive was not located. Recover it from the author's research project before claiming historical completeness. A newly fetched document is a new source version, even if its URL matches the old bibliography. Keep three coverage counts separate: cited links discovered; original snapshots recovered; current sources successfully verified.
+The original raw research archive is not pursued (accepted decision 9). Build from fresh fetches; do not claim historical completeness. A newly fetched document is a new source version, even if its URL matches the old bibliography. Keep discovery, provider observations, successful raw fetches, retained original snapshots, rights approvals and factual verification counts separate. Provider extracts may be cached and do not establish raw snapshot/version evidence. See [the audit tooling](../data/sources/README.md).
 
 For every cited source, record an explicit disposition: approved for ingestion, awaiting rights review, unavailable, superseded, out of initial scope, or rejected with reason. This provides an eventual path to cover the full source inventory without pretending that every link can legally or technically be copied.
 
