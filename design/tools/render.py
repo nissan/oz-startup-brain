@@ -2,8 +2,8 @@
 """Render the design-system component previews and the mock-up artboards to PNG, outside the Claude viewer.
 
 Usage (from the repository root):
-    npm install --prefix /tmp/osb-render react@18.3.1 react-dom@18.3.1
-    python3 design/tools/render.py /tmp/osb-render/node_modules design/exports
+    npm ci --prefix design/tools
+    python3 design/tools/render.py design/tools/node_modules design/exports
 
 Besides writing PNGs, the script runs a geometric bounds check on every artboard in both
 themes: each button, link, input, textarea, paragraph and heading must lie inside the
@@ -14,8 +14,8 @@ Component previews are rendered full-page and are not bounds-checked.
 
 Requires Python 3, Playwright (`pip install playwright`) and a Chromium or Chrome binary
 (set CHROME=/path/to/chrome if it is not at /usr/bin/google-chrome).
-Google Fonts are not fetched; the fallback faces in tokens.json are used, so glyph shapes
-differ from the hosted artifact while colours, layout and copy are identical.
+Fonts are inlined from pinned local Fontsource packages and verified in Chromium before
+measurement. No HTTP(S) resource requests are permitted during rendering.
 The artboard renderer is a minimal stand-in for the Design canvas runtime: it resolves
 `{{hole}}` attributes from `renderVals()` and mounts each `<x-import>` with React. It does
 not implement `<sc-for>`, `<sc-if>` or events; the committed artboards use none of them.
@@ -23,7 +23,8 @@ Uploaded canvas assets (`/_blob/<id>` references) are resolved through mockups/a
 which maps each id to a committed file under design/; an unmapped id renders as a broken
 image and is reported as a page error.
 """
-import glob, os, re, sys
+import glob, os, re, sys, json
+from fonts import font_css, verify_fonts, offline_page
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DS, MOCK = os.path.join(ROOT, "system"), os.path.join(ROOT, "mockups")
@@ -56,8 +57,9 @@ def build_pages(node_modules):
     tokens = open(os.path.join(DS, "tokens.css")).read()
     bundle_css = open(os.path.join(DS, "components/bundle.css")).read()
     bundle_js = open(os.path.join(DS, "components/bundle.js")).read()
+    fonts = font_css(node_modules)
     HEAD = (f'<meta charset="utf-8"><script>{react}</script><script>{react_dom}</script>'
-            f'<style>{tokens}</style><style>{bundle_css}</style><script>{bundle_js}</script>')
+            f'<style>{fonts}</style><style>{tokens}</style><style>{bundle_css}</style><script>{bundle_js}</script>')
     pages = []
     for pv in sorted(glob.glob(os.path.join(DS, "components/*/preview.html"))):
         name = pv.split(os.sep)[-2]
@@ -115,15 +117,22 @@ if __name__ == "__main__":
     os.makedirs(os.path.join(OUT, "mockups"), exist_ok=True)
     pages, canvas = build_pages(NODE_MODULES)
     from playwright.sync_api import sync_playwright
-    errors, overflow = {}, []
+    errors, overflow, font_evidence = {}, [], {}
     with sync_playwright() as pw:
         browser = pw.chromium.launch(executable_path=os.environ.get("CHROME", "/usr/bin/google-chrome"), args=["--no-sandbox"])
+        browser_version = browser.version
         for name, w, h, html, check in pages:
-            page = browser.new_page(viewport={"width": w, "height": h or 400})
+            page = offline_page(browser, viewport={"width": w, "height": h or 400})
             logs = []
             page.on("pageerror", lambda e: logs.append(str(e)[:200]))
             page.set_content(html)
             page.wait_for_timeout(500)
+            try:
+                font_evidence[name] = verify_fonts(page)
+            except Exception as exc:
+                errors[name] = [str(exc)]
+                page.close()
+                continue
             page.screenshot(path=os.path.join(OUT, name + ".png"), full_page=(h is None))
             if logs:
                 errors[name] = logs
@@ -135,6 +144,9 @@ if __name__ == "__main__":
                     errors[name] = errors.get(name, []) + ["broken image: " + b for b in broken]
             page.close()
         browser.close()
+    with open(os.path.join(OUT, "font-verification.json"), "w") as f:
+        json.dump({"mode": "intended-offline", "browser": browser_version, "dependencies": json.load(open(os.path.join(ROOT, "tools/package.json")))["dependencies"], "pages": font_evidence, "errors": errors}, f, indent=2)
+        f.write("\n")
     # Canvas layout: annotations (title notes and sticky notes) are not rendered above, so check their
     # boxes geometrically against every artboard frame. A title is assumed 80px tall and a sticky note
     # as tall as it is wide; the canvas adds nothing below a board's recorded height.

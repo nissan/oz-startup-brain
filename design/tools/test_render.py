@@ -26,7 +26,8 @@ class RenderRegressionTests(unittest.TestCase):
         for folder in ('system', 'mockups', 'brand'):
             shutil.copytree(DESIGN / folder, self.design / folder)
         (self.design / 'tools').mkdir()
-        shutil.copy(DESIGN / 'tools/render.py', self.design / 'tools/render.py')
+        for name in ('render.py', 'fonts.py', 'package.json'):
+            shutil.copy(DESIGN / 'tools' / name, self.design / 'tools' / name)
 
     def render(self):
         return subprocess.run([sys.executable, str(self.design / 'tools/render.py'),

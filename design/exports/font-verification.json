@@ -1,0 +1,1550 @@
+{
+  "mode": "intended-offline",
+  "browser": "134.0.6998.35",
+  "dependencies": {
+    "@fontsource-variable/fraunces": "5.3.0",
+    "@fontsource/atkinson-hyperlegible": "5.3.0",
+    "@fontsource/jetbrains-mono": "5.3.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "pages": {
+    "components/Button-light": {
+      "text_runs": 4,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 1,
+        "Atkinson Hyperlegible / 700 / normal": 5,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/Button-dark": {
+      "text_runs": 4,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 1,
+        "Atkinson Hyperlegible / 700 / normal": 5,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/Checklist-light": {
+      "text_runs": 16,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 9,
+        "Atkinson Hyperlegible / 700 / normal": 7,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 2
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/Checklist-dark": {
+      "text_runs": 16,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 9,
+        "Atkinson Hyperlegible / 700 / normal": 7,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 2
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/ClarificationPrompt-light": {
+      "text_runs": 7,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 3,
+        "Atkinson Hyperlegible / 700 / normal": 6,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/ClarificationPrompt-dark": {
+      "text_runs": 7,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 3,
+        "Atkinson Hyperlegible / 700 / normal": 6,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/ComparisonTable-light": {
+      "text_runs": 25,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 15,
+        "Atkinson Hyperlegible / 700 / normal": 10,
+        "Atkinson Hyperlegible / 400 / italic": 3,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/ComparisonTable-dark": {
+      "text_runs": 25,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 15,
+        "Atkinson Hyperlegible / 700 / normal": 10,
+        "Atkinson Hyperlegible / 400 / italic": 3,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/ContextChip-light": {
+      "text_runs": 8,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 5,
+        "Atkinson Hyperlegible / 700 / normal": 3,
+        "Atkinson Hyperlegible / 400 / italic": 3,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/ContextChip-dark": {
+      "text_runs": 8,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 5,
+        "Atkinson Hyperlegible / 700 / normal": 3,
+        "Atkinson Hyperlegible / 400 / italic": 3,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/Cover-light": {
+      "text_runs": 2,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 2,
+        "Atkinson Hyperlegible / 700 / normal": 1,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/Cover-dark": {
+      "text_runs": 2,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 2,
+        "Atkinson Hyperlegible / 700 / normal": 1,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/CoverageBanner-light": {
+      "text_runs": 10,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 6,
+        "Atkinson Hyperlegible / 700 / normal": 4,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 3
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/CoverageBanner-dark": {
+      "text_runs": 10,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 6,
+        "Atkinson Hyperlegible / 700 / normal": 4,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 3
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/EvidenceLabel-light": {
+      "text_runs": 8,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 3,
+        "Atkinson Hyperlegible / 700 / normal": 7,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/EvidenceLabel-dark": {
+      "text_runs": 8,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 3,
+        "Atkinson Hyperlegible / 700 / normal": 7,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/LimitPanel-light": {
+      "text_runs": 31,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 13,
+        "Atkinson Hyperlegible / 700 / normal": 20,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/LimitPanel-dark": {
+      "text_runs": 31,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 13,
+        "Atkinson Hyperlegible / 700 / normal": 20,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/NextStepCard-light": {
+      "text_runs": 14,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 11,
+        "Atkinson Hyperlegible / 700 / normal": 4,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/NextStepCard-dark": {
+      "text_runs": 14,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 11,
+        "Atkinson Hyperlegible / 700 / normal": 4,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/PrerequisiteMap-light": {
+      "text_runs": 19,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 7,
+        "Atkinson Hyperlegible / 700 / normal": 14,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/PrerequisiteMap-dark": {
+      "text_runs": 19,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 7,
+        "Atkinson Hyperlegible / 700 / normal": 14,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/SourcePanel-light": {
+      "text_runs": 24,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 21,
+        "Atkinson Hyperlegible / 700 / normal": 5,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/SourcePanel-dark": {
+      "text_runs": 24,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 21,
+        "Atkinson Hyperlegible / 700 / normal": 5,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/StarterTask-light": {
+      "text_runs": 6,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 4,
+        "Atkinson Hyperlegible / 700 / normal": 4,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/StarterTask-dark": {
+      "text_runs": 6,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 4,
+        "Atkinson Hyperlegible / 700 / normal": 4,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/StatusNotice-light": {
+      "text_runs": 7,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 4,
+        "Atkinson Hyperlegible / 700 / normal": 5,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/StatusNotice-dark": {
+      "text_runs": 7,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 4,
+        "Atkinson Hyperlegible / 700 / normal": 5,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/TranscriptReview-light": {
+      "text_runs": 8,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 5,
+        "Atkinson Hyperlegible / 700 / normal": 5,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/TranscriptReview-dark": {
+      "text_runs": 8,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 5,
+        "Atkinson Hyperlegible / 700 / normal": 5,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/WaitingState-light": {
+      "text_runs": 12,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 10,
+        "Atkinson Hyperlegible / 700 / normal": 4,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "components/WaitingState-dark": {
+      "text_runs": 12,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 1,
+        "Atkinson Hyperlegible / 400 / normal": 10,
+        "Atkinson Hyperlegible / 700 / normal": 4,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/Brand-Sheet-light": {
+      "text_runs": 22,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 17,
+        "Atkinson Hyperlegible / 700 / normal": 6,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/Brand-Sheet-dark": {
+      "text_runs": 22,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 17,
+        "Atkinson Hyperlegible / 700 / normal": 6,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/Main-light": {
+      "text_runs": 98,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 5,
+        "Atkinson Hyperlegible / 400 / normal": 56,
+        "Atkinson Hyperlegible / 700 / normal": 37,
+        "Atkinson Hyperlegible / 400 / italic": 3,
+        "JetBrains Mono / 400 / normal": 2
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/Main-dark": {
+      "text_runs": 98,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 5,
+        "Atkinson Hyperlegible / 400 / normal": 56,
+        "Atkinson Hyperlegible / 700 / normal": 37,
+        "Atkinson Hyperlegible / 400 / italic": 3,
+        "JetBrains Mono / 400 / normal": 2
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB3-Ask-light": {
+      "text_runs": 18,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 9,
+        "Atkinson Hyperlegible / 700 / normal": 9,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 2
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB3-Ask-dark": {
+      "text_runs": 18,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 9,
+        "Atkinson Hyperlegible / 700 / normal": 9,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 2
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB3-Route-light": {
+      "text_runs": 20,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 3,
+        "Atkinson Hyperlegible / 400 / normal": 14,
+        "Atkinson Hyperlegible / 700 / normal": 6,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB3-Route-dark": {
+      "text_runs": 20,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 3,
+        "Atkinson Hyperlegible / 400 / normal": 14,
+        "Atkinson Hyperlegible / 700 / normal": 6,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB3-Summary-light": {
+      "text_runs": 13,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 6,
+        "Atkinson Hyperlegible / 700 / normal": 8,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB3-Summary-dark": {
+      "text_runs": 13,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 6,
+        "Atkinson Hyperlegible / 700 / normal": 8,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB3-Transcript-light": {
+      "text_runs": 16,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 9,
+        "Atkinson Hyperlegible / 700 / normal": 7,
+        "Atkinson Hyperlegible / 400 / italic": 2,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB3-Transcript-dark": {
+      "text_runs": 16,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 9,
+        "Atkinson Hyperlegible / 700 / normal": 7,
+        "Atkinson Hyperlegible / 400 / italic": 2,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB5a-Evidence-light": {
+      "text_runs": 47,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 23,
+        "Atkinson Hyperlegible / 700 / normal": 25,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB5a-Evidence-dark": {
+      "text_runs": 47,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 2,
+        "Atkinson Hyperlegible / 400 / normal": 23,
+        "Atkinson Hyperlegible / 700 / normal": 25,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB5b-Service-light": {
+      "text_runs": 41,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 3,
+        "Atkinson Hyperlegible / 400 / normal": 26,
+        "Atkinson Hyperlegible / 700 / normal": 15,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    },
+    "mockups/SB5b-Service-dark": {
+      "text_runs": 41,
+      "verified_faces": {
+        "Fraunces / 600 / normal": 3,
+        "Atkinson Hyperlegible / 400 / normal": 26,
+        "Atkinson Hyperlegible / 700 / normal": 15,
+        "Atkinson Hyperlegible / 400 / italic": 1,
+        "JetBrains Mono / 400 / normal": 1
+      },
+      "painted_fonts": [
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Bold"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Italic"
+        ],
+        [
+          "Atkinson Hyperlegible (Fontations)",
+          "AtkinsonHyperlegible-Regular"
+        ],
+        [
+          "Fraunces (Fontations)",
+          "Fraunces-9ptBlack"
+        ],
+        [
+          "JetBrains Mono (Fontations)",
+          "JetBrainsMono-Regular"
+        ]
+      ]
+    }
+  },
+  "errors": {}
+}

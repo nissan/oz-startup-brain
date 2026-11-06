@@ -29,7 +29,7 @@ Every lockup has a light file (dark lettering, for `paper`/`paper-raised`) and a
 ## Provenance and limits
 
 - Original work drawn in this session from the design system's tokens; no third-party mark, photograph, illustration or generated image is used, and the design system states that none is part of the brand.
-- Fonts were outlined from the `@fontsource/fraunces` 5.1.0 and `@fontsource/atkinson-hyperlegible` 5.1.0 packages (SIL Open Font License), so the SVG lockups render identically everywhere; live UI still sets the name with the Google-hosted faces.
+- Fonts were outlined from the `@fontsource/fraunces` 5.1.0 and `@fontsource/atkinson-hyperlegible` 5.1.0 packages (SIL Open Font License), so the SVG lockups render identically everywhere; the published artifact uses its own font delivery. Repository previews now use pinned local 5.3.0 faces (see [font provenance](../tools/FONTS.md)); existing outlined paths are unchanged.
 - Reproduce the rasters with `rsvg-convert` from the SVGs (sizes as named). The brand sheet PNGs come from `../tools/render.py`, which resolves the canvas's uploaded assets through `../mockups/assets.json`.
 - Nothing here is trademark-cleared; the name "Oz Startup Brain" has not been searched against existing marks. That is an owner task before any public deployment.
 
