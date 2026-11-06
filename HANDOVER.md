@@ -194,7 +194,7 @@ The full list with evidence is in the [retrospective](docs/delivery/retrospectiv
 4. Contract checks must cover operation schemas, parameters, security, referenced components and the constraints written beside a `$ref`; prove a break with the real validator.
 5. Validate input before mutating state (harness `set()` is atomic for this reason).
 6. One canonical status per issue; recheck `main` before merging; identify the resulting merge commit.
-7. A lockfile is reproducibility evidence, not a permanent security verdict. Record audit time, dependency paths and reachability in `docs/dependency-advisories.md`; never force a major upgrade just to get a green audit. npm does not apply `overrides` to packages the lockfile already resolves: use `npm update --package-lock-only <pkg>` to recompute just those entries.
+7. A lockfile is reproducibility evidence, not a permanent security verdict. Record audit time, dependency paths and reachability in `docs/dependency-advisories.md`; never force a major upgrade just to get a green audit. In #34, with npm 10.9.9 and this lockfile, adding `overrides` did not change packages the lockfile already resolved (observed behaviour in that experiment, not a documented npm guarantee); `npm update --package-lock-only <pkg>` recomputed just those entries. Whatever command you use, check the lockfile diff is limited to the intended packages and re-run the audit.
 8. Intended fonts change wrapping and expose what fallback fonts hid. Verify painted fonts, then do the art-direction pass; keep owner taste decisions separate from defects.
 
 ## 10. Fresh-session prompts
