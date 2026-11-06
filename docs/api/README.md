@@ -84,6 +84,7 @@ So a call rejected at step 2 starts no validation, admission or retrieval, and u
 - **Registry:** the registry (`OZSB_DEV_KEYS` as JSON, or `OZSB_DEV_KEYS_FILE`, default `.ozsb/dev-keys.json`) stores only SHA-256 digests. Each request's key is checked against them in constant time. The API refuses to start if the registry contains anything that looks like a raw key.
 - **Revocation and expiry:** to revoke a key, set its `revoked_at`; to make one expire, set its `expires_at`. Restart the API for either change to take effect.
 - **Budget:** a per-consumer, single-process counter with a daily allowance (`OZSB_DAILY_QUERY_ALLOWANCE`, default 500) and concurrency leases (`OZSB_MAX_CONCURRENT_QUERIES`, default 4; a lease expires after 30 s). This is not a durable or global spend cap and records no monetary reservations. API06 and API07 cannot pass in this mode.
+- **Dependency advisories:** see [docs/dependency-advisories.md](../dependency-advisories.md) for every audit finding, its reachability and disposition; the two overrides in the root `package.json` are explained there.
 - **Never public:** development mode refuses to start when `VERCEL`, `VERCEL_ENV` or `NODE_ENV=production` is set. The only accepted values are `OZSB_RESPONDER=fixture` and `OZSB_CREDENTIAL_MODE=development`; any other value is a startup error.
 
 ## Pinned clock and harness controls

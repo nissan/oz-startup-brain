@@ -76,6 +76,7 @@ These are all already stated elsewhere; they are repeated here because each was 
 | `packages/contracts/` | `schemas/v1.schema.json` (the single source of truth), generated types and ajv validators (`src/`), the OpenAPI compatibility checker (`src/compat.ts`, `scripts/check-compat.mjs`) | Regenerate with `npm run generate` |
 | `packages/api-client/` | Client generated from `docs/api/openapi.json` (openapi-typescript + openapi-fetch) and the standalone fixture CLI | |
 | `docs/api/` | `openapi.json` (generated), `openapi.v1.baseline.json` (frozen v1), `README.md` (how to run and what the API does) | |
+| `docs/dependency-advisories.md` | Every `npm audit` finding against the lockfile: path, reachability, disposition, re-check trigger | Update whenever `package-lock.json` changes |
 | `docs/decisions/` | ADR 001 (API-first NestJS, credentials, budget, MCP later) and ADR 002 (decision models; separate later increment) | |
 | `docs/delivery/` | Delivery home, backlog, iteration, agent workflow, retrospectives | |
 | `docs/06-delivery.md` | Roadmap and release gates, including the harness-control rules | |
@@ -185,7 +186,7 @@ The full list with evidence is in the [retrospective](docs/delivery/retrospectiv
 4. Contract checks must cover operation schemas, parameters, security, referenced components and the constraints written beside a `$ref`; prove a break with the real validator.
 5. Validate input before mutating state (harness `set()` is atomic for this reason).
 6. One canonical status per issue; recheck `main` before merging; identify the resulting merge commit.
-7. A lockfile is reproducibility evidence, not a permanent security verdict. Record audit time, dependency paths and reachability; never force a major upgrade just to get a green audit.
+7. A lockfile is reproducibility evidence, not a permanent security verdict. Record audit time, dependency paths and reachability in `docs/dependency-advisories.md`; never force a major upgrade just to get a green audit. npm does not apply `overrides` to packages the lockfile already resolves: use `npm update --package-lock-only <pkg>` to recompute just those entries.
 8. Intended fonts change wrapping and expose what fallback fonts hid. Verify painted fonts, then do the art-direction pass; keep owner taste decisions separate from defects.
 
 ## 10. Fresh-session prompts
