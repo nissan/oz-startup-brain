@@ -12,7 +12,7 @@ The foundation checkpoint is documented in [the #32/#33 retrospective](retrospec
 | Next browser build | [#25 Polished fixture journey](https://github.com/nissan/oz-startup-brain/issues/25) | #24 and #22 complete; #8 approved. Ready and unclaimed. Sequence root package edits after #34 or an explicit ownership handoff; local-only thin BFF |
 | Then | [#26 Synthetic browser round](https://github.com/nissan/oz-startup-brain/issues/26) | #25 plus demonstrated task capabilities, resettable fixtures and runner support; isolated actors |
 | Then | [#27 Fix and retest UX findings](https://github.com/nissan/oz-startup-brain/issues/27) | Actual observations from #26; preserve original evidence |
-| Coordinated with UI | [#10 Shared vocabulary](https://github.com/nissan/oz-startup-brain/issues/10) | One owner for shared contracts during #25; export parity remains open until an export exists |
+| Coordinated with UI | [#10 Shared vocabulary](https://github.com/nissan/oz-startup-brain/issues/10) | The confirmed #25 builder owns `packages/contracts` edits until #25 merges, unless explicitly handed off; export parity remains open until an export exists |
 | Separate evidence | [#9 Accessibility sessions](https://github.com/nissan/oz-startup-brain/issues/9) | Actual keyboard, screen-reader and browser zoom evidence; unavailable tooling remains blocked |
 | Later | [#29 Live foundation/vector epic](https://github.com/nissan/oz-startup-brain/issues/29) | Decompose before assignment; source rights, spend/provider inputs and fixture feedback precede live release |
 | Coordination | [#30 Native Project views](https://github.com/nissan/oz-startup-brain/issues/30) | Authenticated Projects write access; does not block issue-based dispatch |
