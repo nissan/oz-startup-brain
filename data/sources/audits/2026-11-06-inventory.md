@@ -25,6 +25,14 @@ This is provisional subject/operator classification, not jurisdiction eligibilit
 | dispositions: awaiting_rights_review | 22 |
 | dispositions: out_of_initial_scope | 113 |
 
+Owner decision: pilot jurisdiction AU-QLD with AU-FED sources, decided by Nissan (owner) on 2026-11-06 ([record](https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6682086690)).
+
+## Retrieved versions
+
+Each retrieved version is a fetched representation that a reviewer confirmed is the source page. It is not rights clearance, ingestion approval or factual verification. Snapshots are kept outside git; only hashes are committed.
+
+None yet.
+
 ## Provisional jurisdiction coverage
 
 Multi-jurisdiction records count in each applicable row; rows are not additive. AU-NATIONAL means Australian operator/context, not federal authority or all-state service eligibility. Every live/approved count is zero.

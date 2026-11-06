@@ -1,5 +1,7 @@
 # Stage 1 source disposition report
 
+> **Update, 6 November 2026 (manifest 0.3).** Nissan [chose Queensland](https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6682086690) as the pilot jurisdiction, with relevant federal sources supporting Queensland founders. That decision supersedes "pending Nissan" below, and the manifest records it in `audit.owner_decision`. The release gates in [Reproducibility and next gates](#reproducibility-and-next-gates) still stand. Retrieval tooling for gate 3 is described in [the tooling README](README.md#retrieval-for-rights-review-version-03). The rest of this report is Codex's analysis as of PR #38, unchanged.
+
 6 November 2026 (Australia/Sydney). Refs [#28](https://github.com/nissan/oz-startup-brain/issues/28). Prepared by Codex, run `source28-20261106`, from base `eab8130f0c003b8c7d0b4a76a6af2e20e03b44e6`. This is builder/researcher analysis in the existing project context, not an independent review or an owner decision.
 
 ## Recommendation for the owner

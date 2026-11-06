@@ -17,6 +17,10 @@ JURISDICTIONS = {'AU-FED','AU-NATIONAL','AU-QLD','AU-NSW','AU-VIC','AU-WA','AU-S
 DISPOSITIONS = {'awaiting_rights_review','out_of_initial_scope','unavailable','superseded','rejected','approved_for_ingestion'}
 RIGHTS = {'unknown','conditional_licence_identified','permission_required','cleared'}
 IDENTITY = ('source_id','url','title_as_cited','discovered_via','discovered_on')
+DECISION_KEYS = ('pilot_jurisdiction','supporting_scope','decided_on','decided_by','record_url')
+DECISION_URL = re.compile(r'https://github\.com/nissan/oz-startup-brain/issues/\d+#issuecomment-\d+')
+REPRESENTATIONS = {'source_page','challenge_or_shell','error_page','unrelated_page'}
+SNAPSHOT = re.compile(r'snapshot:sv_[a-f0-9]{20}\.body')
 
 
 def read(path):
@@ -30,17 +34,25 @@ def identity_hash(sources):
 
 
 def valid_date(value):
-    return isinstance(value, str) and bool(re.fullmatch(r'\d{4}-\d{2}-\d{2}', value)) and date.fromisoformat(value)
+    """True only for a real calendar date written YYYY-MM-DD (2026-02-30 is false, not an exception)."""
+    if not (isinstance(value, str) and re.fullmatch(r'\d{4}-\d{2}-\d{2}', value)):
+        return False
+    try:
+        return bool(date.fromisoformat(value))
+    except ValueError:
+        return False
 
 
-def validate(manifest, observations, policies):
-    """Fail closed: this audit is metadata-only and cannot silently promote a source."""
+def validate(manifest, observations, policies, retrievals=None):
+    """Fail closed: no source can be promoted silently. A retrieved version enters the manifest only
+    with a matching retrieval-log record and a representation review; rights clearance, ingestion
+    approval and factual verification stay out of reach of this audit."""
     errors = []
     def check(condition, message):
         if not condition:
             errors.append(message)
     sources = manifest['sources']
-    check(manifest['manifest_version'] == '0.2', 'manifest version must be 0.2')
+    check(manifest['manifest_version'] == '0.3', 'manifest version must be 0.3')
     check(len(sources) == manifest['source_count'] == 135, 'expected all 135 discovery records')
     check(len({s['source_id'] for s in sources}) == len(sources), 'duplicate source ID')
     check(len({s['url'] for s in sources}) == len(sources), 'duplicate discovery URL')
@@ -83,7 +95,20 @@ def validate(manifest, observations, policies):
                 except (ValueError, TypeError):
                     errors.append(f'{sid}: invalid {key}')
         check(s['last_verified_at'] is None and s['verification_method'] is None, f'{sid}: fetch is not factual verification')
-        check(all(s[k] is None for k in ('fetched_at','content_hash','source_version_id')), f'{sid}: provider observation is not a raw version')
+        version_fields = [s[k] for k in ('fetched_at','content_hash','source_version_id')]
+        if all(v is None for v in version_fields):
+            check(s['version_review'] is None, f'{sid}: version review without a retrieved version')
+        else:
+            check(all(v is not None for v in version_fields), f'{sid}: incomplete retrieved version (provider observation is not a raw version)')
+            check(s['shortlist_tier'] is not None, f'{sid}: only shortlisted sources are retrieved for review')
+            rec = (retrievals or {}).get(s['source_version_id'])
+            check(rec is not None and rec['source_id'] == sid and rec['outcome'] == 'http_body_received'
+                  and rec['raw_content_sha256'] == s['content_hash'] and rec['fetched_at'] == s['fetched_at'],
+                  f'{sid}: version not backed by a retrieval-log record (provider observation is not a raw version)')
+            r = s['version_review']
+            check(isinstance(r, dict) and r.get('representation') == 'source_page' and bool(r.get('reviewer'))
+                  and bool(r.get('note')) and bool(valid_date(r.get('reviewed_on'))),
+                  f'{sid}: retrieved version needs a representation review showing the source page')
         check(s['canonical_url'] is None, f'{sid}: canonical identity needs independent review')
         check(s['original_research_snapshot_available'] is False, f'{sid}: historical snapshot not recovered')
         o = oi.get(sid)
@@ -99,7 +124,10 @@ def validate(manifest, observations, policies):
             check(o['outcome'] != 'empty_representation' or o['reported_line_count'] == 0, f'{sid}: inconsistent empty result')
             check(o['outcome'] != 'representation_available' or isinstance(o['reported_line_count'], int) and o['reported_line_count'] > 0,
                   f'{sid}: inconsistent available result')
-    check(manifest['audit']['owner_decision'] == 'pending', 'owner jurisdiction decision must remain pending')
+    d = manifest['audit']['owner_decision']
+    check(isinstance(d, dict) and all(d.get(k) for k in DECISION_KEYS) and d['pilot_jurisdiction'] in JURISDICTIONS
+          and bool(DECISION_URL.fullmatch(d['record_url'])) and bool(valid_date(d['decided_on'])),
+          'owner jurisdiction decision must be a dated record linked to its GitHub decision comment')
     for key in ('original_snapshots_recovered','ingestion_approved','human_fact_verified'):
         check(manifest['audit'][key] == 0, f'{key}: no such evidence established')
     return errors
@@ -132,6 +160,51 @@ def validate_attempts(manifest, attempts):
     return errors
 
 
+def validate_retrieval_log(manifest, log, name):
+    """A format-2 retrieval of selected sources. Bodies never appear in the log; a snapshot is only a
+    reference to a file kept outside git."""
+    errors = []
+    expected = {s['source_id']:s['url'] for s in manifest['sources']}
+    run = log.get('run') or {}
+    if log.get('format_version') != '2' or not run.get('run_id') or run.get('method') not in ('direct_https_get','https_get_via_configured_proxy'):
+        errors.append(f'{name}: retrieval log needs format 2 and a run record')
+    ids = [r['source_id'] for r in log['attempts']]
+    if len(ids) != len(set(ids)) or not set(ids) <= set(expected):
+        errors.append(f'{name}: retrieval sources must be distinct manifest IDs')
+    for r in log['attempts']:
+        sid = r['source_id']
+        if expected.get(sid) != r['requested_url']:
+            errors.append(f'{sid}: retrieval URL mismatch')
+        if r['method'] != run.get('method'):
+            errors.append(f'{sid}: retrieval method differs from its run')
+        if r['last_verified_at'] is not None:
+            errors.append(f'{sid}: retrieval cannot verify facts')
+        if 'body' in r or 'text' in r:
+            errors.append(f'{sid}: retrieval log must not carry source text')
+        if r['outcome'] == 'http_body_received':
+            if not (r['source_version_id'] and r['fetched_at'] and re.fullmatch(r'[a-f0-9]{64}', r['raw_content_sha256'] or '')):
+                errors.append(f'{sid}: received body needs hash and version time')
+            if r['snapshot_location'] is not None and not SNAPSHOT.fullmatch(r['snapshot_location']):
+                errors.append(f'{sid}: snapshot reference must name a version file outside git')
+            if r['snapshot_location'] is not None and r['snapshot_location'] != f"snapshot:{r['source_version_id']}.body":
+                errors.append(f'{sid}: snapshot reference does not match its version')
+        elif r['snapshot_location'] is not None or not r['failure_reason'] or any(r[k] is not None for k in ('source_version_id','raw_content_sha256','fetched_at')):
+            errors.append(f'{sid}: failure cannot create a source version or snapshot')
+    return errors
+
+
+def load_retrievals(root, manifest):
+    """Returns (errors, records by version ID) for every retrieval log the manifest lists."""
+    errors, records = [], {}
+    for name in manifest['audit'].get('retrievals', []):
+        log = read(root/name)
+        errors += validate_retrieval_log(manifest, log, name)
+        for r in log['attempts']:
+            if r['source_version_id']:
+                records[r['source_version_id']] = r
+    return errors, records
+
+
 def summary(m):
     sources = m['sources']
     return {
@@ -149,6 +222,7 @@ def summary(m):
 
 def report(m):
     ss = summary(m)
+    d = m['audit']['owner_decision']
     lines = ['# Source audit inventory — 6 November 2026', '',
              'Generated by `python data/sources/tools/source_audit.py report`. Do not hand-edit.', '',
              'This is provisional subject/operator classification, not jurisdiction eligibility or live coverage. Provider representations may be cached, sparse, navigation-only or challenges. No raw corpus or verified claims are published here.', '',
@@ -158,6 +232,17 @@ def report(m):
     for group in ('observations','shortlist','rights','dispositions'):
         for key,n in ss[group].items():
             lines.append(f'| {group}: {key} | {n} |')
+    lines += ['', f"Owner decision: pilot jurisdiction {d['pilot_jurisdiction']} with {d['supporting_scope']} sources, decided by {d['decided_by']} on {d['decided_on']} ([record]({d['record_url']})).", '']
+    versions = [s for s in m['sources'] if s['source_version_id']]
+    lines += ['## Retrieved versions', '',
+              'Each retrieved version is a fetched representation that a reviewer confirmed is the source page. It is not rights clearance, ingestion approval or factual verification. Snapshots are kept outside git; only hashes are committed.', '']
+    if versions:
+        lines += ['| Source ID | Version | Fetched (UTC) | SHA-256 | Representation review |', '| --- | --- | --- | --- | --- |']
+        for s in versions:
+            r = s['version_review']
+            lines.append(f"| `{s['source_id']}` | `{s['source_version_id']}` | {s['fetched_at']} | `{s['content_hash'][:16]}…` | {r['reviewed_on']}, {r['reviewer']}: {r['note']} |")
+    else:
+        lines.append('None yet.')
     lines += ['', '## Provisional jurisdiction coverage', '',
               'Multi-jurisdiction records count in each applicable row; rows are not additive. AU-NATIONAL means Australian operator/context, not federal authority or all-state service eligibility. Every live/approved count is zero.', '',
               '| Jurisdiction | Discovery records | Shortlisted | Approved ingestion |', '| --- | ---: | ---: | ---: |']
@@ -187,7 +272,8 @@ def main():
     m = read(args.root/'article-bibliography.json')
     o = read(args.root/m['audit']['web_observations'])['observations']
     policies = read(args.root/m['audit']['rights_evidence'])['policies']
-    errors = validate(m,o,policies)
+    retrieval_errors, retrievals = load_retrievals(args.root, m)
+    errors = retrieval_errors + validate(m,o,policies,retrievals)
     attempts = read(args.root/m['audit']['direct_attempts'])['attempts']
     errors += validate_attempts(m,attempts)
     if errors:
@@ -205,7 +291,7 @@ def main():
             target.write_text(text)
             print(target)
     else:
-        print('PASS: 135 identities, classifications, observations, rights and no-promotion boundaries')
+        print(f"PASS: 135 identities, classifications, observations, rights, owner decision, {len(m['audit'].get('retrievals', []))} retrieval log(s), {sum(s['source_version_id'] is not None for s in m['sources'])} reviewed version(s) and no-promotion boundaries")
 
 if __name__ == '__main__':
     main()

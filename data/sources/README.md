@@ -4,9 +4,10 @@ Start with [the Stage 1 decision report](audit-report.md), then the [generated i
 
 | File | Purpose |
 | --- | --- |
-| `article-bibliography.json` | Version 0.2: all 135 original discovery IDs/URLs/titles preserved, with provisional publisher/class/jurisdiction and explicit pilot dispositions |
+| `article-bibliography.json` | Version 0.3: all 135 original discovery IDs, URLs and titles preserved, with provisional publisher/class/jurisdiction and explicit pilot dispositions. It records the owner's Queensland decision and any reviewed retrieved versions. |
 | `rights-evidence.json` | Dated publisher-policy triage, exclusions and attribution requirements; not blanket legal clearance |
 | `audits/2026-11-06-web-observations.json` | One provider-mediated open observation per URL, including failures, reported redirects and crawl labels |
+| `audits/*-retrieval-*.json` | Format-2 retrieval logs for selected sources (hashes, version IDs and snapshot references; never bodies), listed in `audit.retrievals` |
 | `audits/2026-11-06-direct-attempts.json` | One raw-fetch attempt per URL; all stopped at DNS preflight in this runtime, before an HTTP request |
 | `audits/2026-11-06-inventory.md` | Deterministic counts, coverage, shortlist and complete disposition table |
 | `fixtures/fictional-program.*` | Authored `.invalid` HTML and expected extraction; no copied source text |
@@ -24,7 +25,28 @@ python -m unittest discover -s data/sources/tools -p 'test_*.py' -v
 python data/sources/tools/extract_fixture.py data/sources/fixtures/fictional-program.html --source-url https://fixture.invalid/harbour
 ```
 
-After an intentional metadata edit, run `report` without `--check`, inspect the diff, and validate again. These source-specific checks are manual PR checks in this increment; the existing CI workflow is unchanged. The extraction test checks the committed expected JSON, so regenerating it is a deliberate reviewed change. Tables retain captions, ordered cells and header flags; qualifiers/footnotes remain in order under the same heading. No chunking, embeddings or claim promotion occurs. The extractor intentionally rejects real URLs and unsupported nested blocks/tables; it is not a production extractor.
+After an intentional metadata edit, run `report` without `--check`, inspect the diff, and validate again. These source-specific checks run in CI (`source-audit` job) from version 0.3. The extraction test checks the committed expected JSON, so regenerating it is a deliberate reviewed change. Tables retain captions, ordered cells and header flags; qualifiers/footnotes remain in order under the same heading. No chunking, embeddings or claim promotion occurs. The extractor intentionally rejects real URLs and unsupported nested blocks/tables; it is not a production extractor.
+
+## Retrieval for rights review (version 0.3)
+
+Stage 1 needs fresh raw versions of the shortlisted pages. In a runtime whose egress goes through an HTTPS proxy and has no local DNS, use the configured-proxy transport. It applies the same URL-shape checks and delegates name resolution to the proxy; the log records that delegation. Keep the snapshots in the git-ignored `data/snapshots/`:
+
+```sh
+python data/sources/tools/fetch_metadata.py --network --transport configured-proxy \
+  --run-id <run> --snapshot-dir data/snapshots/<run> \
+  --source-id src_8db3776594ab --source-id ... \
+  --output data/sources/audits/<date>-retrieval-<run>.json
+```
+
+- The tool refuses a snapshot folder that is inside the repository and not git-ignored. Each body is written once, as `<version>.body`.
+- The log references a snapshot as `snapshot:<version>.body` and never contains source text. The owner archives the snapshot folder privately; the public repository holds hashes only. Re-hashing an archived snapshot must reproduce the logged `raw_content_sha256`.
+- After inspection, list the log in `audit.retrievals` and copy a version into its manifest record (`fetched_at`, `content_hash`, `source_version_id`). Add a `version_review` saying the representation is the source page, not a challenge, shell, error or unrelated page.
+- The validator refuses:
+  - a version without a matching log record;
+  - a version without that review;
+  - any non-shortlisted source;
+  - any log that carries text.
+- A reviewed version is still not rights clearance, ingestion approval or factual verification. `rights_status: cleared`, `approved_for_ingestion` and `last_verified_at` remain rejected until a separately reviewed release.
 
 ## Fresh transport observations
 
@@ -43,6 +65,14 @@ A complete non-empty body produces a SHA-256 and a new timestamp-derived version
 The committed raw probe failed all 135 DNS preflights (`gaierror`). An earlier one-URL urllib request through the configured transport returned 403. Neither result establishes that publishers are offline. The separate browsing provider opened all 135 URLs and supplied 124 non-empty representations, 9 errors and 2 empty representations. That provider may use cached material and does not expose raw HTTP status/body hashes here. Its `provider_reference` is a session trace identifier; stable requested/destination URLs and dates are also retained so review does not depend on the identifier.
 
 ## Metadata contract and promotion boundary
+
+Version 0.3 (Refs #28):
+- `audit.owner_decision` is a dated record of Nissan's decision of 6 November 2026: pilot jurisdiction `AU-QLD`, with `AU-FED` supporting sources. It links the decision comment and replaces 0.2's `pending`.
+- `audit.retrievals` lists retrieval logs.
+- Every record has a `version_review`, which stays null until a retrieved version is reviewed.
+
+Everything else below is unchanged from 0.2.
+
 
 - Discovery identity (`source_id`, `url`, `title_as_cited`, `discovered_via`, `discovered_on`) is immutable in this audit. The identity digest catches accidental removal, replacement or reordering. Keep cited titles even if their embedded factual claims/dates have not been checked.
 - `publisher`, `source_class`, `jurisdiction` describe the cited source/subject/operator provisionally. They do not prove eligibility, legal authority for every claim, or covered states. `AU-FED` means federal material; `AU-NATIONAL` means Australian ecosystem/operator context. Multi-region lists are not additive counts.

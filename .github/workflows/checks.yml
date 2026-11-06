@@ -26,6 +26,21 @@ jobs:
       - name: Validator regression tests
         run: python -m unittest discover -s research/synthetic-ux/tools -p 'test_*.py' -v
 
+  source-audit:
+    name: Source inventory validator, report drift and tests (#28)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate the manifest, rights evidence and retrieval logs (offline; no network)
+        run: python data/sources/tools/source_audit.py validate
+      - name: Generated inventory matches the manifest
+        run: python data/sources/tools/source_audit.py report --check
+      - name: Source tool regression tests
+        run: python -m unittest discover -s data/sources/tools -p 'test_*.py' -v
+
   design-exports:
     name: Design token and renderer checks
     runs-on: ubuntu-latest
