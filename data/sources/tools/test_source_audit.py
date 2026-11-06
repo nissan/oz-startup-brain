@@ -21,7 +21,8 @@ class InventoryTests(unittest.TestCase):
         self.p = audit.read(ROOT/'rights-evidence.json')['policies']
 
     def errors(self):
-        return audit.validate(self.m,self.o,self.p)
+        log_errors,records=audit.load_retrievals(ROOT,self.m)
+        return log_errors+audit.validate(self.m,self.o,self.p,records)
 
     def test_committed_inventory_and_report(self):
         self.assertEqual([],self.errors())
@@ -129,7 +130,7 @@ class RetrievedVersionTests(unittest.TestCase):
         self.s = self.m['sources'][0]
         self.s.update(fetched_at=retrieval()['fetched_at'],content_hash=SHA,source_version_id=retrieval()['source_version_id'],
                       version_review=dict(reviewed_on='2026-11-06',reviewer='Claude claude-28-20261106-2200',representation='source_page',note='Program page with heading and body; not a challenge.'))
-        self.records={retrieval()['source_version_id']:retrieval()}
+        self.records={**audit.load_retrievals(ROOT,self.m)[1],retrieval()['source_version_id']:retrieval()}
 
     def errors(self,records=None):
         return audit.validate(self.m,self.o,self.p,self.records if records is None else records)
@@ -140,6 +141,13 @@ class RetrievedVersionTests(unittest.TestCase):
 
     def test_version_without_log_record_rejected(self):
         self.assertTrue(any('not backed' in e for e in self.errors({})))
+
+    def test_committed_versions_need_their_committed_logs(self):
+        m=audit.read(ROOT/'article-bibliography.json')
+        self.assertEqual(4,sum(s['source_version_id'] is not None for s in m['sources']))
+        self.assertEqual([],audit.validate(m,self.o,self.p,audit.load_retrievals(ROOT,m)[1]))
+        m['audit']['retrievals']=[]
+        self.assertEqual(4,sum('not backed' in e for e in audit.validate(m,self.o,self.p,audit.load_retrievals(ROOT,m)[1])))
 
     def test_hash_or_time_drift_rejected(self):
         self.s['content_hash']='b'*64

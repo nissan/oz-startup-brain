@@ -5316,7 +5316,8 @@
     "rights_evidence": "rights-evidence.json",
     "direct_attempts": "audits/2026-11-06-direct-attempts.json",
     "retrievals": [
-      "audits/retrieval-28-20261106a.json"
+      "audits/retrieval-28-20261106a.json",
+      "audits/retrieval-28-20261106b.json"
     ]
   }
 }

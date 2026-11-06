@@ -1,4 +1,4 @@
-# Review of retrieval `retrieval-28-20261106a`
+# Review of retrievals `retrieval-28-20261106a` and `b`
 
 Refs #28. Reviewed by Claude, builder run `claude-28-20261106-2200`, on 6 November 2026. This is the builder's own review, not an independent one, and it is not rights clearance, ingestion approval or fact verification. Those remain owner decisions. Codex is the proposed reviewer.
 
@@ -25,6 +25,15 @@ Refs #28. Reviewed by Claude, builder run `claude-28-20261106-2200`, on 6 Novemb
 Every page matched a naive challenge keyword, but on inspection this was a false positive: a reCAPTCHA script that business.gov.au loads for its feedback form. A check that searches for "captcha" would misclassify all of these pages.
 
 The Queensland 403s are recorded and not worked around. Run `retrieval-28-20261106b` fetches each record's reviewed `observed_redirect_url` on `innovation.qld.gov.au`, which is the department's current home for these programs. It does not retry the host that refused.
+
+## Run b: the Queensland pages through their reviewed redirect destinations
+
+Run [42209973408](https://github.com/nissan/oz-startup-brain/actions/runs/42209973408) (`retrieval-28-20261106b`, log `retrieval-28-20261106b.json`) requested each record's reviewed `observed_redirect_url` on `innovation.qld.gov.au`. All three answered **HTTP 403 from `innovation.qld.gov.au` itself**, so no version or snapshot was created. Nothing further was attempted from the runner: no other user agent, retry or mirror.
+
+**Consequence for the Queensland pilot:**
+- None of the three Queensland core pages (Ignite Ideas, Ignite+, Ignite Spark) can be retrieved from cloud runners. The browsing provider's cached views from the 6 November audit are not raw versions.
+- The pages can be retrieved from a network the publisher accepts, such as the owner's own computer, or with the publisher's permission or a supplied copy. Either way, the result is recorded as a new retrieval run.
+- Until then, the Queensland pilot's retrieved core is federal material only. That is not Queensland coverage.
 
 ## Page-level rights exceptions (input to gate 4; not clearance)
 
