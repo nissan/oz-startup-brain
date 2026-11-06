@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { SOURCE_ID_PATTERN, type Jurisdiction, type RightsStatus, type SourceClass } from '@ozsb/contracts';
+import { SOURCE_ID_PATTERN, type Jurisdiction, type RightsStatus, type SourceClass, type UnresolvedCondition } from '@ozsb/contracts';
 
 /**
  * The fictional fixture corpus (apps/api/fixtures/corpus.json). Every program, round, organisation and URL
@@ -48,8 +48,17 @@ export interface FixtureSequenceStep {
   claim_ids: string[];
 }
 
+export interface FixtureStageVariant {
+  summary_base: string;
+  summary_base_unverified: string;
+  actions: FixtureAction[];
+  sequence: FixtureSequenceStep[];
+}
+
 export interface FixtureTopic {
   topic_id: string;
+  conditions?: Omit<UnresolvedCondition, 'condition_id'>[];
+  stage_variants?: Partial<Record<'idea' | 'prototype', FixtureStageVariant>>;
   task: 'next_step' | 'round_status' | 'requirements_today';
   /** Every group must contain at least one of its terms (case-insensitive whole tokens). */
   match: string[][];
@@ -118,7 +127,11 @@ export function loadFixtureCorpus(path = CORPUS_PATH): FixtureCorpus {
     if (t.summary_base !== null && typeof t.summary_base_unverified !== 'string') {
       throw new Error(`topic ${t.topic_id} sets summary_base without summary_base_unverified`);
     }
-    const ids = [...t.actions.flatMap((a) => a.claim_ids), ...t.context_claim_ids, ...t.sequence.flatMap((s) => s.claim_ids), ...t.summary_rules.map((r) => r.claim_id)];
+    const variants = Object.values(t.stage_variants ?? {});
+    for (const v of variants) {
+      if (typeof v.summary_base !== 'string' || typeof v.summary_base_unverified !== 'string') throw new Error(`topic ${t.topic_id} has incomplete stage summary`);
+    }
+    const ids = [...variants.flatMap((v) => [...v.actions.flatMap((a) => a.claim_ids), ...v.sequence.flatMap((s) => s.claim_ids)]), ...t.actions.flatMap((a) => a.claim_ids), ...t.context_claim_ids, ...t.sequence.flatMap((s) => s.claim_ids), ...t.summary_rules.map((r) => r.claim_id)];
     for (const id of ids) if (!claims.has(id)) throw new Error(`topic ${t.topic_id} references unknown claim ${id}`);
   }
   return corpus;

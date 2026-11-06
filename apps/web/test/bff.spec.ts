@@ -171,8 +171,8 @@ describe('BFF over the fixture API', () => {
 
 describe('BFF with the API clock moved (freshness and effective-date boundaries through the real boundary)', () => {
   const cases: [string, string, 'checked' | 'needs-check'][] = [
-    ['fresh, before the effective date', '2026-11-15T00:00:00Z', 'checked'],
-    ['first stale day', '2026-11-16T00:00:00Z', 'needs-check'],
+    ['fresh, before the effective date', '2026-11-18T00:00:00Z', 'checked'],
+    ['first stale day', '2026-11-19T00:00:00Z', 'needs-check'],
     ['stale, the day before the effective date', '2026-11-30T23:59:59Z', 'needs-check'],
   ];
   it.each(cases)('%s: the future requirement is dated, excluded, and the presented labels agree with the summary', async (_name, asOf, expected) => {
@@ -190,7 +190,7 @@ describe('BFF with the API clock moved (freshness and effective-date boundaries 
         expect(e.answer?.summary).not.toMatch(/supports as in effect today/);
         expect(e.unresolved_conditions.map((c) => c.reason)).toEqual(expect.arrayContaining(['future_effective', 'stale_evidence']));
       } else {
-        expect(e.answer?.summary).toMatch(/^These are the Round A2 conditions/);
+        expect(e.answer?.summary).toMatch(/^Prepare for Round A2/);
       }
       // The evidence label never says "checked" while the summary says unverified, and vice versa.
       const anyChecked = e.answer!.actions.some((a) => evidenceFor(a, e).state === 'checked');

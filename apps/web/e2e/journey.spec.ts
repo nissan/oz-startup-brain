@@ -38,7 +38,7 @@ test.describe('journey', () => {
     await open(page, WEB.fixture, 'light');
     await expect(page.getByText('Local fixture mode')).toBeVisible();
     await expect(page.getByText('Development mode')).toBeVisible();
-    await expect(page.getByText(/corpus fixture-2026-11-05\.1/)).toBeVisible();
+    await expect(page.getByText(/corpus fixture-2026-11-07\.1/)).toBeVisible();
     await shot(page, 'initial-light', false);
 
     await ask(page, 'What should I do next for support?');

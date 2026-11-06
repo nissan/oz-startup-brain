@@ -28,7 +28,7 @@ describe('API access (fixture mode)', () => {
       expect(res.headers['set-cookie']).toBeUndefined();
       expectContract('QueryEnvelope', res.body);
       expect(res.body.status).toBe('answer');
-      expect(res.body.corpus_version).toBe('fixture-2026-11-05.1');
+      expect(res.body.corpus_version).toBe('fixture-2026-11-07.1');
       expect(res.body.as_of).toBe('2026-11-05T00:00:00Z');
       expect(res.body.responder).toBe('fixture');
       expect(res.body.request_id).toBe(res.headers['x-request-id']);

@@ -36,11 +36,11 @@ describe('R33-01: the effective interval is tested independently of freshness', 
     };
   };
 
-  // Round A2's source (program_round, 14-day window) was verified on 1 November 2026: fresh through
-  // 15 November, stale from 16 November. The security requirement takes effect on 1 December 2026.
+  // Round A2's source (program_round, 14-day window) was verified on 4 November 2026: fresh through
+  // 18 November, stale from 19 November. The security requirement takes effect on 1 December 2026.
   it.each([
-    ['fresh, before the effective date', '2026-11-15T00:00:00Z', 'checked'],
-    ['first stale day, before the effective date', '2026-11-16T00:00:00Z', 'needs-check'],
+    ['fresh, before the effective date', '2026-11-18T00:00:00Z', 'checked'],
+    ['first stale day, before the effective date', '2026-11-19T00:00:00Z', 'needs-check'],
     ['the reviewer\'s reproduction (stale, before the effective date)', '2026-11-20T00:00:00Z', 'needs-check'],
     ['stale, the day before the effective date', '2026-11-30T23:59:59Z', 'needs-check'],
     ['an unverified source (verified after as_of), before the effective date', '2026-10-20T00:00:00Z', 'needs-check'],
@@ -57,7 +57,7 @@ describe('R33-01: the effective interval is tested independently of freshness', 
       expect(body.answer.summary).not.toMatch(/supports as in effect today/);
       expect(body.answer.summary).toMatch(/^The planner cannot confirm which Round A2 conditions are in effect today/);
     } else {
-      expect(body.answer.summary).toMatch(/^These are the Round A2 conditions the fixture corpus supports as in effect today\./);
+      expect(body.answer.summary).toMatch(/^Prepare for Round A2, scheduled to open on 1 December 2026\./);
       expect(body.answer.summary).not.toMatch(/cannot confirm|staleness window/);
     }
   });
@@ -69,7 +69,7 @@ describe('R33-01: the effective interval is tested independently of freshness', 
     const action = body.answer.actions.find((a: { action_id: string }) => a.action_id === 'act_a2_security_assessment');
     expect(action.evidence_state).toBe('needs-check');
     expect(body.answer.summary).not.toMatch(/takes effect from 1 December 2026, so it is not listed/);
-    expect(body.claims.every((c: { evidence_state: string }) => c.evidence_state === 'needs-check')).toBe(true);
+    expect(body.claims.filter((c: { claim_id: string }) => c.claim_id.startsWith('clm_a2_')).every((c: { evidence_state: string }) => c.evidence_state === 'needs-check')).toBe(true);
     expect(body.answer.summary).not.toMatch(/supports as in effect today/);
     expect(body.answer.summary).toMatch(/^The planner cannot confirm which Round A2 conditions are in effect today/);
   });
