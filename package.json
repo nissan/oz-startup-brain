@@ -17,7 +17,7 @@
     "generate": "npm run generate -w @ozsb/contracts && npm run build -w @ozsb/contracts && npm run openapi -w @ozsb/api && npm run generate -w @ozsb/api-client",
     "check:generated": "npm run generate && git diff --exit-code -- packages/contracts/src/generated docs/api/openapi.json packages/api-client/src/generated",
     "check:compat": "npm run build -w @ozsb/contracts && node packages/contracts/scripts/check-compat.mjs docs/api/openapi.v1.baseline.json docs/api/openapi.json",
-    "typecheck": "npm run typecheck --workspaces --if-present",
+    "typecheck": "npm run build && npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "dev:keys": "tsx apps/api/scripts/dev-keys.ts",
     "api:start": "node apps/api/dist/src/main.js",
