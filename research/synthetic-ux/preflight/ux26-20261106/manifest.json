@@ -1,0 +1,215 @@
+{
+  "artifact_type": "preflight_checkpoint",
+  "run_id": "ux26-20261106",
+  "checkpoint_date": "2026-11-07",
+  "timezone": "Australia/Sydney",
+  "synthetic": true,
+  "pack_version": "0.2",
+  "pack_commit": "d3f54e887fb946bccf399f142791ed87e6be1b76",
+  "target_commit": "d3f54e887fb946bccf399f142791ed87e6be1b76",
+  "source_tree": "8bc14aef68ca54c8b0b79db7f8badfb703be8ae5",
+  "branch": "research/26-first-browser-round",
+  "status": "blocked_environment",
+  "interface_mode": "local_fixture",
+  "corpus_version": "fixture-2026-11-05.1",
+  "as_of": "2026-11-05T00:00:00Z",
+  "local_start_attempt": "http://127.0.0.1:3110",
+  "deployment_url": null,
+  "build_match": "source_and_local_build_verified_browser_match_unverified",
+  "actor_attempts": 0,
+  "actor_completions": 0,
+  "actor_failures": 0,
+  "assisted_attempts": 0,
+  "runner_model": "Codex (GPT-6 family)",
+  "runner_version": null,
+  "primed_inspection": true,
+  "paid_calls_enabled": false,
+  "browser_and_version": null,
+  "viewport_css_px": null,
+  "zoom_percent": null,
+  "isolation_method": null,
+  "tool_limitations": [
+    "Browser tool navigation to local URL returned net::ERR_CONNECTION_REFUSED; no app UI was observed.",
+    "Pinned Playwright Chromium 153.0.8010.12 v1243 download failed: invalid/truncated ZIP; browser installation did not complete.",
+    "No isolated browser context, mobile viewport, actual keyboard input or real browser zoom demonstrated.",
+    "Literal check:generated failed on tsx Unix-socket EPERM; documented node --import tsx substitute regenerated identical files."
+  ],
+  "capability_evidence": {
+    "founder_text": {
+      "runtime_status": "unknown",
+      "source_evidence": "apps/web/src/components/Journey.tsx; unit/BFF contract tests passed",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #25 acceptance"
+    },
+    "context_edit": {
+      "runtime_status": "unknown",
+      "source_evidence": "Journey.tsx; stage answer behavior explicitly limited",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #25 acceptance"
+    },
+    "evidence_panel": {
+      "runtime_status": "unknown",
+      "source_evidence": "apps/web/src/components/EvidencePanel.tsx",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #25 acceptance"
+    },
+    "prerequisite_view": {
+      "runtime_status": "unknown",
+      "source_evidence": "Support topic includes sequence; A2 topic does not",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #25 acceptance"
+    },
+    "coverage_notice": {
+      "runtime_status": "unknown",
+      "source_evidence": "QLD/national coverage only; exact F05 mismatch",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #25 acceptance"
+    },
+    "mobile_layout": {
+      "runtime_status": "unknown",
+      "source_evidence": "No mobile browser operated",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #25 acceptance"
+    },
+    "keyboard_controls": {
+      "runtime_status": "unknown",
+      "source_evidence": "No keyboard browser operated",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #25 acceptance"
+    },
+    "browser_zoom": {
+      "runtime_status": "unknown",
+      "source_evidence": "Owner-approved deferral remains open in #9",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #25 acceptance, timing deferred to #9"
+    },
+    "isolated_sessions": {
+      "runtime_status": "unknown",
+      "source_evidence": "No separate browser context established",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #26 and runbook runner prerequisite; not a product feature"
+    },
+    "recoverable_error": {
+      "runtime_status": "unknown",
+      "source_evidence": "19 BFF tests cover fixed fault responses; same-page transition not demonstrated",
+      "declared_scope": "in_scope",
+      "scope_basis": "Issue #25 acceptance"
+    }
+  },
+  "task_variants": [
+    {
+      "persona_id": "P1",
+      "task_id": "T01",
+      "variant_id": "T01-base",
+      "fixture_id": "F01",
+      "status": "blocked_environment",
+      "additional_status": "blocked_pending_fixture",
+      "reason": "Unknown/IP subset exists; matched-contribution condition missing; #41."
+    },
+    {
+      "persona_id": "P2",
+      "task_id": "T03",
+      "variant_id": "T03-base",
+      "fixture_id": "F03",
+      "status": "blocked_environment",
+      "additional_status": "blocked_pending_fixture",
+      "reason": "A2 sequence/editorial/matched-contribution requirements absent from that topic; #41."
+    },
+    {
+      "persona_id": "P3",
+      "task_id": "T05",
+      "variant_id": "T05-base",
+      "fixture_id": "F05",
+      "status": "blocked_environment",
+      "additional_status": "blocked_pending_fixture",
+      "reason": "Gympie out-of-local-coverage fixture and static directory not prepared; #41."
+    },
+    {
+      "persona_id": "UX7",
+      "task_id": "T13",
+      "variant_id": "T13-base",
+      "fixture_id": "F13",
+      "status": "blocked_environment",
+      "additional_status": null,
+      "reason": "Best candidate after isolated browser/keyboard/source-link setup is demonstrated."
+    },
+    {
+      "persona_id": "UX7",
+      "task_id": "T14",
+      "variant_id": "T14-base",
+      "fixture_id": "F14",
+      "status": "blocked_environment",
+      "additional_status": "blocked_pending_fixture",
+      "reason": "Actual 200% zoom remains #9; stage-focused expectations unsupported; #42."
+    },
+    {
+      "persona_id": "UX8",
+      "task_id": "T15",
+      "variant_id": "T15-vector",
+      "fixture_id": "F15",
+      "status": "blocked_environment",
+      "additional_status": "blocked_pending_test_controls",
+      "reason": "Same-page healthy/stage-change/named-fault/recovery schedule not demonstrated; stage fixture gap; #42."
+    },
+    {
+      "persona_id": "UX8",
+      "task_id": "T15",
+      "variant_id": "T15-budget",
+      "fixture_id": "F15",
+      "status": "blocked_environment",
+      "additional_status": "blocked_pending_test_controls",
+      "reason": "Same-page healthy/stage-change/named-fault/recovery schedule not demonstrated; stage fixture gap; #42."
+    },
+    {
+      "persona_id": "UX8",
+      "task_id": "T15",
+      "variant_id": "T15-graph",
+      "fixture_id": "F15",
+      "status": "blocked_environment",
+      "additional_status": "blocked_pending_test_controls",
+      "reason": "Same-page healthy/stage-change/named-fault/recovery schedule not demonstrated; stage fixture gap; #42."
+    }
+  ],
+  "deferred_variants": [
+    {
+      "variant_id": "T04-base",
+      "status": "deferred_not_implemented",
+      "reason": "Comparison/export excluded from #25."
+    }
+  ],
+  "declared_release_scope": {
+    "authority": "Issue #25 acceptance/exclusions at resumption and facilitator/build-25-fixture-ui.md on the pinned target",
+    "included": [
+      "founder_text",
+      "context_edit",
+      "evidence_panel",
+      "prerequisite_view",
+      "coverage_notice",
+      "mobile_layout",
+      "keyboard_controls",
+      "recoverable_error"
+    ],
+    "deferred_product_features": [
+      "comparison",
+      "local_export",
+      "voice_input",
+      "visual_upload",
+      "live_retrieval"
+    ],
+    "acceptance_deferred_to_issue_9": [
+      "browser_zoom"
+    ],
+    "required_runner_facilities": [
+      "isolated_sessions"
+    ],
+    "exact_fixture_requirements_not_established_by_release_statement": [
+      "F01/F03 matched contribution",
+      "F03 A2 sequence/editorial suggestion",
+      "F05 Gympie local exclusion and static directory",
+      "F14/F15 stage-dependent route and old/new context labels",
+      "F15 same-page named-fault transition"
+    ]
+  },
+  "available_capabilities": [],
+  "available_capabilities_note": "No browser runtime capabilities are asserted present by this checkpoint. Source and API evidence is recorded separately."
+}
