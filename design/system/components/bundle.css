@@ -1,7 +1,8 @@
 /* Oz Startup Brain components. Every colour, size and radius is a token from tokens.css. */
 .osb { font-family: var(--font-sans); color: var(--ink); }
 .osb *, .osb *::before, .osb *::after { box-sizing: border-box; }
-.osb :focus-visible { outline: 2px solid var(--ochre); outline-offset: 2px; }
+/* The ochre focus ring on every control: the components themselves (.osb), their descendants, and any plain control on a page that loads this bundle. */
+:focus-visible, .osb:focus-visible, .osb :focus-visible { outline: 2px solid var(--ochre); outline-offset: 2px; }
 .osb-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .osb-icon { width: 16px; height: 16px; vertical-align: -3px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 
@@ -13,7 +14,7 @@
 
 /* Evidence label */
 .osb-label { display: inline-flex; align-items: center; gap: var(--space-1); padding: 2px var(--space-2); border-radius: var(--radius-sm); font-size: 15px; line-height: 20px; font-weight: 700; max-width: 100%; white-space: nowrap; }
-.osb-label--wrap, .osb-table .osb-label, .osb-card__row .osb-label { white-space: normal; text-align: left; }
+.osb-label--wrap, .osb-table .osb-label, .osb-card__row .osb-label, .osb-map__list .osb-label { white-space: normal; text-align: left; }
 .osb-label svg { flex: none; }
 .osb-label--checked { color: var(--ink); background: var(--paper-raised); border: 1px solid var(--border-strong); }
 .osb-label--needs-check { color: var(--ochre); background: var(--ochre-tint); }
@@ -38,13 +39,16 @@
 /* Starter task */
 .osb-starters { display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); max-width: 640px; }
 .osb-starter { text-align: left; display: flex; flex-direction: column; gap: 2px; padding: var(--space-3) var(--space-4); border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--paper-raised); color: var(--ink); font: inherit; cursor: pointer; }
-.osb-starter[aria-pressed="true"] { background: var(--sage); }
+.osb-starter[aria-pressed="true"] { background: var(--ironbark-tint); border-color: var(--ironbark); outline: 1px solid var(--ironbark); outline-offset: -2px; }
+.osb-starter[aria-pressed="true"] .osb-starter__title { color: var(--ironbark); }
+.osb-starter[aria-pressed="true"]:focus-visible { outline: 2px solid var(--ochre); outline-offset: 2px; }
 .osb-starter__title { font-size: 15px; line-height: 20px; font-weight: 700; }
 .osb-starter__hint { font-size: 14px; line-height: 20px; color: var(--ink-muted); }
 
 /* Context chip */
 .osb-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .osb-chip { display: inline-flex; align-items: center; gap: var(--space-2); padding: 6px var(--space-3); border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--paper-raised); color: var(--ink); font: inherit; font-size: 15px; line-height: 20px; cursor: pointer; }
+@media (max-width: 480px) { .osb-chip { min-height: 44px; } }
 .osb-chip__key { color: var(--ink-muted); }
 .osb-chip__value { font-weight: 700; }
 .osb-chip--unknown .osb-chip__value { font-style: italic; font-weight: 400; }
@@ -61,8 +65,8 @@
 .osb-link { color: var(--ironbark); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
 
 /* Prerequisite map */
-.osb-map { display: grid; gap: var(--space-4); max-width: 640px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.osb-map__svg { width: 100%; height: auto; }
+.osb-map { display: grid; gap: var(--space-4); max-width: 640px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.osb-map__svg { width: 100%; max-width: 320px; height: auto; }
 .osb-map__rail { stroke: var(--ironbark); stroke-width: 2; fill: none; }
 .osb-map__rail--editorial { stroke-dasharray: 4 4; }
 .osb-map__node { fill: var(--paper-raised); stroke: var(--border-strong); stroke-width: 1.5; }
@@ -116,4 +120,5 @@
 /* Transcript */
 .osb-transcript__text { width: 100%; min-height: 96px; padding: var(--space-3); border: 1px solid var(--border-strong); border-radius: var(--radius-md); background: var(--paper-raised); color: var(--ink); font: inherit; font-size: 17px; line-height: 26px; resize: vertical; }
 .osb-transcript__flags { margin: var(--space-2) 0 0; padding-left: 20px; font-size: 15px; line-height: 22px; }
+.osb-transcript__disclosure { margin: var(--space-2) 0 0; }
 .osb-transcript__flags mark { background: var(--ochre-tint); color: var(--ochre); font-weight: 700; padding: 0 2px; }

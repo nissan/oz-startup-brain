@@ -4,8 +4,8 @@ Versioned export of the brand assets kept in the "Oz Startup Brain" Design Syste
 
 | Item | Value |
 | --- | --- |
-| Design system artifact version | `1793909088-3a56` (version 9) |
-| Mock-ups canvas version (Brand sheet) | `1793909931-a1ab` (version 15) |
+| Design system artifact version | `1793913295-8883` (version 12) |
+| Mock-ups canvas version (Brand sheet) | `1793913319-21a3` (version 18) |
 | Export date | 6 November 2026 |
 | Owner approval | **Pending** — reviewed together with the design system and mock-ups under #8 |
 

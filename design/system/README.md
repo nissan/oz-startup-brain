@@ -29,7 +29,7 @@ Build on `paper` with `paper-raised` for anything that sits on it; separate them
 | Editorial | Suggested next step | `ironbark` | `ironbark-tint` |
 | Uncovered | Outside current coverage | `ink-muted` | `grey-tint` |
 
-`sage` is the fill of the one primary action per view and nothing else; it is deliberately a tint, not a green signal, so that nothing in the interface reads as "approved". States are told apart by their word and icon as well as colour: ochre and plum differ in lightness, and no state uses red or green.
+`sage` is the fill of the one primary action per view and nothing else; it is deliberately a tint, not a green signal, so that nothing in the interface reads as "approved". Two consequences: a *selected* state (a pressed starter task, a chosen option) is drawn with `ironbark-tint` and an `ironbark` border, never sage, so selection is never confused with the action; and a component that repeats within a view (the next-step card) takes its emphasis from the parent, which makes at most one of them primary. The one decorative use of the token is the mark's destination node, which is part of the logo, never an interactive affordance, and is why the mark is never placed on a sage fill. States are told apart by their word and icon as well as colour: ochre and plum differ in lightness, and no state uses red or green.
 
 Operational conditions of the planner (graph unavailable, retrieval unavailable, daily budget reached, graph paused) are never shown with an evidence label. They use `StatusNotice`: ink on `paper` with a dashed `border-strong` edge, so they read as machinery rather than as a judgment about a source or a jurisdiction. A `graph-degraded` answer still carries its normal evidence labels on each passage.
 
