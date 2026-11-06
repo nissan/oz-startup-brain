@@ -38,6 +38,15 @@ Each retrieved version is a fetched representation that a reviewer confirmed is 
 | `src_96ad709aa550` | `sv_87c9b944493e4b99b654` | 2026-11-06T11:21:51.011180+00:00 | `76305d8aefcf96bb…` | 2026-11-06, Claude claude-28-20261106-2200 (builder; not independent): Program page: "Overview of the R&D Tax Incentive", about 980 words of main content with offset, eligibility and four-step headings. Feedback-form reCAPTCHA only. |
 | `src_9ba1bc6b991a` | `sv_b1322863d404e0fb62fc` | 2026-11-06T11:21:52.815446+00:00 | `7794481b85934a1b…` | 2026-11-06, Claude claude-28-20261106-2200 (builder; not independent): Guidance page: "Software development sector guide for the R&D Tax Incentive", about 1,500 words with disclaimer, exclusions and hypothetical case studies. Feedback-form reCAPTCHA only. |
 
+### Provenance corrections
+
+Committed retrieval logs are not rewritten. Where a log misdescribes its run, the correction is recorded here.
+
+| Log | Field | Log records | Actually | Basis |
+| --- | --- | --- | --- | --- |
+| `audits/retrieval-28-20261106a.json` | `run.user_agent` | `OzStartupBrain-SourceAudit/0.3 (source retrieval for rights review; no ingestion)` | `OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)` | fetch_metadata.py at execution commit 120e547 (run 42209663180) sent the 0.2 agent for the direct transport while recording the 0.3 agent; found in Codex review of PR #40 (2026-11-07) |
+| `audits/retrieval-28-20261106b.json` | `run.user_agent` | `OzStartupBrain-SourceAudit/0.3 (source retrieval for rights review; no ingestion)` | `OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)` | fetch_metadata.py at execution commit 622500e (run 42209973408) sent the 0.2 agent for the direct transport while recording the 0.3 agent; found in Codex review of PR #40 (2026-11-07) |
+
 ## Provisional jurisdiction coverage
 
 Multi-jurisdiction records count in each applicable row; rows are not additive. AU-NATIONAL means Australian operator/context, not federal authority or all-state service eligibility. Every live/approved count is zero.

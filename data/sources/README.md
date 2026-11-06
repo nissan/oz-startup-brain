@@ -38,9 +38,20 @@ python data/sources/tools/fetch_metadata.py --network --transport configured-pro
   --output data/sources/audits/<run>.json
 ```
 
-- The tool refuses a snapshot folder that is inside the repository and not git-ignored. Each body is written once, as `<version>.body`.
+- The tool refuses a snapshot folder that is inside the repository and not git-ignored.
+- Each body is written to a temporary file and published as `<version>.body` only when it is complete. An existing version is never replaced, and a partial file is removed.
+- A storage failure is recorded as `snapshot_write_failed`, with no version, hash or time.
+- The configured-proxy transport sends every request, including redirects, through `HTTPS_PROXY` and ignores `NO_PROXY`, because it has delegated the address check to that proxy. It refuses a credentialed proxy URL.
+- The User-Agent is chosen once per run, and the same value is sent and recorded.
 - The log references a snapshot as `snapshot:<version>.body` and never contains source text. The owner archives the snapshot folder privately; the public repository holds hashes only. Re-hashing an archived snapshot must reproduce the logged `raw_content_sha256`.
 - After inspection, list the log in `audit.retrievals` and copy a version into its manifest record (`fetched_at`, `content_hash`, `source_version_id`). Add a `version_review` saying the representation is the source page, not a challenge, shell, error or unrelated page.
+- For a received body, the validator requires:
+  - a known outcome;
+  - timezone-aware `attempted_at` and `fetched_at`, in order and within the run's start and finish;
+  - a 2xx status;
+  - a non-empty body within 2 MiB;
+  - a version ID derived from the source ID, fetch time and hash.
+- `audit.retrieval_corrections` records provenance errors in committed logs without rewriting them. The validator checks that each log still holds the recorded value.
 - The validator refuses:
   - a version without a matching log record;
   - a version without that review;

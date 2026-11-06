@@ -5,11 +5,13 @@ import os
 import socket
 import tempfile
 import unittest
+from urllib.error import URLError
 from unittest.mock import patch
 
 import source_audit as audit
 from extract_fixture import extract
-from fetch_metadata import digest_body, probe, public_url, snapshot_dir_allowed, MAX_BYTES, REPO
+import fetch_metadata
+from fetch_metadata import digest_body, probe, public_url, snapshot_dir_allowed, MAX_BYTES, REPO, USER_AGENT, LEGACY_USER_AGENT
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -107,12 +109,15 @@ class InventoryTests(unittest.TestCase):
 SHA='a'*64
 
 
+FIXTURE_VERSION=audit.expected_version('src_8db3776594ab','2026-11-06T11:00:01+00:00','a'*64)
+
+
 def retrieval(**over):
     r=dict(source_id='src_8db3776594ab',requested_url='https://advance.qld.gov.au/grants-and-programs/ignite-ideas-fund',
            attempted_at='2026-11-06T11:00:00+00:00',method='https_get_via_configured_proxy',outcome='http_body_received',
            http_status=200,final_url='https://innovation.qld.gov.au/grants-and-programs/ignite-ideas-fund',content_type='text/html',
-           raw_content_sha256=SHA,bytes_received=10,source_version_id='sv_'+'1'*20,fetched_at='2026-11-06T11:00:01+00:00',
-           last_verified_at=None,snapshot_location='snapshot:sv_'+'1'*20+'.body',failure_reason=None,etag=None,last_modified=None)
+           raw_content_sha256=SHA,bytes_received=10,source_version_id=FIXTURE_VERSION,fetched_at='2026-11-06T11:00:01+00:00',
+           last_verified_at=None,snapshot_location=f'snapshot:{FIXTURE_VERSION}.body',failure_reason=None,etag=None,last_modified=None)
     r.update(over);return r
 
 
@@ -317,5 +322,142 @@ class ProxyTransportTests(unittest.TestCase):
         self.assertTrue(snapshot_dir_allowed(REPO/'data'/'snapshots'/'source28'))
         with tempfile.TemporaryDirectory() as d:
             self.assertTrue(snapshot_dir_allowed(Path(d)))
+
+
+class ReviewFortyRegressions(unittest.TestCase):
+    """Codex review of PR #40 (run codex-review40-20261107): each test reproduces a reported failure."""
+
+    # P2 1: configured-proxy must not go direct through NO_PROXY.
+    def captured_request(self, env):
+        import urllib.request
+        seen = {}
+        class Stop(urllib.request.HTTPSHandler):
+            def https_open(self, req):
+                seen.update(host=req.host, tunnel=req._tunnel_host)
+                raise URLError('stopped before network I/O')
+        with patch.dict(os.environ, env, clear=False), patch('fetch_metadata.build_opener',
+                side_effect=lambda *h: urllib.request.build_opener(*h, Stop())):
+            r = probe({'source_id':'src_1','url':'https://example.com/page'}, 'configured-proxy')
+        return r, seen
+
+    def test_no_proxy_cannot_bypass_the_configured_proxy(self):
+        for no_proxy in ('*', 'example.com', ''):
+            with self.subTest(no_proxy=no_proxy):
+                r, seen = self.captured_request({'HTTPS_PROXY':'http://proxy.example:3128','NO_PROXY':no_proxy,'no_proxy':no_proxy})
+                self.assertEqual(('proxy.example:3128','example.com'), (seen['host'], seen['tunnel']))
+                self.assertEqual('transport_error', r['outcome'])
+
+    def test_credentialed_proxy_refused(self):
+        r, seen = self.captured_request({'HTTPS_PROXY':'http://u:p@proxy.example:3128','NO_PROXY':''})
+        self.assertEqual({}, seen); self.assertEqual(('transport_error','ValueError'), (r['outcome'], r['failure_reason']))
+
+    # P2 3: snapshot persistence is atomic.
+    def run_with_body(self, d, body=b'<html>fixture</html>'):
+        with patch('fetch_metadata.build_opener') as opener:
+            response = opener.return_value.open.return_value.__enter__.return_value
+            response.status = 200; response.url = 'https://example.com/'; response.headers = {}
+            response.read.return_value = body
+            return probe({'source_id':'src_1','url':'https://example.com/'}, 'direct', Path(d))
+
+    @patch('fetch_metadata.public_url', side_effect=lambda u, resolve=True: u)
+    def test_mid_write_failure_leaves_no_file_and_no_version(self, unused):
+        real_fdopen = os.fdopen
+        class Failing:
+            def __init__(self, f): self.f = f
+            def __enter__(self): return self
+            def __exit__(self, *a): self.f.close()
+            def write(self, b): self.f.write(b[:3]); raise OSError('disk full')
+        with tempfile.TemporaryDirectory() as d, patch('fetch_metadata.os.fdopen', side_effect=lambda fd, mode: Failing(real_fdopen(fd, mode))):
+            r = self.run_with_body(d)
+            self.assertEqual([], list(Path(d).iterdir()))
+        self.assertEqual('snapshot_write_failed', r['outcome'])
+        self.assertTrue(all(r[k] is None for k in ('source_version_id','raw_content_sha256','fetched_at','snapshot_location')))
+        log = {'format_version':'2','run':{'run_id':'t','method':'direct_https_get'},'attempts':[dict(r, source_id='src_8db3776594ab', requested_url='https://advance.qld.gov.au/grants-and-programs/ignite-ideas-fund')]}
+        self.assertEqual([], audit.validate_retrieval_log(audit.read(ROOT/'article-bibliography.json'), log, 'x'))
+
+    @patch('fetch_metadata.public_url', side_effect=lambda u, resolve=True: u)
+    @patch('fetch_metadata.utc_now', return_value='2026-11-07T00:00:00+00:00')
+    def test_existing_version_is_never_replaced(self, unused, unused2):
+        with tempfile.TemporaryDirectory() as d:
+            first = self.run_with_body(d)
+            name = first['snapshot_location'].split(':', 1)[1]
+            (Path(d)/name).write_bytes(b'complete earlier snapshot')
+            second = self.run_with_body(d)
+            self.assertEqual('snapshot_write_failed', second['outcome'])
+            self.assertEqual(b'complete earlier snapshot', (Path(d)/name).read_bytes())
+            self.assertEqual([name], [p.name for p in Path(d).iterdir()])
+
+    # P2 4: the recorded agent is the agent sent.
+    @patch('fetch_metadata.public_url', side_effect=lambda u, resolve=True: u)
+    def test_direct_format2_records_the_agent_it_sends(self, unused):
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d)/'log.json'
+            argv = ['fetch_metadata.py','--network','--run-id','retrieval-28-20261107t','--snapshot-dir',str(Path(d)/'snap'),
+                    '--source-id','src_7d73188025be','--output',str(out)]
+            with patch('fetch_metadata.build_opener') as opener, patch('sys.argv', argv):
+                response = opener.return_value.open.return_value.__enter__.return_value
+                response.status = 200; response.url = 'https://business.gov.au/x'; response.headers = {}; response.read.return_value = b'x'
+                fetch_metadata.main()
+                sent = opener.return_value.open.call_args[0][0].get_header('User-agent')
+            log = json.loads(out.read_text())
+        self.assertEqual(('2', USER_AGENT, USER_AGENT), (log['format_version'], sent, log['run']['user_agent']))
+
+    def test_committed_logs_keep_their_original_header_and_carry_a_correction(self):
+        m = audit.read(ROOT/'article-bibliography.json')
+        c = {x['log']: x for x in m['audit']['retrieval_corrections']}
+        for name in m['audit']['retrievals']:
+            self.assertEqual(USER_AGENT, audit.read(ROOT/name)['run']['user_agent'])
+            self.assertEqual(LEGACY_USER_AGENT, c[name]['actually_sent'])
+        m['audit']['retrieval_corrections'][0]['recorded'] = LEGACY_USER_AGENT
+        self.assertTrue(any('not rewritten' in e for e in audit.validate_corrections(ROOT, m)))
+
+
+class ReviewFortyPromotionMetadata(unittest.TestCase):
+    """P2 2: matching a log record is not enough; the record itself must describe a coherent success."""
+    def setUp(self):
+        self.m = audit.read(ROOT/'article-bibliography.json')
+        self.o = audit.read(ROOT/self.m['audit']['web_observations'])['observations']
+        self.p = audit.read(ROOT/'rights-evidence.json')['policies']
+        self.logs = {n: audit.read(ROOT/n) for n in self.m['audit']['retrievals']}
+
+    def full(self, logs, manifest=None):
+        m = manifest or self.m
+        errors, records = [], {}
+        for name, log in logs.items():
+            errors += audit.validate_retrieval_log(m, log, name)
+            records.update({r['source_version_id']: r for r in log['attempts'] if r['source_version_id']})
+        return errors + audit.validate(m, self.o, self.p, records)
+
+    def promoted(self, logs):
+        log = logs['audits/retrieval-28-20261106a.json']
+        rec = next(r for r in log['attempts'] if r['source_version_id'] == next(s for s in self.m['sources'] if s['source_version_id'])['source_version_id'])
+        return log, rec
+
+    def test_committed_records_remain_valid(self):
+        self.assertEqual([], self.full(self.logs))
+
+    def test_codex_reproduction_rejected(self):
+        logs = copy.deepcopy(self.logs); m = copy.deepcopy(self.m)
+        log, rec = self.promoted(logs)
+        rec.update(http_status=403, bytes_received=0, fetched_at='not-a-date')
+        next(s for s in m['sources'] if s['source_version_id'] == rec['source_version_id'])['fetched_at'] = 'not-a-date'
+        errors = self.full(logs, m)
+        for needle in ('successful HTTP status', 'non-empty', 'timezone-aware'):
+            self.assertTrue(any(needle in e for e in errors), needle)
+
+    def test_each_incoherence_rejected(self):
+        cases = {
+            'derived from': lambda log, r: r.update(source_version_id='sv_'+'0'*20),
+            'timezone-aware version time': lambda log, r: r.update(fetched_at=r['fetched_at'][:19]),
+            'attempted_at': lambda log, r: r.update(attempted_at='yesterday'),
+            'fetched before': lambda log, r: r.update(attempted_at='2026-11-06T23:00:00+00:00'),
+            'outside the run': lambda log, r: log['run'].update(finished_at='2026-11-06T00:00:00+00:00'),
+            'size limit': lambda log, r: r.update(bytes_received=3*1024*1024),
+            'unknown retrieval outcome': lambda log, r: r.update(outcome='maybe'),
+        }
+        for needle, mutate in cases.items():
+            with self.subTest(needle=needle):
+                logs = copy.deepcopy(self.logs); log, rec = self.promoted(logs); mutate(log, rec)
+                self.assertTrue(any(needle in e for e in self.full(logs)), needle)
 
 if __name__=='__main__':unittest.main()

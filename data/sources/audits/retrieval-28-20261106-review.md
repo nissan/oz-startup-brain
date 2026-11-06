@@ -30,10 +30,12 @@ The Queensland 403s are recorded and not worked around. Run `retrieval-28-202611
 
 Run [42209973408](https://github.com/nissan/oz-startup-brain/actions/runs/42209973408) (`retrieval-28-20261106b`, log `retrieval-28-20261106b.json`) requested each record's reviewed `observed_redirect_url` on `innovation.qld.gov.au`. All three answered **HTTP 403 from `innovation.qld.gov.au` itself**, so no version or snapshot was created. Nothing further was attempted from the runner: no other user agent, retry or mirror.
 
-**Consequence for the Queensland pilot:**
-- None of the three Queensland core pages (Ignite Ideas, Ignite+, Ignite Spark) can be retrieved from cloud runners. The browsing provider's cached views from the 6 November audit are not raw versions.
-- The pages can be retrieved from a network the publisher accepts, such as the owner's own computer, or with the publisher's permission or a supplied copy. Either way, the result is recorded as a new retrieval run.
-- Until then, the Queensland pilot's retrieved core is federal material only. That is not Queensland coverage.
+**What this shows, and what it doesn't:**
+- On the tested GitHub-hosted runner, these six requests returned 403: three discovery URLs (run a) and three reviewed destinations (run b).
+- The logs don't establish why. The publisher, a network filter, or something about the runner or request could each explain it. They also don't guarantee that a fetch from another network, such as the owner's computer, would succeed.
+- The browsing provider's cached views from the 6 November audit are not raw versions.
+- Possible next steps, each recorded as a new retrieval run: a fetch from a network the owner chooses, or a permission request or a copy supplied by the publisher.
+- Until one succeeds, the retrieved core is federal material only. That is not Queensland coverage.
 
 ## Page-level rights exceptions (input to gate 4; not clearance)
 
@@ -45,6 +47,12 @@ business.gov.au's [copyright notice](https://business.gov.au/legal-notices/copyr
 | Industry Growth Program | Two images (EMVision team; JEMTEC). Both "Customer stories" (EMVision, Engentus) are third-party material. Keep the paused-applications banner with any extracted application text, and give it precedence. |
 | R&DTI overview | Embedded YouTube video (excluded). The program is jointly administered with the ATO, so ATO-owned guidance it links to falls under the ATO's own terms, not this licence. |
 | R&DTI software sector guide | Two images (excluded). The page's own disclaimer section must travel with any extract. The "Hypothetical" case studies are department-authored examples, not real recipients, and must stay labelled as hypothetical. |
+
+## Corrections after Codex review of PR #40 (7 November 2026)
+
+- **User-Agent.** Both runs sent `OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)` (direct transport), but their logs record the 0.3 agent in `run.user_agent`. The logs are kept as committed. The correction is recorded in `audit.retrieval_corrections` and shown in the inventory's "Provenance corrections" table. The tool now chooses the agent once, and the same value is sent and recorded.
+- **Evidence boundary.** The byte re-hash of the decrypted snapshots, the page classifications and the rights-exception observations above are builder-reported. The reviewer had no access to the private snapshots. The same applies to the hand-over and key deletion.
+- **Retention wording.** The four promoted records' `retention_policy` now says what happened: hashes in the repository, and the raw snapshot held privately by the owner (the owner's storage choice). That is not a rights or retention decision about the content.
 
 ## Still to do for these sources
 

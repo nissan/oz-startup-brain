@@ -23,15 +23,18 @@ from pathlib import Path
 import os
 import socket
 import subprocess
+import tempfile
+import urllib.request
 import threading
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
-from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 MAX_BYTES = 2 * 1024 * 1024
 TIMEOUT = 8
 TOOL_VERSION = '0.3'
 USER_AGENT = f'OzStartupBrain-SourceAudit/{TOOL_VERSION} (source retrieval for rights review; no ingestion)'
+LEGACY_USER_AGENT = 'OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)'
 TRANSPORTS = ('direct', 'configured-proxy')
 REPO = Path(__file__).resolve().parents[3]
 HOST_LOCKS = {}
@@ -77,6 +80,44 @@ class ProxiedPublicRedirect(PublicRedirect):
     resolve = False
 
 
+class EnforcedProxy(ProxyHandler):
+    """Routes every HTTPS request, including redirects, through the configured proxy. Unlike urllib's
+    environment ProxyHandler it never consults NO_PROXY, because the configured-proxy transport delegates
+    the public-address check to that proxy: a direct connection would skip the check altogether."""
+    def __init__(self, proxy_url):
+        super().__init__({'https': proxy_url})
+
+    def proxy_open(self, req, proxy, type):
+        proxy_type, user, password, hostport = urllib.request._parse_proxy(proxy)
+        if user or password:
+            raise ValueError('Credentialed proxies are not supported')
+        req.set_proxy(hostport, proxy_type or req.type)
+        return None
+
+
+def configured_proxy():
+    proxy = os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')
+    if not proxy:
+        raise ValueError('configured-proxy transport needs HTTPS_PROXY')
+    return proxy
+
+
+def write_snapshot(snapshot_dir, version, body):
+    """Publish <version>.body only once its complete bytes are on disk; never replace an existing
+    version and never leave a partial file behind."""
+    final = snapshot_dir/f'{version}.body'
+    fd, tmp = tempfile.mkstemp(prefix='.partial-', dir=snapshot_dir)
+    try:
+        with os.fdopen(fd, 'wb') as f:
+            f.write(body)
+            f.flush()
+            os.fsync(f.fileno())
+        os.link(tmp, final)  # fails with FileExistsError rather than overwrite
+    finally:
+        os.unlink(tmp)
+    return f'snapshot:{version}.body'
+
+
 def snapshot_dir_allowed(path):
     """A snapshot folder must be outside the repository or git-ignored inside it, so third-party
     bodies cannot be committed by accident."""
@@ -111,7 +152,7 @@ def digest_body(body, source_id, fetched_at):
     return digest, 'sv_'+version
 
 
-def probe(source, transport='direct', snapshot_dir=None, via_redirect=False):
+def probe(source, transport='direct', snapshot_dir=None, via_redirect=False, agent=LEGACY_USER_AGENT):
     """via_redirect fetches the manifest's reviewed observed_redirect_url instead of the discovery URL,
     for a discovery host that refuses requests while its recorded destination is the source's current
     home. The discovery URL stays the record's identity; the target is recorded beside it."""
@@ -124,17 +165,14 @@ def probe(source, transport='direct', snapshot_dir=None, via_redirect=False):
     try:
         if not target:
             raise ValueError('No reviewed redirect destination for this source')
-        if not resolve and not (os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')):
-            raise ValueError('configured-proxy transport needs HTTPS_PROXY')
+        handlers = [PublicRedirect()] if resolve else [ProxiedPublicRedirect(), EnforcedProxy(configured_proxy())]
         public_url(target, resolve=resolve)
         host = urlsplit(target).hostname
         with LOCK:
             lock = HOST_LOCKS.setdefault(host,threading.Lock())
         with lock:
-            agent = USER_AGENT if transport != 'direct' else 'OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)'
             req = Request(target,headers={'User-Agent':agent})
-            handler = PublicRedirect() if resolve else ProxiedPublicRedirect()
-            with build_opener(handler).open(req,timeout=TIMEOUT) as response:
+            with build_opener(*handlers).open(req,timeout=TIMEOUT) as response:
                 result.update(http_status=response.status,final_url=response.url,
                               content_type=response.headers.get('Content-Type'))
                 if not resolve:
@@ -148,13 +186,16 @@ def probe(source, transport='direct', snapshot_dir=None, via_redirect=False):
                 else:
                     when = utc_now()
                     digest,version = digest_body(body,source['source_id'],when)
-                    result.update(outcome='http_body_received',fetched_at=when,
-                                  raw_content_sha256=digest,source_version_id=version)
+                    location = None
                     if snapshot_dir is not None:
-                        # Exclusive creation: a snapshot is never overwritten or replaced.
-                        with (snapshot_dir/f'{version}.body').open('xb') as f:
-                            f.write(body)
-                        result['snapshot_location'] = f'snapshot:{version}.body'
+                        try:
+                            location = write_snapshot(snapshot_dir, version, body)
+                        except OSError as exc:
+                            # A version exists only with its snapshot when snapshots were requested.
+                            result.update(outcome='snapshot_write_failed',failure_reason=f'Snapshot not stored ({type(exc).__name__}); no source version')
+                            return result
+                    result.update(outcome='http_body_received',fetched_at=when,raw_content_sha256=digest,
+                                  source_version_id=version,snapshot_location=location)
                 # The body is not written to the log or any corpus.
     except HTTPError as exc:
         failed_url = exc.geturl() if isinstance(exc.geturl(), str) else None
@@ -208,10 +249,12 @@ def main():
     with args.output.open('x') as output:
         started = utc_now()
         with ThreadPoolExecutor(max_workers=6) as pool:
-            records = list(pool.map(lambda s: probe(s,args.transport,args.snapshot_dir,s['source_id'] in args.via_observed_redirect),sources))
+            # One agent, chosen once, is both sent and recorded.
+            agent = USER_AGENT if retrieval else LEGACY_USER_AGENT
+            records = list(pool.map(lambda s: probe(s,args.transport,args.snapshot_dir,s['source_id'] in args.via_observed_redirect,agent),sources))
         if retrieval:
             doc = dict(format_version='2',run=dict(run_id=args.run_id,tool_version=TOOL_VERSION,transport=args.transport,
-                       method=METHODS[args.transport],user_agent=USER_AGENT,started_at=started,finished_at=utc_now(),
+                       method=METHODS[args.transport],user_agent=agent,started_at=started,finished_at=utc_now(),
                        address_check='local_dns_global_only' if args.transport=='direct' else 'delegated_to_configured_proxy',
                        snapshots='retained_outside_git' if args.snapshot_dir else 'not_retained'),
                        note='Fresh retrieval of selected sources. A received body is a fetched representation, not verified content, rights clearance or ingestion approval. Snapshots, if any, are kept outside git. Proxy error codes do not prove publisher availability.',

@@ -576,7 +576,7 @@
       "observed_redirect_url": null,
       "rights_evidence_id": "business_gov",
       "rights_review_note": "Policy triaged; page/passage exceptions and intended-use clearance remain pending.",
-      "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
+      "retention_policy": "Hashes and version metadata only in repository. The raw snapshot is held privately by the owner (owner storage choice, 6 November 2026), pending a rights decision; no third-party body in the repository.",
       "published_at": null,
       "source_updated_at": null,
       "fetched_at": "2026-11-06T11:21:49.371769+00:00",
@@ -776,7 +776,7 @@
       "observed_redirect_url": null,
       "rights_evidence_id": "business_gov",
       "rights_review_note": "Policy triaged; page/passage exceptions and intended-use clearance remain pending.",
-      "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
+      "retention_policy": "Hashes and version metadata only in repository. The raw snapshot is held privately by the owner (owner storage choice, 6 November 2026), pending a rights decision; no third-party body in the repository.",
       "published_at": null,
       "source_updated_at": null,
       "fetched_at": "2026-11-06T11:21:47.622000+00:00",
@@ -859,7 +859,7 @@
       "observed_redirect_url": null,
       "rights_evidence_id": "business_gov",
       "rights_review_note": "Policy triaged; page/passage exceptions and intended-use clearance remain pending.",
-      "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
+      "retention_policy": "Hashes and version metadata only in repository. The raw snapshot is held privately by the owner (owner storage choice, 6 November 2026), pending a rights decision; no third-party body in the repository.",
       "published_at": null,
       "source_updated_at": null,
       "fetched_at": "2026-11-06T11:21:51.011180+00:00",
@@ -903,7 +903,7 @@
       "observed_redirect_url": null,
       "rights_evidence_id": "business_gov",
       "rights_review_note": "Policy triaged; page/passage exceptions and intended-use clearance remain pending.",
-      "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
+      "retention_policy": "Hashes and version metadata only in repository. The raw snapshot is held privately by the owner (owner storage choice, 6 November 2026), pending a rights decision; no third-party body in the repository.",
       "published_at": null,
       "source_updated_at": null,
       "fetched_at": "2026-11-06T11:21:52.815446+00:00",
@@ -5318,6 +5318,24 @@
     "retrievals": [
       "audits/retrieval-28-20261106a.json",
       "audits/retrieval-28-20261106b.json"
+    ],
+    "retrieval_corrections": [
+      {
+        "log": "audits/retrieval-28-20261106a.json",
+        "field": "run.user_agent",
+        "recorded": "OzStartupBrain-SourceAudit/0.3 (source retrieval for rights review; no ingestion)",
+        "actually_sent": "OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)",
+        "basis": "fetch_metadata.py at execution commit 120e547 (run 42209663180) sent the 0.2 agent for the direct transport while recording the 0.3 agent; found in Codex review of PR #40",
+        "noted_on": "2026-11-07"
+      },
+      {
+        "log": "audits/retrieval-28-20261106b.json",
+        "field": "run.user_agent",
+        "recorded": "OzStartupBrain-SourceAudit/0.3 (source retrieval for rights review; no ingestion)",
+        "actually_sent": "OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)",
+        "basis": "fetch_metadata.py at execution commit 622500e (run 42209973408) sent the 0.2 agent for the direct transport while recording the 0.3 agent; found in Codex review of PR #40",
+        "noted_on": "2026-11-07"
+      }
     ]
   }
 }

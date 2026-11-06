@@ -160,6 +160,25 @@ def validate_attempts(manifest, attempts):
     return errors
 
 
+OUTCOMES = {'http_body_received','http_error','transport_error','empty_body','size_limit','snapshot_write_failed'}
+MAX_BODY = 2*1024*1024
+
+
+def aware(value):
+    """A timezone-aware ISO 8601 instant, or None."""
+    if not isinstance(value, str):
+        return None
+    try:
+        t = datetime.fromisoformat(value)
+    except ValueError:
+        return None
+    return t if t.tzinfo is not None and t.utcoffset() is not None else None
+
+
+def expected_version(source_id, fetched_at, digest):
+    return 'sv_'+hashlib.sha256(f'{source_id}\n{fetched_at}\n{digest}'.encode()).hexdigest()[:20]
+
+
 def validate_retrieval_log(manifest, log, name):
     """A format-2 retrieval of selected sources. Bodies never appear in the log; a snapshot is only a
     reference to a file kept outside git."""
@@ -184,9 +203,26 @@ def validate_retrieval_log(manifest, log, name):
             errors.append(f'{sid}: retrieval cannot verify facts')
         if 'body' in r or 'text' in r:
             errors.append(f'{sid}: retrieval log must not carry source text')
+        if r['outcome'] not in OUTCOMES:
+            errors.append(f'{sid}: unknown retrieval outcome')
+        attempted = aware(r.get('attempted_at'))
+        if attempted is None:
+            errors.append(f'{sid}: attempted_at must be a timezone-aware instant')
         if r['outcome'] == 'http_body_received':
-            if not (r['source_version_id'] and r['fetched_at'] and re.fullmatch(r'[a-f0-9]{64}', r['raw_content_sha256'] or '')):
-                errors.append(f'{sid}: received body needs hash and version time')
+            fetched = aware(r['fetched_at'])
+            if not (r['source_version_id'] and fetched and re.fullmatch(r'[a-f0-9]{64}', r['raw_content_sha256'] or '')):
+                errors.append(f'{sid}: received body needs hash and a timezone-aware version time')
+            elif r['source_version_id'] != expected_version(sid, r['fetched_at'], r['raw_content_sha256']):
+                errors.append(f'{sid}: version ID is not derived from its source, time and hash')
+            if not (isinstance(r['http_status'], int) and 200 <= r['http_status'] < 300):
+                errors.append(f'{sid}: a received body needs a successful HTTP status')
+            if not (isinstance(r['bytes_received'], int) and 0 < r['bytes_received'] <= MAX_BODY):
+                errors.append(f'{sid}: a received body must be non-empty and within the size limit')
+            started, finished = aware(run.get('started_at')), aware(run.get('finished_at'))
+            if fetched and attempted and not (attempted <= fetched):
+                errors.append(f'{sid}: fetched before it was attempted')
+            if fetched and attempted and started and finished and not (started <= attempted and fetched <= finished):
+                errors.append(f'{sid}: retrieval times fall outside the run')
             if r['snapshot_location'] is not None and not SNAPSHOT.fullmatch(r['snapshot_location']):
                 errors.append(f'{sid}: snapshot reference must name a version file outside git')
             if r['snapshot_location'] is not None and r['snapshot_location'] != f"snapshot:{r['source_version_id']}.body":
@@ -196,9 +232,26 @@ def validate_retrieval_log(manifest, log, name):
     return errors
 
 
+def validate_corrections(root, manifest):
+    """Provenance corrections annotate committed logs without rewriting them: each names a listed log,
+    the field, the value the log records (which must still be there) and what actually happened."""
+    errors = []
+    listed = set(manifest['audit'].get('retrievals', []))
+    for c in manifest['audit'].get('retrieval_corrections', []):
+        if c.get('log') not in listed or not all(c.get(k) for k in ('field','recorded','actually_sent','basis')) or not valid_date(c.get('noted_on')):
+            errors.append(f"correction for {c.get('log')}: needs a listed log, field, recorded and actual values, basis and date")
+            continue
+        value = read(root/c['log'])
+        for part in c['field'].split('.'):
+            value = value.get(part) if isinstance(value, dict) else None
+        if value != c['recorded']:
+            errors.append(f"correction for {c['log']}: {c['field']} no longer holds the recorded value; logs are not rewritten")
+    return errors
+
+
 def load_retrievals(root, manifest):
     """Returns (errors, records by version ID) for every retrieval log the manifest lists."""
-    errors, records = [], {}
+    errors, records = validate_corrections(root, manifest), {}
     for name in manifest['audit'].get('retrievals', []):
         log = read(root/name)
         errors += validate_retrieval_log(manifest, log, name)
@@ -246,6 +299,12 @@ def report(m):
             lines.append(f"| `{s['source_id']}` | `{s['source_version_id']}` | {s['fetched_at']} | `{s['content_hash'][:16]}…` | {r['reviewed_on']}, {r['reviewer']}: {r['note']} |")
     else:
         lines.append('None yet.')
+    corrections = m['audit'].get('retrieval_corrections', [])
+    if corrections:
+        lines += ['', '### Provenance corrections', '', 'Committed retrieval logs are not rewritten. Where a log misdescribes its run, the correction is recorded here.', '',
+                  '| Log | Field | Log records | Actually | Basis |', '| --- | --- | --- | --- | --- |']
+        for c in corrections:
+            lines.append(f"| `{c['log']}` | `{c['field']}` | `{c['recorded']}` | `{c['actually_sent']}` | {c['basis']} ({c['noted_on']}) |")
     lines += ['', '## Provisional jurisdiction coverage', '',
               'Multi-jurisdiction records count in each applicable row; rows are not additive. AU-NATIONAL means Australian operator/context, not federal authority or all-state service eligibility. Every live/approved count is zero.', '',
               '| Jurisdiction | Discovery records | Shortlisted | Approved ingestion |', '| --- | ---: | ---: | ---: |']
