@@ -2,6 +2,8 @@
 
 These instructions apply throughout this repository, including work by OpenAI/Codex, Claude and future agents. Read the relevant product, architecture and delivery documents before changing their implementation. More specific instructions must preserve the visual-quality requirement below.
 
+**New session?** Read [HANDOVER.md](HANDOVER.md) first. It records the current state of the work, the merged foundations (fixture API #24/#33, fonts #22/#32, retrospective #35), the open issues and proposed lanes, the exact commands and GitHub REST calls that work from agent sessions, the environment limits already met, the lessons from the first iteration, and copyable prompts for the next builder, reviewer and verifier sessions. Live GitHub records override it.
+
 ## Shared work and actor isolation
 
 Builders, planners, reviewers and verifiers start at [the delivery home](docs/delivery/README.md) and follow [the agent workflow](docs/delivery/agent-workflow.md). Claim one Ready issue with a coordinator-confirmed role/run/branch; keep dependencies, changes, evidence and next handoffs visible in GitHub. The iteration permits at most two active implementation issues. A comment or suggested agent name does not automatically dispatch work. Review the exact PR head; do not self-certify independent review, merge authority or owner approval.
@@ -24,5 +26,7 @@ Passing functional tests, screenshots merely existing, or a successful build doe
 Preserve accessibility, truthful evidence states and usable performance while polishing. Use the design system and brand assets deliberately; low-fidelity research sketches are not the production visual target. Owner design approval and synthetic/human usability research remain separate from an agent's visual review.
 
 ## Checks to run
+
+Reproduce CI from a clean tree before opening or updating a PR: remove `node_modules` and every `dist/`, run `npm ci`, then `npm run check:generated`, `npm run check:compat`, `npm run typecheck`, `npm test` and `npm run demo:fixture` for anything touching `apps/`, `packages/` or `docs/api/`. Record runtime versions and any substituted command separately from the literal CI command. HANDOVER.md section 6 lists the working commands and section 8 the known environment limits.
 
 Run the applicable checks documented in the [persona-pack tooling guide](research/synthetic-ux/tools/README.md) and [design tooling guide](design/tools/README.md), including their regression suites; do not record a scenario review automatically to make validation pass. CI runs the persona-pack validator and regression tests, token-consistency checks and renderer regression tests on every PR. The accessibility checker is not a CI gate until its review findings are closed and gate integration is explicitly reviewed; its keyboard/accessibility-tree evidence must state any unresolved review limitations. Passing these checks does not replace the visual-polish pass.
