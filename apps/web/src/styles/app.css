@@ -52,10 +52,20 @@ a:hover { color: var(--ink); }
 .summary { margin: 0; font-size: 17px; line-height: 26px; max-width: 688px; }
 .cards { display: flex; flex-direction: column; gap: 16px; }
 .cards .osb-card { max-width: none; }
-.card--selected { outline: 2px solid var(--ironbark); outline-offset: 2px; }
+.card { display: flex; flex-direction: column; gap: 12px; }
+/* The open step: a quiet border change rather than a second ring competing with the primary action. */
+.card--selected > .osb-card { border-color: var(--ironbark); box-shadow: 0 0 0 1px var(--ironbark); }
 .evidence-panel { display: flex; flex-direction: column; gap: 12px; scroll-margin-top: 16px; }
 .evidence-panel .osb-card { max-width: none; }
 .evidence-panel__heading { margin: 0; font-size: 20px; line-height: 26px; font-weight: 700; }
+.evidence-panel__for { margin: -8px 0 0; font-size: 15px; line-height: 22px; color: var(--ink-muted); }
+.evidence-panel__for strong { color: var(--ink); font-weight: 700; }
+/* On narrow screens the evidence opens directly under the selected card; beside the cards otherwise. */
+.evidence-panel--inline { display: none; margin: 4px 0 4px; padding: 16px; border: 1px solid var(--ironbark); border-radius: var(--radius-lg); background: var(--paper); }
+@media (max-width: 879px) {
+  .evidence-panel--inline { display: flex; }
+  .results__aside .evidence-panel--aside { display: none; }
+}
 .claims { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .claims__item { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--hairline); border-radius: var(--radius-md); background: var(--paper-raised); font-size: 15px; line-height: 22px; }
 .claims__meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 14px; line-height: 20px; color: var(--ink-muted); }

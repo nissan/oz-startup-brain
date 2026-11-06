@@ -85,7 +85,13 @@ export function Journey() {
   const [sources, setSources] = useState<Record<string, SourceRecord | null | 'unavailable'>>({});
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resultsRef = useRef<HTMLHeadingElement>(null);
-  const evidenceRef = useRef<HTMLHeadingElement>(null);
+  const evidenceAsideRef = useRef<HTMLHeadingElement>(null);
+  const evidenceInlineRef = useRef<HTMLHeadingElement>(null);
+  /** Focus whichever evidence heading is displayed at this width (the other is display:none). */
+  const focusEvidence = () => {
+    const target = [evidenceInlineRef.current, evidenceAsideRef.current].find((el) => el && el.offsetParent !== null);
+    target?.focus();
+  };
   const inFlight = useRef(0);
 
   useEffect(() => {
@@ -372,7 +378,7 @@ export function Journey() {
                   {answer.actions.map((a, i) => {
                     const ev = evidenceFor(a, envelope);
                     return (
-                      <div key={a.action_id} className={a.action_id === selected ? 'card--selected' : undefined} style={{ borderRadius: 'var(--radius-lg)' }}>
+                      <div key={a.action_id} className={a.action_id === selected ? 'card card--selected' : 'card'}>
                         <NextStepCard
                           title={a.title}
                           why={a.why}
@@ -381,9 +387,12 @@ export function Journey() {
                           emphasis={i === 0 ? 'primary' : 'secondary'}
                           onInspect={() => {
                             setSelected(a.action_id);
-                            requestAnimationFrame(() => evidenceRef.current?.focus());
+                            requestAnimationFrame(focusEvidence);
                           }}
                         />
+                        {selectedAction && a.action_id === selected ? (
+                          <EvidencePanel ref={evidenceInlineRef} placement="inline" action={selectedAction} envelope={envelope} source={selectedSourceId ? sources[selectedSourceId] ?? null : 'unavailable'} />
+                        ) : null}
                       </div>
                     );
                   })}
@@ -408,7 +417,7 @@ export function Journey() {
               ) : null}
             </div>
             <aside className="results__aside">
-              {selectedAction ? <EvidencePanel ref={evidenceRef} action={selectedAction} envelope={envelope} source={selectedSourceId ? sources[selectedSourceId] ?? null : 'unavailable'} /> : null}
+              {selectedAction ? <EvidencePanel ref={evidenceAsideRef} placement="aside" action={selectedAction} envelope={envelope} source={selectedSourceId ? sources[selectedSourceId] ?? null : 'unavailable'} /> : null}
               <section className="section" aria-labelledby="sequence-heading">
                 <h2 id="sequence-heading" className="section__title">
                   What comes first

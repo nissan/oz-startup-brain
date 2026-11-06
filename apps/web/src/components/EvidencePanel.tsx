@@ -11,6 +11,8 @@ interface Props {
   envelope: Envelope;
   /** The source record for the first supporting citation, once fetched; null while loading; 'unavailable' on failure. */
   source: SourceRecord | null | 'unavailable';
+  /** Distinguishes the two placements (beside the cards on wide screens, under the selected card on narrow ones). */
+  placement: 'aside' | 'inline';
 }
 
 /**
@@ -19,16 +21,19 @@ interface Props {
  * on, each with the applicability the API decided and its dated qualifier. Nothing here re-judges
  * freshness or dates; it shows what the envelope says.
  */
-export const EvidencePanel = forwardRef<HTMLHeadingElement, Props>(function EvidencePanel({ action, envelope, source }, ref) {
+export const EvidencePanel = forwardRef<HTMLHeadingElement, Props>(function EvidencePanel({ action, envelope, source, placement }, ref) {
   const claims = claimsFor(action, envelope);
   const first = claims[0];
   const cit = first?.citation;
   const effective = first?.claim.qualifier === 'takes_effect_from' ? first.claim.qualifier_text ?? undefined : undefined;
   return (
-    <section className="evidence-panel" aria-labelledby="evidence-heading">
-      <h2 id="evidence-heading" className="evidence-panel__heading" tabIndex={-1} ref={ref}>
-        Evidence for: {action.title}
+    <section className={`evidence-panel evidence-panel--${placement}`} aria-labelledby={`evidence-heading-${placement}`}>
+      <h2 id={`evidence-heading-${placement}`} className="evidence-panel__heading" tabIndex={-1} ref={ref}>
+        Evidence
       </h2>
+      <p className="evidence-panel__for">
+        For <strong>{action.title}</strong>
+      </p>
       {cit ? (
         <SourcePanel
           title={cit.title}

@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "module": "commonjs", "moduleResolution": "node10", "jsx": "react-jsx", "noEmit": false, "incremental": false, "plugins": [] },
+  "include": ["src/lib/**/*.ts", "test/**/*.ts", "src/design-system/generated/*.d.ts"]
+}
