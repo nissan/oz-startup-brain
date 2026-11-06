@@ -11,7 +11,6 @@ import {
   PrerequisiteMap,
   StarterTask,
   StatusNotice,
-  WaitingState,
 } from '@/design-system/generated/bundle';
 import {
   CONDITION_HEADINGS,
@@ -24,6 +23,7 @@ import {
   longDate,
   sequenceNodes,
   serviceStatus,
+  sourceIdsFor,
   stageLabel,
   type Capabilities,
   type Envelope,
@@ -37,7 +37,8 @@ import { ThemeToggle } from './ThemeToggle';
 
 type SourceRecord = components['schemas']['SourceRecord'];
 type Context = { jurisdiction?: Jurisdiction; stage?: Stage };
-type Pending = 'finding' | 'checking' | 'building';
+/** What the evidence panel is showing: one of today's actions, or one prerequisite step. */
+type Selection = { kind: 'action'; id: string } | { kind: 'step'; position: number };
 interface Result {
   envelope: Envelope;
   question: string;
@@ -78,21 +79,26 @@ export function Journey() {
   const [questionError, setQuestionError] = useState<string | null>(null);
   const [context, setContext] = useState<Context>({});
   const [editing, setEditing] = useState<'jurisdiction' | 'stage' | null>(null);
-  const [pending, setPending] = useState<Pending | null>(null);
+  // Non-streaming API: there is no real progress to report, so waiting is a single honest state.
+  const [pending, setPending] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [failure, setFailure] = useState<(FailureView & { draft: string }) | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Selection | null>(null);
   const [sources, setSources] = useState<Record<string, SourceRecord | null | 'unavailable'>>({});
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const resultsRef = useRef<HTMLHeadingElement>(null);
   const evidenceAsideRef = useRef<HTMLHeadingElement>(null);
   const evidenceInlineRef = useRef<HTMLHeadingElement>(null);
-  /** Focus whichever evidence heading is displayed at this width (the other is display:none). */
+  const evidenceStepRef = useRef<HTMLHeadingElement>(null);
+  /** Focus whichever evidence heading is displayed (the aside and inline action panels swap by width). */
   const focusEvidence = () => {
-    const target = [evidenceInlineRef.current, evidenceAsideRef.current].find((el) => el && el.offsetParent !== null);
+    const target = [evidenceStepRef.current, evidenceInlineRef.current, evidenceAsideRef.current].find((el) => el && el.offsetParent !== null);
     target?.focus();
   };
+  /** Increments per request; a response is applied only if it belongs to the latest request. */
   const inFlight = useRef(0);
+  /** The question of the request currently in flight, so a context change can re-ask it. */
+  const pendingQuestion = useRef<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -121,19 +127,21 @@ export function Journey() {
       }
       setQuestionError(null);
       const id = ++inFlight.current;
-      setPending('finding');
-      const stages = [setTimeout(() => id === inFlight.current && setPending('checking'), 350), setTimeout(() => id === inFlight.current && setPending('building'), 700)];
+      pendingQuestion.current = trimmed;
+      setPending(true);
       const body: { question: string; confirmed_context?: Context } = { question: trimmed };
       const confirmed = Object.fromEntries(Object.entries(ctx).filter(([, v]) => v !== undefined)) as Context;
       if (Object.keys(confirmed).length) body.confirmed_context = confirmed;
       const r = await bff<Envelope>('/api/bff/query', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
-      stages.forEach(clearTimeout);
+      // A newer request (for example after a context edit) supersedes this one, whatever order they return in.
       if (id !== inFlight.current) return;
-      setPending(null);
+      pendingQuestion.current = null;
+      setPending(false);
       if (r.ok) {
         setFailure(null);
         setResult({ envelope: r.data, question: trimmed, context: confirmed, askedAt: new Date() });
-        setSelected(r.data.answer?.actions[0]?.action_id ?? null);
+        const first = r.data.answer?.actions[0]?.action_id;
+        setSelected(first ? { kind: 'action', id: first } : null);
         requestAnimationFrame(() => resultsRef.current?.focus());
       } else {
         // The draft and the previous answer are both kept; the previous answer is labelled stale below.
@@ -144,28 +152,24 @@ export function Journey() {
     [],
   );
 
-  // Fetch the rights-gated source record for the selected step's first citation, once per source.
-  useEffect(() => {
-    if (!result || !selected) return;
-    const action = result.envelope.answer?.actions.find((a) => a.action_id === selected);
-    if (!action) return;
-    const claim = result.envelope.claims.find((c) => c.claim_id === action.claim_ids[0]);
-    const cit = claim && result.envelope.citations.find((c) => c.citation_id === claim.citation_ids[0]);
-    if (!cit || sources[cit.source_id] !== undefined) return;
-    setSources((s) => ({ ...s, [cit.source_id]: null }));
-    bff<SourceRecord>(`/api/bff/sources/${encodeURIComponent(cit.source_id)}`).then((r) => {
-      setSources((s) => ({ ...s, [cit.source_id]: r.ok ? r.data : 'unavailable' }));
-    });
-  }, [result, selected, sources]);
-
   const envelope = result?.envelope ?? null;
   const answer = envelope?.answer ?? null;
-  const selectedAction = answer?.actions.find((a) => a.action_id === selected) ?? null;
-  const selectedSourceId = (() => {
-    if (!envelope || !selectedAction) return null;
-    const claim = envelope.claims.find((c) => c.claim_id === selectedAction.claim_ids[0]);
-    return claim ? envelope.citations.find((c) => c.citation_id === claim.citation_ids[0])?.source_id ?? null : null;
-  })();
+  const selectedAction = selected?.kind === 'action' ? answer?.actions.find((a) => a.action_id === selected.id) ?? null : null;
+  const selectedStep = selected?.kind === 'step' ? answer?.prerequisite_sequence?.find((s) => s.position === selected.position) ?? null : null;
+  const selectedItem = selectedAction ? { title: selectedAction.title, claim_ids: selectedAction.claim_ids } : selectedStep ? { title: `Step ${selectedStep.position}: ${selectedStep.label}`, claim_ids: selectedStep.claim_ids } : null;
+  const selectedSourceIds = envelope && selectedItem ? sourceIdsFor(selectedItem, envelope) : [];
+
+  // Fetch the rights-gated source record for every source behind the selected item, once per source.
+  useEffect(() => {
+    for (const id of selectedSourceIds) {
+      if (sources[id] !== undefined) continue;
+      setSources((s) => ({ ...s, [id]: null }));
+      bff<SourceRecord>(`/api/bff/sources/${encodeURIComponent(id)}`).then((r) => {
+        setSources((s) => ({ ...s, [id]: r.ok ? r.data : 'unavailable' }));
+      });
+    }
+  }, [selectedSourceIds.join('|'), sources]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const stale = !!(failure && result);
   const service = envelope ? serviceStatus(envelope) : null;
   const nodes = envelope ? sequenceNodes(envelope) : null;
@@ -176,9 +180,12 @@ export function Journey() {
     for (const k of Object.keys(next) as (keyof Context)[]) if (next[k] === undefined) delete next[k];
     setContext(next);
     setEditing(null);
-    // An edited assumption re-asks the same question so the answer reflects the new context (SC02);
-    // nothing is resubmitted when there is no question yet.
-    if (question.trim() && (result || failure)) void submit(question, next);
+    // An edited assumption re-asks so the answer reflects the new context (SC02). If a request is in
+    // flight, it is superseded: the new request gets a new ID and the old response is ignored when it
+    // arrives, so the earlier context can never win. Nothing is sent when no question has been asked.
+    const inFlightQuestion = pendingQuestion.current;
+    if (inFlightQuestion) void submit(inFlightQuestion, next);
+    else if (question.trim() && (result || failure)) void submit(question, next);
   };
 
   return (
@@ -256,7 +263,7 @@ export function Journey() {
             </p>
           ) : null}
           <div className="ask__actions">
-            <Button variant="primary" onClick={() => void submit(question, context)} disabled={pending !== null}>
+            <Button variant="primary" onClick={() => void submit(question, context)} disabled={pending}>
               Ask the planner
             </Button>
             <span id="question-count" className="ask__count" aria-live="polite">
@@ -305,12 +312,17 @@ export function Journey() {
         ) : null}
       </section>
 
-      <section className="section" aria-labelledby="results-heading" aria-busy={pending !== null}>
+      <section className="section" aria-labelledby="results-heading" aria-busy={pending}>
         <h2 id="results-heading" className="section__title" tabIndex={-1} ref={resultsRef}>
           {pending ? 'Working on your question' : failure ? 'The planner could not answer' : envelope?.status === 'clarification' ? 'One detail first' : envelope?.status === 'insufficient_evidence' ? 'No answer from the evidence' : answer ? 'Your next steps' : 'Your next steps will appear here'}
         </h2>
 
-        {pending ? <WaitingState stage={pending} /> : null}
+        {pending ? (
+          <div className="waiting" role="status" aria-live="polite">
+            <span className="waiting__bar" aria-hidden="true" />
+            <span>Asking the planner. The answer will show the sources and dates it rests on.</span>
+          </div>
+        ) : null}
 
         {!pending && failure ? (
           <LimitPanel
@@ -378,7 +390,7 @@ export function Journey() {
                   {answer.actions.map((a, i) => {
                     const ev = evidenceFor(a, envelope);
                     return (
-                      <div key={a.action_id} className={a.action_id === selected ? 'card card--selected' : 'card'}>
+                      <div key={a.action_id} className={selectedAction?.action_id === a.action_id ? 'card card--selected' : 'card'}>
                         <NextStepCard
                           title={a.title}
                           why={a.why}
@@ -386,12 +398,12 @@ export function Journey() {
                           door={a.next_door ?? undefined}
                           emphasis={i === 0 ? 'primary' : 'secondary'}
                           onInspect={() => {
-                            setSelected(a.action_id);
+                            setSelected({ kind: 'action', id: a.action_id });
                             requestAnimationFrame(focusEvidence);
                           }}
                         />
-                        {selectedAction && a.action_id === selected ? (
-                          <EvidencePanel ref={evidenceInlineRef} placement="inline" action={selectedAction} envelope={envelope} source={selectedSourceId ? sources[selectedSourceId] ?? null : 'unavailable'} />
+                        {selectedAction && selectedItem && a.action_id === selectedAction.action_id ? (
+                          <EvidencePanel ref={evidenceInlineRef} placement="inline" item={selectedItem} envelope={envelope} sources={sources} />
                         ) : null}
                       </div>
                     );
@@ -417,7 +429,7 @@ export function Journey() {
               ) : null}
             </div>
             <aside className="results__aside">
-              {selectedAction ? <EvidencePanel ref={evidenceAsideRef} placement="aside" action={selectedAction} envelope={envelope} source={selectedSourceId ? sources[selectedSourceId] ?? null : 'unavailable'} /> : null}
+              {selectedAction && selectedItem ? <EvidencePanel ref={evidenceAsideRef} placement="aside" item={selectedItem} envelope={envelope} sources={sources} /> : null}
               <section className="section" aria-labelledby="sequence-heading">
                 <h2 id="sequence-heading" className="section__title">
                   What comes first
@@ -426,6 +438,28 @@ export function Journey() {
                   <>
                     <PrerequisiteMap nodes={nodes} />
                     <p className="section__caption">Steps marked &ldquo;Suggested next step&rdquo; are editorial sequencing, not a documented requirement.</p>
+                    {/* Every step's evidence is reachable, including steps no action card cites. */}
+                    <ul className="step-evidence" aria-label="Evidence for each step">
+                      {answer.prerequisite_sequence!.map((step) => {
+                        const open = selectedStep?.position === step.position;
+                        return (
+                          <li key={step.position}>
+                            <button
+                              type="button"
+                              className="osb-link step-evidence__toggle"
+                              aria-expanded={open}
+                              onClick={() => {
+                                setSelected(open ? null : { kind: 'step', position: step.position });
+                                if (!open) requestAnimationFrame(focusEvidence);
+                              }}
+                            >
+                              {open ? 'Hide' : 'Show'} evidence for step {step.position}: {step.label}
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    {selectedStep && selectedItem ? <EvidencePanel ref={evidenceStepRef} placement="step" item={selectedItem} envelope={envelope} sources={sources} /> : null}
                   </>
                 ) : service ? (
                   <p className="section__caption">The prerequisite sequence is left out rather than guessed while the graph is unavailable.</p>

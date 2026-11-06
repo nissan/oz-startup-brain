@@ -30,6 +30,10 @@ This folder is a versioned export of the "Oz Startup Brain" design system kept a
 
 Issue #22 adds offline intended-font rendering and refines the shared component bundle: SVG completion ticks with accessible text, readable placeholder colour, and stacked dates in comparison-table evidence labels. These are repository changes on top of the artifact version above, not a republished artifact. Preserve them when reconciling the next artifact export. No new tokens or evidence-state words were introduced. The artifact version remains an honest baseline; owner approval of the repository baseline is recorded above.
 
+## Repository refinement after export (#25)
+
+`PrerequisiteMap` now wraps a label longer than 26 characters onto two lines at a word boundary, inside the existing 56-unit row pitch, so a long step label is no longer clipped by the 320-unit viewBox (found in the #39 review: "Gather evidence of customer interest" ran to 326 units). Labels of 26 characters or fewer render exactly as before, so none of the committed exports changes. Like the #22 refinements, this is a repository change on top of the artifact version above, not a republished artifact; preserve it when reconciling the next export.
+
 ## Updating
 
 Edit the artifact or these files, not both: when the artifact changes, re-export (copy its `project/` files here, regenerate `tokens.css`, rerun `../tools/render.py`) and update the version and date above.

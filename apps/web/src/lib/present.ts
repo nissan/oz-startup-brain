@@ -65,6 +65,18 @@ export function claimsFor(action: { claim_ids: string[] }, envelope: Envelope): 
     .map((claim) => ({ claim, citation: cits.get(claim.citation_ids[0]) }));
 }
 
+/** Distinct source IDs behind an item's claims, in claim order (every supporting citation, not just the first). */
+export function sourceIdsFor(item: { claim_ids: string[] }, envelope: Envelope): string[] {
+  const out: string[] = [];
+  for (const { claim, citation } of claimsFor(item, envelope)) {
+    for (const cid of claim.citation_ids) {
+      const c = cid === citation?.citation_id ? citation : envelope.citations.find((x) => x.citation_id === cid);
+      if (c && !out.includes(c.source_id)) out.push(c.source_id);
+    }
+  }
+  return out;
+}
+
 export interface EvidenceView {
   state: EvidenceState;
   /** Only for 'checked': the verification date of the first supporting source. */

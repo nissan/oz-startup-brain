@@ -6,9 +6,9 @@
   "scripts": {
     "generate": "node scripts/sync-design-system.mjs",
     "postinstall": "node scripts/sync-fonts.mjs",
-    "dev": "next dev --port 3100",
+    "dev": "next dev --port 3100 --hostname 127.0.0.1",
     "build": "next build",
-    "start": "next start --port 3100",
+    "start": "next start --port 3100 --hostname 127.0.0.1",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.jest.json --noEmit && tsc -p tsconfig.e2e.json",
     "test": "jest --runInBand",
     "e2e": "playwright test"

@@ -83,3 +83,16 @@ a:hover { color: var(--ink); }
   .results { flex-direction: column; }
   .results__main, .results__aside { flex: none; width: 100%; max-width: none; }
 }
+
+/* Waiting: one honest indeterminate state (the API does not stream progress). */
+.waiting { display: flex; flex-direction: column; gap: 10px; max-width: 688px; font-size: 15px; line-height: 22px; color: var(--ink-muted); }
+.waiting__bar { position: relative; display: block; height: 4px; border-radius: var(--radius-pill); background: var(--grey-tint); overflow: hidden; }
+.waiting__bar::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 30%; border-radius: inherit; background: var(--ironbark); animation: osb-indeterminate 1.4s ease-in-out infinite; }
+@keyframes osb-indeterminate { from { transform: translateX(-100%); } to { transform: translateX(340%); } }
+@media (prefers-reduced-motion: reduce) { .waiting__bar::after { animation: none; width: 100%; opacity: 0.35; } }
+
+/* Per-step evidence controls under the prerequisite sequence. */
+.step-evidence { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 15px; line-height: 22px; }
+.step-evidence__toggle { text-align: left; min-height: 32px; }
+.evidence-panel--step { padding: 16px; border: 1px solid var(--ironbark); border-radius: var(--radius-lg); background: var(--paper); }
+.evidence-panel__source { display: flex; flex-direction: column; gap: 6px; }

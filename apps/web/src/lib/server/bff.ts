@@ -41,12 +41,48 @@ function fromApiError(status: number, requestId: string | null, error: ErrorResp
   return errorJson(status, { error: { ...error, request_id: requestId } }, error.retry_after_seconds);
 }
 
+/**
+ * Reads the body counting the bytes actually received, so a chunked request without a
+ * Content-Length (or with a false one) cannot exceed the limit. Reading stops and the stream is
+ * cancelled as soon as the limit is passed, before any JSON parsing or forwarding.
+ */
+export async function readBodyLimited(request: Request, maxBytes: number): Promise<{ ok: true; text: string } | { ok: false; tooLarge: boolean }> {
+  const declared = request.headers.get('content-length');
+  if (declared !== null && Number(declared) > maxBytes) return { ok: false, tooLarge: true };
+  if (!request.body) return { ok: true, text: '' };
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let received = 0;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      received += value.byteLength;
+      if (received > maxBytes) {
+        await reader.cancel().catch(() => undefined);
+        return { ok: false, tooLarge: true };
+      }
+      chunks.push(value);
+    }
+  } catch {
+    return { ok: false, tooLarge: false };
+  }
+  const all = new Uint8Array(received);
+  let offset = 0;
+  for (const c of chunks) {
+    all.set(c, offset);
+    offset += c.byteLength;
+  }
+  return { ok: true, text: new TextDecoder('utf-8', { fatal: false }).decode(all) };
+}
+
 export async function handleQuery(request: Request): Promise<Response> {
-  const length = Number(request.headers.get('content-length') ?? '0');
-  if (length > MAX_BODY_BYTES) return errorJson(413, { error: { code: 'payload_too_large', message: 'The question is too long.', request_id: null } });
+  const read = await readBodyLimited(request, MAX_BODY_BYTES);
+  if (!read.ok && read.tooLarge) return errorJson(413, { error: { code: 'payload_too_large', message: 'The question is too long.', request_id: null } });
   let body: unknown;
   try {
-    body = await request.json();
+    if (!read.ok) throw new Error('unreadable');
+    body = JSON.parse(read.text);
   } catch {
     return errorJson(400, { error: { code: 'bff_invalid_request', message: 'The request body is not valid JSON.', request_id: null } });
   }

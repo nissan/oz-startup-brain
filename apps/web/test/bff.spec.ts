@@ -59,6 +59,36 @@ describe('BFF over the fixture API', () => {
     expect(body.error.details.map((d: { path: string }) => d.path).sort()).toEqual(['/consumer_id', '/scopes']);
   });
 
+  it('enforces the body limit on bytes actually received, not on Content-Length (review R39-2)', async () => {
+    const streamed = (text: string) => {
+      const bytes = new TextEncoder().encode(text);
+      const body = new ReadableStream<Uint8Array>({
+        start(controller) {
+          for (let i = 0; i < bytes.length; i += 1000) controller.enqueue(bytes.slice(i, i + 1000));
+          controller.close();
+        },
+      });
+      // No Content-Length header: as a chunked request arrives.
+      return new Request('http://web.test/api/bff/query', { method: 'POST', headers: { 'content-type': 'application/json' }, body, duplex: 'half' } as RequestInit);
+    };
+    const question = JSON.stringify({ question: 'Is round A1 open?' });
+    const over = await handleQuery(streamed(' '.repeat(20_000) + question));
+    expect(over.status).toBe(413);
+    expect((await over.json()).error.code).toBe('payload_too_large');
+    // A false, small Content-Length does not let a large body through either.
+    const lying = new Request('http://web.test/api/bff/query', { method: 'POST', headers: { 'content-type': 'application/json', 'content-length': '10' }, body: ' '.repeat(20_000) + question });
+    expect((await handleQuery(lying)).status).toBe(413);
+    // Padding under the limit is valid JSON and is answered.
+    const under = await handleQuery(streamed(' '.repeat(10_000) + question));
+    expect(under.status).toBe(200);
+    expect((await under.json()).status).toBe('answer');
+  });
+
+  it('binds the documented web scripts to loopback only (review R39-1)', () => {
+    const pkg = require('../package.json') as { scripts: Record<string, string> };
+    for (const name of ['dev', 'start']) expect(pkg.scripts[name]).toMatch(/--hostname 127\.0\.0\.1(\s|$)/);
+  });
+
   it('ignores identity headers from the browser; only the server key reaches the API', async () => {
     const res = await handleQuery(json({ question: 'Is round A1 open?' }, { 'x-api-key': 'ozsb_000000000000_' + 'A'.repeat(43), 'x-consumer-id': 'forged', 'x-session-hint': 'forged' }));
     expect(res.status).toBe(200);

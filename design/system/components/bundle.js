@@ -108,6 +108,17 @@
       }))));
   }
 
+  /* Labels longer than one line of the 320-unit drawing wrap at a word boundary onto two lines,
+     which fit inside the 56-unit row pitch; a label is never clipped by the viewBox. */
+  var MAP_LINE_CHARS = 26;
+  function mapLabelLines(label) {
+    if (label.length <= MAP_LINE_CHARS) return [label];
+    var words = label.split(' '), first = '';
+    while (words.length && (first ? first.length + 1 : 0) + words[0].length <= MAP_LINE_CHARS) first = first ? first + ' ' + words.shift() : words.shift();
+    if (!first) first = words.shift();
+    return words.length ? [first, words.join(' ')] : [first];
+  }
+
   function PrerequisiteMap(p) {
     var nodes = (p.nodes || []).slice(0, 5);
     var W = 320, pitch = 56, H = nodes.length * pitch + 16;
@@ -117,7 +128,7 @@
         i > 0 ? h('path', { className: 'osb-map__rail' + (n.kind === 'editorial' ? ' osb-map__rail--editorial' : ''), d: 'M28 ' + (y - pitch + 14) + ' V ' + (y - 14) }) : null,
         h('circle', { className: 'osb-map__node' + (n.current ? ' osb-map__node--current' : ''), cx: 28, cy: y, r: 14 }),
         h('text', { className: 'osb-map__text', x: 28, y: y + 5, textAnchor: 'middle' }, String(i + 1)),
-        h('text', { className: 'osb-map__text', x: 56, y: y + 5 }, n.label));
+        h('text', { className: 'osb-map__text', x: 56, y: y + 5 }, mapLabelLines(n.label).length === 1 ? n.label : mapLabelLines(n.label).map(function (line, li) { return h('tspan', { key: li, x: 56, y: y - 3 + li * 18 }, line); })));
     });
     return h('div', { className: 'osb osb-map' },
       h('svg', { className: 'osb-map__svg', viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Prerequisite sequence; the list beside it is equivalent' }, items),

@@ -255,3 +255,118 @@ test.describe('fonts and layout', () => {
     await shot(page, 'answer-unknown-light-layout');
   });
 });
+
+test.describe('review R39 regressions', () => {
+  test('R39-2: a chunked request with no Content-Length is limited by bytes received, at the real HTTP server', async () => {
+    const http = await import('node:http');
+    const send = (payload: string) =>
+      new Promise<{ status: number; body: string }>((resolve, reject) => {
+        const req = http.request('http://127.0.0.1:3110/api/bff/query', { method: 'POST', headers: { 'content-type': 'application/json', 'transfer-encoding': 'chunked' } }, (res) => {
+          let body = '';
+          res.on('data', (d) => (body += d));
+          res.on('end', () => resolve({ status: res.statusCode ?? 0, body }));
+        });
+        req.on('error', reject);
+        for (let i = 0; i < payload.length; i += 1024) req.write(payload.slice(i, i + 1024));
+        req.end();
+      });
+    const q = JSON.stringify({ question: 'Is round A1 open?' });
+    const over = await send(' '.repeat(20_000) + q);
+    expect(over.status).toBe(413);
+    expect(JSON.parse(over.body).error.code).toBe('payload_too_large');
+    const under = await send(' '.repeat(10_000) + q);
+    expect(under.status).toBe(200);
+    expect(JSON.parse(under.body).status).toBe('answer');
+  });
+
+  test('R39-3: a context saved while the first request is pending replaces it; Unknown is not asked again', async ({ page }) => {
+    await open(page, WEB.fixture, 'light');
+    let calls = 0;
+    await page.route('**/api/bff/query', async (route) => {
+      calls += 1;
+      // The first request is slow; the superseding one is fast, so the responses arrive out of order.
+      if (calls === 1) await new Promise((r) => setTimeout(r, 2500));
+      await route.continue();
+    });
+    await page.getByLabel('Your question').fill('What should I do next for support?');
+    await page.getByRole('button', { name: 'Ask the planner' }).click();
+    await expect(page.locator('.waiting')).toBeVisible();
+    await page.getByRole('button', { name: /Jurisdiction: Not set\. Edit/ }).click();
+    await page.locator('.context-editor__option', { hasText: /^Unknown$/ }).click();
+    await page.getByRole('button', { name: 'Save jurisdiction' }).click();
+    await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+    await expect(page.getByRole('button', { name: /Jurisdiction: Unknown\. Edit/ })).toBeVisible();
+    // Let the slow first response arrive; it must not replace the newer answer.
+    await page.waitForTimeout(3000);
+    await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+    await expect(page.getByRole('button', { name: 'Keep as unknown' })).toHaveCount(0);
+    await expect(page.getByText('Left out because a field is Unknown')).toBeVisible();
+    expect(calls).toBe(2);
+  });
+
+  test('R39-4: a prerequisite step that no action cites still opens its source, metadata and excerpt', async ({ page }) => {
+    await open(page, WEB.fixture, 'light');
+    await ask(page, 'What should I do next for support?');
+    await page.getByRole('button', { name: 'Queensland' }).click();
+    await expect(page.getByRole('heading', { name: 'Book a session with the regional innovation hub' })).toBeVisible();
+    const toggle = page.locator('.step-evidence__toggle').nth(2);
+    await expect(toggle).toHaveText('Show evidence for step 3: Apply to an open Program A round');
+    await toggle.focus();
+    await page.keyboard.press('Enter');
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    await expect(toggle).toHaveText('Hide evidence for step 3: Apply to an open Program A round');
+    const panel = page.locator('.evidence-panel--step');
+    await expect(page.locator('#evidence-heading-step')).toBeFocused();
+    await expect(panel.locator('[data-source-id="src_prog_a_overview"]')).toBeVisible();
+    await expect(panel.getByText('Program A overview (fictional)')).toBeVisible();
+    await expect(panel.getByText('28 October 2026').first()).toBeVisible();
+    await expect(panel.locator('blockquote')).toContainText('Program A (fictional) supports Queensland founders');
+    await expect(panel.getByText(/requires a working prototype/)).toBeVisible();
+    await shot(page, 'step-evidence-light');
+  });
+
+  test('R39-5: waiting never claims completed work, and a later failure says so plainly', async ({ page }) => {
+    await open(page, WEB.fixture, 'dark');
+    await page.route('**/api/bff/query', async (route) => {
+      await new Promise((r) => setTimeout(r, 1500));
+      await route.abort('connectionrefused');
+    });
+    await page.getByLabel('Your question').fill('Is round A1 open?');
+    await page.getByRole('button', { name: 'Ask the planner' }).click();
+    const waiting = page.locator('.waiting');
+    await expect(waiting).toBeVisible();
+    await expect(waiting).toHaveAttribute('role', 'status');
+    await page.waitForTimeout(1000);
+    await expect(page.getByText(/Completed/)).toHaveCount(0);
+    await expect(page.locator('.osb-wait')).toHaveCount(0);
+    await expect(page.locator('#results-heading')).toHaveText('The planner could not answer');
+    await expect(page.getByText('The planner cannot reach its sources')).toBeVisible();
+    await expect(page.getByText('Your draft, kept')).toBeVisible();
+  });
+
+  for (const width of [390, 600, 1280]) {
+    test(`R39-6: every prerequisite label fits inside the drawing at ${width}px, both themes`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      for (const theme of ['light', 'dark'] as const) {
+        await open(page, WEB.fixture, theme);
+        await ask(page, 'What should I do next for support?');
+        await page.getByRole('button', { name: 'Queensland' }).click();
+        await expect(page.getByRole('img', { name: /Prerequisite sequence/ })).toBeVisible();
+        await page.evaluate(() => document.fonts.ready);
+        const overflow = await page.locator('.osb-map__svg').evaluate((svg: SVGSVGElement) => {
+          const box = svg.viewBox.baseVal;
+          return Array.from(svg.querySelectorAll('text')).map((t) => {
+            const b = (t as SVGTextElement).getBBox();
+            return { text: t.textContent, right: b.x + b.width, bottom: b.y + b.height, limitRight: box.x + box.width, limitBottom: box.y + box.height };
+          }).filter((r) => r.right > r.limitRight || r.bottom > r.limitBottom);
+        });
+        expect(overflow, `${theme} at ${width}px`).toEqual([]);
+        // The long label wraps onto two lines rather than being clipped.
+        // Both long labels wrap onto two lines rather than being clipped.
+        await expect(page.locator('.osb-map__svg text', { hasText: 'Gather evidence of' }).locator('tspan')).toHaveText(['Gather evidence of', 'customer interest']);
+        await expect(page.locator('.osb-map__svg text', { hasText: 'Apply to an open' }).locator('tspan')).toHaveText(['Apply to an open Program A', 'round']);
+        if (width === 390) await page.locator('.osb-map').screenshot({ path: join(EVIDENCE, `${test.info().project.name}-map-${theme}-${width}.png`) });
+      }
+    });
+  }
+});
