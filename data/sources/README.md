@@ -47,7 +47,8 @@ python data/sources/tools/fetch_metadata.py --network --transport configured-pro
 - After inspection, list the log in `audit.retrievals` and copy a version into its manifest record (`fetched_at`, `content_hash`, `source_version_id`). Add a `version_review` saying the representation is the source page, not a challenge, shell, error or unrelated page.
 - For a received body, the validator requires:
   - a known outcome;
-  - timezone-aware `attempted_at` and `fetched_at`, in order and within the run's start and finish;
+  - a run whose `started_at` and `finished_at` are present, timezone-aware and ordered (otherwise the whole log is rejected);
+  - timezone-aware `attempted_at` and `fetched_at`, in order and within that start and finish;
   - a 2xx status;
   - a non-empty body within 2 MiB;
   - a version ID derived from the source ID, fetch time and hash.

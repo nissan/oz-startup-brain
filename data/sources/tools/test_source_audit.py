@@ -122,7 +122,8 @@ def retrieval(**over):
 
 
 def log(*records):
-    return dict(format_version='2',run=dict(run_id='claude-28-test',method='https_get_via_configured_proxy'),attempts=list(records))
+    return dict(format_version='2',run=dict(run_id='claude-28-test',method='https_get_via_configured_proxy',
+                started_at='2026-11-06T10:59:00+00:00',finished_at='2026-11-06T11:01:00+00:00'),attempts=list(records))
 
 
 class RetrievedVersionTests(unittest.TestCase):
@@ -372,7 +373,7 @@ class ReviewFortyRegressions(unittest.TestCase):
             self.assertEqual([], list(Path(d).iterdir()))
         self.assertEqual('snapshot_write_failed', r['outcome'])
         self.assertTrue(all(r[k] is None for k in ('source_version_id','raw_content_sha256','fetched_at','snapshot_location')))
-        log = {'format_version':'2','run':{'run_id':'t','method':'direct_https_get'},'attempts':[dict(r, source_id='src_8db3776594ab', requested_url='https://advance.qld.gov.au/grants-and-programs/ignite-ideas-fund')]}
+        log = {'format_version':'2','run':{'run_id':'t','method':'direct_https_get','started_at':r['attempted_at'],'finished_at':r['attempted_at']},'attempts':[dict(r, source_id='src_8db3776594ab', requested_url='https://advance.qld.gov.au/grants-and-programs/ignite-ideas-fund')]}
         self.assertEqual([], audit.validate_retrieval_log(audit.read(ROOT/'article-bibliography.json'), log, 'x'))
 
     @patch('fetch_metadata.public_url', side_effect=lambda u, resolve=True: u)
@@ -459,5 +460,24 @@ class ReviewFortyPromotionMetadata(unittest.TestCase):
             with self.subTest(needle=needle):
                 logs = copy.deepcopy(self.logs); log, rec = self.promoted(logs); mutate(log, rec)
                 self.assertTrue(any(needle in e for e in self.full(logs)), needle)
+
+    def test_invalid_run_bounds_rejected_through_the_full_path(self):
+        """Codex re-review r2: absent, malformed or timezone-less run bounds must fail closed, not skip containment."""
+        def strip(v): return v[:19] if isinstance(v, str) else v
+        cases = {
+            'absent': lambda run: (run.pop('started_at'), run.pop('finished_at')),
+            'malformed': lambda run: run.update(started_at='not-a-date', finished_at='not-a-date'),
+            'timezone-less': lambda run: run.update(started_at=strip(run['started_at']), finished_at=strip(run['finished_at'])),
+            'one missing': lambda run: run.pop('finished_at'),
+            'reversed': lambda run: run.update(started_at=run['finished_at'], finished_at=run['started_at']),
+        }
+        for label, mutate in cases.items():
+            with self.subTest(label=label):
+                logs = copy.deepcopy(self.logs)
+                mutate(logs['audits/retrieval-28-20261106a.json']['run'])
+                errors = self.full(logs)
+                self.assertTrue(any('run started_at and finished_at' in e for e in errors), label)
+                self.assertTrue(any('outside the run' in e for e in errors), label)
+
 
 if __name__=='__main__':unittest.main()

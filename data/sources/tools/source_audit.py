@@ -188,6 +188,10 @@ def validate_retrieval_log(manifest, log, name):
     run = log.get('run') or {}
     if log.get('format_version') != '2' or not run.get('run_id') or run.get('method') not in ('direct_https_get','https_get_via_configured_proxy'):
         errors.append(f'{name}: retrieval log needs format 2 and a run record')
+    started, finished = aware(run.get('started_at')), aware(run.get('finished_at'))
+    if started is None or finished is None or started > finished:
+        # Fail closed: without valid ordered bounds, no attempt can be shown to belong to the run.
+        errors.append(f'{name}: run started_at and finished_at must be timezone-aware instants, start before finish')
     ids = [r['source_id'] for r in log['attempts']]
     if len(ids) != len(set(ids)) or not set(ids) <= set(expected):
         errors.append(f'{name}: retrieval sources must be distinct manifest IDs')
@@ -218,10 +222,9 @@ def validate_retrieval_log(manifest, log, name):
                 errors.append(f'{sid}: a received body needs a successful HTTP status')
             if not (isinstance(r['bytes_received'], int) and 0 < r['bytes_received'] <= MAX_BODY):
                 errors.append(f'{sid}: a received body must be non-empty and within the size limit')
-            started, finished = aware(run.get('started_at')), aware(run.get('finished_at'))
             if fetched and attempted and not (attempted <= fetched):
                 errors.append(f'{sid}: fetched before it was attempted')
-            if fetched and attempted and started and finished and not (started <= attempted and fetched <= finished):
+            if fetched and attempted and (started is None or finished is None or not (started <= attempted and fetched <= finished)):
                 errors.append(f'{sid}: retrieval times fall outside the run')
             if r['snapshot_location'] is not None and not SNAPSHOT.fullmatch(r['snapshot_location']):
                 errors.append(f'{sid}: snapshot reference must name a version file outside git')
