@@ -74,6 +74,25 @@ describe('R33-01: the effective interval is tested independently of freshness', 
     expect(body.answer.summary).toMatch(/^The planner cannot confirm which Round A2 conditions are in effect today/);
   });
 
+  it('retains the missing-effective-date caveat through the responder without inventing a date', () => {
+    // Test-only cloned evidence: normal A2 fixtures retain their authored validity start.
+    const corpus: FixtureCorpus = structuredClone(loadFixtureCorpus());
+    const eligibility = corpus.claims.find((c) => c.claim_id === 'clm_a2_eligibility')!;
+    eligibility.valid_from = null;
+    const faults = { currentFault: () => 'none' as const };
+    const responder = new FixtureResponder(corpus, new FixtureRetriever(corpus, faults), new FixtureGraph(faults));
+    const e = responder.respond({ question: 'What does round A2 require today?' }, { requestId: 'req_0000000000000000', asOf: corpus.default_as_of });
+    expectContract('QueryEnvelope', e);
+    expect(e.claims.find((c) => c.claim_id === eligibility.claim_id)).toMatchObject({
+      valid_from: null,
+      applicability: 'current',
+      qualifier: 'effective_date_not_stated',
+      qualifier_text: 'Effective date not stated',
+    });
+    expect(e.warnings).toContainEqual(expect.objectContaining({ code: 'effective_date_not_stated', kind: 'evidence' }));
+    expect(e.answer!.actions.map((a) => a.action_id)).toContain('act_confirm_a2_eligibility');
+  });
+
   it('applies the same gate to prerequisite steps, whatever the freshness', () => {
     const corpus: FixtureCorpus = JSON.parse(JSON.stringify(loadFixtureCorpus()));
     corpus.claims.find((c) => c.claim_id === 'clm_progA_prerequisites')!.valid_from = '2026-12-01';

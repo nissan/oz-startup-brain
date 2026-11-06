@@ -75,10 +75,13 @@ test.describe('journey', () => {
     await expect(page.locator('.osb-map__list').getByText('Suggested next step').first()).toBeVisible();
     await shot(page, 'answer-qld-light');
 
-    // The second step's source is not cleared: the excerpt is withheld in words.
-    await page.getByRole('article').nth(1).getByRole('button', { name: 'Show supporting passage' }).click();
-    await expect(page.locator('.evidence-panel:visible')).toContainText('Excerpt not shown: this source is not cleared');
-    await expect(page.locator('.evidence-panel__heading:visible')).toBeFocused();
+    // The IP editorial prerequisite still uses the uncleared founder guide. Select it by
+    // meaning, not action position: the university contact action now has a cleared source.
+    await page.getByRole('button', { name: 'Show evidence for step 1: Confirm IP ownership', exact: true }).click();
+    const editorialPanel = page.locator('.evidence-panel--step');
+    await expect(editorialPanel).toContainText('Before you chase a named program (fictional sample article)');
+    await expect(editorialPanel).toContainText('Excerpt not shown: this source is not cleared');
+    await expect(editorialPanel.locator('.evidence-panel__heading')).toBeFocused();
 
     expect(bodies.join('\n')).not.toMatch(KEY_SHAPE);
   });
@@ -86,10 +89,18 @@ test.describe('journey', () => {
   test('future-effective requirement is dated and excluded; closed round abstains; stale evidence is never current', async ({ page }) => {
     await open(page, WEB.fixture, 'dark');
     await ask(page, 'What does round A2 require today?');
-    await expect(page.locator('.conditions').getByText('Takes effect later')).toBeVisible();
-    await expect(page.locator('.conditions').getByText(/Takes effect from 1 December 2026/)).toBeVisible();
+    const futureConditions = page.locator('.conditions__item').filter({ hasText: 'Takes effect later' });
+    await expect(futureConditions).toHaveCount(2);
+    await expect(futureConditions).toContainText([
+      /Takes effect from 1 December 2026: .* It is not a requirement or action today\./,
+      /Takes effect from 1 December 2026: .* It is not a prerequisite today\./,
+    ]);
     await expect(page.getByRole('heading', { name: /security assessment/ })).toHaveCount(0);
-    await expect(page.locator('.evidence-panel:visible').getByText('Effective date not stated')).toBeVisible();
+    await expect(page.locator('.osb-map__list')).not.toContainText(/security assessment/i);
+    const eligibilityPanel = page.locator('.evidence-panel:visible');
+    await expect(eligibilityPanel.getByText('In effect now')).toBeVisible();
+    await expect(eligibilityPanel.getByText('from 15 October 2026', { exact: true })).toBeVisible();
+    await expect(eligibilityPanel.getByText('Effective date not stated')).toHaveCount(0);
     await shot(page, 'a2-dark');
 
     await ask(page, 'Is round A1 open?');
