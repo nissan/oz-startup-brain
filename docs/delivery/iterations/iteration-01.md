@@ -8,8 +8,8 @@ Deliver the fixture API and trustworthy visual foundation, then unlock a polishe
 
 1. The fixture API (#24/#33) and intended-font foundation (#22/#32) have merged and their completion records are in GitHub. Read the [checkpoint retrospective](../retrospectives/foundation-pr32-pr33.md); do not reassign these completed tickets.
 2. Proposed independent lanes: **Claude #34 dependency remediation**, **Codex #28 source dispositions**. Both remain unclaimed until explicit dispatch. Keep package/lockfile edits with Claude and source metadata/docs with Codex; cross-review each other's PRs. Research consumes a lane in this pairing.
-3. **#8 is ready for Nissan's design decision**, with intended-font evidence available. Record approval in all three handoffs or concrete requested changes. Do not silently remove this gate to accelerate the UI.
-4. After #8 approval, schedule **Claude #25 local fixture UI** as the next critical-path build. Finish #34's package changes or explicitly release/reassign its claim before another branch edits the root lockfile. Codex may continue #28 independently. If one lane finishes early, review the other before pulling more work.
+3. **#8 is approved by Nissan**, 6 November 2026 ([explicit decision](https://github.com/nissan/oz-startup-brain/issues/8#issuecomment-6679674992)), for the committed intended-font baseline. All three handoffs record approval. #25 is Ready and unclaimed.
+4. With #8 approved, schedule **Claude #25 local fixture UI** as the next critical-path build. Finish #34's package changes or explicitly release/reassign its claim before another branch edits the root lockfile. Codex may continue #28 independently. If one lane finishes early, review the other before pulling more work.
 5. **#26 first synthetic round** follows a pinned usable #25 build and verified task capabilities. #27 follows actual findings. Available #9 checks remain separate; screen-reader and actual browser zoom evidence cannot be inferred from automation.
 6. #29 stays an epic until decomposed; #30 remains access-blocked. Carry unfinished work into the next window rather than dropping visual polish or claiming unrun research.
 

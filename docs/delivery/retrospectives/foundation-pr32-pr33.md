@@ -52,3 +52,7 @@ Do not accelerate into graph, live providers, public hosting or decision-model r
 ## Check at the next retrospective
 
 For the next PRs, record whether clean install/build succeeded first time, whether every review finding has a failing-before regression, whether stale/current prose agrees across surfaces, whether status/head/merge evidence stayed synchronized, and whether visual weaknesses were fixed before sign-off. Record actual persona attempts and blockers only after #26 runs. These are prospective measures, not claimed improvements or velocity estimates.
+
+## Subsequent owner decision — 6 November 2026
+
+Nissan explicitly approved #8 after this checkpoint ([decision](https://github.com/nissan/oz-startup-brain/issues/8#issuecomment-6679674992)). The pending-owner-decision references above describe the original retrospective snapshot. The three design handoffs now record approval of the committed intended-font baseline; #25 is Ready and #10 can proceed as its coordinated vocabulary increment. This decision does not start a builder session or establish accessibility/user-study results. Current ordering remains in #23.

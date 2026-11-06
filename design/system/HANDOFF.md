@@ -8,7 +8,7 @@ This folder is a versioned export of the "Oz Startup Brain" design system kept a
 | Artifact version exported | `1793913295-8883` (version 12) |
 | Export date | 6 November 2026 |
 | Exported by | Claude, on the owner's instruction (owner decision 10) |
-| Owner approval | **Pending** — one review covers the design system, the mock-ups and the brand kit (#8); nothing here is approved for implementation until that review is recorded in this file |
+| Owner approval | **Approved — Nissan Dookeran, 6 November 2026 (Australia/Sydney)**. [Explicit decision on #8](https://github.com/nissan/oz-startup-brain/issues/8#issuecomment-6679674992); applies to the committed design system, mock-ups and brand kit, including intended-font exports at `1a38f4aabe9741b2df03cf6288bf00dd68864d5f`. No additional changes requested. |
 
 ## What is here
 
@@ -28,7 +28,7 @@ This folder is a versioned export of the "Oz Startup Brain" design system kept a
 
 ## Repository refinement after export
 
-Issue #22 adds offline intended-font rendering and refines the shared component bundle: SVG completion ticks with accessible text, readable placeholder colour, and stacked dates in comparison-table evidence labels. These are repository changes on top of the artifact version above, not a republished artifact. Preserve them when reconciling the next artifact export. No new tokens or evidence-state words were introduced. The artifact version remains an honest baseline; owner approval remains pending.
+Issue #22 adds offline intended-font rendering and refines the shared component bundle: SVG completion ticks with accessible text, readable placeholder colour, and stacked dates in comparison-table evidence labels. These are repository changes on top of the artifact version above, not a republished artifact. Preserve them when reconciling the next artifact export. No new tokens or evidence-state words were introduced. The artifact version remains an honest baseline; owner approval of the repository baseline is recorded above.
 
 ## Updating
 
@@ -36,4 +36,4 @@ Edit the artifact or these files, not both: when the artifact changes, re-export
 
 ## Visual quality requirement for future changes
 
-Apply the [standing visual quality standard](../../docs/ux/visual-quality.md) before completing any revision or frontend implementation based on this handoff. Identify the largest visual weaknesses, fix material issues, and inspect the revised render; include before/after evidence and the reviewed version. Check intended fonts, relevant themes and actual placements, not only fallback-font geometry. This requirement does not change the artifact version or approve the current design retrospectively; owner approval above remains separate.
+Apply the [standing visual quality standard](../../docs/ux/visual-quality.md) before completing any revision or frontend implementation based on this handoff. Identify the largest visual weaknesses, fix material issues, and inspect the revised render; include before/after evidence and the reviewed version. Check intended fonts, relevant themes and actual placements, not only fallback-font geometry. This requirement does not change the artifact version; the explicit owner approval above is separate from implementation polish, accessibility evidence and user research.

@@ -6,10 +6,10 @@ The foundation checkpoint is documented in [the #32/#33 retrospective](retrospec
 
 | Order / lane | Outcome / work item | Prerequisites / boundary |
 | --- | --- | --- |
-| Owner decision now | [#8 Design approval](https://github.com/nissan/oz-startup-brain/issues/8) | Intended-font evidence is ready. Owner approves the three handoffs or identifies changes; merges do not imply design approval |
+| Owner decision complete | [#8 Design approval](https://github.com/nissan/oz-startup-brain/issues/8) | Nissan explicitly approved the design baseline on 6 November 2026; decision recorded in #8 and all three handoffs |
 | Claude, proposed next | [#34 Dependency remediation](https://github.com/nissan/oz-startup-brain/issues/34) | Ready for bounded investigation/fix; root dependency ownership; no forced major upgrade. Resolve the release gate before hosted/preview deployment or uploads |
 | Codex, proposed parallel | [#28 Source dispositions](https://github.com/nissan/oz-startup-brain/issues/28) | Metadata/rights audit only; no shared lockfile or API edits. Fresh fetches are new versions; unknown rights are not approval. Owner chooses initial real jurisdiction at exit |
-| Next browser build | [#25 Polished fixture journey](https://github.com/nissan/oz-startup-brain/issues/25) | #24 and #22 complete; #8 still gates implementation. Sequence root package edits after #34 or an explicit ownership handoff; local-only thin BFF |
+| Next browser build | [#25 Polished fixture journey](https://github.com/nissan/oz-startup-brain/issues/25) | #24 and #22 complete; #8 approved. Ready and unclaimed. Sequence root package edits after #34 or an explicit ownership handoff; local-only thin BFF |
 | Then | [#26 Synthetic browser round](https://github.com/nissan/oz-startup-brain/issues/26) | #25 plus demonstrated task capabilities, resettable fixtures and runner support; isolated actors |
 | Then | [#27 Fix and retest UX findings](https://github.com/nissan/oz-startup-brain/issues/27) | Actual observations from #26; preserve original evidence |
 | Coordinated with UI | [#10 Shared vocabulary](https://github.com/nissan/oz-startup-brain/issues/10) | One owner for shared contracts during #25; export parity remains open until an export exists |

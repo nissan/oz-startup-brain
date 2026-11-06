@@ -8,7 +8,7 @@ Versioned export of the "Oz Startup Brain Mock-ups" Claude Design canvas: the ar
 | Artifact version exported | `1793913319-21a3` (version 18) |
 | Design system used | `../system/` at artifact version `1793913295-8883` (version 12); `canvas.json` → `designSystems[0].version` carries the same identifier |
 | Export date | 6 November 2026 |
-| Owner approval | **Pending** — one review with the design system and brand kit (#8) |
+| Owner approval | **Approved — Nissan Dookeran, 6 November 2026 (Australia/Sydney)**. [Explicit decision on #8](https://github.com/nissan/oz-startup-brain/issues/8#issuecomment-6679674992); applies to the committed design system, mock-ups and brand kit, including intended-font exports at `1a38f4aabe9741b2df03cf6288bf00dd68864d5f`. No additional changes requested. |
 
 | Artboard | File | Renders (light, dark) | Covers |
 | --- | --- | --- | --- |
@@ -39,4 +39,4 @@ The low-fidelity paper SVGs in `docs/ux/` remain the printed-session versions; t
 
 ## Visual quality requirement for future changes
 
-Apply the [standing visual quality standard](../../docs/ux/visual-quality.md) before completing any revision or frontend implementation based on this handoff. Identify the largest visual weaknesses, fix material issues, and inspect the revised render; include before/after evidence and the reviewed version. Check intended fonts, relevant themes and actual placements, not only fallback-font geometry. This requirement does not change the artifact version or approve the current design retrospectively; owner approval above remains separate.
+Apply the [standing visual quality standard](../../docs/ux/visual-quality.md) before completing any revision or frontend implementation based on this handoff. Identify the largest visual weaknesses, fix material issues, and inspect the revised render; include before/after evidence and the reviewed version. Check intended fonts, relevant themes and actual placements, not only fallback-font geometry. This requirement does not change the artifact version; the explicit owner approval above is separate from implementation polish, accessibility evidence and user research.
