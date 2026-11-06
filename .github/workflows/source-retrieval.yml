@@ -1,0 +1,81 @@
+# Stage 1 source retrieval (#28). Fetches the shortlisted sources named in a committed, reviewed
+# request and uploads the hash-only retrieval log plus the snapshots ENCRYPTED to the request's
+# single-use public key. The repository is public, so no plaintext source body may leave the runner.
+# This is retrieval for rights/representation review: no ingestion, embeddings or paid services.
+name: source-retrieval
+
+on:
+  push:
+    paths:
+      - "data/sources/retrieval-requests/*.json"
+  workflow_dispatch:
+    inputs:
+      request:
+        description: "Path to the retrieval request JSON"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  retrieve:
+    name: Retrieve requested sources (hash-only log; encrypted snapshots)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Select pending requests
+        id: select
+        env:
+          INPUT_REQUEST: ${{ github.event.inputs.request }}
+        run: |
+          set -euo pipefail
+          if [ -n "${INPUT_REQUEST:-}" ]; then requests="$INPUT_REQUEST"; else requests=$(ls data/sources/retrieval-requests/*.json); fi
+          pending=""
+          for r in $requests; do
+            python data/sources/tools/retrieval_request.py "$r"
+            if [ "$(python data/sources/tools/retrieval_request.py "$r" --field pending)" = "true" ]; then pending="$pending $r"; fi
+          done
+          echo "pending=$pending" >> "$GITHUB_OUTPUT"
+          echo "Pending requests:${pending:- none}"
+      - name: Fetch, hash and encrypt
+        if: steps.select.outputs.pending != ''
+        env:
+          PENDING: ${{ steps.select.outputs.pending }}
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/retrieval-out"; mkdir -p "$out"
+          for r in $PENDING; do
+            run_id=$(python data/sources/tools/retrieval_request.py "$r" --field run_id)
+            transport=$(python data/sources/tools/retrieval_request.py "$r" --field transport)
+            snap="$RUNNER_TEMP/snapshots/$run_id"
+            python data/sources/tools/fetch_metadata.py --network --transport "$transport" --run-id "$run_id" \
+              --snapshot-dir "$snap" $(python data/sources/tools/retrieval_request.py "$r" --field sources) \
+              --output "$out/$run_id.json"
+            python - "$r" "$RUNNER_TEMP/$run_id.pub.pem" <<'PY'
+          import json, sys
+          open(sys.argv[2], 'w').write(json.load(open(sys.argv[1]))['snapshot_recipient']['public_key_pem'])
+          PY
+            openssl rand -hex 32 > "$RUNNER_TEMP/k"
+            tar -C "$snap" -czf - . | openssl enc -aes-256-cbc -pbkdf2 -iter 200000 -salt -pass "file:$RUNNER_TEMP/k" -out "$out/$run_id.snapshots.tar.gz.enc"
+            openssl pkeyutl -encrypt -pubin -inkey "$RUNNER_TEMP/$run_id.pub.pem" -pkeyopt rsa_padding_mode:oaep \
+              -pkeyopt rsa_oaep_md:sha256 -in "$RUNNER_TEMP/k" -out "$out/$run_id.key.enc"
+            rm -f "$RUNNER_TEMP/k"; rm -rf "$snap"
+            python - "$out/$run_id.json" <<'PY'
+          import json, sys
+          for a in json.load(open(sys.argv[1]))['attempts']:
+              print(a['source_id'], a['outcome'], a['http_status'], a['bytes_received'], (a['raw_content_sha256'] or '')[:16], a['failure_reason'] or '')
+          PY
+          done
+          ls -l "$out"
+      - name: Upload log and encrypted snapshots
+        if: steps.select.outputs.pending != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-retrieval
+          path: ${{ runner.temp }}/retrieval-out/
+          retention-days: 1
+          if-no-files-found: error

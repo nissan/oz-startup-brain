@@ -7,7 +7,7 @@ Start with [the Stage 1 decision report](audit-report.md), then the [generated i
 | `article-bibliography.json` | Version 0.3: all 135 original discovery IDs, URLs and titles preserved, with provisional publisher/class/jurisdiction and explicit pilot dispositions. It records the owner's Queensland decision and any reviewed retrieved versions. |
 | `rights-evidence.json` | Dated publisher-policy triage, exclusions and attribution requirements; not blanket legal clearance |
 | `audits/2026-11-06-web-observations.json` | One provider-mediated open observation per URL, including failures, reported redirects and crawl labels |
-| `audits/*-retrieval-*.json` | Format-2 retrieval logs for selected sources (hashes, version IDs and snapshot references; never bodies), listed in `audit.retrievals` |
+| `audits/retrieval-*.json` | Format-2 retrieval logs for selected sources (hashes, version IDs and snapshot references; never bodies), listed in `audit.retrievals` |
 | `audits/2026-11-06-direct-attempts.json` | One raw-fetch attempt per URL; all stopped at DNS preflight in this runtime, before an HTTP request |
 | `audits/2026-11-06-inventory.md` | Deterministic counts, coverage, shortlist and complete disposition table |
 | `fixtures/fictional-program.*` | Authored `.invalid` HTML and expected extraction; no copied source text |
@@ -35,7 +35,7 @@ Stage 1 needs fresh raw versions of the shortlisted pages. In a runtime whose eg
 python data/sources/tools/fetch_metadata.py --network --transport configured-proxy \
   --run-id <run> --snapshot-dir data/snapshots/<run> \
   --source-id src_8db3776594ab --source-id ... \
-  --output data/sources/audits/<date>-retrieval-<run>.json
+  --output data/sources/audits/<run>.json
 ```
 
 - The tool refuses a snapshot folder that is inside the repository and not git-ignored. Each body is written once, as `<version>.body`.
@@ -47,6 +47,25 @@ python data/sources/tools/fetch_metadata.py --network --transport configured-pro
   - any non-shortlisted source;
   - any log that carries text.
 - A reviewed version is still not rights clearance, ingestion approval or factual verification. `rights_status: cleared`, `approved_for_ingestion` and `last_verified_at` remain rejected until a separately reviewed release.
+
+### Running a retrieval on GitHub Actions
+
+If no runtime you control can reach the publishers (this workspace's egress proxy refuses them, and its allowlist can't be changed from the mobile app), run the retrieval through the `source-retrieval` workflow:
+
+1. Commit a request to `retrieval-requests/<run_id>.json`. It names shortlisted source IDs, the transport and a **single-use public key** (`snapshot_recipient.public_key_pem`).
+2. `tools/retrieval_request.py` checks the request:
+   - sources must be shortlisted manifest IDs;
+   - the key must be a PEM public key;
+   - a private key is refused.
+3. A push that adds the request runs the workflow while the request is still pending, meaning no `audits/<run_id>.json` exists yet.
+4. The runner fetches with `fetch_metadata.py` into `$RUNNER_TEMP`, outside the checkout. It then encrypts the snapshot archive: AES-256 with a random key, and that key wrapped by RSA-OAEP-SHA256 to the request's public key.
+5. It uploads three files as a one-day artifact:
+   - the plain retrieval log (hashes only);
+   - the ciphertext;
+   - the wrapped key.
+6. The holder of the private key downloads and decrypts the artifact, checks every snapshot against its logged hash, and hands the snapshots to the owner to archive privately. Then they commit the log as `audits/<run_id>.json`, which marks the request done, and discard the private key.
+
+The repository is public, so the artifact is readable by any signed-in GitHub user. That's why the snapshots are only uploaded encrypted. The plain log contains no source text.
 
 ## Fresh transport observations
 
