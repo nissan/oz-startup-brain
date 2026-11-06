@@ -14,6 +14,11 @@ What problem does this solve, and what can the user do or understand afterwards?
 
 Checks actually run, results and material limitations. Separate functional, visual and usability evidence.
 
+- Runtime and clean-install/build conditions; exact commands and any environment workaround:
+- Relevant negative/boundary cases; for review fixes, original reproduction and failing-before regression evidence:
+- Contract changes: prior-baseline comparison and real client/validator counterexamples where applicable:
+- Dependency changes: dated audit results, reachability and linked dispositions; no unreported release blocker:
+
 Record the reviewed head and whether the reviewer/verifier used an independent context. Synthetic UX reports must identify task/variant, fixture, runner and priming; passing CI is not a user study. Recheck affected evidence after new commits. Merge authorization and owner design approval are separate records.
 
 ## Visual polish
