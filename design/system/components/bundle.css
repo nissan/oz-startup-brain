@@ -22,6 +22,8 @@
 .osb-label--suggested { color: var(--ironbark); background: var(--ironbark-tint); }
 .osb-label--outside { color: var(--ink-muted); background: var(--grey-tint); }
 .osb-label__date { font-weight: 400; }
+.osb-table .osb-label--checked { display: inline-grid; grid-template-columns: 14px minmax(0, 1fr); gap: 0 var(--space-1); }
+.osb-table .osb-label__date { grid-column: 2; }
 
 /* Card */
 .osb-card { background: var(--paper-raised); border: 1px solid var(--hairline); border-radius: var(--radius-lg); padding: var(--space-4); max-width: 640px; }
@@ -90,7 +92,9 @@
 /* Waiting */
 .osb-wait { display: flex; gap: var(--space-4); align-items: center; max-width: 640px; }
 .osb-wait__steps { display: flex; gap: var(--space-4); margin: 0; padding: 0; list-style: none; font-size: 15px; line-height: 20px; }
-.osb-wait__steps li { color: var(--ink-muted); }
+.osb-wait__steps li { display: flex; align-items: center; gap: var(--space-1); color: var(--ink-muted); }
+.osb-wait__steps .osb-icon { flex: none; }
+.osb-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .osb-wait__steps li[aria-current="step"] { color: var(--ink); font-weight: 700; }
 
 /* Status notice: operational state of the service, never an evidence state. Neutral ground, dashed border, ink text. */
@@ -122,3 +126,6 @@
 .osb-transcript__flags { margin: var(--space-2) 0 0; padding-left: 20px; font-size: 15px; line-height: 22px; }
 .osb-transcript__disclosure { margin: var(--space-2) 0 0; }
 .osb-transcript__flags mark { background: var(--ochre-tint); color: var(--ochre); font-weight: 700; padding: 0 2px; }
+
+/* Match placeholder readability to the existing helper-text token in both themes. */
+[data-theme] input::placeholder, [data-theme] textarea::placeholder { color: var(--ink-muted); opacity: 1; }

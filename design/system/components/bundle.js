@@ -155,7 +155,7 @@
     var steps = ['Finding sources', 'Checking dates', 'Building your route'];
     var idx = { finding: 0, checking: 1, building: 2 }[p.stage] || 0;
     return h('div', { className: 'osb osb-wait', role: 'status', 'aria-live': 'polite' },
-      h('ol', { className: 'osb-wait__steps' }, steps.map(function (s, i) { return h('li', { key: i, 'aria-current': i === idx ? 'step' : undefined }, (i < idx ? '✓ ' : '') + s); })));
+      h('ol', { className: 'osb-wait__steps' }, steps.map(function (s, i) { return h('li', { key: i, 'aria-current': i === idx ? 'step' : undefined }, i < idx ? Icon('tick') : null, i < idx ? h('span', { className: 'osb-sr-only' }, 'Completed: ') : null, s); })));
   }
 
   var SERVICE = {

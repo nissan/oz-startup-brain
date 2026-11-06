@@ -43,8 +43,8 @@ jobs:
         run: |
           pip install playwright==1.51.0
           python -m playwright install --with-deps chromium
-          npm install --prefix "$RUNNER_TEMP/osb-render" react@18.3.1 react-dom@18.3.1
+          npm ci --prefix design/tools
           echo "CHROME=$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')" >> "$GITHUB_ENV"
-          echo "OSB_RENDER_NODE_MODULES=$RUNNER_TEMP/osb-render/node_modules" >> "$GITHUB_ENV"
+          echo "OSB_RENDER_NODE_MODULES=$GITHUB_WORKSPACE/design/tools/node_modules" >> "$GITHUB_ENV"
       - name: Renderer regression tests (renders to a temp dir; never commits PNGs)
         run: python -m unittest discover -s design/tools -p 'test_*.py' -v
