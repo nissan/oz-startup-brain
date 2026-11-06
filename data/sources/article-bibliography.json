@@ -579,16 +579,21 @@
       "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
       "published_at": null,
       "source_updated_at": null,
-      "fetched_at": null,
-      "content_hash": null,
-      "source_version_id": null,
+      "fetched_at": "2026-11-06T11:21:49.371769+00:00",
+      "content_hash": "486cb59c25368a1b187c1d81a5a11b92d68c19378598deaccc936fab55d4a3a9",
+      "source_version_id": "sv_5c4b6a8ffd94aa780022",
       "valid_from": null,
       "valid_to": null,
       "verification_method": null,
       "disposition": "awaiting_rights_review",
       "disposition_reason": "Federal AI adoption advice and provider routing.",
       "shortlist_tier": "core",
-      "version_review": null
+      "version_review": {
+        "reviewed_on": "2026-11-06",
+        "reviewer": "Claude claude-28-20261106-2200 (builder; not independent)",
+        "representation": "source_page",
+        "note": "Program page: title and h1 \"AI Adopt Centres\", about 580 words of main content naming four centres. A reCAPTCHA script for the feedback form is not a challenge."
+      }
     },
     {
       "source_id": "src_f164f71e6364",
@@ -774,16 +779,21 @@
       "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
       "published_at": null,
       "source_updated_at": null,
-      "fetched_at": null,
-      "content_hash": null,
-      "source_version_id": null,
+      "fetched_at": "2026-11-06T11:21:47.622000+00:00",
+      "content_hash": "f3c54397233b73d2b54766310c8079d332f01f7010221c7241a4a9b62df34ca2",
+      "source_version_id": "sv_bd9ea252a09e4ff8262a",
       "valid_from": null,
       "valid_to": null,
       "verification_method": null,
       "disposition": "awaiting_rights_review",
       "disposition_reason": "Federal commercialisation route; paused-application banner needs precedence over generic application prose.",
       "shortlist_tier": "core",
-      "version_review": null
+      "version_review": {
+        "reviewed_on": "2026-11-06",
+        "reviewer": "Claude claude-28-20261106-2200 (builder; not independent)",
+        "representation": "source_page",
+        "note": "Program page: \"Industry Growth Program\", about 1,700 words. Carries the banner \"This program is currently paused to new applications\" above the application sections. Feedback-form reCAPTCHA only."
+      }
     },
     {
       "source_id": "src_a1390d0fa854",
@@ -852,16 +862,21 @@
       "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
       "published_at": null,
       "source_updated_at": null,
-      "fetched_at": null,
-      "content_hash": null,
-      "source_version_id": null,
+      "fetched_at": "2026-11-06T11:21:51.011180+00:00",
+      "content_hash": "76305d8aefcf96bb9c9927f94ab91018bff788faace620cba9c8fb4d2524be2a",
+      "source_version_id": "sv_87c9b944493e4b99b654",
       "valid_from": null,
       "valid_to": null,
       "verification_method": null,
       "disposition": "awaiting_rights_review",
       "disposition_reason": "R&D support overview; tax assertions require human review.",
       "shortlist_tier": "core",
-      "version_review": null
+      "version_review": {
+        "reviewed_on": "2026-11-06",
+        "reviewer": "Claude claude-28-20261106-2200 (builder; not independent)",
+        "representation": "source_page",
+        "note": "Program page: \"Overview of the R&D Tax Incentive\", about 980 words of main content with offset, eligibility and four-step headings. Feedback-form reCAPTCHA only."
+      }
     },
     {
       "source_id": "src_9ba1bc6b991a",
@@ -891,16 +906,21 @@
       "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
       "published_at": null,
       "source_updated_at": null,
-      "fetched_at": null,
-      "content_hash": null,
-      "source_version_id": null,
+      "fetched_at": "2026-11-06T11:21:52.815446+00:00",
+      "content_hash": "7794481b85934a1bbfa7c33bdd66c628dadbc142dbc2a22eaf620661b5639263",
+      "source_version_id": "sv_b1322863d404e0fb62fc",
       "valid_from": null,
       "valid_to": null,
       "verification_method": null,
       "disposition": "awaiting_rights_review",
       "disposition_reason": "Software-specific R&D boundaries; retain exclusions and human review.",
       "shortlist_tier": "core",
-      "version_review": null
+      "version_review": {
+        "reviewed_on": "2026-11-06",
+        "reviewer": "Claude claude-28-20261106-2200 (builder; not independent)",
+        "representation": "source_page",
+        "note": "Guidance page: \"Software development sector guide for the R&D Tax Incentive\", about 1,500 words with disclaimer, exclusions and hypothetical case studies. Feedback-form reCAPTCHA only."
+      }
     },
     {
       "source_id": "src_b34d0e05b63c",
@@ -5295,6 +5315,8 @@
     "web_observations": "audits/2026-11-06-web-observations.json",
     "rights_evidence": "rights-evidence.json",
     "direct_attempts": "audits/2026-11-06-direct-attempts.json",
-    "retrievals": []
+    "retrievals": [
+      "audits/retrieval-28-20261106a.json"
+    ]
   }
 }

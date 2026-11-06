@@ -31,6 +31,7 @@ class RetrievalRequestTests(unittest.TestCase):
             'private key': lambda r: r.update(note='-----BEGIN PRIVATE KEY-----'),
             'run_id': lambda r: r.update(run_id='anything'),
             'transport': lambda r: r.update(transport='socks'),
+            'via_observed_redirect': lambda r: r.update(via_observed_redirect=['src_7d73188025be']),
         }
         for needle, mutate in cases.items():
             with self.subTest(needle=needle):

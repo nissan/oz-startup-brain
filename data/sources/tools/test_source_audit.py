@@ -175,6 +175,10 @@ class RetrievedVersionTests(unittest.TestCase):
                 self.assertTrue(any(needle in e for e in audit.validate_retrieval_log(self.m,log(rec),'x')),needle)
         self.assertTrue(audit.validate_retrieval_log(self.m,log(retrieval(source_id='src_000000000000')),'x'))
         self.assertTrue(audit.validate_retrieval_log(self.m,log(retrieval(),retrieval()),'x'))
+        drift=retrieval(target_url='https://elsewhere.example/',target_basis='manifest observed_redirect_url')
+        self.assertTrue(any('reviewed observed_redirect_url' in e for e in audit.validate_retrieval_log(self.m,log(drift),'x')))
+        ok=retrieval(target_url=self.m['sources'][0]['observed_redirect_url'],target_basis='manifest observed_redirect_url')
+        self.assertEqual([],audit.validate_retrieval_log(self.m,log(ok),'x'))
         bad=log(retrieval());bad['format_version']='1'
         self.assertTrue(audit.validate_retrieval_log(self.m,bad,'x'))
 
@@ -288,6 +292,17 @@ class ProxyTransportTests(unittest.TestCase):
         r=probe({'source_id':'src_1','url':'https://example.com/'})
         self.assertEqual(('http_error',403,'https://destination.example/page'),(r['outcome'],r['http_status'],r['final_url']))
         self.assertIsNone(r['source_version_id'])
+
+    @patch('fetch_metadata.public_url',side_effect=lambda u,resolve=True:u)
+    @patch('fetch_metadata.build_opener')
+    def test_redirect_target_is_fetched_and_recorded_beside_identity(self,opener,unused):
+        response=opener.return_value.open.return_value.__enter__.return_value
+        response.status=200;response.url='https://new.example/page';response.headers={};response.read.return_value=b'x'
+        r=probe({'source_id':'src_1','url':'https://old.example/page','observed_redirect_url':'https://new.example/page'},via_redirect=True)
+        self.assertEqual(('https://old.example/page','https://new.example/page'),(r['requested_url'],r['target_url']))
+        self.assertEqual('https://new.example/page',opener.return_value.open.call_args[0][0].full_url)
+        r=probe({'source_id':'src_1','url':'https://old.example/page','observed_redirect_url':None},via_redirect=True)
+        self.assertEqual('transport_error',r['outcome'])
 
     def test_snapshot_folder_must_be_ignored_or_outside_repo(self):
         self.assertFalse(snapshot_dir_allowed(REPO/'data'/'sources'))

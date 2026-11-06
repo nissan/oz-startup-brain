@@ -165,6 +165,7 @@ def validate_retrieval_log(manifest, log, name):
     reference to a file kept outside git."""
     errors = []
     expected = {s['source_id']:s['url'] for s in manifest['sources']}
+    redirects = {s['source_id']:s['observed_redirect_url'] for s in manifest['sources'] if s['observed_redirect_url']}
     run = log.get('run') or {}
     if log.get('format_version') != '2' or not run.get('run_id') or run.get('method') not in ('direct_https_get','https_get_via_configured_proxy'):
         errors.append(f'{name}: retrieval log needs format 2 and a run record')
@@ -175,6 +176,8 @@ def validate_retrieval_log(manifest, log, name):
         sid = r['source_id']
         if expected.get(sid) != r['requested_url']:
             errors.append(f'{sid}: retrieval URL mismatch')
+        if 'target_url' in r and (r['target_url'] != redirects.get(sid) or r.get('target_basis') != 'manifest observed_redirect_url'):
+            errors.append(f'{sid}: a redirect target must be the reviewed observed_redirect_url')
         if r['method'] != run.get('method'):
             errors.append(f'{sid}: retrieval method differs from its run')
         if r['last_verified_at'] is not None:

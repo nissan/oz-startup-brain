@@ -26,6 +26,10 @@ def check(request, manifest):
     sources = request.get('sources') or []
     if not sources or len(sources) != len(set(sources)) or not set(sources) <= shortlisted:
         errors.append('sources must be distinct shortlisted manifest IDs')
+    via = request.get('via_observed_redirect', [])
+    redirects = {s['source_id'] for s in manifest['sources'] if s['observed_redirect_url']}
+    if not set(via) <= set(sources) & redirects:
+        errors.append('via_observed_redirect must name requested sources that have a reviewed redirect destination')
     pem = (request.get('snapshot_recipient') or {}).get('public_key_pem', '')
     if not (pem.startswith('-----BEGIN PUBLIC KEY-----') and pem.rstrip().endswith('-----END PUBLIC KEY-----')):
         errors.append('snapshot recipient must be a PEM public key')
@@ -48,7 +52,8 @@ def main():
     if errors:
         sys.exit('\n'.join(errors))
     if args.field == 'sources':
-        print(' '.join(f'--source-id {s}' for s in request['sources']))
+        print(' '.join([f'--source-id {s}' for s in request['sources']]
+                       + [f'--via-observed-redirect {s}' for s in request.get('via_observed_redirect', [])]))
     elif args.field == 'pending':
         print('false' if log_path(request['run_id']).exists() else 'true')
     elif args.field:

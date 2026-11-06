@@ -111,19 +111,28 @@ def digest_body(body, source_id, fetched_at):
     return digest, 'sv_'+version
 
 
-def probe(source, transport='direct', snapshot_dir=None):
+def probe(source, transport='direct', snapshot_dir=None, via_redirect=False):
+    """via_redirect fetches the manifest's reviewed observed_redirect_url instead of the discovery URL,
+    for a discovery host that refuses requests while its recorded destination is the source's current
+    home. The discovery URL stays the record's identity; the target is recorded beside it."""
     result = result_for(source, transport)
     resolve = transport == 'direct'
+    target = source['url']
+    if via_redirect:
+        target = source.get('observed_redirect_url')
+        result.update(target_url=target,target_basis='manifest observed_redirect_url')
     try:
+        if not target:
+            raise ValueError('No reviewed redirect destination for this source')
         if not resolve and not (os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')):
             raise ValueError('configured-proxy transport needs HTTPS_PROXY')
-        public_url(source['url'], resolve=resolve)
-        host = urlsplit(source['url']).hostname
+        public_url(target, resolve=resolve)
+        host = urlsplit(target).hostname
         with LOCK:
             lock = HOST_LOCKS.setdefault(host,threading.Lock())
         with lock:
             agent = USER_AGENT if transport != 'direct' else 'OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)'
-            req = Request(source['url'],headers={'User-Agent':agent})
+            req = Request(target,headers={'User-Agent':agent})
             handler = PublicRedirect() if resolve else ProxiedPublicRedirect()
             with build_opener(handler).open(req,timeout=TIMEOUT) as response:
                 result.update(http_status=response.status,final_url=response.url,
@@ -173,6 +182,8 @@ def main():
     p.add_argument('--transport',choices=TRANSPORTS,default='direct')
     p.add_argument('--snapshot-dir',type=Path,help='Retain complete bodies here (outside the repository or git-ignored)')
     p.add_argument('--run-id',help='Retrieval run identifier recorded in the log (format 2)')
+    p.add_argument('--via-observed-redirect',action='append',default=[],metavar='SOURCE_ID',
+                   help="Fetch this source's reviewed observed_redirect_url instead of its discovery URL")
     args = p.parse_args()
     if not args.network:
         p.error('Network probes require --network')
@@ -180,7 +191,7 @@ def main():
         if not snapshot_dir_allowed(args.snapshot_dir):
             p.error('Snapshot folder must be outside the repository or git-ignored')
         args.snapshot_dir.mkdir(parents=True,exist_ok=True)
-    retrieval = args.transport != 'direct' or args.snapshot_dir is not None
+    retrieval = args.transport != 'direct' or args.snapshot_dir is not None or bool(args.via_observed_redirect)
     if retrieval and not args.run_id:
         p.error('A retrieval (proxy transport or snapshots) needs --run-id')
     sources = json.loads(args.manifest.read_text())['sources']
@@ -189,11 +200,15 @@ def main():
         if set(args.source_id)-known:
             p.error('Unknown source ID')
         sources = [s for s in sources if s['source_id'] in args.source_id]
+    if set(args.via_observed_redirect)-{s['source_id'] for s in sources}:
+        p.error('--via-observed-redirect names a source that is not being fetched')
+    if args.via_observed_redirect and not args.run_id:
+        p.error('A redirect-target retrieval needs --run-id')
     # Exclusive creation protects an earlier run's evidence before network work starts.
     with args.output.open('x') as output:
         started = utc_now()
         with ThreadPoolExecutor(max_workers=6) as pool:
-            records = list(pool.map(lambda s: probe(s,args.transport,args.snapshot_dir),sources))
+            records = list(pool.map(lambda s: probe(s,args.transport,args.snapshot_dir,s['source_id'] in args.via_observed_redirect),sources))
         if retrieval:
             doc = dict(format_version='2',run=dict(run_id=args.run_id,tool_version=TOOL_VERSION,transport=args.transport,
                        method=METHODS[args.transport],user_agent=USER_AGENT,started_at=started,finished_at=utc_now(),
