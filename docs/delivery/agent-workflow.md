@@ -51,6 +51,19 @@ Proposed status / next role and action:
 
 Keep comments concise and link large evidence artifacts at immutable commits or durable PR attachments. Never include secrets, personal data or private source text. A scope/architecture decision belongs in an issue comment plus the relevant ADR/document; link both from the PR. A review finding stays on its PR until resolved; deferred work requires a linked issue with outcome and acceptance.
 
+## Review and verification practices from the foundation retrospective
+
+Apply these when the change touches the relevant boundary; do not repeat unrelated suites merely to increase the check count. See the [#32/#33 retrospective](retrospectives/foundation-pr32-pr33.md).
+
+- Start with a clean locked install and the declared runtime. Build workspace dependencies before typechecking consumers. Record any environment limitation and the exact substitute command separately from normal CI results.
+- For each corrected defect, retain the original reproduction and show the regression fails on the old behaviour. For temporal changes, cover both sides of freshness/effective-date boundaries and check summary, claims, recommendations and warnings for agreement. Assert prohibited output is absent, not just that a caveat exists.
+- For contract changes, exercise operation schemas, referenced components and reference siblings, parameters, security and the actual caller/callee boundary. Use a validating-client counterexample to establish a break. Compare against the prior baseline before considering a deliberate baseline update.
+- Keep the PR's current handoff concise: tested head, remaining findings and next role. Historical evidence belongs in the comment trail; do not silently attribute an old review to a new commit.
+- Recheck main immediately before merging. If it advanced, inspect overlaps and verify the combined tree's affected boundaries. After merging, fetch the actual commit, compare its tree with the tested one and run a relevant smoke check. Retain source/CI identities; an empty PR-only workflow query is not evidence that push CI passed.
+- For dependency changes or release verification, record audit results, dependency paths and reachability at that time. Link each deferred finding to an owner and a release trigger. Do not force a major upgrade or weaken the gate solely to obtain a green audit.
+
+These are procedural requirements, not newly implemented CI gates. Independent review, primed builder verification, owner design decisions and isolated synthetic actors remain distinct roles/evidence.
+
 ## Synthetic UX loop and evidence boundaries
 
 This section is **facilitator guidance**. Synthetic actors must stop at their assigned actor profile/task brief and starting URL; do not read the facilitator pack, this section's linked runbook, evaluation rubrics or expected outcomes. The facilitator launches a fresh actor context without inherited builder/reviewer discussion. If it is primed, label it a primed inspection; do not claim an unprimed simulation.
