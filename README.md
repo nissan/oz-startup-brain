@@ -2,7 +2,7 @@
 
 An educational, evidence-backed Australian founder journey planner demonstrating **LangChain, LangGraph, Qdrant and a knowledge graph**.
 
-**Status: proposed design, 5 November 2026.** This repository contains research, product documentation, acceptance scenarios and paper-style prototypes. There is no running application, populated database, validated benchmark or deployment yet.
+**Status: proposed design, 5 November 2026.** This repository contains research, product documentation, acceptance scenarios and paper-style prototypes. The only runnable code is the fixture-only API, contracts and generated client from slice 1A-0 ([run it](docs/api/README.md)). It serves an invented corpus with development credentials. There is no live application, populated database, validated benchmark or deployment yet.
 
 The product hypothesis is that a founder can identify a useful next action, understand its prerequisites and inspect its evidence faster than by searching scattered ecosystem pages. This uses an existing LLM with retrieval; it does not train a new foundation model.
 

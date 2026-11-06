@@ -1,0 +1,27 @@
+{
+  "name": "@ozsb/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared /v1 JSON Schemas, generated TypeScript types and validators (source of truth for the API envelope).",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist", "schemas"],
+  "scripts": {
+    "generate": "node scripts/generate-types.mjs",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "15.0.4"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": ["<rootDir>/test/**/*.test.ts"]
+  }
+}

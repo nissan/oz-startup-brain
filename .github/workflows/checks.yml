@@ -48,3 +48,25 @@ jobs:
           echo "OSB_RENDER_NODE_MODULES=$RUNNER_TEMP/osb-render/node_modules" >> "$GITHUB_ENV"
       - name: Renderer regression tests (renders to a temp dir; never commits PNGs)
         run: python -m unittest discover -s design/tools -p 'test_*.py' -v
+
+  fixture-api:
+    name: Fixture API, contracts and generated client (slice 1A-0)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.12"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Generated types, OpenAPI artifact and client match the code
+        run: npm run check:generated
+      - name: OpenAPI artifact is compatible with the frozen v1 baseline (API10)
+        run: npm run check:compat
+      - name: Build, then typecheck sources and tests (workspace packages resolve to built output)
+        run: npm run typecheck
+      - name: Tests (contracts, API, generated client)
+        run: npm test
+      - name: Standalone fixture client against the running API over HTTP
+        run: node apps/api/scripts/demo-fixture.mjs

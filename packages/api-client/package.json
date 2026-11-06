@@ -1,0 +1,32 @@
+{
+  "name": "@ozsb/api-client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "TypeScript client for the Oz Startup Brain /v1 API, generated from docs/api/openapi.json, plus the standalone fixture client.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "ozsb-fixture-client": "dist/cli/fixture-client.js"
+  },
+  "scripts": {
+    "generate": "openapi-typescript ../../docs/api/openapi.json -o src/generated/openapi.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "fixture": "node dist/cli/fixture-client.js",
+    "test": "jest --runInBand"
+  },
+  "dependencies": {
+    "openapi-fetch": "0.17.0",
+    "@ozsb/contracts": "1.0.0"
+  },
+  "devDependencies": {
+    "openapi-typescript": "7.13.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/test/**/*.test.ts"
+    ]
+  }
+}

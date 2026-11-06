@@ -11,3 +11,8 @@ data/snapshots/
 evaluation/private/
 evaluation/runs/
 *.log
+
+# Build output and local development credentials (never commit raw keys)
+dist/
+coverage/
+.ozsb/

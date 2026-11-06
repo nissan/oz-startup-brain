@@ -1,0 +1,43 @@
+{
+  "name": "@ozsb/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Oz Startup Brain NestJS API. Slice 1A-0: fixture responder and development credential mode only.",
+  "main": "dist/src/main.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/src/main.js",
+    "dev:keys": "tsx scripts/dev-keys.ts",
+    "openapi": "tsx scripts/generate-openapi.ts",
+    "test": "jest --runInBand"
+  },
+  "dependencies": {
+    "@nestjs/common": "11.2.8",
+    "@nestjs/core": "11.2.8",
+    "@nestjs/platform-express": "11.2.8",
+    "@nestjs/swagger": "11.4.7",
+    "@ozsb/contracts": "1.0.0",
+    "express": "5.2.1",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "11.2.8",
+    "@ozsb/api-client": "1.0.0",
+    "@types/express": "5.0.6",
+    "@types/supertest": "7.2.1",
+    "supertest": "7.3.1",
+    "tsx": "4.23.15"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/test/**/*.spec.ts"
+    ],
+    "moduleNameMapper": {
+      "^@ozsb/api-client$": "<rootDir>/../../packages/api-client/src/index.ts"
+    }
+  }
+}
