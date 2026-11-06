@@ -4,7 +4,7 @@ Written by the #25 builder for the facilitator who runs the first synthetic roun
 
 ## Build identity
 
-- Repository `nissan/oz-startup-brain`, PR #38 (issue #25). Pin the exact merge commit on `main` in the session record; do not run a round against a moving branch.
+- Repository `nissan/oz-startup-brain`, PR #39 (issue #25). Pin the exact merge commit on `main` in the session record; do not run a round against a moving branch.
 - Fixture corpus `fixture-2026-11-05.1`, pinned clock `2026-11-05T00:00:00Z`, design system artifact version `1793913295-8883` consumed as committed.
 - The fonts are the pinned Fontsource faces; painted-font verification is part of the browser tests at this commit.
 
