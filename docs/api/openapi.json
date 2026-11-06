@@ -1,0 +1,1280 @@
+{
+  "components": {
+    "schemas": {
+      "Action": {
+        "additionalProperties": false,
+        "properties": {
+          "action_id": {
+            "pattern": "^act_[a-z0-9_]+$",
+            "type": "string"
+          },
+          "claim_ids": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "evidence_state": {
+            "$ref": "#/components/schemas/EvidenceState"
+          },
+          "next_door": {
+            "description": "The next human or official source to approach, or null.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "title": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "why": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "action_id",
+          "title",
+          "why",
+          "evidence_state",
+          "claim_ids",
+          "next_door"
+        ],
+        "type": "object"
+      },
+      "Answer": {
+        "additionalProperties": false,
+        "properties": {
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/Action"
+            },
+            "maxItems": 3,
+            "type": "array"
+          },
+          "prerequisite_sequence": {
+            "description": "Textual prerequisite sequence, or null when none applies or the graph is unavailable.",
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SequenceStep"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          },
+          "summary": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "summary",
+          "actions",
+          "prerequisite_sequence"
+        ],
+        "type": "object"
+      },
+      "Capabilities": {
+        "additionalProperties": false,
+        "properties": {
+          "api_version": {
+            "const": "v1"
+          },
+          "budget_store": {
+            "description": "'in_process_development' is a single-instance counter for a developer machine, not a global spend cap.",
+            "enum": [
+              "in_process_development",
+              "durable"
+            ],
+            "type": "string"
+          },
+          "clock": {
+            "additionalProperties": false,
+            "properties": {
+              "as_of": {
+                "format": "date-time",
+                "type": "string"
+              },
+              "mode": {
+                "enum": [
+                  "pinned",
+                  "system"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "mode",
+              "as_of"
+            ],
+            "type": "object"
+          },
+          "corpus_version": {
+            "type": "string"
+          },
+          "coverage": {
+            "additionalProperties": false,
+            "properties": {
+              "fictional": {
+                "type": "boolean"
+              },
+              "jurisdictions": {
+                "items": {
+                  "$ref": "#/components/schemas/Jurisdiction"
+                },
+                "type": "array"
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "jurisdictions",
+              "fictional",
+              "note"
+            ],
+            "type": "object"
+          },
+          "credential_mode": {
+            "description": "'development' means an environment-loaded key registry; it is never deployed publicly and cannot satisfy API06/API07.",
+            "enum": [
+              "development",
+              "durable"
+            ],
+            "type": "string"
+          },
+          "features": {
+            "additionalProperties": false,
+            "properties": {
+              "export": {
+                "enum": [
+                  "client_side"
+                ],
+                "type": "string"
+              },
+              "graph": {
+                "enum": [
+                  "available",
+                  "unavailable",
+                  "paused",
+                  "not_configured"
+                ],
+                "type": "string"
+              },
+              "streaming": {
+                "type": "boolean"
+              },
+              "task_intent_field": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "graph",
+              "streaming",
+              "export",
+              "task_intent_field"
+            ],
+            "type": "object"
+          },
+          "harness_controls": {
+            "description": "True only in an isolated local test process that passed the startup guard. Fault and clock selection are never request inputs.",
+            "type": "boolean"
+          },
+          "limits": {
+            "additionalProperties": false,
+            "properties": {
+              "daily_query_allowance": {
+                "type": "integer"
+              },
+              "excerpt_max_chars": {
+                "type": "integer"
+              },
+              "max_concurrent_queries": {
+                "type": "integer"
+              },
+              "max_question_chars": {
+                "type": "integer"
+              },
+              "max_request_bytes": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "max_question_chars",
+              "max_request_bytes",
+              "excerpt_max_chars",
+              "daily_query_allowance",
+              "max_concurrent_queries"
+            ],
+            "type": "object"
+          },
+          "responder": {
+            "enum": [
+              "fixture",
+              "live"
+            ],
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "1.0.0"
+          },
+          "supported_tasks": {
+            "items": {
+              "enum": [
+                "next_step",
+                "round_status",
+                "requirements_today"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "schema_version",
+          "api_version",
+          "credential_mode",
+          "responder",
+          "budget_store",
+          "corpus_version",
+          "clock",
+          "coverage",
+          "supported_tasks",
+          "features",
+          "limits",
+          "harness_controls"
+        ],
+        "type": "object"
+      },
+      "Citation": {
+        "additionalProperties": false,
+        "properties": {
+          "canonical_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "citation_id": {
+            "pattern": "^cit_[0-9]+$",
+            "type": "string"
+          },
+          "freshness": {
+            "enum": [
+              "fresh",
+              "stale",
+              "unverified"
+            ],
+            "type": "string"
+          },
+          "jurisdiction": {
+            "$ref": "#/components/schemas/Jurisdiction"
+          },
+          "last_verified_at": {
+            "description": "Verification date of this source version, or null if never verified. A fetch date never substitutes for it.",
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "source_class": {
+            "$ref": "#/components/schemas/SourceClass"
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "source_version_date": {
+            "format": "date",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "citation_id",
+          "source_id",
+          "publisher",
+          "title",
+          "canonical_url",
+          "source_class",
+          "jurisdiction",
+          "source_version_date",
+          "last_verified_at",
+          "freshness"
+        ],
+        "type": "object"
+      },
+      "Claim": {
+        "additionalProperties": false,
+        "description": "A claim used in the answer, with both answer-time currency tests applied (docs/04-data-and-ontology.md, answer-time currency rule).",
+        "properties": {
+          "applicability": {
+            "description": "current: fresh and in effect at as_of. future_effective: fresh but valid_from is after as_of (never among today's actions, SC23). historical: valid_to is before as_of. unverified: not fresh, so it cannot be stated as current (SC06).",
+            "enum": [
+              "current",
+              "future_effective",
+              "historical",
+              "unverified"
+            ],
+            "type": "string"
+          },
+          "assertion_kind": {
+            "enum": [
+              "sourced",
+              "editorial"
+            ],
+            "type": "string"
+          },
+          "citation_ids": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "claim_id": {
+            "type": "string"
+          },
+          "evidence_state": {
+            "$ref": "#/components/schemas/EvidenceState"
+          },
+          "qualifier": {
+            "enum": [
+              "takes_effect_from",
+              "effective_date_not_stated",
+              "historical",
+              null
+            ],
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "qualifier_text": {
+            "description": "Display text for the qualifier, e.g. 'Takes effect from 1 December 2026' or 'Effective date not stated'.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "text": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "valid_from": {
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "valid_to": {
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "claim_id",
+          "text",
+          "evidence_state",
+          "assertion_kind",
+          "applicability",
+          "valid_from",
+          "valid_to",
+          "qualifier",
+          "qualifier_text",
+          "citation_ids"
+        ],
+        "type": "object"
+      },
+      "Clarification": {
+        "additionalProperties": false,
+        "description": "At most one clarification per request, only for an unconfirmed field that changes the route (SC01). Never asked for a field marked 'unknown'.",
+        "properties": {
+          "field": {
+            "enum": [
+              "jurisdiction",
+              "stage"
+            ],
+            "type": "string"
+          },
+          "options": {
+            "items": {
+              "$ref": "#/components/schemas/ClarificationOption"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "question": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "unknown_allowed": {
+            "const": true
+          },
+          "why": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "field",
+          "question",
+          "why",
+          "options",
+          "unknown_allowed"
+        ],
+        "type": "object"
+      },
+      "ClarificationOption": {
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "label"
+        ],
+        "type": "object"
+      },
+      "ConfirmedContext": {
+        "additionalProperties": false,
+        "description": "Context the founder has confirmed. Any field may hold the explicit value 'unknown'; the planner never asks again for a field marked unknown (SC22). An absent field is unconfirmed.",
+        "properties": {
+          "jurisdiction": {
+            "$ref": "#/components/schemas/Jurisdiction"
+          },
+          "stage": {
+            "$ref": "#/components/schemas/Stage"
+          }
+        },
+        "type": "object"
+      },
+      "ErrorCode": {
+        "enum": [
+          "invalid_request",
+          "payload_too_large",
+          "unauthenticated",
+          "insufficient_scope",
+          "not_found",
+          "budget_exhausted",
+          "concurrency_limited",
+          "dependency_unavailable",
+          "retrieval_timeout",
+          "internal_error"
+        ],
+        "type": "string"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "$ref": "#/components/schemas/ErrorCode"
+              },
+              "details": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "issue": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "issue"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "message": {
+                "type": "string"
+              },
+              "request_id": {
+                "pattern": "^req_[0-9a-f]{16}$",
+                "type": "string"
+              },
+              "retry_after_seconds": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "request_id"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "type": "object"
+      },
+      "EvidenceState": {
+        "description": "One of the five evidence states. Words are rendered by the design system's EvidenceLabel: checked = 'Source checked [date]', needs-check = 'Needs a current check', disagree = 'Sources disagree', suggested = 'Suggested next step', outside = 'Outside current coverage'.",
+        "enum": [
+          "checked",
+          "needs-check",
+          "disagree",
+          "suggested",
+          "outside"
+        ],
+        "type": "string"
+      },
+      "Jurisdiction": {
+        "description": "Australian state or territory, 'national' for Commonwealth-wide routes, or the founder's explicit 'unknown'.",
+        "enum": [
+          "ACT",
+          "NSW",
+          "NT",
+          "QLD",
+          "SA",
+          "TAS",
+          "VIC",
+          "WA",
+          "national",
+          "unknown"
+        ],
+        "type": "string"
+      },
+      "Liveness": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "QueryEnvelope": {
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "answer"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "answer": {
+                  "$ref": "#/components/schemas/Answer"
+                },
+                "clarification": {
+                  "type": "null"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "clarification"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "answer": {
+                  "type": "null"
+                },
+                "clarification": {
+                  "$ref": "#/components/schemas/Clarification"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "insufficient_evidence"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "answer": {
+                  "type": "null"
+                },
+                "clarification": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ],
+        "description": "The /v1/queries response. All three statuses are domain results returned with HTTP 200. The envelope is the only input to the client-side checklist export (SC09).",
+        "properties": {
+          "answer": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/Answer"
+              }
+            ]
+          },
+          "as_of": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/Citation"
+            },
+            "type": "array"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "type": "array"
+          },
+          "clarification": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/Clarification"
+              }
+            ]
+          },
+          "confirmed_context": {
+            "$ref": "#/components/schemas/ConfirmedContext"
+          },
+          "corpus_version": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "request_id": {
+            "pattern": "^req_[0-9a-f]{16}$",
+            "type": "string"
+          },
+          "responder": {
+            "enum": [
+              "fixture",
+              "live"
+            ],
+            "type": "string"
+          },
+          "retrieval_mode": {
+            "enum": [
+              "fixture",
+              "fixture_passages_only",
+              "vector",
+              "vector_graph",
+              "vector_only_degraded"
+            ],
+            "type": "string"
+          },
+          "schema_version": {
+            "const": "1.0.0"
+          },
+          "statement": {
+            "const": "Information and routing, not an application or approval."
+          },
+          "status": {
+            "enum": [
+              "answer",
+              "clarification",
+              "insufficient_evidence"
+            ],
+            "type": "string"
+          },
+          "unresolved_conditions": {
+            "items": {
+              "$ref": "#/components/schemas/UnresolvedCondition"
+            },
+            "type": "array"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/Warning"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "schema_version",
+          "request_id",
+          "status",
+          "corpus_version",
+          "as_of",
+          "retrieval_mode",
+          "responder",
+          "confirmed_context",
+          "answer",
+          "clarification",
+          "claims",
+          "citations",
+          "unresolved_conditions",
+          "warnings",
+          "statement"
+        ],
+        "type": "object"
+      },
+      "QueryRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "confirmed_context": {
+            "$ref": "#/components/schemas/ConfirmedContext"
+          },
+          "question": {
+            "description": "The founder's question. Treated as untrusted data, never as instructions.",
+            "maxLength": 2000,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "question"
+        ],
+        "type": "object"
+      },
+      "RightsStatus": {
+        "enum": [
+          "cleared",
+          "not_reviewed",
+          "rejected"
+        ],
+        "type": "string"
+      },
+      "SequenceStep": {
+        "additionalProperties": false,
+        "properties": {
+          "assertion_kind": {
+            "description": "sourced: a source states the ordering; editorial: the ordering is the planner's suggestion and is labelled 'Suggested next step'.",
+            "enum": [
+              "sourced",
+              "editorial"
+            ],
+            "type": "string"
+          },
+          "claim_ids": {
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+          },
+          "evidence_state": {
+            "$ref": "#/components/schemas/EvidenceState"
+          },
+          "label": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "position": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "position",
+          "label",
+          "assertion_kind",
+          "evidence_state",
+          "claim_ids"
+        ],
+        "type": "object"
+      },
+      "SourceClass": {
+        "enum": [
+          "program_description",
+          "program_round",
+          "round_status",
+          "regulator_guidance",
+          "legislation",
+          "ecosystem_report",
+          "article"
+        ],
+        "type": "string"
+      },
+      "SourceRecord": {
+        "additionalProperties": false,
+        "description": "Public citation metadata for GET /v1/sources/{sourceId}. A bounded excerpt is present only when rights_status is 'cleared' (API13). Snapshot locations and archive paths are never part of this shape.",
+        "properties": {
+          "canonical_url": {
+            "format": "uri",
+            "type": "string"
+          },
+          "excerpt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "excerpt_max_chars": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "fictional": {
+            "type": "boolean"
+          },
+          "jurisdiction": {
+            "$ref": "#/components/schemas/Jurisdiction"
+          },
+          "last_verified_at": {
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "published_at": {
+            "format": "date",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "rights_status": {
+            "$ref": "#/components/schemas/RightsStatus"
+          },
+          "source_class": {
+            "$ref": "#/components/schemas/SourceClass"
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "source_version_date": {
+            "format": "date",
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "source_id",
+          "publisher",
+          "title",
+          "canonical_url",
+          "source_class",
+          "jurisdiction",
+          "published_at",
+          "source_version_date",
+          "last_verified_at",
+          "rights_status",
+          "excerpt",
+          "excerpt_max_chars",
+          "fictional"
+        ],
+        "type": "object"
+      },
+      "Stage": {
+        "enum": [
+          "idea",
+          "prototype",
+          "early_revenue",
+          "growth",
+          "unknown"
+        ],
+        "type": "string"
+      },
+      "UnresolvedCondition": {
+        "additionalProperties": false,
+        "properties": {
+          "condition_id": {
+            "type": "string"
+          },
+          "field": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reason": {
+            "enum": [
+              "explicit_unknown",
+              "stale_evidence",
+              "future_effective",
+              "outside_coverage",
+              "not_in_evidence"
+            ],
+            "type": "string"
+          },
+          "text": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "condition_id",
+          "text",
+          "reason",
+          "field"
+        ],
+        "type": "object"
+      },
+      "Warning": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "fixture_corpus",
+              "explicit_unknown",
+              "outside_coverage",
+              "stale_evidence",
+              "closed_round",
+              "effective_date_not_stated",
+              "graph_unavailable"
+            ],
+            "type": "string"
+          },
+          "kind": {
+            "description": "evidence and coverage warnings are judgments about sources or coverage; service warnings describe the planner's own operation and are rendered with StatusNotice, never as an evidence label.",
+            "enum": [
+              "evidence",
+              "coverage",
+              "service",
+              "mode"
+            ],
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "kind",
+          "message"
+        ],
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "description": "ozsb_<key_id>_<secret>",
+        "in": "header",
+        "name": "X-API-Key",
+        "type": "apiKey"
+      }
+    }
+  },
+  "info": {
+    "contact": {},
+    "description": "Slice 1A-0 (fixture responder, development credentials). Information and routing, not an application or approval. Every program, round and source served in fixture mode is fictional.",
+    "title": "Oz Startup Brain API",
+    "version": "1.0.0"
+  },
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "openapi": "3.1.0",
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "getLiveness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Liveness"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Minimal liveness; no credentials or detail.",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/v1/capabilities": {
+      "get": {
+        "operationId": "getCapabilities",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Capabilities"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "unauthenticated: missing, invalid, expired or revoked key (generic)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "insufficient_scope: the key lacks the operation scope"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "internal_error (no internal detail is returned)"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Modes, coverage, supported tasks, features and limits.",
+        "tags": [
+          "v1"
+        ]
+      }
+    },
+    "/v1/queries": {
+      "post": {
+        "operationId": "createQuery",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryEnvelope"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "invalid_request: the body does not satisfy QueryRequest"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "unauthenticated: missing, invalid, expired or revoked key (generic)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "insufficient_scope: the key lacks the operation scope"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "payload_too_large"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "budget_exhausted or concurrency_limited, with retry_after_seconds and a Retry-After header"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "internal_error (no internal detail is returned)"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "dependency_unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "retrieval_timeout: the retrieval deadline elapsed"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Ask a question with confirmed context. answer, clarification and insufficient_evidence are all HTTP 200 domain results.",
+        "tags": [
+          "v1"
+        ]
+      }
+    },
+    "/v1/sources/{sourceId}": {
+      "get": {
+        "operationId": "getSource",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "sourceId",
+            "required": true,
+            "schema": {
+              "pattern": "^src_[a-z0-9_]+$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SourceRecord"
+                }
+              }
+            },
+            "description": ""
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "unauthenticated: missing, invalid, expired or revoked key (generic)"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "insufficient_scope: the key lacks the operation scope"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "not_found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "internal_error (no internal detail is returned)"
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "Public citation metadata; a bounded excerpt only when rights_status is cleared.",
+        "tags": [
+          "v1"
+        ]
+      }
+    }
+  },
+  "servers": [],
+  "tags": []
+}

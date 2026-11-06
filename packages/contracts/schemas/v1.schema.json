@@ -1,0 +1,375 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oz-startup-brain.invalid/contracts/v1.schema.json",
+  "title": "Oz Startup Brain API v1 contracts",
+  "description": "Source of truth for the /v1 request, envelope, source, capabilities and error shapes. The NestJS OpenAPI document embeds these definitions unchanged as components.schemas (OpenAPI 3.1 is JSON Schema 2020-12). ADR 001.",
+  "$defs": {
+    "Jurisdiction": {
+      "description": "Australian state or territory, 'national' for Commonwealth-wide routes, or the founder's explicit 'unknown'.",
+      "type": "string",
+      "enum": ["ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA", "national", "unknown"]
+    },
+    "Stage": {
+      "type": "string",
+      "enum": ["idea", "prototype", "early_revenue", "growth", "unknown"]
+    },
+    "ConfirmedContext": {
+      "description": "Context the founder has confirmed. Any field may hold the explicit value 'unknown'; the planner never asks again for a field marked unknown (SC22). An absent field is unconfirmed.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "jurisdiction": { "$ref": "#/$defs/Jurisdiction" },
+        "stage": { "$ref": "#/$defs/Stage" }
+      }
+    },
+    "QueryRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question"],
+      "properties": {
+        "question": {
+          "description": "The founder's question. Treated as untrusted data, never as instructions.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "confirmed_context": { "$ref": "#/$defs/ConfirmedContext" }
+      }
+    },
+    "EvidenceState": {
+      "description": "One of the five evidence states. Words are rendered by the design system's EvidenceLabel: checked = 'Source checked [date]', needs-check = 'Needs a current check', disagree = 'Sources disagree', suggested = 'Suggested next step', outside = 'Outside current coverage'.",
+      "type": "string",
+      "enum": ["checked", "needs-check", "disagree", "suggested", "outside"]
+    },
+    "Action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action_id", "title", "why", "evidence_state", "claim_ids", "next_door"],
+      "properties": {
+        "action_id": { "type": "string", "pattern": "^act_[a-z0-9_]+$" },
+        "title": { "type": "string", "minLength": 1 },
+        "why": { "type": "string", "minLength": 1 },
+        "evidence_state": { "$ref": "#/$defs/EvidenceState" },
+        "claim_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "next_door": {
+          "description": "The next human or official source to approach, or null.",
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "SequenceStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["position", "label", "assertion_kind", "evidence_state", "claim_ids"],
+      "properties": {
+        "position": { "type": "integer", "minimum": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "assertion_kind": {
+          "description": "sourced: a source states the ordering; editorial: the ordering is the planner's suggestion and is labelled 'Suggested next step'.",
+          "type": "string",
+          "enum": ["sourced", "editorial"]
+        },
+        "evidence_state": { "$ref": "#/$defs/EvidenceState" },
+        "claim_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "Answer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "actions", "prerequisite_sequence"],
+      "properties": {
+        "summary": { "type": "string", "minLength": 1 },
+        "actions": { "type": "array", "maxItems": 3, "items": { "$ref": "#/$defs/Action" } },
+        "prerequisite_sequence": {
+          "description": "Textual prerequisite sequence, or null when none applies or the graph is unavailable.",
+          "oneOf": [
+            { "type": "null" },
+            { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/SequenceStep" } }
+          ]
+        }
+      }
+    },
+    "ClarificationOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "label"],
+      "properties": {
+        "value": { "type": "string" },
+        "label": { "type": "string" }
+      }
+    },
+    "Clarification": {
+      "description": "At most one clarification per request, only for an unconfirmed field that changes the route (SC01). Never asked for a field marked 'unknown'.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "question", "why", "options", "unknown_allowed"],
+      "properties": {
+        "field": { "type": "string", "enum": ["jurisdiction", "stage"] },
+        "question": { "type": "string", "minLength": 1 },
+        "why": { "type": "string", "minLength": 1 },
+        "options": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/ClarificationOption" } },
+        "unknown_allowed": { "const": true }
+      }
+    },
+    "Claim": {
+      "description": "A claim used in the answer, with both answer-time currency tests applied (docs/04-data-and-ontology.md, answer-time currency rule).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "text", "evidence_state", "assertion_kind", "applicability", "valid_from", "valid_to", "qualifier", "qualifier_text", "citation_ids"],
+      "properties": {
+        "claim_id": { "type": "string" },
+        "text": { "type": "string", "minLength": 1 },
+        "evidence_state": { "$ref": "#/$defs/EvidenceState" },
+        "assertion_kind": { "type": "string", "enum": ["sourced", "editorial"] },
+        "applicability": {
+          "description": "current: fresh and in effect at as_of. future_effective: fresh but valid_from is after as_of (never among today's actions, SC23). historical: valid_to is before as_of. unverified: not fresh, so it cannot be stated as current (SC06).",
+          "type": "string",
+          "enum": ["current", "future_effective", "historical", "unverified"]
+        },
+        "valid_from": { "type": ["string", "null"], "format": "date" },
+        "valid_to": { "type": ["string", "null"], "format": "date" },
+        "qualifier": {
+          "type": ["string", "null"],
+          "enum": ["takes_effect_from", "effective_date_not_stated", "historical", null]
+        },
+        "qualifier_text": {
+          "description": "Display text for the qualifier, e.g. 'Takes effect from 1 December 2026' or 'Effective date not stated'.",
+          "type": ["string", "null"]
+        },
+        "citation_ids": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "Citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["citation_id", "source_id", "publisher", "title", "canonical_url", "source_class", "jurisdiction", "source_version_date", "last_verified_at", "freshness"],
+      "properties": {
+        "citation_id": { "type": "string", "pattern": "^cit_[0-9]+$" },
+        "source_id": { "type": "string" },
+        "publisher": { "type": "string" },
+        "title": { "type": "string" },
+        "canonical_url": { "type": "string", "format": "uri" },
+        "source_class": { "$ref": "#/$defs/SourceClass" },
+        "jurisdiction": { "$ref": "#/$defs/Jurisdiction" },
+        "source_version_date": { "type": "string", "format": "date" },
+        "last_verified_at": {
+          "description": "Verification date of this source version, or null if never verified. A fetch date never substitutes for it.",
+          "type": ["string", "null"],
+          "format": "date"
+        },
+        "freshness": { "type": "string", "enum": ["fresh", "stale", "unverified"] }
+      }
+    },
+    "UnresolvedCondition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condition_id", "text", "reason", "field"],
+      "properties": {
+        "condition_id": { "type": "string" },
+        "text": { "type": "string", "minLength": 1 },
+        "reason": {
+          "type": "string",
+          "enum": ["explicit_unknown", "stale_evidence", "future_effective", "outside_coverage", "not_in_evidence"]
+        },
+        "field": { "type": ["string", "null"] }
+      }
+    },
+    "Warning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "kind", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": ["fixture_corpus", "explicit_unknown", "outside_coverage", "stale_evidence", "closed_round", "effective_date_not_stated", "graph_unavailable"]
+        },
+        "kind": {
+          "description": "evidence and coverage warnings are judgments about sources or coverage; service warnings describe the planner's own operation and are rendered with StatusNotice, never as an evidence label.",
+          "type": "string",
+          "enum": ["evidence", "coverage", "service", "mode"]
+        },
+        "message": { "type": "string", "minLength": 1 }
+      }
+    },
+    "QueryEnvelope": {
+      "description": "The /v1/queries response. All three statuses are domain results returned with HTTP 200. The envelope is the only input to the client-side checklist export (SC09).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "request_id", "status", "corpus_version", "as_of", "retrieval_mode", "responder", "confirmed_context", "answer", "clarification", "claims", "citations", "unresolved_conditions", "warnings", "statement"],
+      "properties": {
+        "schema_version": { "const": "1.0.0" },
+        "request_id": { "type": "string", "pattern": "^req_[0-9a-f]{16}$" },
+        "status": { "type": "string", "enum": ["answer", "clarification", "insufficient_evidence"] },
+        "corpus_version": { "type": "string", "minLength": 1 },
+        "as_of": { "type": "string", "format": "date-time" },
+        "retrieval_mode": {
+          "type": "string",
+          "enum": ["fixture", "fixture_passages_only", "vector", "vector_graph", "vector_only_degraded"]
+        },
+        "responder": { "type": "string", "enum": ["fixture", "live"] },
+        "confirmed_context": { "$ref": "#/$defs/ConfirmedContext" },
+        "answer": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/Answer" }] },
+        "clarification": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/Clarification" }] },
+        "claims": { "type": "array", "items": { "$ref": "#/$defs/Claim" } },
+        "citations": { "type": "array", "items": { "$ref": "#/$defs/Citation" } },
+        "unresolved_conditions": { "type": "array", "items": { "$ref": "#/$defs/UnresolvedCondition" } },
+        "warnings": { "type": "array", "items": { "$ref": "#/$defs/Warning" } },
+        "statement": { "const": "Information and routing, not an application or approval." }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "answer" } } },
+          "then": { "properties": { "answer": { "$ref": "#/$defs/Answer" }, "clarification": { "type": "null" } } }
+        },
+        {
+          "if": { "properties": { "status": { "const": "clarification" } } },
+          "then": { "properties": { "answer": { "type": "null" }, "clarification": { "$ref": "#/$defs/Clarification" } } }
+        },
+        {
+          "if": { "properties": { "status": { "const": "insufficient_evidence" } } },
+          "then": { "properties": { "answer": { "type": "null" }, "clarification": { "type": "null" } } }
+        }
+      ]
+    },
+    "SourceClass": {
+      "type": "string",
+      "enum": ["program_description", "program_round", "round_status", "regulator_guidance", "legislation", "ecosystem_report", "article"]
+    },
+    "RightsStatus": {
+      "type": "string",
+      "enum": ["cleared", "not_reviewed", "rejected"]
+    },
+    "SourceRecord": {
+      "description": "Public citation metadata for GET /v1/sources/{sourceId}. A bounded excerpt is present only when rights_status is 'cleared' (API13). Snapshot locations and archive paths are never part of this shape.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "publisher", "title", "canonical_url", "source_class", "jurisdiction", "published_at", "source_version_date", "last_verified_at", "rights_status", "excerpt", "excerpt_max_chars", "fictional"],
+      "properties": {
+        "source_id": { "type": "string" },
+        "publisher": { "type": "string" },
+        "title": { "type": "string" },
+        "canonical_url": { "type": "string", "format": "uri" },
+        "source_class": { "$ref": "#/$defs/SourceClass" },
+        "jurisdiction": { "$ref": "#/$defs/Jurisdiction" },
+        "published_at": { "type": ["string", "null"], "format": "date" },
+        "source_version_date": { "type": "string", "format": "date" },
+        "last_verified_at": { "type": ["string", "null"], "format": "date" },
+        "rights_status": { "$ref": "#/$defs/RightsStatus" },
+        "excerpt": { "type": ["string", "null"] },
+        "excerpt_max_chars": { "type": "integer", "minimum": 0 },
+        "fictional": { "type": "boolean" }
+      }
+    },
+    "Capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "api_version", "credential_mode", "responder", "budget_store", "corpus_version", "clock", "coverage", "supported_tasks", "features", "limits", "harness_controls"],
+      "properties": {
+        "schema_version": { "const": "1.0.0" },
+        "api_version": { "const": "v1" },
+        "credential_mode": {
+          "description": "'development' means an environment-loaded key registry; it is never deployed publicly and cannot satisfy API06/API07.",
+          "type": "string",
+          "enum": ["development", "durable"]
+        },
+        "responder": { "type": "string", "enum": ["fixture", "live"] },
+        "budget_store": {
+          "description": "'in_process_development' is a single-instance counter for a developer machine, not a global spend cap.",
+          "type": "string",
+          "enum": ["in_process_development", "durable"]
+        },
+        "corpus_version": { "type": "string" },
+        "clock": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "as_of"],
+          "properties": {
+            "mode": { "type": "string", "enum": ["pinned", "system"] },
+            "as_of": { "type": "string", "format": "date-time" }
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["jurisdictions", "fictional", "note"],
+          "properties": {
+            "jurisdictions": { "type": "array", "items": { "$ref": "#/$defs/Jurisdiction" } },
+            "fictional": { "type": "boolean" },
+            "note": { "type": "string" }
+          }
+        },
+        "supported_tasks": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["next_step", "round_status", "requirements_today"] }
+        },
+        "features": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["graph", "streaming", "export", "task_intent_field"],
+          "properties": {
+            "graph": { "type": "string", "enum": ["available", "unavailable", "paused", "not_configured"] },
+            "streaming": { "type": "boolean" },
+            "export": { "type": "string", "enum": ["client_side"] },
+            "task_intent_field": { "type": "boolean" }
+          }
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["max_question_chars", "max_request_bytes", "excerpt_max_chars", "daily_query_allowance", "max_concurrent_queries"],
+          "properties": {
+            "max_question_chars": { "type": "integer" },
+            "max_request_bytes": { "type": "integer" },
+            "excerpt_max_chars": { "type": "integer" },
+            "daily_query_allowance": { "type": "integer" },
+            "max_concurrent_queries": { "type": "integer" }
+          }
+        },
+        "harness_controls": {
+          "description": "True only in an isolated local test process that passed the startup guard. Fault and clock selection are never request inputs.",
+          "type": "boolean"
+        }
+      }
+    },
+    "ErrorCode": {
+      "type": "string",
+      "enum": ["invalid_request", "payload_too_large", "unauthenticated", "insufficient_scope", "not_found", "budget_exhausted", "concurrency_limited", "dependency_unavailable", "retrieval_timeout", "internal_error"]
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["error"],
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code", "message", "request_id"],
+          "properties": {
+            "code": { "$ref": "#/$defs/ErrorCode" },
+            "message": { "type": "string" },
+            "request_id": { "type": "string", "pattern": "^req_[0-9a-f]{16}$" },
+            "retry_after_seconds": { "type": "integer", "minimum": 0 },
+            "details": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["path", "issue"],
+                "properties": {
+                  "path": { "type": "string" },
+                  "issue": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Liveness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": { "status": { "const": "ok" } }
+    }
+  }
+}

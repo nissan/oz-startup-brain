@@ -1,0 +1,214 @@
+{
+  "notice": "FICTIONAL FIXTURE CORPUS. Every program, round, organisation, source and URL here is invented for slice 1A-0 tests. Nothing is a real program, a verified fact or advice. URLs use the reserved .invalid domain.",
+  "corpus_version": "fixture-2026-11-05.1",
+  "fictional": true,
+  "coverage": ["QLD", "national"],
+  "default_as_of": "2026-11-05T00:00:00Z",
+  "staleness_days": {
+    "round_status": 14,
+    "program_round": 14,
+    "program_description": 90,
+    "regulator_guidance": 90,
+    "legislation": 365,
+    "ecosystem_report": 365,
+    "article": 365
+  },
+  "classes_that_state_effective_dates": ["program_round", "round_status", "legislation", "regulator_guidance"],
+  "sources": [
+    {
+      "source_id": "src_progA_overview",
+      "publisher": "Fictional Department of Innovation (Queensland)",
+      "title": "Program A overview (fictional)",
+      "canonical_url": "https://programs.example.invalid/qld/program-a",
+      "source_class": "program_description",
+      "jurisdiction": "QLD",
+      "published_at": "2026-02-01",
+      "source_version_date": "2026-10-20",
+      "last_verified_at": "2026-10-28",
+      "rights_status": "cleared",
+      "snapshot_location": "fixture-archive/progA/overview-2026-10-20.html",
+      "text": "Program A (fictional) supports Queensland founders who have a working prototype. Applicants need evidence of customer interest, such as interviews or letters of intent, before they apply to a round. Program A is delivered in rounds; each round publishes its own dates and conditions."
+    },
+    {
+      "source_id": "src_progA_round_a1",
+      "publisher": "Fictional Department of Innovation (Queensland)",
+      "title": "Program A, Round A1: status (fictional)",
+      "canonical_url": "https://programs.example.invalid/qld/program-a/round-a1",
+      "source_class": "round_status",
+      "jurisdiction": "QLD",
+      "published_at": "2026-06-20",
+      "source_version_date": "2026-10-01",
+      "last_verified_at": "2026-11-02",
+      "rights_status": "cleared",
+      "snapshot_location": "fixture-archive/progA/round-a1-2026-10-01.html",
+      "text": "Round A1 of Program A (fictional) accepted applications from 1 July 2026 until 30 September 2026. The round is now closed and no late applications are accepted."
+    },
+    {
+      "source_id": "src_progA_round_a2",
+      "publisher": "Fictional Department of Innovation (Queensland)",
+      "title": "Program A, Round A2: guidelines (fictional)",
+      "canonical_url": "https://programs.example.invalid/qld/program-a/round-a2",
+      "source_class": "program_round",
+      "jurisdiction": "QLD",
+      "published_at": "2026-10-15",
+      "source_version_date": "2026-10-15",
+      "last_verified_at": "2026-11-01",
+      "rights_status": "cleared",
+      "snapshot_location": "fixture-archive/progA/round-a2-2026-10-15.html",
+      "text": "Round A2 of Program A (fictional) is scheduled to open on 1 December 2026. Applicants must be a Queensland-registered company with a working prototype. From 1 December 2026, applicants must also complete an independent security assessment of their product."
+    },
+    {
+      "source_id": "src_progB_round_b1",
+      "publisher": "Fictional Commonwealth Startup Office",
+      "title": "Program B, Round B1: status (fictional)",
+      "canonical_url": "https://programs.example.invalid/national/program-b/round-b1",
+      "source_class": "round_status",
+      "jurisdiction": "national",
+      "published_at": "2026-08-01",
+      "source_version_date": "2026-08-15",
+      "last_verified_at": "2026-08-20",
+      "rights_status": "cleared",
+      "snapshot_location": "fixture-archive/progB/round-b1-2026-08-15.html",
+      "text": "Round B1 of Program B (fictional) is open for applications from founders anywhere in Australia."
+    },
+    {
+      "source_id": "src_hub_qld",
+      "publisher": "Fictional Regional Innovation Hub Network (Queensland)",
+      "title": "Book a founder session (fictional)",
+      "canonical_url": "https://hubs.example.invalid/qld/sessions",
+      "source_class": "program_description",
+      "jurisdiction": "QLD",
+      "published_at": "2025-11-01",
+      "source_version_date": "2026-09-30",
+      "last_verified_at": "2026-10-10",
+      "rights_status": "cleared",
+      "snapshot_location": "fixture-archive/hub/sessions-2026-09-30.html",
+      "text": "The regional innovation hub network (fictional) offers free one-to-one founder sessions in person and remotely for founders across regional Queensland, including help choosing which programs to approach first."
+    },
+    {
+      "source_id": "src_founder_guide",
+      "publisher": "Fictional Founder Journey Planner (sample article)",
+      "title": "Before you chase a named program (fictional sample article)",
+      "canonical_url": "https://articles.example.invalid/founder-journey/before-you-apply",
+      "source_class": "article",
+      "jurisdiction": "national",
+      "published_at": "2026-05-12",
+      "source_version_date": "2026-05-12",
+      "last_verified_at": "2026-09-01",
+      "rights_status": "not_reviewed",
+      "snapshot_location": "fixture-archive/article/before-you-apply-2026-05-12.html",
+      "text": "A useful order of work: first confirm who owns the intellectual property in your prototype, then gather evidence that customers want it, and only then apply to a named program round."
+    },
+    {
+      "source_id": "src_rejected_mirror",
+      "publisher": "Fictional unauthorised mirror site",
+      "title": "Copied program notes (fictional, rights rejected)",
+      "canonical_url": "https://mirror.example.invalid/copied-notes",
+      "source_class": "article",
+      "jurisdiction": "national",
+      "published_at": "2026-03-01",
+      "source_version_date": "2026-03-01",
+      "last_verified_at": null,
+      "rights_status": "rejected",
+      "snapshot_location": "fixture-archive/mirror/copied-notes.html",
+      "text": "This fictional text stands in for content whose redistribution rights were rejected; it must never be returned as an excerpt."
+    }
+  ],
+  "claims": [
+    { "claim_id": "clm_progA_prerequisites", "source_id": "src_progA_overview", "assertion_kind": "sourced", "valid_from": "2026-02-01", "valid_to": null,
+      "text": "Program A requires a working prototype and evidence of customer interest before you apply to a round." },
+    { "claim_id": "clm_a1_window", "source_id": "src_progA_round_a1", "assertion_kind": "sourced", "valid_from": "2026-07-01", "valid_to": "2026-10-01",
+      "text": "Round A1 of Program A accepts applications until 30 September 2026." },
+    { "claim_id": "clm_a2_schedule", "source_id": "src_progA_round_a2", "assertion_kind": "sourced", "valid_from": "2026-10-15", "valid_to": null,
+      "text": "Round A2 of Program A is scheduled to open on 1 December 2026." },
+    { "claim_id": "clm_a2_eligibility", "source_id": "src_progA_round_a2", "assertion_kind": "sourced", "valid_from": null, "valid_to": null,
+      "text": "Round A2 applicants must be a Queensland-registered company with a working prototype." },
+    { "claim_id": "clm_a2_security", "source_id": "src_progA_round_a2", "assertion_kind": "sourced", "valid_from": "2026-12-01", "valid_to": null,
+      "text": "Round A2 applicants must complete an independent security assessment of their product." },
+    { "claim_id": "clm_b1_open", "source_id": "src_progB_round_b1", "assertion_kind": "sourced", "valid_from": "2026-08-01", "valid_to": null,
+      "text": "Round B1 of Program B is open for applications from founders anywhere in Australia." },
+    { "claim_id": "clm_hub_sessions", "source_id": "src_hub_qld", "assertion_kind": "sourced", "valid_from": "2025-11-01", "valid_to": null,
+      "text": "The regional innovation hub network offers free one-to-one founder sessions, in person and remotely, across regional Queensland." },
+    { "claim_id": "clm_ip_first", "source_id": "src_founder_guide", "assertion_kind": "editorial", "valid_from": "2026-05-12", "valid_to": null,
+      "text": "Confirm who owns the intellectual property in your prototype before you chase a named program." },
+    { "claim_id": "clm_customer_evidence", "source_id": "src_founder_guide", "assertion_kind": "editorial", "valid_from": "2026-05-12", "valid_to": null,
+      "text": "Gather evidence that customers want your product before applying to a program round." }
+  ],
+  "topics": [
+    {
+      "topic_id": "round_a1_status",
+      "task": "round_status",
+      "match": [["a1"], ["open", "apply", "applications", "application", "status", "closed", "now"]],
+      "jurisdiction_sensitive": false,
+      "summary_base": null,
+      "summary_rules": [
+        { "claim_id": "clm_a1_window", "applicability": "current", "text": "Round A1 of Program A is accepting applications until 30 September 2026." },
+        { "claim_id": "clm_a1_window", "applicability": "historical", "text": "Round A1 of Program A has closed (it accepted applications until 30 September 2026), so the planner does not recommend preparing an application for it." },
+        { "claim_id": "clm_a1_window", "applicability": "unverified", "text": "The planner cannot confirm Round A1's current status from fresh evidence; check the official source before acting." },
+        { "claim_id": "clm_a2_schedule", "applicability": "current", "text": "The next round, A2, is scheduled to open on 1 December 2026." }
+      ],
+      "actions": [
+        { "action_id": "act_apply_a1", "jurisdiction": "QLD", "title": "Prepare a Round A1 application", "why": "Round A1 is the current Program A round.", "claim_ids": ["clm_a1_window"], "next_door": "Program A, Round A1 page" },
+        { "action_id": "act_plan_a2", "jurisdiction": "QLD", "title": "Plan for Round A2 instead", "why": "Round A2 is the next scheduled Program A round.", "claim_ids": ["clm_a2_schedule"], "next_door": "Program A, Round A2 guidelines" },
+        { "action_id": "act_hub_session_a1", "jurisdiction": "QLD", "title": "Ask the regional innovation hub which round suits you", "why": "The hub helps founders choose which programs to approach first.", "claim_ids": ["clm_hub_sessions"], "next_door": "Regional innovation hub founder sessions" }
+      ],
+      "context_claim_ids": [],
+      "sequence": []
+    },
+    {
+      "topic_id": "round_a2_requirements",
+      "task": "requirements_today",
+      "match": [["a2"], ["require", "required", "requirement", "requirements", "need", "needed", "eligible", "eligibility", "apply", "today"]],
+      "jurisdiction_sensitive": false,
+      "summary_base": "These are the Round A2 conditions the fixture corpus supports as in effect today.",
+      "summary_rules": [
+        { "claim_id": "clm_a2_security", "applicability": "future_effective", "text": "A security assessment requirement has been announced but takes effect from 1 December 2026, so it is not listed as a requirement today." },
+        { "claim_id": "clm_a2_security", "applicability": "current", "text": "An independent security assessment is now required." }
+      ],
+      "actions": [
+        { "action_id": "act_confirm_a2_eligibility", "jurisdiction": "QLD", "title": "Confirm you are a Queensland-registered company with a working prototype", "why": "Round A2 guidelines state this eligibility condition.", "claim_ids": ["clm_a2_eligibility"], "next_door": "Program A, Round A2 guidelines" },
+        { "action_id": "act_a2_security_assessment", "jurisdiction": "QLD", "title": "Complete an independent security assessment", "why": "Round A2 guidelines list a security assessment.", "claim_ids": ["clm_a2_security"], "next_door": "Program A, Round A2 guidelines" },
+        { "action_id": "act_note_a2_opening", "jurisdiction": "QLD", "title": "Note the Round A2 opening date", "why": "Applications cannot be lodged before the round opens.", "claim_ids": ["clm_a2_schedule"], "next_door": "Program A, Round A2 guidelines" }
+      ],
+      "context_claim_ids": [],
+      "sequence": []
+    },
+    {
+      "topic_id": "round_b1_status",
+      "task": "round_status",
+      "match": [["b1"]],
+      "jurisdiction_sensitive": false,
+      "summary_base": null,
+      "summary_rules": [
+        { "claim_id": "clm_b1_open", "applicability": "current", "text": "Round B1 of Program B is open, according to evidence verified within the last 14 days." },
+        { "claim_id": "clm_b1_open", "applicability": "unverified", "text": "The planner cannot confirm whether Round B1 of Program B is open today: its only status evidence was last verified on 20 August 2026. Check the official source before acting." }
+      ],
+      "actions": [
+        { "action_id": "act_check_b1", "jurisdiction": "national", "title": "Check Round B1's current status on the official Program B page", "why": "Round status changes often; the planner has no fresh evidence for it.", "claim_ids": ["clm_b1_open"], "next_door": "Program B, Round B1 status page" }
+      ],
+      "context_claim_ids": [],
+      "sequence": []
+    },
+    {
+      "topic_id": "next_support_step",
+      "task": "next_step",
+      "match": [["support", "next", "help", "grant", "grants", "program", "programs", "funding", "start", "begin", "step"]],
+      "jurisdiction_sensitive": true,
+      "summary_base": "Start with the people and checks that come before a named program application.",
+      "summary_rules": [
+        { "claim_id": "clm_b1_open", "applicability": "unverified", "text": "Program B's round status is unverified, so check it before relying on it." }
+      ],
+      "actions": [
+        { "action_id": "act_hub_session", "jurisdiction": "QLD", "title": "Book a session with the regional innovation hub", "why": "Free one-to-one sessions help you choose which programs to approach first.", "claim_ids": ["clm_hub_sessions"], "next_door": "Regional innovation hub founder sessions" },
+        { "action_id": "act_confirm_ip", "jurisdiction": "national", "title": "Confirm who owns the IP in your prototype", "why": "Ownership questions are easier to settle before you approach a program.", "claim_ids": ["clm_ip_first"], "next_door": "Your university or employer's commercialisation contact" },
+        { "action_id": "act_check_b1_status", "jurisdiction": "national", "title": "Check whether Program B, Round B1 is open", "why": "Program B accepts founders from anywhere in Australia.", "claim_ids": ["clm_b1_open"], "next_door": "Program B, Round B1 status page" }
+      ],
+      "context_claim_ids": [],
+      "sequence": [
+        { "label": "Confirm IP ownership", "jurisdiction": "national", "claim_ids": ["clm_ip_first"] },
+        { "label": "Gather evidence of customer interest", "jurisdiction": "national", "claim_ids": ["clm_customer_evidence"] },
+        { "label": "Apply to an open Program A round", "jurisdiction": "QLD", "claim_ids": ["clm_progA_prerequisites"] }
+      ]
+    }
+  ]
+}

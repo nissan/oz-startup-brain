@@ -1,0 +1,35 @@
+{
+  "name": "oz-startup-brain",
+  "private": true,
+  "description": "Oz Startup Brain monorepo: NestJS API (apps/api), shared contracts and generated API client.",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22.12 <23"
+  },
+  "packageManager": "npm@10.9.9",
+  "workspaces": [
+    "packages/contracts",
+    "packages/api-client",
+    "apps/api"
+  ],
+  "scripts": {
+    "build": "npm run build -w @ozsb/contracts && npm run build -w @ozsb/api-client && npm run build -w @ozsb/api",
+    "generate": "npm run generate -w @ozsb/contracts && npm run build -w @ozsb/contracts && npm run openapi -w @ozsb/api && npm run generate -w @ozsb/api-client",
+    "check:generated": "npm run generate && git diff --exit-code -- packages/contracts/src/generated docs/api/openapi.json packages/api-client/src/generated",
+    "check:compat": "npm run build -w @ozsb/contracts && node packages/contracts/scripts/check-compat.mjs docs/api/openapi.v1.baseline.json docs/api/openapi.json",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "dev:keys": "tsx apps/api/scripts/dev-keys.ts",
+    "api:start": "node apps/api/dist/src/main.js",
+    "client:fixture": "node packages/api-client/dist/cli/fixture-client.js",
+    "demo:fixture": "npm run build && node apps/api/scripts/demo-fixture.mjs"
+  },
+  "devDependencies": {
+    "@types/jest": "29.5.14",
+    "@types/node": "22.20.5",
+    "jest": "29.7.0",
+    "ts-jest": "29.4.15",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  }
+}
