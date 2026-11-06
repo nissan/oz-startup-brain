@@ -446,14 +446,15 @@ export function Journey() {
                           <li key={step.position}>
                             <button
                               type="button"
-                              className="osb-link step-evidence__toggle"
+                              className="step-evidence__toggle"
                               aria-expanded={open}
+                              aria-label={`${open ? 'Hide' : 'Show'} evidence for step ${step.position}: ${step.label}`}
                               onClick={() => {
                                 setSelected(open ? null : { kind: 'step', position: step.position });
                                 if (!open) requestAnimationFrame(focusEvidence);
                               }}
                             >
-                              {open ? 'Hide' : 'Show'} evidence for step {step.position}: {step.label}
+                              Evidence for step {step.position}
                             </button>
                           </li>
                         );

@@ -92,7 +92,9 @@ a:hover { color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .waiting__bar::after { animation: none; width: 100%; opacity: 0.35; } }
 
 /* Per-step evidence controls under the prerequisite sequence. */
-.step-evidence { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 15px; line-height: 22px; }
-.step-evidence__toggle { text-align: left; min-height: 32px; }
+.step-evidence { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.step-evidence__toggle { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 12px; border: 1px solid var(--border-strong); border-radius: var(--radius-pill); background: var(--paper-raised); color: var(--ink); font: inherit; font-size: 15px; line-height: 20px; cursor: pointer; }
+.step-evidence__toggle[aria-expanded="true"] { background: var(--ironbark-tint); border-color: var(--ironbark); color: var(--ironbark); font-weight: 700; }
+@media (max-width: 480px) { .step-evidence__toggle { min-height: 44px; } }
 .evidence-panel--step { padding: 16px; border: 1px solid var(--ironbark); border-radius: var(--radius-lg); background: var(--paper); }
 .evidence-panel__source { display: flex; flex-direction: column; gap: 6px; }

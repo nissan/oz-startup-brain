@@ -310,11 +310,12 @@ test.describe('review R39 regressions', () => {
     await page.getByRole('button', { name: 'Queensland' }).click();
     await expect(page.getByRole('heading', { name: 'Book a session with the regional innovation hub' })).toBeVisible();
     const toggle = page.locator('.step-evidence__toggle').nth(2);
-    await expect(toggle).toHaveText('Show evidence for step 3: Apply to an open Program A round');
+    await expect(toggle).toHaveText('Evidence for step 3');
+    await expect(toggle).toHaveAccessibleName('Show evidence for step 3: Apply to an open Program A round');
     await toggle.focus();
     await page.keyboard.press('Enter');
     await expect(toggle).toHaveAttribute('aria-expanded', 'true');
-    await expect(toggle).toHaveText('Hide evidence for step 3: Apply to an open Program A round');
+    await expect(toggle).toHaveAccessibleName('Hide evidence for step 3: Apply to an open Program A round');
     const panel = page.locator('.evidence-panel--step');
     await expect(page.locator('#evidence-heading-step')).toBeFocused();
     await expect(panel.locator('[data-source-id="src_prog_a_overview"]')).toBeVisible();
