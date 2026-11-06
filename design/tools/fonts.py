@@ -57,7 +57,8 @@ TEXT_RUNS_JS = r"""() => {
   runs.push({id, text, family:style.fontFamily.split(',')[0].replace(/["']/g,'').trim(),
     weight:style.fontWeight, style:style.fontStyle, tag:el.tagName,
     size:style.fontSize, spacing:style.letterSpacing, variation:style.fontVariationSettings,
-    optical:style.fontOpticalSizing});
+    optical:style.fontOpticalSizing, transform:style.textTransform,
+    variant:style.fontVariant, features:style.fontFeatureSettings});
  }
  return runs;
 }"""
@@ -68,12 +69,14 @@ def verify_fonts(page):
 
     Visible direct text is inspected in place. Matching text probes additionally cover
     input/textarea shadow text and mixed-content elements without inheriting child styles.
-    Probes are removed before measurement/screenshots; this does not inspect SVG paths.
+    Probes are removed before measurement/screenshots; SVG paths and generated
+    pseudo-element content are outside this direct-text check.
     """
     page.evaluate('async () => { await document.fonts.ready; await new Promise(requestAnimationFrame); }')
     runs = page.evaluate(TEXT_RUNS_JS)
     samples = [dict(family=f, style=s, weight=w, text='Hamburgefontsiv 0123456789', size='17px',
-                    spacing='normal', variation='normal', optical='auto', id=None) for f, s, w in FACES]
+                    spacing='normal', variation='normal', optical='auto', transform='none',
+                    variant='normal', features='normal', id=None) for f, s, w in FACES]
     supported = set(FACES)
     for run in runs:
         if (run['family'], run['style'], run['weight']) not in supported:
@@ -98,6 +101,7 @@ def verify_fonts(page):
               Object.assign(p.style,{position:'absolute',left:'-10000px',top:'0',whiteSpace:'pre',
                 fontFamily:`"${r.family}"`,fontWeight:r.weight,fontStyle:r.style,fontSize:r.size,
                 letterSpacing:r.spacing,fontVariationSettings:r.variation,fontOpticalSizing:r.optical,
+                textTransform:r.transform,fontVariant:r.variant,fontFeatureSettings:r.features,
                 fontSynthesis:'none'});document.body.append(p);p.getBoundingClientRect();
             }''', run)
             doc = cdp.send('DOM.getDocument')['root']['nodeId']
@@ -112,7 +116,7 @@ def verify_fonts(page):
                 used = [f for f in used if f['glyphCount'] > 0]
                 if not used or any(not f['isCustomFont'] or f['familyName'].removesuffix(' (Fontations)') not in (run['family'], run['family']+' Variable') for f in used):
                     raise ValueError(f"FONT fallback for {run['family']} {run['weight']} {run['style']} {run['text'][:60]!r}: {used}")
-            painted.update((f['familyName'], f['postScriptName']) for f in used)
+                painted.update((f['familyName'], f['postScriptName']) for f in used)
             key = f"{run['family']} / {run['weight']} / {run['style']}"
             counts[key] = counts.get(key, 0) + 1
             page.locator('#osb-font-probe').evaluate('(e)=>e.remove()')

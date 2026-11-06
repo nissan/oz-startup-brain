@@ -6,6 +6,7 @@ import re
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 from playwright.sync_api import sync_playwright
 from fonts import font_css, offline_page, verify_fonts
 
@@ -70,6 +71,28 @@ class FontTests(unittest.TestCase):
         css = re.sub(r'data:font/woff2;base64,[A-Za-z0-9+/=]+', 'data:font/woff2;base64,AAAA', self.css)
         with self.assertRaises(Exception):
             verify_fonts(self.page('<p style="font:400 17px Atkinson Hyperlegible">Founder</p>', css))
+
+    def test_mixed_text_probe_preserves_computed_glyph_settings(self):
+        page = self.page('<p style="font:400 17px Atkinson Hyperlegible;text-transform:uppercase;'
+                         'font-variant:small-caps;font-feature-settings:\'kern\' 0">Founder '
+                         '<span>child</span></p>')
+        properties = '(e)=>{const s=getComputedStyle(e);return [s.textTransform,s.fontVariant,s.fontFeatureSettings];}'
+        expected = page.locator('p').evaluate(properties)
+        cdp = page.context.new_cdp_session(page)
+        send = cdp.send
+        observed = []
+
+        def inspect(method, params=None):
+            if method == 'CSS.getPlatformFontsForNode' and page.locator('#osb-font-probe').text_content() == 'Founder ':
+                observed.append(page.locator('#osb-font-probe').evaluate(properties))
+            return send(method, params)
+
+        # Keep real Chromium font inspection; observe the ephemeral probe at the
+        # moment glyphs are checked, before the verifier cleans it up.
+        with patch.object(page.context, 'new_cdp_session', return_value=cdp), patch.object(cdp, 'send', side_effect=inspect):
+            verify_fonts(page)
+        self.assertEqual(observed, [expected])
+        self.assertEqual(page.locator('#osb-font-probe,[data-font-check]').count(), 0)
 
 
 if __name__ == '__main__':
