@@ -1,0 +1,95 @@
+'use client';
+import { forwardRef } from 'react';
+import type { components } from '@ozsb/api-client';
+import { SourcePanel } from '@/design-system/generated/bundle';
+import { APPLICABILITY_WORDS, claimsFor, longDate, type Envelope } from '@/lib/present';
+
+type SourceRecord = components['schemas']['SourceRecord'];
+
+interface Props {
+  /** One of today's actions or one prerequisite step: a title and the claims it rests on. */
+  item: { title: string; claim_ids: string[] };
+  envelope: Envelope;
+  /** Fetched source records by source ID: a record, null while loading, or 'unavailable' on failure. */
+  sources: Record<string, SourceRecord | null | 'unavailable'>;
+  /** aside: beside the cards on wide screens; inline: under the selected card on narrow ones; step: under the prerequisite list. */
+  placement: 'aside' | 'inline' | 'step';
+}
+
+/**
+ * The evidence behind one action or prerequisite step: every distinct supporting source in the
+ * design system's SourcePanel (publisher, version, verification date, link, rights-gated excerpt),
+ * then every claim with the applicability the API decided and its dates. Nothing here re-judges
+ * freshness or dates; it shows what the envelope says.
+ */
+export const EvidencePanel = forwardRef<HTMLHeadingElement, Props>(function EvidencePanel({ item, envelope, sources, placement }, ref) {
+  const claims = claimsFor(item, envelope);
+  const citations = new Map(envelope.citations.map((c) => [c.citation_id, c]));
+  // Distinct citations in claim order, each with the first claim that uses it (for its evidence state and qualifier).
+  const seen = new Set<string>();
+  const panels = claims.flatMap(({ claim }) =>
+    claim.citation_ids
+      .map((id) => citations.get(id))
+      .filter((c): c is NonNullable<typeof c> => !!c && !seen.has(c.source_id) && (seen.add(c.source_id), true))
+      .map((citation) => ({ citation, claim })),
+  );
+  return (
+    <section className={`evidence-panel evidence-panel--${placement}`} aria-labelledby={`evidence-heading-${placement}`}>
+      <h2 id={`evidence-heading-${placement}`} className="evidence-panel__heading" tabIndex={-1} ref={ref}>
+        Evidence
+      </h2>
+      <p className="evidence-panel__for">
+        For <strong>{item.title}</strong>
+        {panels.length > 1 ? ` · ${panels.length} sources` : null}
+      </p>
+      {panels.length ? (
+        panels.map(({ citation, claim }) => {
+          const record = sources[citation.source_id];
+          return (
+            <div key={citation.source_id} className="evidence-panel__source" data-source-id={citation.source_id}>
+              <SourcePanel
+                title={citation.title}
+                publisher={citation.publisher}
+                url={citation.canonical_url}
+                sourceVersionDate={longDate(citation.source_version_date)}
+                verifiedAt={longDate(citation.last_verified_at) ?? null}
+                state={claim.evidence_state}
+                effectiveFrom={claim.qualifier === 'takes_effect_from' ? claim.qualifier_text ?? undefined : undefined}
+                excerpt={record && record !== 'unavailable' && record.excerpt ? record.excerpt : undefined}
+              />
+              {record === null || record === undefined ? (
+                <p className="section__caption" role="status">
+                  Loading the source record…
+                </p>
+              ) : null}
+              {record === 'unavailable' ? (
+                <p className="section__caption" role="status">
+                  The source record could not be loaded; the citation above is still from the answer.
+                </p>
+              ) : null}
+            </div>
+          );
+        })
+      ) : (
+        <p className="section__caption">No source is attached to this item.</p>
+      )}
+      <h3 className="section__title" style={{ fontSize: 17, lineHeight: '24px' }}>
+        What this rests on
+      </h3>
+      <ol className="claims">
+        {claims.map(({ claim, citation }) => (
+          <li key={claim.claim_id} className="claims__item">
+            <span>{claim.text}</span>
+            <span className="claims__meta">
+              <span className="claims__qualifier">{claim.qualifier_text ?? APPLICABILITY_WORDS[claim.applicability]}</span>
+              {claim.valid_from ? <span>from {longDate(claim.valid_from)}</span> : null}
+              {claim.valid_to ? <span>until {longDate(claim.valid_to)}</span> : null}
+              <span>{claim.assertion_kind === 'editorial' ? 'editorial sequencing' : 'stated by the source'}</span>
+              {citation ? <span>{citation.publisher}</span> : null}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+});

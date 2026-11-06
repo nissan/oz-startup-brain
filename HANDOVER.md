@@ -73,6 +73,7 @@ These are all already stated elsewhere; they are repeated here because each was 
 | Path | What it holds | Owner / tooling |
 | --- | --- | --- |
 | `apps/api/` | NestJS 11 fixture API (`src/`), fictional corpus (`fixtures/corpus.json`), Jest/supertest specs (`test/`), scripts (`dev-keys.ts`, `generate-openapi.ts`, `demo-fixture.mjs`) | Node 22.12+, npm 10; TypeScript 5.9.3 |
+| `apps/web/` | Next.js 16 founder journey (slice 1A-UI): server-only BFF routes under `src/app/api/bff/`, pure envelope mapping in `src/lib/present.ts`, the design system wrapped as a module in `src/design-system/generated/` (drift-checked), BFF boundary tests in `test/`, Playwright journey/keyboard/fault/font tests in `e2e/`, final renders in `evidence/` | Node 22; `npm run web:start` needs `OZSB_API_BASE_URL` and `OZSB_API_KEY` |
 | `packages/contracts/` | `schemas/v1.schema.json` (the single source of truth), generated types and ajv validators (`src/`), the OpenAPI compatibility checker (`src/compat.ts`, `scripts/check-compat.mjs`) | Regenerate with `npm run generate` |
 | `packages/api-client/` | Client generated from `docs/api/openapi.json` (openapi-typescript + openapi-fetch) and the standalone fixture CLI | |
 | `docs/api/` | `openapi.json` (generated), `openapi.v1.baseline.json` (frozen v1), `README.md` (how to run and what the API does) | |
@@ -86,7 +87,7 @@ These are all already stated elsewhere; they are repeated here because each was 
 | `design/tools/` | Python renderer, accessibility checker, font verifier, their tests, `package.json` for pinned fonts/React | Python 3 + Playwright 1.51.0 |
 | `features/` | Gherkin acceptance scenarios (`founder-journeys.feature`, `api-access.feature`); scenario IDs like SC22, API10 refer here | |
 | `research/synthetic-ux/` | Persona pack, runbook, facilitator and actor material, validator | Actor isolation applies |
-| `.github/workflows/checks.yml` | CI: persona-pack validator, design token/renderer checks, fixture-api job | |
+| `.github/workflows/checks.yml` | CI: persona-pack validator, design token/renderer checks, fixture-api job (with a non-blocking audit), founder-ui job (build, BFF tests, Playwright) | |
 | `.github/pull_request_template.md` | Fill every section | |
 
 ## 5. The fixture API in one page
@@ -119,6 +120,13 @@ npm run demo:fixture         # builds, starts the API on a free loopback port wi
 export OZSB_API_KEY=$(npm run -s dev:keys)   # prints the raw key once; stores only the digest
 npm run -s api:start                          # http://127.0.0.1:3000
 npm run -s client:fixture -- --question "Is round A1 open?" --jurisdiction QLD
+
+# Founder journey UI (apps/web)
+OZSB_API_BASE_URL=http://127.0.0.1:3000 OZSB_API_KEY=$OZSB_API_KEY npm run web:start   # http://127.0.0.1:3100, API must be running
+npm test -w @ozsb/web            # BFF boundary tests; spawn the built API, so build first
+npx playwright install --with-deps chromium   # once per machine (CI does this); the cloud session already has a matching browser
+npm run e2e -w @ozsb/web         # starts four API/app pairs (plain + each fault) on 3110-3113 / 3910-3913; needs `next build`
+OSB_EVIDENCE_DIR=evidence npm run e2e -w @ozsb/web   # from apps/web: regenerate the committed renders
 
 # Design renders and checks (Python)
 python -m venv /tmp/osb-venv && /tmp/osb-venv/bin/pip install playwright==1.51.0

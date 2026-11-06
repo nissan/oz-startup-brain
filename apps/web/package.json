@@ -1,0 +1,32 @@
+{
+  "name": "@ozsb/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Oz Startup Brain founder journey: a thin Next.js BFF and UI over the fixture API (slice 1A-UI, local only).",
+  "scripts": {
+    "generate": "node scripts/sync-design-system.mjs",
+    "postinstall": "node scripts/sync-fonts.mjs",
+    "dev": "next dev --port 3100 --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --port 3100 --hostname 127.0.0.1",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.jest.json --noEmit && tsc -p tsconfig.e2e.json",
+    "test": "jest --runInBand",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "5.3.0",
+    "@fontsource/atkinson-hyperlegible": "5.3.0",
+    "@fontsource/jetbrains-mono": "5.3.0",
+    "@ozsb/api-client": "1.0.0",
+    "@ozsb/contracts": "1.0.0",
+    "next": "16.4.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0"
+  }
+}

@@ -73,3 +73,31 @@ jobs:
       - name: Dependency audit of what a deployed API would carry (non-blocking; see docs/dependency-advisories.md)
         run: npm audit --omit=dev --audit-level=moderate
         continue-on-error: true
+
+  founder-ui:
+    name: "Founder journey UI (slice 1A-UI): build, BFF boundary tests and browser tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.12"
+          cache: npm
+      - name: Install locked dependencies (also syncs the pinned fonts into apps/web/public/fonts)
+        run: npm ci
+      - name: Build contracts, client, API and the Next.js app
+        run: npm run build
+      - name: Install the pinned Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: BFF boundary tests against the real fixture API process
+        run: npm test -w @ozsb/web
+      - name: Browser tests (desktop and phone, both themes, harness faults, painted fonts)
+        run: npm run e2e -w @ozsb/web
+      - name: Keep traces of any failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: founder-ui-test-results
+          path: apps/web/test-results
+          retention-days: 7
+
