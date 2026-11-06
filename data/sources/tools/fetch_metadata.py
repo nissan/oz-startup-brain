@@ -148,6 +148,14 @@ def probe(source, transport='direct', snapshot_dir=None):
                         result['snapshot_location'] = f'snapshot:{version}.body'
                 # The body is not written to the log or any corpus.
     except HTTPError as exc:
+        failed_url = exc.geturl() if isinstance(exc.geturl(), str) else None
+        try:
+            # The URL that answered with the error, after any redirect; recorded only if public-shaped.
+            if failed_url:
+                public_url(failed_url, resolve=False)
+                result['final_url'] = failed_url
+        except ValueError:
+            pass
         result.update(outcome='http_error',http_status=exc.code,
                       failure_reason=f'HTTP {exc.code}; source, proxy or execution environment may have refused access')
     except (URLError,TimeoutError,OSError,ValueError) as exc:

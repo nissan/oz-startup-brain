@@ -280,6 +280,15 @@ class ProxyTransportTests(unittest.TestCase):
             r=probe({'source_id':'src_1','url':'https://example.com/'},'configured-proxy',Path(d))
             self.assertEqual('empty_body',r['outcome']);self.assertIsNone(r['snapshot_location']);self.assertEqual([],list(Path(d).iterdir()))
 
+    @patch('fetch_metadata.public_url',return_value='https://example.com/')
+    @patch('fetch_metadata.build_opener')
+    def test_http_error_records_the_answering_url(self,opener,unused):
+        from urllib.error import HTTPError
+        opener.return_value.open.side_effect=HTTPError('https://destination.example/page',403,'Forbidden',{},None)
+        r=probe({'source_id':'src_1','url':'https://example.com/'})
+        self.assertEqual(('http_error',403,'https://destination.example/page'),(r['outcome'],r['http_status'],r['final_url']))
+        self.assertIsNone(r['source_version_id'])
+
     def test_snapshot_folder_must_be_ignored_or_outside_repo(self):
         self.assertFalse(snapshot_dir_allowed(REPO/'data'/'sources'))
         self.assertTrue(snapshot_dir_allowed(REPO/'data'/'snapshots'/'source28'))

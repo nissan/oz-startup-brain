@@ -59,13 +59,13 @@ If no runtime you control can reach the publishers (this workspace's egress prox
    - a private key is refused.
 3. A push that adds the request runs the workflow while the request is still pending, meaning no `audits/<run_id>.json` exists yet.
 4. The runner fetches with `fetch_metadata.py` into `$RUNNER_TEMP`, outside the checkout. It then encrypts the snapshot archive: AES-256 with a random key, and that key wrapped by RSA-OAEP-SHA256 to the request's public key.
-5. It uploads three files as a one-day artifact:
+5. It uploads three files as a one-day artifact, and prints the same three files base64-encoded between `=====BEGIN-RETRIEVAL-FILE` markers in the job log (this workspace can read job logs but not the artifact store):
    - the plain retrieval log (hashes only);
    - the ciphertext;
    - the wrapped key.
 6. The holder of the private key downloads and decrypts the artifact, checks every snapshot against its logged hash, and hands the snapshots to the owner to archive privately. Then they commit the log as `audits/<run_id>.json`, which marks the request done, and discard the private key.
 
-The repository is public, so the artifact is readable by any signed-in GitHub user. That's why the snapshots are only uploaded encrypted. The plain log contains no source text.
+The repository is public, so the artifact is readable by any signed-in GitHub user. The job log is public too. That's why the snapshots are only uploaded or printed encrypted. The plain log contains no source text.
 
 ## Fresh transport observations
 

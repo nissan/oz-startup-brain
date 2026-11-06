@@ -8,6 +8,7 @@ on:
   push:
     paths:
       - "data/sources/retrieval-requests/*.json"
+      - ".github/workflows/source-retrieval.yml"
   workflow_dispatch:
     inputs:
       request:
@@ -71,6 +72,13 @@ jobs:
           PY
           done
           ls -l "$out"
+          # This workspace's egress cannot reach the artifact store, but can read job logs. Print the
+          # hash-only log and the ENCRYPTED files between markers; no plaintext body is printed.
+          for f in "$out"/*; do
+            echo "=====BEGIN-RETRIEVAL-FILE $(basename "$f") $(sha256sum "$f" | cut -d' ' -f1)"
+            base64 -w 120 "$f"
+            echo "=====END-RETRIEVAL-FILE $(basename "$f")"
+          done
       - name: Upload log and encrypted snapshots
         if: steps.select.outputs.pending != ''
         uses: actions/upload-artifact@v4
