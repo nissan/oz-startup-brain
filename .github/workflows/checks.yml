@@ -75,7 +75,7 @@ jobs:
         continue-on-error: true
 
   founder-ui:
-    name: Founder journey UI (slice 1A-UI): build, BFF boundary tests and browser tests
+    name: "Founder journey UI (slice 1A-UI): build, BFF boundary tests and browser tests"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
