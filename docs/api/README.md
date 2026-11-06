@@ -67,7 +67,16 @@ Errors always use the `ErrorResponse` shape and carry a server-generated `reques
 | 504 | `retrieval_timeout` |
 | 500 | `internal_error` |
 
-Authentication and scope checks run before the body is read, validated or admitted. A rejected call therefore starts no retrieval and uses no allowance.
+The order of checks for each request:
+
+1. Express parses the JSON body, with a 16 KB limit. A parse or size error is not sent at this point; it is held back.
+2. The Nest guard checks authentication, then scope. If either fails, the response is the generic 401 or the 403, so an unauthenticated caller never sees a held-back body error.
+3. Any held-back parse or size error is returned as 400 or 413.
+4. The body is validated against `QueryRequest`.
+5. The request is admitted against the budget.
+6. Retrieval runs.
+
+So a call rejected at step 2 starts no validation, admission or retrieval, and uses no allowance.
 
 ## Credentials and budget (development mode only)
 
@@ -80,11 +89,16 @@ Authentication and scope checks run before the body is read, validated or admitt
 ## Pinned clock and harness controls
 
 **Pinned clock.** Answers are computed at a pinned `as_of`, which is the corpus default `2026-11-05T00:00:00Z`. The currency rule applies at that instant (see [docs/04-data-and-ontology.md](../04-data-and-ontology.md)):
-- a claim is **future-effective** when its `valid_from` is after `as_of`;
-- a claim is **historical** when its `valid_to` is on or before `as_of`;
-- a claim is **unverified** when its evidence falls outside the source class's staleness window, or its verification date is after `as_of`.
+- The effective dates are tested first, whatever the evidence's freshness:
+  - a claim is **historical** when its `valid_to` is on or before `as_of`;
+  - a claim is **future-effective** when its `valid_from` is after `as_of`.
+- Freshness is tested only for a claim in effect by its dates. Such a claim is **unverified** when:
+  - its source falls outside the source class's staleness window; or
+  - its verification date is after `as_of`.
 
-Future-effective and historical claims never appear in today's actions. Unverified evidence is labelled "Needs a current check" and is never stated as current.
+Future-effective and historical claims never appear in today's actions or prerequisite steps. This holds even when their source is stale: a stale source keeps its "Takes effect from …" qualifier, as well as raising a stale-evidence warning.
+
+Any claim whose source is not fresh is labelled "Needs a current check" and is never stated as current.
 
 **Harness controls.** These set the clock and the named faults (`vector_timeout`, `budget_exhausted`, `graph_unavailable`) for local test processes only (docs/06-delivery.md). All of the following must hold, or the API refuses to start:
 - `OZSB_HARNESS_CONTROLS=enabled` and `OZSB_HARNESS_ENV=isolated-local-test` are both set;

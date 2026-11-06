@@ -3,6 +3,7 @@ import { isAbsolute, join, resolve } from 'node:path';
 import { FAULT_NAMES, type FaultName } from './fixture/adapters';
 import { parseRegistry, type DevKeyRecord } from './auth/dev-keys';
 import { apiPackageRoot } from './fixture/corpus';
+import { isUtcInstant, UTC_INSTANT_HINT } from './time';
 
 /** A configuration that must not start. The message names the variable, never a secret value. */
 export class ConfigError extends Error {}
@@ -95,9 +96,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, cwd = repoRoot(
     }
     if (!LOOPBACK.has(host)) throw new ConfigError('harness controls require a loopback OZSB_HOST (127.0.0.1, ::1 or localhost)');
     const asOf = env.OZSB_HARNESS_AS_OF;
-    if (asOf !== undefined && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(asOf)) {
-      throw new ConfigError('OZSB_HARNESS_AS_OF must be an ISO 8601 UTC instant such as 2026-11-05T00:00:00Z');
-    }
+    if (asOf !== undefined && !isUtcInstant(asOf)) throw new ConfigError(`OZSB_HARNESS_AS_OF must be ${UTC_INSTANT_HINT}`);
     const fault = (env.OZSB_HARNESS_FAULT ?? 'none') as FaultName;
     if (!FAULT_NAMES.includes(fault)) throw new ConfigError(`OZSB_HARNESS_FAULT must be one of ${FAULT_NAMES.join(', ')}`);
     harness.enabled = true;

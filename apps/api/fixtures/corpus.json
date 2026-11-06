@@ -16,7 +16,7 @@
   "classes_that_state_effective_dates": ["program_round", "round_status", "legislation", "regulator_guidance"],
   "sources": [
     {
-      "source_id": "src_progA_overview",
+      "source_id": "src_prog_a_overview",
       "publisher": "Fictional Department of Innovation (Queensland)",
       "title": "Program A overview (fictional)",
       "canonical_url": "https://programs.example.invalid/qld/program-a",
@@ -30,7 +30,7 @@
       "text": "Program A (fictional) supports Queensland founders who have a working prototype. Applicants need evidence of customer interest, such as interviews or letters of intent, before they apply to a round. Program A is delivered in rounds; each round publishes its own dates and conditions."
     },
     {
-      "source_id": "src_progA_round_a1",
+      "source_id": "src_prog_a_round_a1",
       "publisher": "Fictional Department of Innovation (Queensland)",
       "title": "Program A, Round A1: status (fictional)",
       "canonical_url": "https://programs.example.invalid/qld/program-a/round-a1",
@@ -44,7 +44,7 @@
       "text": "Round A1 of Program A (fictional) accepted applications from 1 July 2026 until 30 September 2026. The round is now closed and no late applications are accepted."
     },
     {
-      "source_id": "src_progA_round_a2",
+      "source_id": "src_prog_a_round_a2",
       "publisher": "Fictional Department of Innovation (Queensland)",
       "title": "Program A, Round A2: guidelines (fictional)",
       "canonical_url": "https://programs.example.invalid/qld/program-a/round-a2",
@@ -58,7 +58,7 @@
       "text": "Round A2 of Program A (fictional) is scheduled to open on 1 December 2026. Applicants must be a Queensland-registered company with a working prototype. From 1 December 2026, applicants must also complete an independent security assessment of their product."
     },
     {
-      "source_id": "src_progB_round_b1",
+      "source_id": "src_prog_b_round_b1",
       "publisher": "Fictional Commonwealth Startup Office",
       "title": "Program B, Round B1: status (fictional)",
       "canonical_url": "https://programs.example.invalid/national/program-b/round-b1",
@@ -115,17 +115,17 @@
     }
   ],
   "claims": [
-    { "claim_id": "clm_progA_prerequisites", "source_id": "src_progA_overview", "assertion_kind": "sourced", "valid_from": "2026-02-01", "valid_to": null,
+    { "claim_id": "clm_progA_prerequisites", "source_id": "src_prog_a_overview", "assertion_kind": "sourced", "valid_from": "2026-02-01", "valid_to": null,
       "text": "Program A requires a working prototype and evidence of customer interest before you apply to a round." },
-    { "claim_id": "clm_a1_window", "source_id": "src_progA_round_a1", "assertion_kind": "sourced", "valid_from": "2026-07-01", "valid_to": "2026-10-01",
+    { "claim_id": "clm_a1_window", "source_id": "src_prog_a_round_a1", "assertion_kind": "sourced", "valid_from": "2026-07-01", "valid_to": "2026-10-01",
       "text": "Round A1 of Program A accepts applications until 30 September 2026." },
-    { "claim_id": "clm_a2_schedule", "source_id": "src_progA_round_a2", "assertion_kind": "sourced", "valid_from": "2026-10-15", "valid_to": null,
+    { "claim_id": "clm_a2_schedule", "source_id": "src_prog_a_round_a2", "assertion_kind": "sourced", "valid_from": "2026-10-15", "valid_to": null,
       "text": "Round A2 of Program A is scheduled to open on 1 December 2026." },
-    { "claim_id": "clm_a2_eligibility", "source_id": "src_progA_round_a2", "assertion_kind": "sourced", "valid_from": null, "valid_to": null,
+    { "claim_id": "clm_a2_eligibility", "source_id": "src_prog_a_round_a2", "assertion_kind": "sourced", "valid_from": null, "valid_to": null,
       "text": "Round A2 applicants must be a Queensland-registered company with a working prototype." },
-    { "claim_id": "clm_a2_security", "source_id": "src_progA_round_a2", "assertion_kind": "sourced", "valid_from": "2026-12-01", "valid_to": null,
+    { "claim_id": "clm_a2_security", "source_id": "src_prog_a_round_a2", "assertion_kind": "sourced", "valid_from": "2026-12-01", "valid_to": null,
       "text": "Round A2 applicants must complete an independent security assessment of their product." },
-    { "claim_id": "clm_b1_open", "source_id": "src_progB_round_b1", "assertion_kind": "sourced", "valid_from": "2026-08-01", "valid_to": null,
+    { "claim_id": "clm_b1_open", "source_id": "src_prog_b_round_b1", "assertion_kind": "sourced", "valid_from": "2026-08-01", "valid_to": null,
       "text": "Round B1 of Program B is open for applications from founders anywhere in Australia." },
     { "claim_id": "clm_hub_sessions", "source_id": "src_hub_qld", "assertion_kind": "sourced", "valid_from": "2025-11-01", "valid_to": null,
       "text": "The regional innovation hub network offers free one-to-one founder sessions, in person and remotely, across regional Queensland." },

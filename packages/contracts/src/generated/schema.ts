@@ -283,7 +283,7 @@ export const v1Schema = {
           ]
         },
         "applicability": {
-          "description": "current: fresh and in effect at as_of. future_effective: fresh but valid_from is after as_of (never among today's actions, SC23). historical: valid_to is before as_of. unverified: not fresh, so it cannot be stated as current (SC06).",
+          "description": "The effective-interval test comes first. historical: valid_to is on or before as_of. future_effective: valid_from is after as_of, whether or not its source is fresh (never among today's actions, SC23). unverified: in effect by its dates but its source is not fresh at as_of, so it cannot be stated as current (SC06). current: in effect and fresh. Freshness is also reported by evidence_state ('needs-check' when not fresh) and the citation's freshness.",
           "type": "string",
           "enum": [
             "current",
@@ -355,7 +355,9 @@ export const v1Schema = {
           "pattern": "^cit_[0-9]+$"
         },
         "source_id": {
-          "type": "string"
+          "description": "Canonical source ID; the same pattern as the GET /v1/sources/{sourceId} path parameter.",
+          "type": "string",
+          "pattern": "^src_[a-z0-9_]+$"
         },
         "publisher": {
           "type": "string"
@@ -681,7 +683,9 @@ export const v1Schema = {
       ],
       "properties": {
         "source_id": {
-          "type": "string"
+          "description": "Canonical source ID; the same pattern as the GET /v1/sources/{sourceId} path parameter.",
+          "type": "string",
+          "pattern": "^src_[a-z0-9_]+$"
         },
         "publisher": {
           "type": "string"

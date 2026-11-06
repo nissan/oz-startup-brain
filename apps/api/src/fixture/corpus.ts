@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import type { Jurisdiction, RightsStatus, SourceClass } from '@ozsb/contracts';
+import { SOURCE_ID_PATTERN, type Jurisdiction, type RightsStatus, type SourceClass } from '@ozsb/contracts';
 
 /**
  * The fictional fixture corpus (apps/api/fixtures/corpus.json). Every program, round, organisation and URL
@@ -99,7 +99,10 @@ export function loadFixtureCorpus(path = CORPUS_PATH): FixtureCorpus {
     if (claims.has(c.claim_id)) throw new Error(`duplicate claim ${c.claim_id}`);
     claims.add(c.claim_id);
   }
+  const sourceIdPattern = new RegExp(SOURCE_ID_PATTERN);
   for (const s of corpus.sources) {
+    // Every ID a citation can carry must be requestable through the published path contract (R33-04).
+    if (!sourceIdPattern.test(s.source_id)) throw new Error(`fixture source ID ${s.source_id} does not match ${SOURCE_ID_PATTERN}`);
     if (!/^https:\/\/[a-z0-9.-]+\.invalid\//.test(s.canonical_url)) {
       throw new Error(`fixture source ${s.source_id} must use a reserved .invalid URL`);
     }

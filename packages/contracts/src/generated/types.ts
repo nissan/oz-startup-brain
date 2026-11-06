@@ -160,7 +160,7 @@ export interface Claim {
   evidence_state: EvidenceState;
   assertion_kind: 'sourced' | 'editorial';
   /**
-   * current: fresh and in effect at as_of. future_effective: fresh but valid_from is after as_of (never among today's actions, SC23). historical: valid_to is before as_of. unverified: not fresh, so it cannot be stated as current (SC06).
+   * The effective-interval test comes first. historical: valid_to is on or before as_of. future_effective: valid_from is after as_of, whether or not its source is fresh (never among today's actions, SC23). unverified: in effect by its dates but its source is not fresh at as_of, so it cannot be stated as current (SC06). current: in effect and fresh. Freshness is also reported by evidence_state ('needs-check' when not fresh) and the citation's freshness.
    */
   applicability: 'current' | 'future_effective' | 'historical' | 'unverified';
   valid_from: string | null;
@@ -181,6 +181,9 @@ export interface Claim {
  */
 export interface Citation {
   citation_id: string;
+  /**
+   * Canonical source ID; the same pattern as the GET /v1/sources/{sourceId} path parameter.
+   */
   source_id: string;
   publisher: string;
   title: string;
@@ -253,6 +256,9 @@ export interface QueryEnvelope {
  * via the `definition` "SourceRecord".
  */
 export interface SourceRecord {
+  /**
+   * Canonical source ID; the same pattern as the GET /v1/sources/{sourceId} path parameter.
+   */
   source_id: string;
   publisher: string;
   title: string;

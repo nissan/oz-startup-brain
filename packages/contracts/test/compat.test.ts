@@ -71,4 +71,72 @@ describe('v1 compatibility check', () => {
       'GET /v1/capabilities: security requirement changed',
     ]));
   });
+
+  describe('review R33-02 regressions: each mutation alone must be reported', () => {
+    it('an operation response schema reference changes, even though the old component is unchanged', () => {
+      const d = clone();
+      d.paths['/v1/queries'].post.responses['200'].content['application/json'].schema = { $ref: '#/components/schemas/Liveness' };
+      expect(changes(d)).toContain('POST /v1/queries 200 response application/json: reference changed from QueryEnvelope to Liveness');
+    });
+
+    it('a request body schema reference changes', () => {
+      const d = clone();
+      d.paths['/v1/queries'].post.requestBody.content['application/json'].schema = { $ref: '#/components/schemas/ConfirmedContext' };
+      expect(changes(d)).toContain('POST /v1/queries request body application/json: reference changed from QueryRequest to ConfirmedContext');
+    });
+
+    it('the status/payload conditions (allOf) are deleted', () => {
+      const d = clone();
+      delete schemas(d).QueryEnvelope.allOf;
+      expect(changes(d)).toContain('#/components/schemas/QueryEnvelope: allOf changed (not analysed directionally, so treated as breaking)');
+    });
+
+    it('a closed response schema is opened', () => {
+      const d = clone();
+      schemas(d).QueryEnvelope.additionalProperties = true;
+      expect(changes(d)).toContain('#/components/schemas/QueryEnvelope: closed response schema now allows additional properties');
+    });
+
+    it('a response minimum is loosened', () => {
+      const d = clone();
+      schemas(d).Action.properties.claim_ids.minItems = 0;
+      expect(changes(d)).toContain('#/components/schemas/Action.claim_ids: minItems loosened in a response');
+    });
+
+    it('the API key security scheme changes', () => {
+      const d = clone();
+      d.components.securitySchemes.ApiKey.name = 'X-Different-Key';
+      expect(changes(d)).toContain('#/components/securitySchemes/ApiKey: security scheme changed (clients send the baseline credential)');
+    });
+
+    it('a path parameter pattern or requirement changes, or a required parameter is added', () => {
+      const d = clone();
+      const op = d.paths['/v1/sources/{sourceId}'].get;
+      op.parameters[0].schema.pattern = '^src_[a-z]+$';
+      d.paths['/v1/capabilities'].get.parameters = [{ name: 'tier', in: 'query', required: true, schema: { type: 'string' } }];
+      expect(changes(d)).toEqual(expect.arrayContaining([
+        'GET /v1/sources/{sourceId} parameter path sourceId: pattern changed',
+        'GET /v1/capabilities parameter query tier: required parameter added',
+      ]));
+    });
+
+    it('a format, an if/then rule or another unanalysed keyword changes', () => {
+      const d = clone();
+      schemas(d).QueryEnvelope.properties.as_of.format = 'date';
+      schemas(d).Clarification.properties.options.uniqueItems = true;
+      expect(changes(d)).toEqual(expect.arrayContaining([
+        '#/components/schemas/QueryEnvelope.as_of: format changed (not analysed directionally, so treated as breaking)',
+        '#/components/schemas/Clarification.options: uniqueItems changed (not analysed directionally, so treated as breaking)',
+      ]));
+    });
+
+    it('still allows annotation-only changes and an optional request property', () => {
+      const d = clone();
+      schemas(d).Claim.properties.applicability.description = 'reworded';
+      d.paths['/v1/queries'].post.summary = 'reworded';
+      schemas(d).QueryRequest.properties.task_intent = { type: 'string', enum: ['lookup', 'comparison', 'prerequisite'] };
+      expect(compareOpenApi(baseline, d)).toEqual([]);
+    });
+  });
 });
+

@@ -37,7 +37,7 @@ describe('generated client against the fixture API', () => {
       expect(r.ok).toBe(true);
       if (r.ok) expect(r.requestId).toBe(r.data.request_id);
     }
-    for (const id of ['src_progA_overview', 'src_founder_guide', 'src_rejected_mirror']) expect((await c.source(id)).ok).toBe(true);
+    for (const id of ['src_prog_a_overview', 'src_founder_guide', 'src_rejected_mirror']) expect((await c.source(id)).ok).toBe(true);
   });
 
   it('surfaces 401 and 403 as documented errors', async () => {

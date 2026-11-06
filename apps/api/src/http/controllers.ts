@@ -8,6 +8,7 @@ import {
   type QueryEnvelope,
   type QueryRequest,
   type SourceRecord,
+  SOURCE_ID_PATTERN,
 } from '@ozsb/contracts';
 import type { Request } from 'express';
 import { RetrievalTimeoutError } from '../fixture/adapters';
@@ -154,7 +155,7 @@ export class V1Controller {
   @Get('sources/:sourceId')
   @RequireScope('sources:read')
   @ApiOperation({ operationId: 'getSource', summary: 'Public citation metadata; a bounded excerpt only when rights_status is cleared.' })
-  @ApiParam({ name: 'sourceId', schema: { type: 'string', pattern: '^src_[a-z0-9_]+$' } })
+  @ApiParam({ name: 'sourceId', schema: { type: 'string', pattern: SOURCE_ID_PATTERN } })
   @ApiResponse({ status: 200, schema: ref('SourceRecord') })
   @applyAll(errorResponses(401, 403, 404, 500))
   source(@Req() req: Request, @Param('sourceId') sourceId: string): SourceRecord {

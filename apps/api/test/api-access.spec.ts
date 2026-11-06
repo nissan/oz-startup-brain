@@ -72,7 +72,7 @@ describe('API access (fixture mode)', () => {
     const endpoints: [string, string][] = [
       ['POST', '/v1/queries'],
       ['GET', '/v1/capabilities'],
-      ['GET', '/v1/sources/src_progA_overview'],
+      ['GET', '/v1/sources/src_prog_a_overview'],
     ];
 
     it.each(states)('returns the same generic 401 for a %s key on every business endpoint and starts no retrieval', async (_state, key) => {
@@ -120,9 +120,9 @@ describe('API access (fixture mode)', () => {
     });
 
     it('applies scope per operation', async () => {
-      await http().get('/v1/sources/src_progA_overview').set('X-API-Key', keys.queryOnly).expect(403);
+      await http().get('/v1/sources/src_prog_a_overview').set('X-API-Key', keys.queryOnly).expect(403);
       await http().get('/v1/capabilities').set('X-API-Key', keys.sourcesOnly).expect(403);
-      await http().get('/v1/sources/src_progA_overview').set('X-API-Key', keys.sourcesOnly).expect(200);
+      await http().get('/v1/sources/src_prog_a_overview').set('X-API-Key', keys.sourcesOnly).expect(200);
     });
 
     it('rejects a body with fields outside the contract once authorised (consumer_id is not a request field)', async () => {
@@ -135,7 +135,7 @@ describe('API access (fixture mode)', () => {
 
   describe('API13: gate source excerpts on rights status', () => {
     const cases: [string, string][] = [
-      ['cleared', 'src_progA_overview'],
+      ['cleared', 'src_prog_a_overview'],
       ['not_reviewed', 'src_founder_guide'],
       ['rejected', 'src_rejected_mirror'],
     ];

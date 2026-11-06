@@ -1,5 +1,6 @@
 import { FAULT_NAMES, type FaultName, type FaultSource } from './fixture/adapters';
 import type { HarnessConfig } from './config';
+import { isUtcInstant, UTC_INSTANT_HINT } from './time';
 
 export class HarnessDisabledError extends Error {
   constructor() {
@@ -40,14 +41,11 @@ export class HarnessControls implements FaultSource {
 
   set(change: { asOf?: string; fault?: FaultName }): void {
     if (!this.config.enabled) throw new HarnessDisabledError();
-    if (change.asOf !== undefined) {
-      if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(change.asOf)) throw new Error('asOf must be an ISO 8601 UTC instant');
-      this.asOfValue = change.asOf;
-    }
-    if (change.fault !== undefined) {
-      if (!FAULT_NAMES.includes(change.fault)) throw new Error(`fault must be one of ${FAULT_NAMES.join(', ')}`);
-      this.fault = change.fault;
-    }
+    // Validate everything before changing anything, so a rejected set leaves the prior state intact.
+    if (change.asOf !== undefined && !isUtcInstant(change.asOf)) throw new Error(`asOf must be ${UTC_INSTANT_HINT}`);
+    if (change.fault !== undefined && !FAULT_NAMES.includes(change.fault)) throw new Error(`fault must be one of ${FAULT_NAMES.join(', ')}`);
+    if (change.asOf !== undefined) this.asOfValue = change.asOf;
+    if (change.fault !== undefined) this.fault = change.fault;
   }
 
   /** Returns to the configured starting clock and fault (the corpus default and "none" unless configured). */

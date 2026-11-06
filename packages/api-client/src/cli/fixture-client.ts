@@ -65,7 +65,7 @@ async function tour(client: OzsbClient, badKey: OzsbClient): Promise<Check[]> {
   const none = await envelope(client, { question: 'How do I bake sourdough bread?' });
   add('insufficient_evidence', none.status === 'insufficient_evidence' && none.answer === null, `status=${none.status}`);
 
-  const cleared = await client.source('src_progA_overview');
+  const cleared = await client.source('src_prog_a_overview');
   const rejected = await client.source('src_rejected_mirror');
   add(
     'source excerpts gated on rights status',

@@ -145,19 +145,30 @@ export class FixtureResponder {
     }
     if (closedRound) warnings.push({ code: 'closed_round', kind: 'evidence', message: 'A program round in this answer has closed; the planner does not recommend applying to it.' });
 
-    const steps: SequenceStep[] = sequence.map((s, i) => {
+    // The same effective-interval gate applies to prerequisites: a step resting on a requirement that
+    // has not started, or has ended, is not part of today's route, whatever its source's freshness.
+    const steps: SequenceStep[] = [];
+    for (const s of sequence) {
       const as = s.claim_ids.map(assess);
-      return {
-        position: i + 1,
+      const future = as.filter((a) => a.applicability === 'future_effective');
+      if (future.length) {
+        for (const f of future) addCondition({ reason: 'future_effective', field: null, text: `${f.qualifier_text}: ${f.claim.text} It is not a prerequisite today.` });
+        continue;
+      }
+      if (as.some((a) => a.applicability === 'historical')) continue;
+      steps.push({
+        position: steps.length + 1,
         label: s.label,
         assertion_kind: as.every((a) => a.claim.assertion_kind === 'editorial') ? 'editorial' : 'sourced',
         evidence_state: weakest(as.map((a) => a.evidence_state)),
         claim_ids: s.claim_ids as SequenceStep['claim_ids'],
-      };
-    });
+      });
+    }
 
     // Stale evidence can never be stated as current (SC06).
-    const stale = [...assessments.values()].filter((a) => a.applicability === 'unverified');
+    // Any claim that is not fresh is reported, including a future-effective one (whose date still
+    // excludes it from today's actions). Ended claims are reported as closed or historical instead.
+    const stale = [...assessments.values()].filter((a) => !a.fresh && a.applicability !== 'historical');
     for (const s of stale) {
       addCondition({
         reason: 'stale_evidence',
@@ -172,7 +183,12 @@ export class FixtureResponder {
       warnings.push({ code: 'effective_date_not_stated', kind: 'evidence', message: 'A source that normally states effective dates does not state one for a claim used here.' });
     }
 
-    const summaryParts = [topic.summary_base, ...topic.summary_rules.filter((r) => assessments.get(r.claim_id)?.applicability === r.applicability).map((r) => r.text)];
+    const matchedRules = topic.summary_rules.filter((r) => assessments.get(r.claim_id)?.applicability === r.applicability);
+    const summaryParts = [topic.summary_base, ...matchedRules.map((r) => r.text)];
+    // The topic's base summary describes the fresh case; never let it read as current over stale evidence.
+    if (stale.length && !matchedRules.some((r) => r.applicability === 'unverified')) {
+      summaryParts.push('Some of this evidence is outside its staleness window, so check the official source before relying on it.');
+    }
     if (leftOut.length && context.jurisdiction === 'unknown') summaryParts.push('Because your jurisdiction is Unknown, only national routes are shown.');
     const summary = summaryParts.filter(Boolean).join(' ');
 

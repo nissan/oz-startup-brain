@@ -9,6 +9,9 @@ export { v1Schema };
 export type DefinitionName = keyof typeof v1Schema.$defs;
 
 export const SCHEMA_VERSION = '1.0.0' as const;
+/** Canonical source IDs, shared by citations, source records and the GET /v1/sources/{sourceId} path. */
+export const SOURCE_ID_PATTERN = v1Schema.$defs.Citation.properties.source_id.pattern;
+
 export const STANDING_STATEMENT = 'Information and routing, not an application or approval.' as const;
 
 /** The five evidence-state words rendered by the design system's EvidenceLabel. #10 moves the UI to this table. */

@@ -48,10 +48,13 @@ export function assessClaim(claim: FixtureClaim, source: FixtureSource, asOf: st
   const ended = claim.valid_to !== null && claim.valid_to <= today;
   const notYet = effectiveFrom !== null && effectiveFrom > today;
 
+  // The two tests stay independent (R33-01): the effective interval decides whether a claim can be
+  // acted on today at all; freshness only decides whether an in-effect claim can be stated as current.
+  // A stale source never turns a future or ended requirement into a current one.
   let applicability: Applicability;
   if (ended) applicability = 'historical';
-  else if (!fresh) applicability = 'unverified';
   else if (notYet) applicability = 'future_effective';
+  else if (!fresh) applicability = 'unverified';
   else applicability = 'current';
 
   let qualifier: ClaimAssessment['qualifier'] = null;
@@ -69,7 +72,7 @@ export function assessClaim(claim: FixtureClaim, source: FixtureSource, asOf: st
   }
 
   let evidence_state: EvidenceState;
-  if (applicability === 'unverified') evidence_state = 'needs-check';
+  if (!fresh) evidence_state = 'needs-check';
   else if (claim.assertion_kind === 'editorial') evidence_state = 'suggested';
   else evidence_state = 'checked';
 

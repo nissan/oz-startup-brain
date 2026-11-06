@@ -68,7 +68,7 @@ describe('startup guard (docs/06-delivery.md, fixture-mode test controls)', () =
 
   it('applies configured limits, including the excerpt cap', async () => {
     const { app } = await startApi({ OZSB_DEV_KEYS: registry, OZSB_EXCERPT_MAX_CHARS: '60' });
-    const res = await request(app.getHttpServer()).get('/v1/sources/src_progA_overview').set('X-API-Key', keys.full).expect(200);
+    const res = await request(app.getHttpServer()).get('/v1/sources/src_prog_a_overview').set('X-API-Key', keys.full).expect(200);
     expect(res.body.excerpt_max_chars).toBe(60);
     expect(res.body.excerpt.length).toBeLessThanOrEqual(60);
     expect(res.body.excerpt.endsWith('…')).toBe(true);

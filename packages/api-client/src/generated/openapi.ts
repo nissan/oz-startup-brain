@@ -153,6 +153,7 @@ export interface components {
             last_verified_at: string | null;
             publisher: string;
             source_class: components["schemas"]["SourceClass"];
+            /** @description Canonical source ID; the same pattern as the GET /v1/sources/{sourceId} path parameter. */
             source_id: string;
             /** Format: date */
             source_version_date: string;
@@ -161,7 +162,7 @@ export interface components {
         /** @description A claim used in the answer, with both answer-time currency tests applied (docs/04-data-and-ontology.md, answer-time currency rule). */
         Claim: {
             /**
-             * @description current: fresh and in effect at as_of. future_effective: fresh but valid_from is after as_of (never among today's actions, SC23). historical: valid_to is before as_of. unverified: not fresh, so it cannot be stated as current (SC06).
+             * @description The effective-interval test comes first. historical: valid_to is on or before as_of. future_effective: valid_from is after as_of, whether or not its source is fresh (never among today's actions, SC23). unverified: in effect by its dates but its source is not fresh at as_of, so it cannot be stated as current (SC06). current: in effect and fresh. Freshness is also reported by evidence_state ('needs-check' when not fresh) and the citation's freshness.
              * @enum {string}
              */
             applicability: "current" | "future_effective" | "historical" | "unverified";
@@ -286,6 +287,7 @@ export interface components {
             publisher: string;
             rights_status: components["schemas"]["RightsStatus"];
             source_class: components["schemas"]["SourceClass"];
+            /** @description Canonical source ID; the same pattern as the GET /v1/sources/{sourceId} path parameter. */
             source_id: string;
             /** Format: date */
             source_version_date: string;

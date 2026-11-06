@@ -42,7 +42,7 @@ describe('v1 envelope schema', () => {
 
   it('never allows a snapshot path in a source record', () => {
     const source = {
-      source_id: 's', publisher: 'p', title: 't', canonical_url: 'https://example.invalid/s', source_class: 'article', jurisdiction: 'national',
+      source_id: 'src_s', publisher: 'p', title: 't', canonical_url: 'https://example.invalid/s', source_class: 'article', jurisdiction: 'national',
       published_at: null, source_version_date: '2026-01-01', last_verified_at: null, rights_status: 'not_reviewed', excerpt: null, excerpt_max_chars: 280, fictional: true,
     };
     expect(check('SourceRecord', source)).toEqual([]);
