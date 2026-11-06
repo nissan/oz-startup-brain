@@ -356,6 +356,46 @@ test.describe('review R39 regressions', () => {
     await expect(page.getByText('Your draft, kept')).toBeVisible();
   });
 
+  test('Gympie static directory remains readable without horizontal overflow at 390px in both themes', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const theme of ['light', 'dark'] as const) {
+      await open(page, WEB.fixture, theme);
+      await ask(page, 'What support is there in Gympie?');
+      const panel = page.locator('.evidence-panel:visible');
+      const directory = panel.locator('.claims__item').filter({ hasText: 'STATIC FICTIONAL SOURCE DIRECTORY' });
+      await expect(directory).toBeVisible();
+      // Keep both complete directory entries and their checks; hiding or truncating the claim
+      // must not become a substitute for wrapping its long URLs.
+      await expect(directory).toContainText('https://hubs.example.invalid/qld/sessions');
+      await expect(directory).toContainText('https://support.example.invalid/src_university_contact');
+      await expect(directory).toContainText('Verify locality, remote access, scope and current availability');
+      await page.evaluate(() => document.fonts.ready);
+      const bounds = await directory.evaluate((item) => {
+        const claim = item.firstElementChild!;
+        const rect = claim.getBoundingClientRect();
+        const style = getComputedStyle(claim);
+        return {
+          pageWidth: document.documentElement.scrollWidth,
+          viewportWidth: document.documentElement.clientWidth,
+          claimRight: rect.right,
+          claimLeft: rect.left,
+          claimOverflow: claim.scrollWidth - claim.clientWidth,
+          overflowX: style.overflowX,
+          overflowY: style.overflowY,
+          textOverflow: style.textOverflow,
+        };
+      });
+      expect(bounds.pageWidth, theme).toBeLessThanOrEqual(bounds.viewportWidth);
+      expect(bounds.claimRight, theme).toBeLessThanOrEqual(bounds.viewportWidth);
+      expect(bounds.claimLeft, theme).toBeGreaterThanOrEqual(0);
+      expect(bounds.claimOverflow, theme).toBeLessThanOrEqual(1);
+      expect(bounds.overflowX, theme).toBe('visible');
+      expect(bounds.overflowY, theme).toBe('visible');
+      expect(bounds.textOverflow, theme).not.toBe('ellipsis');
+      await shot(page, `gympie-directory-${theme}-390`);
+    }
+  });
+
   for (const width of [390, 600, 1280]) {
     test(`R39-6: every prerequisite label fits inside the drawing at ${width}px, both themes`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });

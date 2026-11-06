@@ -67,7 +67,8 @@ a:hover { color: var(--ink); }
   .results__aside .evidence-panel--aside { display: none; }
 }
 .claims { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-.claims__item { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--hairline); border-radius: var(--radius-md); background: var(--paper-raised); font-size: 15px; line-height: 22px; }
+/* Source URLs and authored claims must wrap within the evidence column, not set its min-content width. */
+.claims__item { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; overflow-wrap: anywhere; gap: 4px; padding: 12px; border: 1px solid var(--hairline); border-radius: var(--radius-md); background: var(--paper-raised); font-size: 15px; line-height: 22px; }
 .claims__meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 14px; line-height: 20px; color: var(--ink-muted); }
 .claims__qualifier { color: var(--ink); font-weight: 700; }
 .conditions { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; max-width: 688px; }
