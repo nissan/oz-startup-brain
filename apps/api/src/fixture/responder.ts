@@ -184,7 +184,8 @@ export class FixtureResponder {
     }
 
     const matchedRules = topic.summary_rules.filter((r) => assessments.get(r.claim_id)?.applicability === r.applicability);
-    const summaryParts = [topic.summary_base, ...matchedRules.map((r) => r.text)];
+    // Over stale evidence the base sentence is swapped, not merely followed by a caveat (R33-01).
+    const summaryParts = [stale.length ? topic.summary_base_unverified : topic.summary_base, ...matchedRules.map((r) => r.text)];
     // The topic's base summary describes the fresh case; never let it read as current over stale evidence.
     if (stale.length && !matchedRules.some((r) => r.applicability === 'unverified')) {
       summaryParts.push('Some of this evidence is outside its staleness window, so check the official source before relying on it.');

@@ -53,6 +53,12 @@ describe('R33-01: the effective interval is tested independently of freshness', 
       expect(reasons).toContain('stale_evidence');
       expect(body.warnings.map((w: { code: string }) => w.code)).toContain('stale_evidence');
       expect(body.answer.summary).toMatch(/check the official source before relying on it/);
+      // The fresh-case assertion is replaced, not merely followed by a caveat (R33-01 follow-up).
+      expect(body.answer.summary).not.toMatch(/supports as in effect today/);
+      expect(body.answer.summary).toMatch(/^The planner cannot confirm which Round A2 conditions are in effect today/);
+    } else {
+      expect(body.answer.summary).toMatch(/^These are the Round A2 conditions the fixture corpus supports as in effect today\./);
+      expect(body.answer.summary).not.toMatch(/cannot confirm|staleness window/);
     }
   });
 
@@ -63,6 +69,9 @@ describe('R33-01: the effective interval is tested independently of freshness', 
     const action = body.answer.actions.find((a: { action_id: string }) => a.action_id === 'act_a2_security_assessment');
     expect(action.evidence_state).toBe('needs-check');
     expect(body.answer.summary).not.toMatch(/takes effect from 1 December 2026, so it is not listed/);
+    expect(body.claims.every((c: { evidence_state: string }) => c.evidence_state === 'needs-check')).toBe(true);
+    expect(body.answer.summary).not.toMatch(/supports as in effect today/);
+    expect(body.answer.summary).toMatch(/^The planner cannot confirm which Round A2 conditions are in effect today/);
   });
 
   it('applies the same gate to prerequisite steps, whatever the freshness', () => {
@@ -142,6 +151,15 @@ describe('R33-04: every cited source ID satisfies the published path contract an
       expect(res.body.source_id).toBe(id);
     }
     await app.close();
+  });
+
+  it('refuses a topic whose base summary has no unverified wording', () => {
+    const corpus = JSON.parse(readFileSync(CORPUS_PATH, 'utf8')) as FixtureCorpus;
+    const topic = corpus.topics.find((t) => t.summary_base !== null)!;
+    delete (topic as Partial<typeof topic>).summary_base_unverified;
+    const dir = mkdtempSync(join(tmpdir(), 'ozsb-corpus-'));
+    writeFileSync(join(dir, 'corpus.json'), JSON.stringify(corpus));
+    expect(() => loadFixtureCorpus(join(dir, 'corpus.json'))).toThrow(/without summary_base_unverified/);
   });
 
   it('refuses to load a corpus whose source ID could not be requested', () => {

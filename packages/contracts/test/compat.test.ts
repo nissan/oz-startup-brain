@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import Ajv2020 from 'ajv/dist/2020';
+import addFormats from 'ajv-formats';
 import { compareOpenApi } from '../src/compat';
 
 /** API10: the v1 OpenAPI artifact cannot be silently replaced by an incompatible one. */
@@ -134,6 +136,51 @@ describe('v1 compatibility check', () => {
       const d = clone();
       schemas(d).Claim.properties.applicability.description = 'reworded';
       d.paths['/v1/queries'].post.summary = 'reworded';
+      schemas(d).QueryRequest.properties.task_intent = { type: 'string', enum: ['lookup', 'comparison', 'prerequisite'] };
+      expect(compareOpenApi(baseline, d)).toEqual([]);
+    });
+  });
+
+  describe('review R33-02 follow-up: constraints beside an unchanged $ref', () => {
+    /** Validates a request body against a document's QueryRequest, resolving #/components/schemas refs. */
+    function acceptsQuery(doc: any, body: unknown, viaOperation = false): boolean {
+      const ajv = new Ajv2020({ strict: false, allErrors: true });
+      addFormats(ajv);
+      ajv.addSchema({ $id: 'https://candidate.invalid/openapi.json', components: doc.components });
+      const target = viaOperation
+        ? { ...doc.paths['/v1/queries'].post.requestBody.content['application/json'].schema, $ref: 'https://candidate.invalid/openapi.json#/components/schemas/QueryRequest' }
+        : { $ref: 'https://candidate.invalid/openapi.json#/components/schemas/QueryRequest' };
+      return ajv.compile(target)(body) as boolean;
+    }
+    const previouslyValid = { question: 'What next?', confirmed_context: { jurisdiction: 'unknown' } };
+    const minimal = { question: 'What next?' };
+
+    it('a new required list beside a component property reference is a reported break', () => {
+      const d = clone();
+      d.components.schemas.QueryRequest.properties.confirmed_context.required = ['stage'];
+      expect(acceptsQuery(baseline, previouslyValid)).toBe(true);
+      expect(acceptsQuery(d, previouslyValid)).toBe(false);
+      expect(changes(d)).toContain('#/components/schemas/QueryRequest.confirmed_context.stage: newly required in a request');
+    });
+
+    it('a new required list beside the operation request-body reference is a reported break', () => {
+      const d = clone();
+      d.paths['/v1/queries'].post.requestBody.content['application/json'].schema.required = ['confirmed_context'];
+      expect(acceptsQuery(baseline, minimal, true)).toBe(true);
+      expect(acceptsQuery(d, minimal, true)).toBe(false);
+      expect(changes(d)).toContain('POST /v1/queries request body application/json.confirmed_context: newly required in a request');
+    });
+
+    it('any other contract-affecting sibling of an unchanged $ref is reported conservatively', () => {
+      const d = clone();
+      d.paths['/v1/queries'].post.responses['200'].content['application/json'].schema.allOf = [{ required: ['answer'] }];
+      expect(changes(d)).toContain('POST /v1/queries 200 response application/json: allOf changed (not analysed directionally, so treated as breaking)');
+    });
+
+    it('annotation-only siblings and the optional request property still pass', () => {
+      const d = clone();
+      d.components.schemas.QueryRequest.properties.confirmed_context.description = 'Context the founder confirmed.';
+      d.paths['/v1/queries'].post.requestBody.content['application/json'].schema.description = 'reworded';
       schemas(d).QueryRequest.properties.task_intent = { type: 'string', enum: ['lookup', 'comparison', 'prerequisite'] };
       expect(compareOpenApi(baseline, d)).toEqual([]);
     });

@@ -92,11 +92,13 @@ function compareSchema(where: string, base: Obj, cand: Obj | undefined, dir: Dir
 
   const bRef = refName(base);
   const cRef = refName(cand);
-  if (bRef !== null || cRef !== null) {
-    // Referenced components are compared once, in the direction(s) they are used.
-    if (bRef !== cRef) add(`reference changed from ${bRef ?? 'an inline schema'} to ${cRef ?? 'an inline schema'}`);
+  if (bRef !== cRef) {
+    add(`reference changed from ${bRef ?? 'an inline schema'} to ${cRef ?? 'an inline schema'}`);
     return;
   }
+  // An unchanged reference target is compared once, as a component, in the direction(s) it is used.
+  // Constraints written beside the $ref (required, allOf, ...) still apply to this use and are
+  // compared below like any other schema (R33-02 follow-up).
 
   // Keywords this checker does not analyse directionally: any change is breaking.
   for (const k of new Set([...Object.keys(base), ...Object.keys(cand)])) {

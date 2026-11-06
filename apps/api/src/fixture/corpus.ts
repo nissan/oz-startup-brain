@@ -55,6 +55,13 @@ export interface FixtureTopic {
   match: string[][];
   jurisdiction_sensitive: boolean;
   summary_base: string | null;
+  /**
+   * Replaces summary_base whenever any claim behind the answer is not fresh, so a base sentence that
+   * asserts current applicability is never shown over stale evidence (R33-01 follow-up). Required
+   * whenever summary_base is set; it may repeat summary_base only if that sentence asserts nothing
+   * about what is in effect today.
+   */
+  summary_base_unverified: string | null;
   summary_rules: { claim_id: string; applicability: Applicability; text: string }[];
   actions: FixtureAction[];
   context_claim_ids: string[];
@@ -108,6 +115,9 @@ export function loadFixtureCorpus(path = CORPUS_PATH): FixtureCorpus {
     }
   }
   for (const t of corpus.topics) {
+    if (t.summary_base !== null && typeof t.summary_base_unverified !== 'string') {
+      throw new Error(`topic ${t.topic_id} sets summary_base without summary_base_unverified`);
+    }
     const ids = [...t.actions.flatMap((a) => a.claim_ids), ...t.context_claim_ids, ...t.sequence.flatMap((s) => s.claim_ids), ...t.summary_rules.map((r) => r.claim_id)];
     for (const id of ids) if (!claims.has(id)) throw new Error(`topic ${t.topic_id} references unknown claim ${id}`);
   }
