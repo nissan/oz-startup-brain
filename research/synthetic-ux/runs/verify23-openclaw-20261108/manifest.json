@@ -4133,6 +4133,11 @@
       "bytes": 3073
     },
     {
+      "path": "tools/zoom-extension/manifest.json",
+      "sha256": "83d6e87a981c685553933cea7b67a6cd177a2705bb3206a15af002f54c81bc6b",
+      "bytes": 137
+    },
+    {
       "path": "tools/zoom-extension/worker.js",
       "sha256": "e69b1a1801e3390fbfb8f2aa904df7b0fd2ae201fcf160c9445b7c805ddcdfc8",
       "bytes": 47
