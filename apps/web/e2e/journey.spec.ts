@@ -155,10 +155,10 @@ test.describe('keyboard', () => {
     await page.keyboard.press('Enter');
     await expect(page.locator('.evidence-panel__heading:visible')).toBeFocused();
     // Shift+Tab goes to the previous control in document order: on phones the inline panel sits inside
-    // the opened card, so that is the same button; on wide screens the aside follows all the cards.
+    // the opened card, so that is the same button; on wide screens the aside follows the editorial terms help.
     await page.keyboard.press('Shift+Tab');
     const width = page.viewportSize()!.width;
-    const previous = width < 880 ? inspect : page.getByRole('article').last().getByRole('button', { name: 'Show supporting passage' });
+    const previous = width < 880 ? inspect : page.locator('.terms-help > summary');
     await expect(previous).toBeFocused();
   });
 });
@@ -421,4 +421,54 @@ test.describe('review R39 regressions', () => {
       }
     });
   }
+});
+
+test.describe('issue 46 plain-language evidence help (primed regression)', () => {
+  test('A2 prototype separates requirement from preparation without changing dated evidence', async ({ page }) => {
+    await open(page, WEB.fixture, 'light');
+    await page.getByRole('button', { name: /Stage: Not set/ }).click();
+    await page.locator('.context-editor__option', { hasText: /^Working prototype$/ }).click();
+    await page.getByRole('button', { name: 'Save stage' }).click();
+    await ask(page, 'What does round A2 require today?');
+    const sequence = page.getByRole('region', { name: 'What comes first' });
+    await expect(sequence).toContainText('A source-stated requirement says what must be in place before applying.');
+    await expect(sequence).toContainText('A suggested preparation step helps you get ready; its place in this list is not an extra eligibility rule.');
+    await expect(sequence).toContainText('For example, customer-interest evidence can appear in both: the requirement is to have it, and the preparation step is to gather it. That overlap is not a source disagreement.');
+    await expect(sequence.locator('.osb-map__list')).toContainText('Suggested next step');
+    await expect(page.locator('.conditions')).toContainText('1 December 2026');
+    await page.getByRole('button', { name: /Show evidence for step 1:/ }).click();
+    await expect(page.locator('#evidence-heading-step')).toBeFocused();
+    await expect(page.locator('.evidence-panel--step blockquote').first()).toBeVisible();
+    await page.getByRole('button', { name: /Show evidence for step 2:/ }).click();
+    await expect(page.locator('.evidence-panel--step')).toContainText('Excerpt not shown: this source is not cleared');
+  });
+
+  test('T01 terms are keyboard-discoverable editorial help, not a checked claim or clarification', async ({ page }) => {
+    await open(page, WEB.fixture, 'dark');
+    await expect(page.getByText('Terms in plain language', { exact: true })).toHaveCount(0);
+    await ask(page, 'What should I do next for support?');
+    await expect(page.getByText('Terms in plain language', { exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: 'Queensland', exact: true }).click();
+    await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+    await expect(page.locator('#results-heading')).toBeFocused();
+    const terms = page.locator('details').filter({ hasText: 'Terms in plain language' });
+    const toggle = terms.locator('summary');
+    await expect(toggle).toBeVisible();
+    await toggle.focus();
+    await expect(toggle).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(terms).toHaveAttribute('open', '');
+    await expect(terms).toContainText('Editorial explanation — not a source excerpt or an eligibility check.');
+    await expect(terms).toContainText('turning an idea or research into a product or service people can use or buy');
+    await expect(terms).toContainText('does not establish IP ownership or eligibility');
+    await expect(terms).toContainText('Whether it applies, what qualifies and how much are not established here');
+    await expect(terms).not.toContainText(/Checked|\$|\d+%/);
+    await expect(terms.locator('blockquote')).toHaveCount(0);
+    expect(await toggle.evaluate(el => getComputedStyle(el).outlineStyle)).toBe('solid');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+    await page.keyboard.press('Space');
+    await expect(terms).not.toHaveAttribute('open', '');
+    await page.getByRole('article').first().getByRole('button', { name: 'Show supporting passage' }).click();
+    await expect(page.locator('.evidence-panel__heading:visible')).toBeFocused();
+  });
 });

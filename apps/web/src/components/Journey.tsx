@@ -416,6 +416,15 @@ export function Journey() {
               ) : (
                 <p className="empty">No action is recommended today. The conditions below say why.</p>
               )}
+              {/* Local editorial help is deliberately separate from sourced claims and excerpts. */}
+              <details className="terms-help">
+                <summary>Terms in plain language</summary>
+                <div className="section">
+                  <p className="section__caption">Editorial explanation — not a source excerpt or an eligibility check.</p>
+                  <p><strong>Commercialisation</strong> means turning an idea or research into a product or service people can use or buy. A university commercialisation office can help check the route and IP questions; this does not establish IP ownership or eligibility.</p>
+                  <p><strong>Matched contribution</strong> means funding or other resources an applicant may need to provide alongside support. Whether it applies, what qualifies and how much are not established here; check the relevant guidelines.</p>
+                </div>
+              </details>
               {envelope.unresolved_conditions.length ? (
                 <section className="section" aria-labelledby="conditions-heading">
                   <h3 id="conditions-heading" className="section__title" style={{ fontSize: 17, lineHeight: '24px' }}>
@@ -441,7 +450,11 @@ export function Journey() {
                 {nodes && nodes.length ? (
                   <>
                     <PrerequisiteMap nodes={nodes} />
-                    <p className="section__caption">Steps marked &ldquo;Suggested next step&rdquo; are editorial sequencing, not a documented requirement.</p>
+                    <div className="section" aria-label="How to read these steps">
+                      <p className="section__caption"><strong>Requirement:</strong> A source-stated requirement says what must be in place before applying. Keep its dates and qualifiers in view.</p>
+                      <p className="section__caption"><strong>Preparation:</strong> A suggested preparation step helps you get ready; its place in this list is not an extra eligibility rule. Steps marked &ldquo;Suggested next step&rdquo; are editorial sequencing, not a documented requirement.</p>
+                      <p className="section__caption">For example, customer-interest evidence can appear in both: the requirement is to have it, and the preparation step is to gather it. That overlap is not a source disagreement.</p>
+                    </div>
                     {/* Every step's evidence is reachable, including steps no action card cites. */}
                     <ul className="step-evidence" aria-label="Evidence for each step">
                       {answer.prerequisite_sequence!.map((step) => {
