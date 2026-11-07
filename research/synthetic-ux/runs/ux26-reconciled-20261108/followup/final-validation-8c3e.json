@@ -1,0 +1,27 @@
+{
+  "head": "8c3eaee88c1f009675417c7ace87244e4fccb30b",
+  "source_head": "f8f5fbd5db007cbae743ff6fdc88b929f4f5e73e",
+  "clean_install": true,
+  "generated": "pass",
+  "compatibility": "pass",
+  "typecheck_build": "pass",
+  "unit_tests": {
+    "passed": 134,
+    "total": 134
+  },
+  "browser_tests": {
+    "passed": 38,
+    "total": 38,
+    "browser": "Chrome for Testing153.0.8010.12",
+    "retries": 0,
+    "log": "final-browser.log"
+  },
+  "fixture_demo": {
+    "passed": 9,
+    "total": 9
+  },
+  "persona_pack": "pass",
+  "persona_tool_tests": "pass",
+  "design_token_drift": "pass",
+  "design_renderer": "not rerun; no design source changes"
+}

@@ -1,0 +1,83 @@
+[
+  {
+    "command": [
+      "python3",
+      "research/synthetic-ux/tools/validate_pack.py"
+    ],
+    "exit_code": 0,
+    "log": "additional-1.log"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "research/synthetic-ux/tools",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "log": "additional-2.log"
+  },
+  {
+    "command": [
+      "python3",
+      "data/sources/tools/source_audit.py",
+      "validate"
+    ],
+    "exit_code": 0,
+    "log": "additional-3.log"
+  },
+  {
+    "command": [
+      "python3",
+      "data/sources/tools/source_audit.py",
+      "report",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "additional-4.log"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "data/sources/tools",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "log": "additional-5.log"
+  },
+  {
+    "command": [
+      "python3",
+      "design/tools/tokens_css.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "additional-6.log"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "design/tools",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 1,
+    "log": "additional-7.log"
+  }
+]
