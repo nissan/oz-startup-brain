@@ -1,0 +1,101 @@
+{
+  "run_id": "ux26-loki-20261107",
+  "synthetic": true,
+  "pack_version": "0.2",
+  "target_commit": "d3f54e887fb946bccf399f142791ed87e6be1b76",
+  "target_tree": "8bc14aef68ca54c8b0b79db7f8badfb703be8ae5",
+  "deployment_url": "http://127.0.0.1:3110/",
+  "build_match": "verified_local",
+  "build_identity_evidence": "fresh clone pinned SHA; npm ci; npm run build; built apps/web/e2e/serve.mjs starts local API and Next from this checkout; tracked diff empty",
+  "interface_mode": "local fixture",
+  "corpus_version": "fixture-2026-11-05.1",
+  "as_of": "2026-11-05T00:00:00Z",
+  "timezone": "Australia/Sydney",
+  "browser_and_version": "Google Chrome156.0.8078.80, headless, controlled by Playwright1.63.0",
+  "viewport_css_px": [
+    1280,
+    800
+  ],
+  "zoom_percent": null,
+  "input_mode": "keyboard-only T13 actor",
+  "isolation_method": "fresh native actor context (fork_turns=none), dedicated Playwright BrowserContext t13; no inherited facilitator materials",
+  "runner_model": "parent inherited Codex model; exact service build identifier unavailable",
+  "runner_version": "Playwright1.63.0",
+  "sampling_configuration": "Inherited native runtime; not independently exposed",
+  "prompt_version": "actor packet T13 from pack0.2 plus keyboard driver operation contract",
+  "primed_inspection": false,
+  "paid_calls_enabled": false,
+  "tool_limitations": [
+    "External .invalid URLs not locally intercepted; driver does not observe popups",
+    "Actual zoom not measured; no screen reader",
+    "Full-page focus screenshots; no recorded viewport clipping geometry",
+    "Actor focus text can include DOM hidden content; screenshot is supplementary actual-render check"
+  ],
+  "task_variants": [
+    {
+      "id": "T13-base",
+      "status": "blocked_environment",
+      "attempted": true,
+      "meaningful_actions": 23,
+      "completed": false,
+      "successful_subsets": [
+        "keyboard task entry and structured jurisdiction selection",
+        "prerequisite map and text visible",
+        "inline step evidence opened with keyboard",
+        "local route focus retained"
+      ],
+      "unverified": [
+        "publisher-source navigation and return",
+        "panel close",
+        "all actionable items fully operated",
+        "actual viewport clipping and zoom"
+      ]
+    },
+    {
+      "id": "T01-base",
+      "status": "blocked_pending_fixture",
+      "dependency": "#41"
+    },
+    {
+      "id": "T03-base",
+      "status": "blocked_pending_fixture",
+      "dependency": "#41"
+    },
+    {
+      "id": "T05-base",
+      "status": "blocked_pending_fixture",
+      "dependency": "#41"
+    },
+    {
+      "id": "T14-base",
+      "status": "blocked_pending_fixture",
+      "dependency": "#42 and actual zoom #9"
+    },
+    {
+      "id": "T15-vector",
+      "status": "blocked_pending_fixture",
+      "dependency": "#42"
+    },
+    {
+      "id": "T15-budget",
+      "status": "blocked_pending_fixture",
+      "dependency": "#42"
+    },
+    {
+      "id": "T15-graph",
+      "status": "blocked_pending_fixture",
+      "dependency": "#42"
+    }
+  ],
+  "status": "partial_completed_with_blocks",
+  "coverage": {
+    "planned": 8,
+    "preflight_blocked": 7,
+    "attempted": 1,
+    "completed": 0,
+    "assisted": 0,
+    "product_failed": 0,
+    "attempted_environment_limited": 1
+  },
+  "runtime": "Node22.23.0/npm10.9.8"
+}

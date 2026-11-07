@@ -1,0 +1,27 @@
+test_control_that_cannot_be_reached_is_reported (test_a11y_check.A11yCheckTests.test_control_that_cannot_be_reached_is_reported) ... ok
+test_hidden_only_text_gives_no_computed_name (test_a11y_check.A11yCheckTests.test_hidden_only_text_gives_no_computed_name) ... ok
+test_keyboard_trap_is_reported (test_a11y_check.A11yCheckTests.test_keyboard_trap_is_reported) ... ok
+test_label_for_and_aria_labelledby_are_computed_names (test_a11y_check.A11yCheckTests.test_label_for_and_aria_labelledby_are_computed_names) ... ok
+test_missing_focus_ring_is_reported_on_real_keyboard_focus (test_a11y_check.A11yCheckTests.test_missing_focus_ring_is_reported_on_real_keyboard_focus) ... ok
+test_normal_pages_exit_in_both_directions (test_a11y_check.A11yCheckTests.test_normal_pages_exit_in_both_directions) ... ok
+test_real_tab_skips_tabindex_minus_one_and_reaches_the_rest_in_order (test_a11y_check.A11yCheckTests.test_real_tab_skips_tabindex_minus_one_and_reaches_the_rest_in_order) ... ok
+test_reverse_cycle_between_controls_is_reported (test_a11y_check.A11yCheckTests.test_reverse_cycle_between_controls_is_reported) ... ok
+test_reverse_trap_on_the_first_control_is_reported (test_a11y_check.A11yCheckTests.test_reverse_trap_on_the_first_control_is_reported) ... ok
+test_corrupt_font_bytes_fail_in_browser (test_fonts.FontTests.test_corrupt_font_bytes_fail_in_browser) ... ok
+test_heading_and_body_wrap_with_painted_custom_fonts_offline (test_fonts.FontTests.test_heading_and_body_wrap_with_painted_custom_fonts_offline) ... ok
+test_loaded_font_with_unsupported_glyph_cannot_pass (test_fonts.FontTests.test_loaded_font_with_unsupported_glyph_cannot_pass) ... ok
+test_missing_bold_face_cannot_silently_match_regular (test_fonts.FontTests.test_missing_bold_face_cannot_silently_match_regular) ... ok
+test_missing_required_font_file_fails_before_rendering (test_fonts.FontTests.test_missing_required_font_file_fails_before_rendering) ... ok
+test_mixed_text_probe_preserves_computed_glyph_settings (test_fonts.FontTests.test_mixed_text_probe_preserves_computed_glyph_settings) ... ok
+test_package_version_mismatch_fails (test_fonts.FontTests.test_package_version_mismatch_fails) ... ok
+test_all_committed_boards_and_component_previews_render (test_render.RenderRegressionTests.test_all_committed_boards_and_component_previews_render) ... ok
+test_canvas_note_overlapping_a_board_fails (test_render.RenderRegressionTests.test_canvas_note_overlapping_a_board_fails) ... ok
+test_clipped_recovery_control_fails_in_both_themes (test_render.RenderRegressionTests.test_clipped_recovery_control_fails_in_both_themes) ... ok
+test_javascript_error_fails_in_both_themes (test_render.RenderRegressionTests.test_javascript_error_fails_in_both_themes) ... ok
+test_mapped_but_missing_asset_file_fails_in_both_themes (test_render.RenderRegressionTests.test_mapped_but_missing_asset_file_fails_in_both_themes) ... ok
+test_unmapped_asset_id_fails_in_both_themes (test_render.RenderRegressionTests.test_unmapped_asset_id_fails_in_both_themes) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 60.595s
+
+OK

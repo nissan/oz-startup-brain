@@ -1,0 +1,146 @@
+[
+  {
+    "path": "original/summary.md",
+    "sha256": "2e156273205e2138b252d821e1e8400d1c0c472de435e94de3f3e0c4d01b48dd",
+    "bytes": 5204
+  },
+  {
+    "path": "original/t13-actor.md",
+    "sha256": "316080b5c57bcd84da1513e6c39ded7d1eaaaaa7ec44b627a88dd7bac3ea13c5",
+    "bytes": 5091
+  },
+  {
+    "path": "original/independent-review.md",
+    "sha256": "53ba52b7bc50f174aa25dfec566960e51554386be726e930ec895f4d1547e50f",
+    "bytes": 12781
+  },
+  {
+    "path": "original/validation.md",
+    "sha256": "ef68e61853fef34ae4b923f14bd7f6749055b5497f0f97ea017213e98c835c7e",
+    "bytes": 2134
+  },
+  {
+    "path": "original/manifest.json",
+    "sha256": "5f416629286cd5b87de20d3520fabfa61cb0324d494c9d109ec2ff7cc77d25a9",
+    "bytes": 3342
+  },
+  {
+    "path": "original/file-hashes.json",
+    "sha256": "37b0faea8777144cf5f348f868a167514441f792d785047a36b45b20c790c1c9",
+    "bytes": 3514
+  },
+  {
+    "path": "original/trace-index.jsonl",
+    "sha256": "ce5e7400f0679ced15dc1deeac4a22a450b5829cbc56a8a96bc504f14caeea45",
+    "bytes": 7648
+  },
+  {
+    "path": "original/traces.jsonl",
+    "sha256": "610471b6d87a43b4067e4278d07ef0ddb2cd68518ba2551bcb8d857fd7c0b1b5",
+    "bytes": 122425
+  },
+  {
+    "path": "followup/FINAL-SUMMARY.md",
+    "sha256": "100c16f7d7670a0083dfe556de682b312762d108febe58ef182bc26a479d9b29",
+    "bytes": 3485
+  },
+  {
+    "path": "followup/FINAL-REVIEW.md",
+    "sha256": "f56a70114f4406e52c467c33c547597380931313da713b1c1ea9013995a28aea",
+    "bytes": 13824
+  },
+  {
+    "path": "followup/METHOD-NOTES.md",
+    "sha256": "4ba6b3a7358ca020268e790126c7cd96e4fae03a8c59acdd5ddcb494edceb2e5",
+    "bytes": 1964
+  },
+  {
+    "path": "followup/candidate-identities.json",
+    "sha256": "bd15f0f4503b91c3171ff92da58d375ead9dc9b25924687f829e01550f40e491",
+    "bytes": 969
+  },
+  {
+    "path": "followup/final-validation-8c3e.json",
+    "sha256": "c53989c1e7ea480c749e7d502520029a38e6bf5a072b5bf6f4ecb366b8cd2a6e",
+    "bytes": 648
+  },
+  {
+    "path": "followup/t01-r2-actor.md",
+    "sha256": "da24d8c86dd5dad296d72afb62443b7917bffc6439911abe7ba5ec7a29677066",
+    "bytes": 4532
+  },
+  {
+    "path": "followup/t03-actor.md",
+    "sha256": "776d6c3a566ea25a69a2a50a657272eb4bb628c8417b6b28377d5b3852608a06",
+    "bytes": 5007
+  },
+  {
+    "path": "followup/t05-actor.md",
+    "sha256": "2011da20f368f39e430f4fc7ac7ef5e112fbbfe500fa775ce3bba18099d6ab3b",
+    "bytes": 4400
+  },
+  {
+    "path": "followup/t14-light-r3-actor.md",
+    "sha256": "0c38735230e95b5876bee3c3c20f32ae9bff7d718ba6791e3d954fddf2c6e1e9",
+    "bytes": 4694
+  },
+  {
+    "path": "followup/t15-vector-actor.md",
+    "sha256": "53df41e37c5707748aae487fe202840656de5497b77ad41042cb59b3b8039041",
+    "bytes": 4417
+  },
+  {
+    "path": "followup/t15-budget-actor.md",
+    "sha256": "4afa269ce50616fa63b3b689898b7e16305607a2a6980fb2664e118e2cea5c14",
+    "bytes": 4381
+  },
+  {
+    "path": "followup/t15-graph-actor.md",
+    "sha256": "e574ef5a2db1a88ebd9a026ea785989ada1178ccb429675901c717f1f776a426",
+    "bytes": 4814,
+    "original_sha256": "44a6ecf7d977644c02eab7dd32e9d63bb84ed223d4d419bb357324c33e840a72",
+    "normalization": "See path-normalization.json; workstation paths replaced, no result changes."
+  },
+  {
+    "path": "followup/dark-primed-check.md",
+    "sha256": "8e0896f002c0f8061196aab3878e6d5117790ce5dcde7403c7b7396d95681310",
+    "bytes": 719
+  },
+  {
+    "path": "followup/traces.jsonl",
+    "sha256": "e5ad7a2e709da6c1eae0f9b7880e51f391db7ca0d17b1fdaf12b6adcf3408e2a",
+    "bytes": 859137
+  },
+  {
+    "path": "followup/server-phases.jsonl",
+    "sha256": "a302ebec5eddc0d93cc956a95f13033eafdf6e735e48c207720652f2cb2953e2",
+    "bytes": 10855
+  },
+  {
+    "path": "followup/recovery.jsonl",
+    "sha256": "640f7b62af241013831070601ea78aa72d1a9ecbbd14e5aea2f8da2eaabcf27d",
+    "bytes": 2147
+  },
+  {
+    "path": "integration/checks.json",
+    "sha256": "60f85d123dc38a88b4bef6fd2662931da0c4bab778a375d737f7d438a44cec30",
+    "bytes": 1113,
+    "original_sha256": "e2625ef3923ee919172acbc6191cd68eda68c14d985d2287f72e6dda929970ad",
+    "normalization": "See path-normalization.json; workstation paths replaced, no result changes."
+  },
+  {
+    "path": "integration/additional-checks.json",
+    "sha256": "8883be46a47724a2d567ca1586fe3baba2d5dc09ef3bf6a0420bdd4fa010b98b",
+    "bytes": 1338
+  },
+  {
+    "path": "integration/identity.json",
+    "sha256": "4aade92d4026fc305335114d6f9a8cb2b3239e2136777c83a537bc4a8f155c96",
+    "bytes": 251
+  },
+  {
+    "path": "integration/design-final.log",
+    "sha256": "284b5416db4df69a83983eacd6c5d125f48edc0dd79d8bfb2cf8311f2bd11bc8",
+    "bytes": 3114
+  }
+]

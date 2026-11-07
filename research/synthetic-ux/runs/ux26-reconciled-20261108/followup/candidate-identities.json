@@ -1,0 +1,30 @@
+{
+  "identities": {
+    "f8f5fbd5": [
+      "f8f5fbd5db007cbae743ff6fdc88b929f4f5e73e",
+      "82d2e79948be7162150b317a414481b71260e4d8"
+    ],
+    "ccee39ce": [
+      "ccee39ce735c1a5fd3195be0456e0b15966038e8",
+      "dea71b3ca72429b156f3dba52729c51a934da6f5"
+    ],
+    "8c3eaee8": [
+      "8c3eaee88c1f009675417c7ace87244e4fccb30b",
+      "84102505bdf3ebba57ca910a535957b2ee3e4f63"
+    ]
+  },
+  "changed_paths": [
+    "apps/api/fixtures/corpus.json",
+    "apps/api/src/fixture/corpus.ts",
+    "apps/api/src/fixture/responder.ts",
+    "apps/api/test/api-access.spec.ts",
+    "apps/api/test/review-r33.spec.ts",
+    "apps/api/test/scenarios.spec.ts",
+    "apps/web/e2e/journey.spec.ts",
+    "apps/web/src/components/Journey.tsx",
+    "apps/web/src/styles/app.css",
+    "apps/web/test/bff.spec.ts"
+  ],
+  "patch_base_main": "d3f54e887fb946bccf399f142791ed87e6be1b76",
+  "note": "Report-only localefc parent omitted from productpatch; it did not change productpaths."
+}

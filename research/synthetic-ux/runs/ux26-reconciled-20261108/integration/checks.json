@@ -1,0 +1,71 @@
+[
+  {
+    "command": [
+      "npm",
+      "ci"
+    ],
+    "cwd": "<integration-checkout>",
+    "exit_code": 0,
+    "log": "1.log"
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "check:generated"
+    ],
+    "cwd": "<integration-checkout>",
+    "exit_code": 0,
+    "log": "2.log"
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "check:compat"
+    ],
+    "cwd": "<integration-checkout>",
+    "exit_code": 0,
+    "log": "3.log"
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "cwd": "<integration-checkout>",
+    "exit_code": 0,
+    "log": "4.log"
+  },
+  {
+    "command": [
+      "npm",
+      "test"
+    ],
+    "cwd": "<integration-checkout>",
+    "exit_code": 0,
+    "log": "5.log"
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "demo:fixture"
+    ],
+    "cwd": "<integration-checkout>",
+    "exit_code": 0,
+    "log": "6.log"
+  },
+  {
+    "command": [
+      "node",
+      "../../node_modules/@playwright/test/cli.js",
+      "test",
+      "--retries=0"
+    ],
+    "cwd": "<integration-checkout>/apps/web",
+    "exit_code": 0,
+    "log": "7.log"
+  }
+]

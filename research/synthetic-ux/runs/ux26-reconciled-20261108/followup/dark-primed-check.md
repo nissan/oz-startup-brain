@@ -1,0 +1,3 @@
+# Dark-theme actual200% keyboard check
+
+Facilitator-run primed regression, NOT a fresh actor. Unique native profile t14-dark-r2, content1280x800 at100%, inner640x400 at actualbrowserzoom2, outer1280x887; Chrome153. Twenty-one actualkeys exercised Idea→Prototype, structuredJurisdiction→Unknown, currentanswercontext and evidenceopening. Sourceofproof dark-primed-check.json and rawtraces22rows. Assertions passed. Parent visually inspected viewport06(Savevisible) and22(Evidenceheadingfocus), nohorizontaloverflow reported. First darkprimedscript targetedwrongfocusandstopped onassertion; originaltracesretained, no passclaimed forfirstscript. No screenreader/fullaccessibilityacceptance orhumancomprehensionclaim.

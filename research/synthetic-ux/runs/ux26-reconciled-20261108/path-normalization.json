@@ -1,0 +1,14 @@
+[
+  {
+    "path": "followup/t15-graph-actor.md",
+    "original_sha256": "44a6ecf7d977644c02eab7dd32e9d63bb84ed223d4d419bb357324c33e840a72",
+    "published_sha256": "e574ef5a2db1a88ebd9a026ea785989ada1178ccb429675901c717f1f776a426",
+    "normalization": "Replace workstation-specific absolute paths only; actions, results and historical verdict unchanged."
+  },
+  {
+    "path": "integration/checks.json",
+    "original_sha256": "e2625ef3923ee919172acbc6191cd68eda68c14d985d2287f72e6dda929970ad",
+    "published_sha256": "60f85d123dc38a88b4bef6fd2662931da0c4bab778a375d737f7d438a44cec30",
+    "normalization": "Replace workstation-specific absolute paths only; actions, results and historical verdict unchanged."
+  }
+]
