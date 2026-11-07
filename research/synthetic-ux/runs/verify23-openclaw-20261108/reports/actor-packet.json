@@ -1,0 +1,31 @@
+{
+  "actor": {
+    "id": "UX7",
+    "name": "Taylor",
+    "role": "Founder using keyboard navigation and zoom",
+    "context": "Needs a short prerequisite route and sources while using keyboard input and enlarged content.",
+    "starting_facts": {
+      "stage": "working prototype",
+      "jurisdiction": "Queensland",
+      "IP_access": "unknown"
+    },
+    "surface": "Desktop 1280\u00d7800 CSS viewport, keyboard-only; repeat at actual 200% browser zoom if supported. Record zoom separately from viewport.",
+    "disclosure_boundary": "No diagnosis is assigned. This is an input/display constraint, not an emulation of lived disability or a screen-reader user.",
+    "autonomy": "May use documented keyboard controls and text alternatives; no pointer rescue during the unassisted attempt.",
+    "knowledge": "Comfortable with web forms and online research; unfamiliar with this interface.",
+    "preferences": "Uses keyboard navigation and enlarged content. No diagnosis or lived experience is being simulated.",
+    "goal": "Research a prototype route with keyboard and enlarged content."
+  },
+  "task": {
+    "id": "T13",
+    "persona": "UX7",
+    "title": "Navigate the route without a pointer",
+    "brief": "Find the prerequisites for my prototype route, then open a supporting source using only the keyboard.",
+    "follow_up": "Explain the order in words and return to the route without losing your place.",
+    "mode": "browser"
+  },
+  "starting_url": "http://127.0.0.1:3140/",
+  "input_constraints": "keyboard only, 100% zoom, no pointer/direct DOM focus; observation/key/type adapter only",
+  "context": "fresh native child fork_turns=none, /root/t13_fresh_actor",
+  "extension": "After original report: dismiss the evidence panel you opened, leaving the route itself available. Use only visible UI and keyboard. No control location/expected outcome supplied. Label as post-brief extension."
+}

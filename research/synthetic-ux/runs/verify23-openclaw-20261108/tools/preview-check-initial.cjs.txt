@@ -1,0 +1,24 @@
+// Primed static-preview keyboard/actual-zoom observations; not screen-reader or runtime interaction evidence.
+const {chromium}=require('../../../../../node_modules/playwright');const fs=require('fs'),path=require('path'),os=require('os');
+const root=path.resolve(__dirname,'..');
+(async()=>{
+ const ext=path.join(__dirname,'zoom-extension');const c=await chromium.launchPersistentContext(fs.mkdtempSync(path.join(os.tmpdir(),'oz-preview-')),{executablePath:process.env.OZ_VERIFY_CHROME,headless:true,viewport:null,ignoreDefaultArgs:['--disable-extensions'],args:['--window-size=1280,987','--disable-extensions-except='+ext,'--load-extension='+ext]});
+ const sw=c.serviceWorkers()[0]||await c.waitForEvent('serviceworker');const pages=JSON.parse(fs.readFileSync(path.join(root,'reports/design-pages.json')));
+ for(const spec of pages)for(const zoom of [1,2]){
+  const p=await c.newPage();await p.goto('http://127.0.0.1:3141/'+spec.file);await p.waitForTimeout(80);await p.evaluate(()=>document.fonts.ready);
+  const cdp=await c.newCDPSession(p);const win=await cdp.send('Browser.getWindowForTarget');await cdp.send('Browser.setWindowBounds',{windowId:win.windowId,bounds:{width:spec.width,height:987}});
+  const readback=await sw.evaluate(async({url,z})=>{const t=(await chrome.tabs.query({})).find(t=>t.url===url);await chrome.tabs.setZoom(t.id,z);return chrome.tabs.getZoom(t.id)}, {url:p.url(),z:zoom});await p.waitForTimeout(80);
+  const geometry=await p.evaluate(()=>({innerWidth,innerHeight,outerWidth,outerHeight,dpr:devicePixelRatio,scrollWidth:document.documentElement.scrollWidth,scrollHeight:document.documentElement.scrollHeight}));
+  const intended=await p.locator('button,a[href],input,textarea,select,[tabindex]').evaluateAll(es=>es.filter(e=>!e.disabled&&e.tabIndex>=0&&e.getClientRects().length&&getComputedStyle(e).visibility!=='hidden').length);
+  const traces=[];for(const direction of ['Tab','Shift+Tab']){
+   // New page document starts without a scripted focus target. Reverse checks start at last forward control via browser body stop.
+   for(let i=0;i<intended+3;i++){
+    await p.keyboard.press(direction);const f=await p.evaluate(()=>{const e=document.activeElement,s=getComputedStyle(e),r=e.getBoundingClientRect();return {tag:e.tagName,text:e.labels?.[0]?.innerText||e.getAttribute('aria-label')||e.textContent?.trim().slice(0,120),outline:s.outline,focusVisible:e.matches(':focus-visible'),rect:{x:r.x,y:r.y,w:r.width,h:r.height}}});
+    traces.push({key:direction,...f});if(f.tag==='BODY')break;
+   }
+  }
+  const file=spec.name.replace('/','--')+'-zoom'+zoom+'.png';const shot=await cdp.send('Page.captureScreenshot',{format:'png',fromSurface:false,captureBeyondViewport:false});fs.writeFileSync(path.join(root,'evidence',file),Buffer.from(shot.data,'base64'));
+  const row={name:spec.name,zoom:readback,geometry,intended,trace:traces,evidence:'evidence/'+file,artboard:spec.artboard,limitation:spec.artboard?'Fixed design artboard: horizontal scroll at 200% is recorded, not fluid-page reflow failure. Runtime handlers not implemented by preview shim.':'Static component preview: focus/semantics only; not full runtime state/activation or AT evidence.'};fs.appendFileSync(path.join(root,'reports/preview-checks.jsonl'),JSON.stringify(row)+'\n');await cdp.detach();await p.close();console.log(spec.name,zoom,intended);
+ }
+ await c.close();
+})().catch(e=>{console.error(e);process.exitCode=1});
