@@ -7,6 +7,7 @@ Start with [the Stage 1 decision report](audit-report.md), then the [generated i
 | `article-bibliography.json` | Version 0.3: all 135 original discovery IDs, URLs and titles preserved, with provisional publisher/class/jurisdiction and explicit pilot dispositions. It records the owner's Queensland decision and any reviewed retrieved versions. |
 | `rights-evidence.json` | Dated publisher-policy triage, exclusions and attribution requirements; not blanket legal clearance |
 | `audits/2026-11-06-web-observations.json` | One provider-mediated open observation per URL, including failures, reported redirects and crawl labels |
+| `release/README.md`, `release/decisions.json` | The owner decision package for Stage 1 gates 4–5: Queensland retrieval route, per-page use/retention/attribution, 26 human fact checks and release scope. Every decision and result is `null` until recorded with Nissan's GitHub decision link. `tools/release_decisions.py` (run by `source_audit.py validate`) rejects invented approval, fact checks by agents and copied source text. |
 | `audits/retrieval-*.json` | Format-2 retrieval logs for selected sources (hashes, version IDs and snapshot references; never bodies), listed in `audit.retrievals` |
 | `audits/2026-11-06-direct-attempts.json` | One raw-fetch attempt per URL; all stopped at DNS preflight in this runtime, before an HTTP request |
 | `audits/2026-11-06-inventory.md` | Deterministic counts, coverage, shortlist and complete disposition table |

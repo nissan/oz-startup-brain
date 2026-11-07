@@ -341,6 +341,9 @@ def main():
     errors = retrieval_errors + validate(m,o,policies,retrievals)
     attempts = read(args.root/m['audit']['direct_attempts'])['attempts']
     errors += validate_attempts(m,attempts)
+    # Pending owner decisions and human fact checks (#28 gates 4-5); refuses invented approval.
+    import release_decisions
+    errors += release_decisions.load_and_validate(args.root)
     if errors:
         raise SystemExit('\n'.join(errors))
     if args.command == 'summary':
