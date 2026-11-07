@@ -5,7 +5,7 @@ Written by the #25 builder for the facilitator who runs the first synthetic roun
 ## Build identity
 
 - Repository `nissan/oz-startup-brain`, PR #39 (issue #25) foundation, updated by PR #47 (Refs #26/#43). Pin the exact candidate or merged commit in the session record; do not run a round against a moving branch.
-- Fixture corpus `fixture-2026-11-07.1`, pinned clock `2026-11-07T00:00:00Z`, design system artifact version `1793913295-8883` consumed as committed.
+- Fixture corpus `fixture-2026-11-07.1`, default pinned clock `2026-11-05T00:00:00Z`, design system artifact version `1793913295-8883` consumed as committed.
 - The fonts are the pinned Fontsource faces; painted-font verification is part of the browser tests at this commit.
 
 ## Start and reset
@@ -59,7 +59,7 @@ Starter tasks prefill these questions; typing them is equivalent.
 | Task | Variant(s) | Builder's note |
 | --- | --- | --- |
 | T01 (P1) | T01-base | All three required capabilities present. The explicit-Unknown route is the "What should I do next for support?" question with "Keep as unknown". |
-| T03 (P2) | T03-base | Needs the pinned fixture time; the default clock is already `2026-11-07`. The future-effective qualifier appears on the A2 question; sourced vs editorial sequencing on the support question with Queensland. Previously `blocked_pending_test_controls`; the controls now exist (#24), so preflight can reassess. |
+| T03 (P2) | T03-base | Needs the pinned fixture time; the default clock is `2026-11-05`; use the explicit facilitator-only clock override for attempts requiring another date. The future-effective qualifier appears on the A2 question; sourced vs editorial sequencing on the support question with Queensland. Previously `blocked_pending_test_controls`; the controls now exist (#24), so preflight can reassess. |
 | T05 (P3) | T05-base | Phone viewport is emulated. "Outside current coverage" is reached by setting a state other than Queensland. |
 | T13 (UX7) | T13-base | Keyboard route and textual sequence are present. No screen reader was run by the builder; that remains #9. |
 | T14 (UX7) | T14-base | Context correction by keyboard works; real browser zoom at 200% is a runner facility to demonstrate. |
