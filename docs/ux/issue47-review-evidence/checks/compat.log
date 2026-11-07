@@ -1,0 +1,9 @@
+
+> check:compat
+> npm run build -w @ozsb/contracts && node packages/contracts/scripts/check-compat.mjs docs/api/openapi.v1.baseline.json docs/api/openapi.json
+
+
+> @ozsb/contracts@1.0.0 build
+> tsc -p tsconfig.build.json
+
+docs/api/openapi.json is compatible with the v1 baseline (docs/api/openapi.v1.baseline.json).

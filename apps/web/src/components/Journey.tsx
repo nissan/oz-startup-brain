@@ -170,7 +170,8 @@ export function Journey() {
     }
   }, [selectedSourceIds.join('|'), sources]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const stale = !!(failure && result);
+  const contextMismatch = !!result && (result.context.stage !== context.stage || result.context.jurisdiction !== context.jurisdiction);
+  const stale = !!result && !pending && (!!failure || contextMismatch);
   const service = envelope ? serviceStatus(envelope) : null;
   const nodes = envelope ? sequenceNodes(envelope) : null;
   const supportedTasks = caps?.supported_tasks ?? (['next_step', 'round_status', 'requirements_today'] as const);
@@ -303,7 +304,7 @@ export function Journey() {
           <ContextEditor<Stage>
             field="Stage"
             legend="How far along is it?"
-            help="Stage is recorded with your question. The fixture corpus does not yet change its answer by stage."
+            help="Stage is recorded with your question. Supported fictional Idea and Prototype routes can differ; other stages use a limited default route."
             options={STAGES}
             value={context.stage}
             onSave={(v) => saveContext({ stage: v })}
@@ -348,7 +349,7 @@ export function Journey() {
           <p className="stale" role="status">
             <strong>Stale</strong>
             <span>
-              Showing your earlier answer to &ldquo;{result.question}&rdquo; from {result.askedAt.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}. The latest request did not complete, so it has not been updated.
+              Showing your earlier answer {result.context.stage === undefined ? 'with no stage selected' : `for the ${stageLabel(result.context.stage)} stage`} to &ldquo;{result.question}&rdquo; from {result.askedAt.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}. This is not an updated answer for your current context (Stage: {context.stage === undefined ? 'Not set' : stageLabel(context.stage)}; Jurisdiction: {context.jurisdiction === undefined ? 'Not set' : jurisdictionLabel(context.jurisdiction)}).
             </span>
           </p>
         ) : null}
@@ -383,6 +384,9 @@ export function Journey() {
         {!pending && envelope && answer ? (
           <div className="results">
             <div className="results__main">
+              <p className="section__caption">
+                Answer context — Stage: {result?.context.stage === undefined ? 'Not set' : stageLabel(result.context.stage)} · Jurisdiction: {result?.context.jurisdiction === undefined ? 'Not set' : jurisdictionLabel(result.context.jurisdiction)}
+              </p>
               <p className="summary">{answer.summary}</p>
               {service ? <StatusNotice status={service.status} detail={service.detail} /> : null}
               {answer.actions.length ? (
@@ -412,6 +416,15 @@ export function Journey() {
               ) : (
                 <p className="empty">No action is recommended today. The conditions below say why.</p>
               )}
+              {/* Local editorial help is deliberately separate from sourced claims and excerpts. */}
+              <details className="terms-help">
+                <summary>Terms in plain language</summary>
+                <div className="section">
+                  <p className="section__caption">Editorial explanation — not a source excerpt or an eligibility check.</p>
+                  <p><strong>Commercialisation</strong> means turning an idea or research into a product or service people can use or buy. A university commercialisation office can help check the route and IP questions; this does not establish IP ownership or eligibility.</p>
+                  <p><strong>Matched contribution</strong> means funding or other resources an applicant may need to provide alongside support. Whether it applies, what qualifies and how much are not established here; check the relevant guidelines.</p>
+                </div>
+              </details>
               {envelope.unresolved_conditions.length ? (
                 <section className="section" aria-labelledby="conditions-heading">
                   <h3 id="conditions-heading" className="section__title" style={{ fontSize: 17, lineHeight: '24px' }}>
@@ -437,7 +450,11 @@ export function Journey() {
                 {nodes && nodes.length ? (
                   <>
                     <PrerequisiteMap nodes={nodes} />
-                    <p className="section__caption">Steps marked &ldquo;Suggested next step&rdquo; are editorial sequencing, not a documented requirement.</p>
+                    <div className="section" aria-label="How to read these steps">
+                      <p className="section__caption"><strong>Requirement:</strong> A source-stated requirement says what must be in place before applying. Keep its dates and qualifiers in view.</p>
+                      <p className="section__caption"><strong>Preparation:</strong> A suggested preparation step helps you get ready; its place in this list is not an extra eligibility rule. Steps marked &ldquo;Suggested next step&rdquo; are editorial sequencing, not a documented requirement.</p>
+                      <p className="section__caption">For example, customer-interest evidence can appear in both: the requirement is to have it, and the preparation step is to gather it. That overlap is not a source disagreement.</p>
+                    </div>
                     {/* Every step's evidence is reachable, including steps no action card cites. */}
                     <ul className="step-evidence" aria-label="Evidence for each step">
                       {answer.prerequisite_sequence!.map((step) => {

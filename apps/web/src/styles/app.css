@@ -67,7 +67,8 @@ a:hover { color: var(--ink); }
   .results__aside .evidence-panel--aside { display: none; }
 }
 .claims { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-.claims__item { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--hairline); border-radius: var(--radius-md); background: var(--paper-raised); font-size: 15px; line-height: 22px; }
+/* Source URLs and authored claims must wrap within the evidence column, not set its min-content width. */
+.claims__item { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; overflow-wrap: anywhere; gap: 4px; padding: 12px; border: 1px solid var(--hairline); border-radius: var(--radius-md); background: var(--paper-raised); font-size: 15px; line-height: 22px; }
 .claims__meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 14px; line-height: 20px; color: var(--ink-muted); }
 .claims__qualifier { color: var(--ink); font-weight: 700; }
 .conditions { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; max-width: 688px; }
@@ -98,3 +99,10 @@ a:hover { color: var(--ink); }
 @media (max-width: 480px) { .step-evidence__toggle { min-height: 44px; } }
 .evidence-panel--step { padding: 16px; border: 1px solid var(--ironbark); border-radius: var(--radius-lg); background: var(--paper); }
 .evidence-panel__source { display: flex; flex-direction: column; gap: 6px; }
+
+/* Quiet editorial help, visually distinct from source cards and evidence-state badges. */
+.terms-help { border-block: 1px solid var(--hairline); padding: 4px 0; }
+.terms-help > summary { min-height: 44px; padding: 10px 0; color: var(--ink); font-size: 17px; line-height: 24px; font-weight: 700; cursor: pointer; }
+.terms-help[open] > summary { margin-bottom: 8px; }
+.terms-help > .section { padding-bottom: 12px; }
+.terms-help p { margin: 0; }

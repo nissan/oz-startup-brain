@@ -102,9 +102,78 @@ describe('fixture responder through the API', () => {
     expect(security.qualifier_text).toBe('Takes effect from 1 December 2026');
     const future = e.unresolved_conditions.find((c) => c.reason === 'future_effective')!;
     expect(future.text).toMatch(/^Takes effect from 1 December 2026: .* It is not a requirement or action today\.$/);
-    // A source class that normally states dates but omits one carries the caveat rather than an invented date.
-    expect(claim(e, 'clm_a2_eligibility')!.qualifier_text).toBe('Effective date not stated');
-    expect(codes(e)).toContain('effective_date_not_stated');
+    // The revised fictional guideline explicitly dates the current eligibility condition.
+    expect(claim(e, 'clm_a2_eligibility')!.applicability).toBe('current');
+    expect(claim(e, 'clm_a2_eligibility')!.qualifier_text).toBeNull();
+    expect(codes(e)).not.toContain('effective_date_not_stated');
+  });
+
+  it.each(['university AI project support', 'university prototype support', 'commercialisation help'])('retrieves national university contact and unresolved contribution for %s without reasking Unknown', async (question) => {
+    const e = await ask(question, { jurisdiction: 'unknown' });
+    expect(e.status).toBe('answer');
+    expect(e.clarification).toBeNull();
+    expect(actionIds(e)).toContain('act_confirm_ip');
+    expect(claim(e, 'clm_university_contact')!.evidence_state).toBe('checked');
+    expect(claim(e, 'clm_matched_contribution')).toBeDefined();
+    expect(e.unresolved_conditions).toContainEqual(expect.objectContaining({ field: 'matched_contribution', reason: 'not_in_evidence' }));
+  });
+
+  it('A2 preparation distinguishes sourced and editorial steps and excludes future security', async () => {
+    const e = await ask('What does A2 require today?');
+    expect(e.answer!.summary).toContain('scheduled to open on 1 December 2026');
+    expect(e.answer!.prerequisite_sequence!.map((s) => s.assertion_kind)).toEqual(['sourced', 'editorial']);
+    expect(e.answer!.prerequisite_sequence!.some((s) => /security/.test(s.label))).toBe(false);
+    expect(e.unresolved_conditions).toContainEqual(expect.objectContaining({ field: 'matched_contribution', reason: 'not_in_evidence' }));
+  });
+
+  it('preserves exact authored initial T01/T03/T05 tasks without inferring stage from prose', async () => {
+    const questions = [
+      'I have a university AI prototype. What should I check before applying for support? I do not know who owns the IP and want to leave my jurisdiction unknown.',
+      'I have a prototype and early customer discussions. Help me work out what needs attention before I apply for Round A2 today.',
+      'I am building a software prototype in Gympie. I need a local or remote support route, not a long national list.',
+    ];
+    for (const question of questions) {
+      const e = await ask(question, { jurisdiction: 'unknown' });
+      expect(e.status).toBe('answer');
+      expect(e.confirmed_context.stage).toBeUndefined();
+    }
+  });
+
+  it.each(['Is AI regulated in Australia?', 'Can I patent my prototype?', 'Which university ranks highest?', 'How do AI models work?'])('does not turn off-topic question %s into support advice', async (question) => {
+    const e = await ask(question, { jurisdiction: 'QLD' });
+    expect(e.status).toBe('insufficient_evidence');
+    expect(e.answer).toBeNull();
+    expect(e.clarification).toBeNull();
+  });
+
+  it('Gympie is an explicitly uncovered locality with a readable static directory, not a state hub match', async () => {
+    const e = await ask('What support is there in Gympie?', { jurisdiction: 'QLD' });
+    expect(actionIds(e)).toEqual(['act_static_directory']);
+    expect(e.answer!.summary).toContain('outside this fixture’s local coverage');
+    expect(e.unresolved_conditions).toContainEqual(expect.objectContaining({ reason: 'outside_coverage', field: 'locality' }));
+    const full = JSON.stringify(e);
+    expect(full).toContain('STATIC FICTIONAL SOURCE DIRECTORY');
+    expect(full).toContain('remote sessions');
+    for (const question of ['What support is there in Toowoomba?', 'What support is there in QLD?', 'Gympieville support']) {
+      expect(actionIds(await ask(question, { jurisdiction: 'QLD' }))).not.toContain('act_static_directory');
+    }
+  });
+
+  it('only structured supported stages select authored routes; graph failure omits every dependency', async () => {
+    const idea = await ask('prototype support', { jurisdiction: 'QLD', stage: 'idea' });
+    const prototype = await ask('idea support', { jurisdiction: 'QLD', stage: 'prototype' });
+    expect(actionIds(idea)[0]).toBe('act_idea_discovery');
+    expect(actionIds(prototype)[0]).toBe('act_prototype_evidence');
+    for (const context of [{ jurisdiction: 'QLD' }, { jurisdiction: 'QLD', stage: 'unknown' }, { jurisdiction: 'QLD', stage: 'early_revenue' }] as Record<string, string>[]) {
+      const e = await ask('prototype support', context);
+      expect(actionIds(e)[0]).toBe('act_hub_session');
+      expect(e.unresolved_conditions).toContainEqual(expect.objectContaining({ field: 'stage', reason: 'not_in_evidence' }));
+    }
+    rt.harness.set({ fault: 'graph_unavailable' });
+    const degraded = await ask('support', { jurisdiction: 'QLD', stage: 'prototype' });
+    expect(degraded.retrieval_mode).toBe('fixture_passages_only');
+    expect(degraded.answer!.prerequisite_sequence).toBeNull();
+    expect(actionIds(degraded)[0]).toBe('act_prototype_evidence');
   });
 
   it('closed round: abstains from recommending an application to a round that has closed', async () => {

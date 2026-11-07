@@ -1,0 +1,203 @@
+[WebServer] (node:65703) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:65706) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:65709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:65720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:65722) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › e2e/journey.spec.ts:477:5 › PR47 held follow-up hides earlier answer without claiming it is displayed (6.2s)
+(node:65789) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [desktop] › e2e/journey.spec.ts:497:7 › PR47 A2 and stage routes fit SVG bounds at 390px (849ms)
+(node:65794) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [desktop] › e2e/journey.spec.ts:497:7 › PR47 A2 and stage routes fit SVG bounds at 768px (852ms)
+(node:65799) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [desktop] › e2e/journey.spec.ts:497:7 › PR47 A2 and stage routes fit SVG bounds at 1280px (856ms)
+
+
+  1) [desktop] › e2e/journey.spec.ts:477:5 › PR47 held follow-up hides earlier answer without claiming it is displayed
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.stale')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.stale') with timeout 5000ms
+      - waiting for locator('.stale')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      485 |   await expect(page.locator('.waiting')).toBeVisible();
+      486 |   try {
+    > 487 |     await expect(page.locator('.stale')).toHaveCount(0);
+          |                                          ^
+      488 |     await expect(page.getByText(/^Answer context —/)).toHaveCount(0);
+      489 |   } finally { release(); }
+      490 |   await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+        at $REPO/apps/web/e2e/journey.spec.ts:487:42
+
+    Error Context: test-results/journey-PR47-held-follow-u-47164-ut-claiming-it-is-displayed-desktop/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/journey-PR47-held-follow-u-47164-ut-claiming-it-is-displayed-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/journey-PR47-held-follow-u-47164-ut-claiming-it-is-displayed-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › e2e/journey.spec.ts:497:7 › PR47 A2 and stage routes fit SVG bounds at 390px ──────
+
+    Error: a2 light 390
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 16
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "bottom": 47,
+    +     "right": 470.53125,
+    +     "text": "Prepare a workingprototype and customer-interest evidence before applying",
+    +     "x": 56,
+    +     "y": 11,
+    +   },
+    +   Object {
+    +     "bottom": 103,
+    +     "right": 414.515625,
+    +     "text": "Suggested preparation:check IP ownership and gather customer evidence",
+    +     "x": 56,
+    +     "y": 67,
+    +   },
+    + ]
+
+      519 |       // Capture before assertion so the failing baseline also leaves its actual rendered defect.
+      520 |       await page.locator('.results').screenshot({ path: join(EVIDENCE, `pr47-${test.info().project.name}-${stage}-${width}-${theme}.png`) });
+    > 521 |       expect(overflow, `${stage} ${theme} ${width}`).toEqual([]);
+          |                                                      ^
+      522 |     }
+      523 |   });
+      524 | }
+        at $REPO/apps/web/e2e/journey.spec.ts:521:54
+
+    Error Context: test-results/journey-PR47-A2-and-stage-routes-fit-SVG-bounds-at-390px-desktop/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/journey-PR47-A2-and-stage-routes-fit-SVG-bounds-at-390px-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/journey-PR47-A2-and-stage-routes-fit-SVG-bounds-at-390px-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › e2e/journey.spec.ts:497:7 › PR47 A2 and stage routes fit SVG bounds at 768px ──────
+
+    Error: a2 light 768
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 16
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "bottom": 47.102667808532715,
+    +     "right": 470.4013977050781,
+    +     "text": "Prepare a workingprototype and customer-interest evidence before applying",
+    +     "x": 56,
+    +     "y": 10.640666007995605,
+    +   },
+    +   Object {
+    +     "bottom": 103.1026611328125,
+    +     "right": 414.4064025878906,
+    +     "text": "Suggested preparation:check IP ownership and gather customer evidence",
+    +     "x": 56,
+    +     "y": 66.64066314697266,
+    +   },
+    + ]
+
+      519 |       // Capture before assertion so the failing baseline also leaves its actual rendered defect.
+      520 |       await page.locator('.results').screenshot({ path: join(EVIDENCE, `pr47-${test.info().project.name}-${stage}-${width}-${theme}.png`) });
+    > 521 |       expect(overflow, `${stage} ${theme} ${width}`).toEqual([]);
+          |                                                      ^
+      522 |     }
+      523 |   });
+      524 | }
+        at $REPO/apps/web/e2e/journey.spec.ts:521:54
+
+    Error Context: test-results/journey-PR47-A2-and-stage-routes-fit-SVG-bounds-at-768px-desktop/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/journey-PR47-A2-and-stage-routes-fit-SVG-bounds-at-768px-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/journey-PR47-A2-and-stage-routes-fit-SVG-bounds-at-768px-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [desktop] › e2e/journey.spec.ts:497:7 › PR47 A2 and stage routes fit SVG bounds at 1280px ─────
+
+    Error: a2 light 1280
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 16
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "bottom": 47,
+    +     "right": 470.53125,
+    +     "text": "Prepare a workingprototype and customer-interest evidence before applying",
+    +     "x": 56,
+    +     "y": 11,
+    +   },
+    +   Object {
+    +     "bottom": 103,
+    +     "right": 414.515625,
+    +     "text": "Suggested preparation:check IP ownership and gather customer evidence",
+    +     "x": 56,
+    +     "y": 67,
+    +   },
+    + ]
+
+      519 |       // Capture before assertion so the failing baseline also leaves its actual rendered defect.
+      520 |       await page.locator('.results').screenshot({ path: join(EVIDENCE, `pr47-${test.info().project.name}-${stage}-${width}-${theme}.png`) });
+    > 521 |       expect(overflow, `${stage} ${theme} ${width}`).toEqual([]);
+          |                                                      ^
+      522 |     }
+      523 |   });
+      524 | }
+        at $REPO/apps/web/e2e/journey.spec.ts:521:54
+
+    Error Context: test-results/journey-PR47-A2-and-stage-routes-fit-SVG-bounds-at-1280px-desktop/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/journey-PR47-A2-and-stage-routes-fit-SVG-bounds-at-1280px-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/journey-PR47-A2-and-stage-routes-fit-SVG-bounds-at-1280px-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    [desktop] › e2e/journey.spec.ts:477:5 › PR47 held follow-up hides earlier answer without claiming it is displayed
+    [desktop] › e2e/journey.spec.ts:497:7 › PR47 A2 and stage routes fit SVG bounds at 390px ───────
+    [desktop] › e2e/journey.spec.ts:497:7 › PR47 A2 and stage routes fit SVG bounds at 768px ───────
+    [desktop] › e2e/journey.spec.ts:497:7 › PR47 A2 and stage routes fit SVG bounds at 1280px ──────

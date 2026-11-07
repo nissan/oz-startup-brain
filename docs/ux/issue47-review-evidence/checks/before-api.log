@@ -1,0 +1,108 @@
+
+> @ozsb/api@0.1.0 test
+> jest --runInBand --testPathPattern=scenarios
+
+FAIL test/scenarios.spec.ts
+  fixture responder through the API
+    ✓ clarification: asks once for an unconfirmed route-changing field and offers Unknown (33 ms)
+    ✓ explicit Unknown (SC22 fixture evidence): never re-asks, shows national routes only and says what was left out (7 ms)
+    ✓ does not infer jurisdiction from the question text (2 ms)
+    ✓ confirmed QLD: includes the state route, the sourced step and editorial steps labelled as suggestions (1 ms)
+    ✓ outside coverage: says so instead of answering for the state (2 ms)
+    ✓ future-effective (SC23 fixture evidence): a requirement that takes effect later is dated, not a requirement today (1 ms)
+    ✓ retrieves national university contact and unresolved contribution for university AI project without reasking Unknown (2 ms)
+    ✓ retrieves national university contact and unresolved contribution for university prototype without reasking Unknown (1 ms)
+    ✓ retrieves national university contact and unresolved contribution for commercialisation help without reasking Unknown (2 ms)
+    ✓ A2 preparation distinguishes sourced and editorial steps and excludes future security (1 ms)
+    ✕ does not turn off-topic question Is AI regulated in Australia? into support advice (2 ms)
+    ✕ does not turn off-topic question Can I patent my prototype? into support advice (1 ms)
+    ✕ does not turn off-topic question Which university ranks highest? into support advice (1 ms)
+    ✕ does not turn off-topic question How do AI models work? into support advice (1 ms)
+    ✓ Gympie is an explicitly uncovered locality with a readable static directory, not a state hub match (2 ms)
+    ✓ only structured supported stages select authored routes; graph failure omits every dependency (5 ms)
+    ✓ closed round: abstains from recommending an application to a round that has closed (1 ms)
+    ✓ stale evidence is never stated as current (1 ms)
+    ✓ insufficient_evidence: a question the corpus cannot support gets no answer, as an HTTP 200 domain result (1 ms)
+    ✓ treats instructions in the question as data (1 ms)
+    ✓ is deterministic for the same request at the same clock (2 ms)
+
+  ● fixture responder through the API › does not turn off-topic question Is AI regulated in Australia? into support advice
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "insufficient_evidence"
+    Received: "answer"
+
+      129 |   it.each(['Is AI regulated in Australia?', 'Can I patent my prototype?', 'Which university ranks highest?', 'How do AI models work?'])('does not turn off-topic question %s into support advice', async (question) => {
+      130 |     const e = await ask(question, { jurisdiction: 'QLD' });
+    > 131 |     expect(e.status).toBe('insufficient_evidence');
+          |                      ^
+      132 |     expect(e.answer).toBeNull();
+      133 |     expect(e.clarification).toBeNull();
+      134 |   });
+
+      at test/scenarios.spec.ts:131:22
+
+  ● fixture responder through the API › does not turn off-topic question Can I patent my prototype? into support advice
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "insufficient_evidence"
+    Received: "answer"
+
+      129 |   it.each(['Is AI regulated in Australia?', 'Can I patent my prototype?', 'Which university ranks highest?', 'How do AI models work?'])('does not turn off-topic question %s into support advice', async (question) => {
+      130 |     const e = await ask(question, { jurisdiction: 'QLD' });
+    > 131 |     expect(e.status).toBe('insufficient_evidence');
+          |                      ^
+      132 |     expect(e.answer).toBeNull();
+      133 |     expect(e.clarification).toBeNull();
+      134 |   });
+
+      at test/scenarios.spec.ts:131:22
+
+  ● fixture responder through the API › does not turn off-topic question Which university ranks highest? into support advice
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "insufficient_evidence"
+    Received: "answer"
+
+      129 |   it.each(['Is AI regulated in Australia?', 'Can I patent my prototype?', 'Which university ranks highest?', 'How do AI models work?'])('does not turn off-topic question %s into support advice', async (question) => {
+      130 |     const e = await ask(question, { jurisdiction: 'QLD' });
+    > 131 |     expect(e.status).toBe('insufficient_evidence');
+          |                      ^
+      132 |     expect(e.answer).toBeNull();
+      133 |     expect(e.clarification).toBeNull();
+      134 |   });
+
+      at test/scenarios.spec.ts:131:22
+
+  ● fixture responder through the API › does not turn off-topic question How do AI models work? into support advice
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "insufficient_evidence"
+    Received: "answer"
+
+      129 |   it.each(['Is AI regulated in Australia?', 'Can I patent my prototype?', 'Which university ranks highest?', 'How do AI models work?'])('does not turn off-topic question %s into support advice', async (question) => {
+      130 |     const e = await ask(question, { jurisdiction: 'QLD' });
+    > 131 |     expect(e.status).toBe('insufficient_evidence');
+          |                      ^
+      132 |     expect(e.answer).toBeNull();
+      133 |     expect(e.clarification).toBeNull();
+      134 |   });
+
+      at test/scenarios.spec.ts:131:22
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 17 passed, 21 total
+Snapshots:   0 total
+Time:        1.276 s
+Ran all test suites matching /scenarios/i.
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path $REPO/apps/api
+npm error workspace @ozsb/api@0.1.0
+npm error location $REPO/apps/api
+npm error command failed
+npm error command sh -c jest --runInBand --testPathPattern=scenarios

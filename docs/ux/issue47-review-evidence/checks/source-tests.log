@@ -1,0 +1,64 @@
+test_committed_requests_are_valid (test_retrieval_request.RetrievalRequestTests.test_committed_requests_are_valid) ... ok
+test_pending_until_log_committed (test_retrieval_request.RetrievalRequestTests.test_pending_until_log_committed) ... ok
+test_rejections (test_retrieval_request.RetrievalRequestTests.test_rejections) ... ok
+test_expected_sections_tables_and_qualifiers (test_source_audit.ExtractionTests.test_expected_sections_tables_and_qualifiers) ... ok
+test_reject_real_url (test_source_audit.ExtractionTests.test_reject_real_url) ... ok
+test_reject_unclosed_table (test_source_audit.ExtractionTests.test_reject_unclosed_table) ... ok
+test_cached_observation_not_raw_or_verified (test_source_audit.InventoryTests.test_cached_observation_not_raw_or_verified) ... ok
+test_changed_discovery_url_is_rejected (test_source_audit.InventoryTests.test_changed_discovery_url_is_rejected) ... ok
+test_committed_inventory_and_report (test_source_audit.InventoryTests.test_committed_inventory_and_report) ... ok
+test_direct_attempts_cover_inventory (test_source_audit.InventoryTests.test_direct_attempts_cover_inventory) ... ok
+test_failed_attempt_cannot_create_version (test_source_audit.InventoryTests.test_failed_attempt_cannot_create_version) ... ok
+test_failure_requires_reason (test_source_audit.InventoryTests.test_failure_requires_reason) ... ok
+test_http_status_not_invented (test_source_audit.InventoryTests.test_http_status_not_invented) ... ok
+test_licence_does_not_approve_ingestion (test_source_audit.InventoryTests.test_licence_does_not_approve_ingestion) ... ok
+test_missing_and_duplicate_records (test_source_audit.InventoryTests.test_missing_and_duplicate_records) ... ok
+test_missing_classification (test_source_audit.InventoryTests.test_missing_classification) ... ok
+test_missing_observation (test_source_audit.InventoryTests.test_missing_observation) ... ok
+test_owner_decision_is_a_linked_dated_record (test_source_audit.InventoryTests.test_owner_decision_is_a_linked_dated_record) ... ok
+test_owner_decision_not_fabricated (test_source_audit.InventoryTests.test_owner_decision_not_fabricated) ... ok
+test_real_calendar_dates (test_source_audit.InventoryTests.test_real_calendar_dates) ... ok
+test_rights_without_policy (test_source_audit.InventoryTests.test_rights_without_policy) ... ok
+test_unknown_jurisdiction (test_source_audit.InventoryTests.test_unknown_jurisdiction) ... ok
+test_failed_response_writes_no_snapshot (test_source_audit.ProxyTransportTests.test_failed_response_writes_no_snapshot) ... ok
+test_http_error_records_the_answering_url (test_source_audit.ProxyTransportTests.test_http_error_records_the_answering_url) ... ok
+test_proxy_transport_does_not_resolve_locally (test_source_audit.ProxyTransportTests.test_proxy_transport_does_not_resolve_locally) ... ok
+test_proxy_transport_needs_a_configured_proxy (test_source_audit.ProxyTransportTests.test_proxy_transport_needs_a_configured_proxy) ... ok
+test_redirect_target_is_fetched_and_recorded_beside_identity (test_source_audit.ProxyTransportTests.test_redirect_target_is_fetched_and_recorded_beside_identity) ... $HOME/.pyenv/versions/3.14.3/lib/python3.14/tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 403: 'Forbidden'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+ok
+test_shape_checks_still_apply_without_resolution (test_source_audit.ProxyTransportTests.test_shape_checks_still_apply_without_resolution) ... ok
+test_snapshot_folder_must_be_ignored_or_outside_repo (test_source_audit.ProxyTransportTests.test_snapshot_folder_must_be_ignored_or_outside_repo) ... ok
+test_snapshot_written_once_and_referenced_by_version (test_source_audit.ProxyTransportTests.test_snapshot_written_once_and_referenced_by_version) ... ok
+test_backed_and_reviewed_version_passes (test_source_audit.RetrievedVersionTests.test_backed_and_reviewed_version_passes) ... ok
+test_challenge_page_cannot_become_a_version (test_source_audit.RetrievedVersionTests.test_challenge_page_cannot_become_a_version) ... ok
+test_committed_versions_need_their_committed_logs (test_source_audit.RetrievedVersionTests.test_committed_versions_need_their_committed_logs) ... ok
+test_hash_or_time_drift_rejected (test_source_audit.RetrievedVersionTests.test_hash_or_time_drift_rejected) ... ok
+test_only_shortlisted_sources (test_source_audit.RetrievedVersionTests.test_only_shortlisted_sources) ... ok
+test_retrieval_log_rules (test_source_audit.RetrievedVersionTests.test_retrieval_log_rules) ... ok
+test_unreviewed_version_rejected (test_source_audit.RetrievedVersionTests.test_unreviewed_version_rejected) ... ok
+test_version_still_not_clearance_or_verification (test_source_audit.RetrievedVersionTests.test_version_still_not_clearance_or_verification) ... ok
+test_version_without_log_record_rejected (test_source_audit.RetrievedVersionTests.test_version_without_log_record_rejected) ... ok
+test_codex_reproduction_rejected (test_source_audit.ReviewFortyPromotionMetadata.test_codex_reproduction_rejected) ... ok
+test_committed_records_remain_valid (test_source_audit.ReviewFortyPromotionMetadata.test_committed_records_remain_valid) ... ok
+test_each_incoherence_rejected (test_source_audit.ReviewFortyPromotionMetadata.test_each_incoherence_rejected) ... ok
+test_invalid_run_bounds_rejected_through_the_full_path (test_source_audit.ReviewFortyPromotionMetadata.test_invalid_run_bounds_rejected_through_the_full_path)
+Codex re-review r2: absent, malformed or timezone-less run bounds must fail closed, not skip containment. ... ok
+test_committed_logs_keep_their_original_header_and_carry_a_correction (test_source_audit.ReviewFortyRegressions.test_committed_logs_keep_their_original_header_and_carry_a_correction) ... ok
+test_credentialed_proxy_refused (test_source_audit.ReviewFortyRegressions.test_credentialed_proxy_refused) ... ok
+test_direct_format2_records_the_agent_it_sends (test_source_audit.ReviewFortyRegressions.test_direct_format2_records_the_agent_it_sends) ... ok
+test_existing_version_is_never_replaced (test_source_audit.ReviewFortyRegressions.test_existing_version_is_never_replaced) ... ok
+test_mid_write_failure_leaves_no_file_and_no_version (test_source_audit.ReviewFortyRegressions.test_mid_write_failure_leaves_no_file_and_no_version) ... ok
+test_no_proxy_cannot_bypass_the_configured_proxy (test_source_audit.ReviewFortyRegressions.test_no_proxy_cannot_bypass_the_configured_proxy) ... ok
+test_dns_failure_has_no_version (test_source_audit.TransportTests.test_dns_failure_has_no_version) ... ok
+test_local_or_credential_urls_rejected (test_source_audit.TransportTests.test_local_or_credential_urls_rejected) ... ok
+test_new_observation_new_version_even_same_content (test_source_audit.TransportTests.test_new_observation_new_version_even_same_content) ... ok
+test_oversized_response_not_hashed (test_source_audit.TransportTests.test_oversized_response_not_hashed) ... ok
+test_private_dns_rejected (test_source_audit.TransportTests.test_private_dns_rejected) ... ok
+test_success_retains_no_body_or_verification (test_source_audit.TransportTests.test_success_retains_no_body_or_verification) ... ok
+
+----------------------------------------------------------------------
+Ran 55 tests in 0.126s
+
+OK
+Wrote 1 attempts (1 snapshots retained) to /var/folders/xp/xxy8zsy97tqd__1jbb74xk8m0000gp/T/tmpdh75s814/log.json

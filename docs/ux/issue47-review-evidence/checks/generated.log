@@ -1,0 +1,33 @@
+
+> check:generated
+> npm run generate && git diff --exit-code -- packages/contracts/src/generated docs/api/openapi.json packages/api-client/src/generated apps/web/src/design-system/generated
+
+
+> generate
+> npm run generate -w @ozsb/contracts && npm run build -w @ozsb/contracts && npm run openapi -w @ozsb/api && npm run generate -w @ozsb/api-client && npm run generate -w @ozsb/web
+
+
+> @ozsb/contracts@1.0.0 generate
+> node scripts/generate-types.mjs
+
+generated 22 definitions
+
+> @ozsb/contracts@1.0.0 build
+> tsc -p tsconfig.build.json
+
+
+> @ozsb/api@0.1.0 openapi
+> tsx scripts/generate-openapi.ts
+
+wrote $REPO/docs/api/openapi.json
+
+> @ozsb/api-client@1.0.0 generate
+> openapi-typescript ../../docs/api/openapi.json -o src/generated/openapi.ts
+
+✨ openapi-typescript 7.13.0
+🚀 ../../docs/api/openapi.json → src/generated/openapi.ts [23.5ms]
+
+> @ozsb/web@0.1.0 generate
+> node scripts/sync-design-system.mjs
+
+synced design system 1793913295-8883: 15 components

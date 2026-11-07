@@ -1,0 +1,18 @@
+test_actor_metadata_leak_names_rule_and_task_even_optimized (test_validate_pack.PackValidationTests.test_actor_metadata_leak_names_rule_and_task_even_optimized) ... ok
+test_background_change_requires_review (test_validate_pack.PackValidationTests.test_background_change_requires_review) ... ok
+test_checkpoint_cannot_bypass_actor_boundary (test_validate_pack.PackValidationTests.test_checkpoint_cannot_bypass_actor_boundary) ... ok
+test_comment_and_whitespace_only_feature_edits_do_not_require_review (test_validate_pack.PackValidationTests.test_comment_and_whitespace_only_feature_edits_do_not_require_review) ... ok
+test_current_pack_passes_normally_and_optimized (test_validate_pack.PackValidationTests.test_current_pack_passes_normally_and_optimized) ... ok
+test_docstring_payload_changes_change_the_hash (test_validate_pack.PackValidationTests.test_docstring_payload_changes_change_the_hash) ... ok
+test_existing_scenario_id_does_not_hide_changed_steps (test_validate_pack.PackValidationTests.test_existing_scenario_id_does_not_hide_changed_steps) ... ok
+test_formatting_outside_docstrings_is_still_ignored (test_validate_pack.PackValidationTests.test_formatting_outside_docstrings_is_still_ignored) ... ok
+test_missing_capability_names_missing_id (test_validate_pack.PackValidationTests.test_missing_capability_names_missing_id) ... ok
+test_missing_checkpoint_and_bad_json_are_actionable (test_validate_pack.PackValidationTests.test_missing_checkpoint_and_bad_json_are_actionable) ... ok
+test_one_word_background_change_still_requires_review (test_validate_pack.PackValidationTests.test_one_word_background_change_still_requires_review) ... ok
+test_scope_change_requires_explicit_review (test_validate_pack.PackValidationTests.test_scope_change_requires_explicit_review) ... ok
+test_table_cell_inner_whitespace_still_counts (test_validate_pack.PackValidationTests.test_table_cell_inner_whitespace_still_counts) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.971s
+
+OK

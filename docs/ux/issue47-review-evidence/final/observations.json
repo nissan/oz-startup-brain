@@ -1,0 +1,282 @@
+[
+  {
+    "task": "t01",
+    "width": 390,
+    "theme": "light",
+    "question": "I am building a software startup in Toowoomba. Where should I begin?",
+    "browser": "153.0.8010.12",
+    "clock": "2026-11-07T00:00:00Z",
+    "fonts": {
+      ".masthead__title": [
+        {
+          "familyName": "Fraunces",
+          "postScriptName": "Fraunces-9ptBlack_opsz240000_wght2580000_SOFT_WONK",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ],
+      ".summary": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 149
+        }
+      ],
+      ".section__caption": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 113
+        }
+      ]
+    },
+    "overflow": 0
+  },
+  {
+    "task": "t03",
+    "width": 390,
+    "theme": "light",
+    "question": "What does round A2 require today?",
+    "browser": "153.0.8010.12",
+    "clock": "2026-11-07T00:00:00Z",
+    "fonts": {
+      ".masthead__title": [
+        {
+          "familyName": "Fraunces",
+          "postScriptName": "Fraunces-9ptBlack_opsz240000_wght2580000_SOFT_WONK",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ],
+      ".summary": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 256
+        }
+      ],
+      ".section__caption": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 113
+        }
+      ]
+    },
+    "overflow": 0
+  },
+  {
+    "task": "t01",
+    "width": 390,
+    "theme": "dark",
+    "question": "I am building a software startup in Toowoomba. Where should I begin?",
+    "browser": "153.0.8010.12",
+    "clock": "2026-11-07T00:00:00Z",
+    "fonts": {
+      ".masthead__title": [
+        {
+          "familyName": "Fraunces",
+          "postScriptName": "Fraunces-9ptBlack_opsz240000_wght2580000_SOFT_WONK",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ],
+      ".summary": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 149
+        }
+      ],
+      ".section__caption": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 113
+        }
+      ]
+    },
+    "overflow": 0
+  },
+  {
+    "task": "t03",
+    "width": 390,
+    "theme": "dark",
+    "question": "What does round A2 require today?",
+    "browser": "153.0.8010.12",
+    "clock": "2026-11-07T00:00:00Z",
+    "fonts": {
+      ".masthead__title": [
+        {
+          "familyName": "Fraunces",
+          "postScriptName": "Fraunces-9ptBlack_opsz240000_wght2580000_SOFT_WONK",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ],
+      ".summary": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 256
+        }
+      ],
+      ".section__caption": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 113
+        }
+      ]
+    },
+    "overflow": 0
+  },
+  {
+    "task": "t01",
+    "width": 1440,
+    "theme": "light",
+    "question": "I am building a software startup in Toowoomba. Where should I begin?",
+    "browser": "153.0.8010.12",
+    "clock": "2026-11-07T00:00:00Z",
+    "fonts": {
+      ".masthead__title": [
+        {
+          "familyName": "Fraunces",
+          "postScriptName": "Fraunces-9ptBlack_opsz2C0000_wght2580000_SOFT_WONK",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ],
+      ".summary": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 151
+        }
+      ],
+      ".section__caption": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 114
+        }
+      ]
+    },
+    "overflow": 0
+  },
+  {
+    "task": "t03",
+    "width": 1440,
+    "theme": "light",
+    "question": "What does round A2 require today?",
+    "browser": "153.0.8010.12",
+    "clock": "2026-11-07T00:00:00Z",
+    "fonts": {
+      ".masthead__title": [
+        {
+          "familyName": "Fraunces",
+          "postScriptName": "Fraunces-9ptBlack_opsz2C0000_wght2580000_SOFT_WONK",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ],
+      ".summary": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 258
+        }
+      ],
+      ".section__caption": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 114
+        }
+      ]
+    },
+    "overflow": 0
+  },
+  {
+    "task": "t01",
+    "width": 1440,
+    "theme": "dark",
+    "question": "I am building a software startup in Toowoomba. Where should I begin?",
+    "browser": "153.0.8010.12",
+    "clock": "2026-11-07T00:00:00Z",
+    "fonts": {
+      ".masthead__title": [
+        {
+          "familyName": "Fraunces",
+          "postScriptName": "Fraunces-9ptBlack_opsz2C0000_wght2580000_SOFT_WONK",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ],
+      ".summary": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 151
+        }
+      ],
+      ".section__caption": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 114
+        }
+      ]
+    },
+    "overflow": 0
+  },
+  {
+    "task": "t03",
+    "width": 1440,
+    "theme": "dark",
+    "question": "What does round A2 require today?",
+    "browser": "153.0.8010.12",
+    "clock": "2026-11-07T00:00:00Z",
+    "fonts": {
+      ".masthead__title": [
+        {
+          "familyName": "Fraunces",
+          "postScriptName": "Fraunces-9ptBlack_opsz2C0000_wght2580000_SOFT_WONK",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ],
+      ".summary": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 258
+        }
+      ],
+      ".section__caption": [
+        {
+          "familyName": "Atkinson Hyperlegible",
+          "postScriptName": "AtkinsonHyperlegible-Regular",
+          "isCustomFont": true,
+          "glyphCount": 114
+        }
+      ]
+    },
+    "overflow": 0
+  }
+]

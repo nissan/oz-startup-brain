@@ -38,7 +38,7 @@ test.describe('journey', () => {
     await open(page, WEB.fixture, 'light');
     await expect(page.getByText('Local fixture mode')).toBeVisible();
     await expect(page.getByText('Development mode')).toBeVisible();
-    await expect(page.getByText(/corpus fixture-2026-11-05\.1/)).toBeVisible();
+    await expect(page.getByText(/corpus fixture-2026-11-07\.1/)).toBeVisible();
     await shot(page, 'initial-light', false);
 
     await ask(page, 'What should I do next for support?');
@@ -75,10 +75,13 @@ test.describe('journey', () => {
     await expect(page.locator('.osb-map__list').getByText('Suggested next step').first()).toBeVisible();
     await shot(page, 'answer-qld-light');
 
-    // The second step's source is not cleared: the excerpt is withheld in words.
-    await page.getByRole('article').nth(1).getByRole('button', { name: 'Show supporting passage' }).click();
-    await expect(page.locator('.evidence-panel:visible')).toContainText('Excerpt not shown: this source is not cleared');
-    await expect(page.locator('.evidence-panel__heading:visible')).toBeFocused();
+    // The IP editorial prerequisite still uses the uncleared founder guide. Select it by
+    // meaning, not action position: the university contact action now has a cleared source.
+    await page.getByRole('button', { name: 'Show evidence for step 1: Confirm IP ownership', exact: true }).click();
+    const editorialPanel = page.locator('.evidence-panel--step');
+    await expect(editorialPanel).toContainText('Before you chase a named program (fictional sample article)');
+    await expect(editorialPanel).toContainText('Excerpt not shown: this source is not cleared');
+    await expect(editorialPanel.locator('.evidence-panel__heading')).toBeFocused();
 
     expect(bodies.join('\n')).not.toMatch(KEY_SHAPE);
   });
@@ -86,10 +89,18 @@ test.describe('journey', () => {
   test('future-effective requirement is dated and excluded; closed round abstains; stale evidence is never current', async ({ page }) => {
     await open(page, WEB.fixture, 'dark');
     await ask(page, 'What does round A2 require today?');
-    await expect(page.locator('.conditions').getByText('Takes effect later')).toBeVisible();
-    await expect(page.locator('.conditions').getByText(/Takes effect from 1 December 2026/)).toBeVisible();
+    const futureConditions = page.locator('.conditions__item').filter({ hasText: 'Takes effect later' });
+    await expect(futureConditions).toHaveCount(2);
+    await expect(futureConditions).toContainText([
+      /Takes effect from 1 December 2026: .* It is not a requirement or action today\./,
+      /Takes effect from 1 December 2026: .* It is not a prerequisite today\./,
+    ]);
     await expect(page.getByRole('heading', { name: /security assessment/ })).toHaveCount(0);
-    await expect(page.locator('.evidence-panel:visible').getByText('Effective date not stated')).toBeVisible();
+    await expect(page.locator('.osb-map__list')).not.toContainText(/security assessment/i);
+    const eligibilityPanel = page.locator('.evidence-panel:visible');
+    await expect(eligibilityPanel.getByText('In effect now')).toBeVisible();
+    await expect(eligibilityPanel.getByText('from 15 October 2026', { exact: true })).toBeVisible();
+    await expect(eligibilityPanel.getByText('Effective date not stated')).toHaveCount(0);
     await shot(page, 'a2-dark');
 
     await ask(page, 'Is round A1 open?');
@@ -144,10 +155,10 @@ test.describe('keyboard', () => {
     await page.keyboard.press('Enter');
     await expect(page.locator('.evidence-panel__heading:visible')).toBeFocused();
     // Shift+Tab goes to the previous control in document order: on phones the inline panel sits inside
-    // the opened card, so that is the same button; on wide screens the aside follows all the cards.
+    // the opened card, so that is the same button; on wide screens the aside follows the editorial terms help.
     await page.keyboard.press('Shift+Tab');
     const width = page.viewportSize()!.width;
-    const previous = width < 880 ? inspect : page.getByRole('article').last().getByRole('button', { name: 'Show supporting passage' });
+    const previous = width < 880 ? inspect : page.locator('.terms-help > summary');
     await expect(previous).toBeFocused();
   });
 });
@@ -345,6 +356,46 @@ test.describe('review R39 regressions', () => {
     await expect(page.getByText('Your draft, kept')).toBeVisible();
   });
 
+  test('Gympie static directory remains readable without horizontal overflow at 390px in both themes', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const theme of ['light', 'dark'] as const) {
+      await open(page, WEB.fixture, theme);
+      await ask(page, 'What support is there in Gympie?');
+      const panel = page.locator('.evidence-panel:visible');
+      const directory = panel.locator('.claims__item').filter({ hasText: 'STATIC FICTIONAL SOURCE DIRECTORY' });
+      await expect(directory).toBeVisible();
+      // Keep both complete directory entries and their checks; hiding or truncating the claim
+      // must not become a substitute for wrapping its long URLs.
+      await expect(directory).toContainText('https://hubs.example.invalid/qld/sessions');
+      await expect(directory).toContainText('https://support.example.invalid/src_university_contact');
+      await expect(directory).toContainText('Verify locality, remote access, scope and current availability');
+      await page.evaluate(() => document.fonts.ready);
+      const bounds = await directory.evaluate((item) => {
+        const claim = item.firstElementChild!;
+        const rect = claim.getBoundingClientRect();
+        const style = getComputedStyle(claim);
+        return {
+          pageWidth: document.documentElement.scrollWidth,
+          viewportWidth: document.documentElement.clientWidth,
+          claimRight: rect.right,
+          claimLeft: rect.left,
+          claimOverflow: claim.scrollWidth - claim.clientWidth,
+          overflowX: style.overflowX,
+          overflowY: style.overflowY,
+          textOverflow: style.textOverflow,
+        };
+      });
+      expect(bounds.pageWidth, theme).toBeLessThanOrEqual(bounds.viewportWidth);
+      expect(bounds.claimRight, theme).toBeLessThanOrEqual(bounds.viewportWidth);
+      expect(bounds.claimLeft, theme).toBeGreaterThanOrEqual(0);
+      expect(bounds.claimOverflow, theme).toBeLessThanOrEqual(1);
+      expect(bounds.overflowX, theme).toBe('visible');
+      expect(bounds.overflowY, theme).toBe('visible');
+      expect(bounds.textOverflow, theme).not.toBe('ellipsis');
+      await shot(page, `gympie-directory-${theme}-390`);
+    }
+  });
+
   for (const width of [390, 600, 1280]) {
     test(`R39-6: every prerequisite label fits inside the drawing at ${width}px, both themes`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });
@@ -371,3 +422,112 @@ test.describe('review R39 regressions', () => {
     });
   }
 });
+
+test.describe('issue 46 plain-language evidence help (primed regression)', () => {
+  test('A2 prototype separates requirement from preparation without changing dated evidence', async ({ page }) => {
+    await open(page, WEB.fixture, 'light');
+    await page.getByRole('button', { name: /Stage: Not set/ }).click();
+    await page.locator('.context-editor__option', { hasText: /^Working prototype$/ }).click();
+    await page.getByRole('button', { name: 'Save stage' }).click();
+    await ask(page, 'What does round A2 require today?');
+    const sequence = page.getByRole('region', { name: 'What comes first' });
+    await expect(sequence).toContainText('A source-stated requirement says what must be in place before applying.');
+    await expect(sequence).toContainText('A suggested preparation step helps you get ready; its place in this list is not an extra eligibility rule.');
+    await expect(sequence).toContainText('For example, customer-interest evidence can appear in both: the requirement is to have it, and the preparation step is to gather it. That overlap is not a source disagreement.');
+    await expect(sequence.locator('.osb-map__list')).toContainText('Suggested next step');
+    await expect(page.locator('.conditions')).toContainText('1 December 2026');
+    await page.getByRole('button', { name: /Show evidence for step 1:/ }).click();
+    await expect(page.locator('#evidence-heading-step')).toBeFocused();
+    await expect(page.locator('.evidence-panel--step blockquote').first()).toBeVisible();
+    await page.getByRole('button', { name: /Show evidence for step 2:/ }).click();
+    await expect(page.locator('.evidence-panel--step')).toContainText('Excerpt not shown: this source is not cleared');
+  });
+
+  test('T01 terms are keyboard-discoverable editorial help, not a checked claim or clarification', async ({ page }) => {
+    await open(page, WEB.fixture, 'dark');
+    await expect(page.getByText('Terms in plain language', { exact: true })).toHaveCount(0);
+    await ask(page, 'What should I do next for support?');
+    await expect(page.getByText('Terms in plain language', { exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: 'Queensland', exact: true }).click();
+    await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+    await expect(page.locator('#results-heading')).toBeFocused();
+    const terms = page.locator('details').filter({ hasText: 'Terms in plain language' });
+    const toggle = terms.locator('summary');
+    await expect(toggle).toBeVisible();
+    await toggle.focus();
+    await expect(toggle).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(terms).toHaveAttribute('open', '');
+    await expect(terms).toContainText('Editorial explanation — not a source excerpt or an eligibility check.');
+    await expect(terms).toContainText('turning an idea or research into a product or service people can use or buy');
+    await expect(terms).toContainText('does not establish IP ownership or eligibility');
+    await expect(terms).toContainText('Whether it applies, what qualifies and how much are not established here');
+    await expect(terms).not.toContainText(/Checked|\$|\d+%/);
+    await expect(terms.locator('blockquote')).toHaveCount(0);
+    expect(await toggle.evaluate(el => getComputedStyle(el).outlineStyle)).toBe('solid');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+    await page.keyboard.press('Space');
+    await expect(terms).not.toHaveAttribute('open', '');
+    await page.getByRole('article').first().getByRole('button', { name: 'Show supporting passage' }).click();
+    await expect(page.locator('.evidence-panel__heading:visible')).toBeFocused();
+  });
+});
+
+test('PR47 off-topic subject words do not trigger support clarification', async ({ page }) => {
+  await open(page, WEB.fixture, 'light');
+  for (const question of ['Is AI regulated in Australia?', 'Can I patent my prototype?', 'Which university ranks highest?', 'How do AI models work?']) {
+    await ask(page, question);
+    await expect(page.locator('#results-heading')).toHaveText('No answer from the evidence');
+    await expect(page.getByRole('button', { name: 'Queensland', exact: true })).toHaveCount(0);
+  }
+});
+
+// PR47 review regressions: no stale claim while a response is hidden during loading.
+test('PR47 held follow-up hides earlier answer without claiming it is displayed', async ({ page }) => {
+  await open(page, WEB.fixture, 'light');
+  await ask(page, 'Is round A1 open?');
+  let release!: () => void;
+  const held = new Promise<void>((resolve) => { release = resolve; });
+  await page.route('**/api/bff/query', async (route) => { await held; await route.continue(); });
+  await page.getByLabel('Your question').fill('What does round A2 require today?');
+  await page.getByRole('button', { name: 'Ask the planner' }).click();
+  await expect(page.locator('.waiting')).toBeVisible();
+  try {
+    await expect(page.locator('.stale')).toHaveCount(0);
+    await expect(page.getByText(/^Answer context —/)).toHaveCount(0);
+  } finally { release(); }
+  await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+  const context = page.getByText(/^Answer context —/);
+  await expect(context).toBeVisible();
+  await expect(context).not.toHaveAttribute('aria-label');
+});
+
+for (const width of [390, 768, 1280]) {
+  test(`PR47 A2 and stage routes fit SVG bounds at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    for (const theme of ['light', 'dark'] as const) for (const stage of ['a2', 'idea', 'prototype'] as const) {
+      await open(page, WEB.fixture, theme);
+      if (stage !== 'a2') {
+        await page.getByRole('button', { name: /Stage: Not set/ }).click();
+        await page.locator('.context-editor__option', { hasText: stage === 'idea' ? /^Idea$/ : /^Working prototype$/ }).click();
+        await page.getByRole('button', { name: 'Save stage' }).click();
+      }
+      await ask(page, stage === 'a2' ? 'What does round A2 require today?' : 'What should I do next for support?');
+      if (stage !== 'a2') {
+        await page.getByRole('button', { name: 'Queensland', exact: true }).click();
+        await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+      }
+      await page.evaluate(() => document.fonts.ready);
+      const overflow = await page.locator('.osb-map__svg').evaluate((svg: SVGSVGElement) => {
+        const box = svg.viewBox.baseVal;
+        return Array.from(svg.querySelectorAll('text')).map((text) => {
+          const b = (text as SVGTextElement).getBBox();
+          return { text: text.textContent, x: b.x, y: b.y, right: b.x + b.width, bottom: b.y + b.height };
+        }).filter((b) => b.x < box.x || b.y < box.y || b.right > box.x + box.width || b.bottom > box.y + box.height);
+      });
+      // Capture before assertion so the failing baseline also leaves its actual rendered defect.
+      await page.locator('.results').screenshot({ path: join(EVIDENCE, `pr47-${test.info().project.name}-${stage}-${width}-${theme}.png`) });
+      expect(overflow, `${stage} ${theme} ${width}`).toEqual([]);
+    }
+  });
+}

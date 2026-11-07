@@ -64,7 +64,10 @@ export class FixtureResponder {
       statement: STANDING_STATEMENT,
     };
 
-    const topic = this.retriever.retrieve(request.question);
+    const retrieved = this.retriever.retrieve(request.question);
+    // Stage is structured founder context, never inferred from prose. Only authored stages vary.
+    const variant = context.stage === 'idea' || context.stage === 'prototype' ? retrieved?.stage_variants?.[context.stage] : undefined;
+    const topic = retrieved && variant ? { ...retrieved, ...variant } : retrieved;
     if (!topic) {
       return {
         ...base,
@@ -89,6 +92,11 @@ export class FixtureResponder {
 
     const conditions: UnresolvedCondition[] = [];
     const addCondition = (c: Omit<UnresolvedCondition, 'condition_id'>) => conditions.push({ condition_id: `cond_${conditions.length + 1}`, ...c });
+
+    for (const condition of topic.conditions ?? []) addCondition(condition);
+    if (topic.stage_variants && !variant) {
+      addCondition({ reason: 'not_in_evidence', field: 'stage', text: 'Only Idea and Prototype have stage-specific fictional routes. Your stage is not assumed; this is the limited default route.' });
+    }
 
     let retrievalMode: QueryEnvelope['retrieval_mode'] = 'fixture';
     let sequenceSource = topic.sequence;
