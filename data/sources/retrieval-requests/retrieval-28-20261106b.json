@@ -1,0 +1,23 @@
+{
+  "request_format": "1",
+  "run_id": "retrieval-28-20261106b",
+  "issue": 28,
+  "requested_on": "2026-11-06",
+  "requested_by": "Claude builder run claude-28-20261106-2200, on Nissan's instruction to fetch through GitHub Actions",
+  "purpose": "Stage 1 gate 3, second attempt for the three Queensland core pages. Run retrieval-28-20261106a got HTTP 403 from advance.qld.gov.au itself. This run fetches each record's reviewed observed_redirect_url on innovation.qld.gov.au (the department's current home for these programs). No retry against the refusing host; no access-control workaround. Not ingestion.",
+  "transport": "direct",
+  "sources": [
+    "src_8db3776594ab",
+    "src_5dcbf23541e6",
+    "src_d1313206eafa"
+  ],
+  "snapshot_recipient": {
+    "note": "Single-use RSA-4096 public key. Snapshots are encrypted to it on the runner; the private key never enters the repository and is discarded after the snapshots are handed to the owner.",
+    "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2fL4txAU+G+r9eBj57Q4\nadvegZfw1jcvFU7TUVmFGXmtUzucsizcNAWKeTuL6FbakhJRfBb8SxE+nJX64voR\n/Vif7uvKq0djut8i4LUjMVGGGIGio/MXxLqD8lucLTxV7+FAZVjFMW/e4BbiF7nd\nh3P63p+QcLLD/X4vEMGA+fnXYE0zSSb6Rr0xwKOSBfHVZakKRABfASVhda3Bc7Gd\nGHSQ7qjs+n1QJr+5sF9Q7Yd1coiaW66K5fuIJXfJVQ+v7vTwLMDI7U21wUsDNoz9\n4MQJ8lLN8e6nXiwEMDihKr6Fq0Sa5RdrRvSlDNOHtcnBBhAIBKW/VMYcfErvsuyg\n4oM/LMBeZslkWbhvmoJhjOM+ox4qa2nbYw+uKl0Ue8TXK5wz5hETVYs31YKjBXQc\nGnJVZx1WByOgSZdpRfFrQ9RSOoU2Rk/k9I9oPk4KI9Mn6k5mGZedTHxTHLK6CRAw\nzp2N9/pF3z6TZjadIfygscSDCEP8zYZUihhVUUAC54Ats0XqKVvGHJUZWE93S/4n\nKyh4pvBYR/tTlCCiB5ds/7OfvvqMVpfAQX3AYH6JOpr7rUdFNi86c3F4BpwBxewl\nu2j0p+4ia5cryGxU/2CeaqkLlVFNAxggtlub7BKqdfRrPYOPGyaVJK3lIrtmrjld\np81sq1jN/eWC31JA1ZGNarcCAwEAAQ==\n-----END PUBLIC KEY-----\n"
+  },
+  "via_observed_redirect": [
+    "src_8db3776594ab",
+    "src_5dcbf23541e6",
+    "src_d1313206eafa"
+  ]
+}

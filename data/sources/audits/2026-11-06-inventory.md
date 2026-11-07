@@ -11,7 +11,7 @@ This is provisional subject/operator classification, not jurisdiction eligibilit
 | discovered | 135 |
 | classified | 135 |
 | original_snapshots_recovered | 0 |
-| raw_versions_retained | 0 |
+| raw_versions_retained | 4 |
 | ingestion_approved | 0 |
 | fact_verified | 0 |
 | observations: empty_representation | 2 |
@@ -24,6 +24,28 @@ This is provisional subject/operator classification, not jurisdiction eligibilit
 | rights: unknown | 118 |
 | dispositions: awaiting_rights_review | 22 |
 | dispositions: out_of_initial_scope | 113 |
+
+Owner decision: pilot jurisdiction AU-QLD with AU-FED sources, decided by Nissan (owner) on 2026-11-06 ([record](https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6682086690)).
+
+## Retrieved versions
+
+Each retrieved version is a fetched representation that a reviewer confirmed is the source page. It is not rights clearance, ingestion approval or factual verification. Snapshots are kept outside git; only hashes are committed.
+
+| Source ID | Version | Fetched (UTC) | SHA-256 | Representation review |
+| --- | --- | --- | --- | --- |
+| `src_7d73188025be` | `sv_5c4b6a8ffd94aa780022` | 2026-11-06T11:21:49.371769+00:00 | `486cb59c25368a1b…` | 2026-11-06, Claude claude-28-20261106-2200 (builder; not independent): Program page: title and h1 "AI Adopt Centres", about 580 words of main content naming four centres. A reCAPTCHA script for the feedback form is not a challenge. |
+| `src_03aaa6584d27` | `sv_bd9ea252a09e4ff8262a` | 2026-11-06T11:21:47.622000+00:00 | `f3c54397233b73d2…` | 2026-11-06, Claude claude-28-20261106-2200 (builder; not independent): Program page: "Industry Growth Program", about 1,700 words. Carries the banner "This program is currently paused to new applications" above the application sections. Feedback-form reCAPTCHA only. |
+| `src_96ad709aa550` | `sv_87c9b944493e4b99b654` | 2026-11-06T11:21:51.011180+00:00 | `76305d8aefcf96bb…` | 2026-11-06, Claude claude-28-20261106-2200 (builder; not independent): Program page: "Overview of the R&D Tax Incentive", about 980 words of main content with offset, eligibility and four-step headings. Feedback-form reCAPTCHA only. |
+| `src_9ba1bc6b991a` | `sv_b1322863d404e0fb62fc` | 2026-11-06T11:21:52.815446+00:00 | `7794481b85934a1b…` | 2026-11-06, Claude claude-28-20261106-2200 (builder; not independent): Guidance page: "Software development sector guide for the R&D Tax Incentive", about 1,500 words with disclaimer, exclusions and hypothetical case studies. Feedback-form reCAPTCHA only. |
+
+### Provenance corrections
+
+Committed retrieval logs are not rewritten. Where a log misdescribes its run, the correction is recorded here.
+
+| Log | Field | Log records | Actually | Basis |
+| --- | --- | --- | --- | --- |
+| `audits/retrieval-28-20261106a.json` | `run.user_agent` | `OzStartupBrain-SourceAudit/0.3 (source retrieval for rights review; no ingestion)` | `OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)` | fetch_metadata.py at execution commit 120e547 (run 42209663180) sent the 0.2 agent for the direct transport while recording the 0.3 agent; found in Codex review of PR #40 (2026-11-07) |
+| `audits/retrieval-28-20261106b.json` | `run.user_agent` | `OzStartupBrain-SourceAudit/0.3 (source retrieval for rights review; no ingestion)` | `OzStartupBrain-SourceAudit/0.2 (metadata review; no ingestion)` | fetch_metadata.py at execution commit 622500e (run 42209973408) sent the 0.2 agent for the direct transport while recording the 0.3 agent; found in Codex review of PR #40 (2026-11-07) |
 
 ## Provisional jurisdiction coverage
 

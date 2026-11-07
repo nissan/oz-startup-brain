@@ -1,0 +1,23 @@
+{
+  "request_format": "1",
+  "run_id": "retrieval-28-20261106a",
+  "issue": 28,
+  "requested_on": "2026-11-06",
+  "requested_by": "Claude builder run claude-28-20261106-2200, on Nissan's instruction to fetch through GitHub Actions",
+  "purpose": "Stage 1 gate 3: fresh raw versions of the eight core Queensland-pilot pages for rights and representation review. Not ingestion.",
+  "transport": "direct",
+  "sources": [
+    "src_8db3776594ab",
+    "src_5dcbf23541e6",
+    "src_d1313206eafa",
+    "src_7d73188025be",
+    "src_f164f71e6364",
+    "src_03aaa6584d27",
+    "src_96ad709aa550",
+    "src_9ba1bc6b991a"
+  ],
+  "snapshot_recipient": {
+    "note": "Single-use RSA-4096 public key. Snapshots are encrypted to it on the runner; the private key never enters the repository and is discarded after the snapshots are handed to the owner.",
+    "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA0WT74jEZk8q3AI1tZpxM\ndrGoPiMPXLhbgRIQ8ZJaa/T+cbNDuiI2LT4cUA/8iiJI3AwmGIBIYdryEEXlytyM\nZZ9n/AHmTjgtutsRUYHlA77IEHpnmFlz280fHiwqIkW9IoqoCWtyRHFVYPlB9tvM\ng1lZIZHqH/lgTSRS9yrzeb0kBe6atArCoIY2llKpbncwgDPWvXUHq/0nluQv7iZc\nw1BruJkj9Oz/GopfsvkuARu7wT5hjURcr6KynbjcDy4tck588harJLbmdKe/kywA\nnDG47VDYabakYm/zpGcsk66AXzooRoltLZKUgXcJ1sJ+HiTxM1qwMKDK97TpTGnv\nVNmUCGRy8l8Ml1KNTLpJFS0oKs0WCWeWgSsLJUOEGOUgJWBKU201iFGOWn8SpjyD\nf4Zcv6gRsh5BoKyvcXc8IYDs1Nf5CrtlMQQyca0KAByFX1PC6J32NYzUxuiJJ04n\nJMguCq9ev4OyOqTvK07vGwgSn5sm3lvvHthYwtkTu0hKbMz/7UXM820vmKOTDnEP\n1g+i81AbXGLAFU8H7kDQxTGrsnO3RGzWWGex6hd2D+q+J6/6gp6XWCYndSGOUkyf\n6uWm6CPjn7+S+hx0Wxik3Rju61tulFYU6fYz+1EyebYqC4YHbsfLcVa6RIcf5myC\nYwd6Fx+mOwQbU/howB5CKS0CAwEAAQ==\n-----END PUBLIC KEY-----\n"
+  }
+}
