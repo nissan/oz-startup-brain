@@ -1,0 +1,16 @@
+
+> @ozsb/contracts@1.0.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+
+> @ozsb/api-client@1.0.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+
+> @ozsb/api@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+
+> @ozsb/web@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit && tsc -p tsconfig.jest.json --noEmit && tsc -p tsconfig.e2e.json
+
