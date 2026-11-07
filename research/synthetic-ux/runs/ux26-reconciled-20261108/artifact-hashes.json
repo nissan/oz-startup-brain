@@ -96,8 +96,10 @@
   },
   {
     "path": "followup/t15-graph-actor.md",
-    "sha256": "44a6ecf7d977644c02eab7dd32e9d63bb84ed223d4d419bb357324c33e840a72",
-    "bytes": 4860
+    "sha256": "e574ef5a2db1a88ebd9a026ea785989ada1178ccb429675901c717f1f776a426",
+    "bytes": 4814,
+    "original_sha256": "44a6ecf7d977644c02eab7dd32e9d63bb84ed223d4d419bb357324c33e840a72",
+    "normalization": "See path-normalization.json; workstation paths replaced, no result changes."
   },
   {
     "path": "followup/dark-primed-check.md",
@@ -121,8 +123,10 @@
   },
   {
     "path": "integration/checks.json",
-    "sha256": "e2625ef3923ee919172acbc6191cd68eda68c14d985d2287f72e6dda929970ad",
-    "bytes": 1442
+    "sha256": "60f85d123dc38a88b4bef6fd2662931da0c4bab778a375d737f7d438a44cec30",
+    "bytes": 1113,
+    "original_sha256": "e2625ef3923ee919172acbc6191cd68eda68c14d985d2287f72e6dda929970ad",
+    "normalization": "See path-normalization.json; workstation paths replaced, no result changes."
   },
   {
     "path": "integration/additional-checks.json",

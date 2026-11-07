@@ -4,7 +4,7 @@
       "npm",
       "ci"
     ],
-    "cwd": "/Users/loki/.openclaw/worktrees/oz-startup-brain-integration-20261107",
+    "cwd": "<integration-checkout>",
     "exit_code": 0,
     "log": "1.log"
   },
@@ -14,7 +14,7 @@
       "run",
       "check:generated"
     ],
-    "cwd": "/Users/loki/.openclaw/worktrees/oz-startup-brain-integration-20261107",
+    "cwd": "<integration-checkout>",
     "exit_code": 0,
     "log": "2.log"
   },
@@ -24,7 +24,7 @@
       "run",
       "check:compat"
     ],
-    "cwd": "/Users/loki/.openclaw/worktrees/oz-startup-brain-integration-20261107",
+    "cwd": "<integration-checkout>",
     "exit_code": 0,
     "log": "3.log"
   },
@@ -34,7 +34,7 @@
       "run",
       "typecheck"
     ],
-    "cwd": "/Users/loki/.openclaw/worktrees/oz-startup-brain-integration-20261107",
+    "cwd": "<integration-checkout>",
     "exit_code": 0,
     "log": "4.log"
   },
@@ -43,7 +43,7 @@
       "npm",
       "test"
     ],
-    "cwd": "/Users/loki/.openclaw/worktrees/oz-startup-brain-integration-20261107",
+    "cwd": "<integration-checkout>",
     "exit_code": 0,
     "log": "5.log"
   },
@@ -53,7 +53,7 @@
       "run",
       "demo:fixture"
     ],
-    "cwd": "/Users/loki/.openclaw/worktrees/oz-startup-brain-integration-20261107",
+    "cwd": "<integration-checkout>",
     "exit_code": 0,
     "log": "6.log"
   },
@@ -64,7 +64,7 @@
       "test",
       "--retries=0"
     ],
-    "cwd": "/Users/loki/.openclaw/worktrees/oz-startup-brain-integration-20261107/apps/web",
+    "cwd": "<integration-checkout>/apps/web",
     "exit_code": 0,
     "log": "7.log"
   }

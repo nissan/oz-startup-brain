@@ -29,7 +29,7 @@ Exact follow-up requirement was to try a visible recovery if answer cannot be pr
 Route updated from discovery to prototype/customer-interest evidence while keeping QLD and shared IP uncertainty. There was no visible side-by-side history, explicit “what changed” comparison, or retained old idea answer in final snapshot; actor must compare from memory. I cannot infer whether conversational history or original stage was stored internally. The brief graph degradation did not block passage-based answer, but visible sequence was omitted until resubmission. No dedicated recovery CTA tested because none appeared.
 
 ## Screenshots
-Base: `/Users/loki/.openclaw/workspace/projects/oz-startup-brain/ux27-20261107/`
+Base: `<workspace>/ux27-20261107/`
 - evidence/t15-graph-01.png and -01-viewport.png: initial idea context.
 - evidence/t15-graph-02.png and -02-viewport.png: stage editor.
 - evidence/t15-graph-03.png and -03-viewport.png: working prototype selected (viewport inspected).
