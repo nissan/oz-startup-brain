@@ -11,3 +11,8 @@
 *.JPEG filter=lfs diff=lfs merge=lfs -text
 *.GIF  filter=lfs diff=lfs merge=lfs -text
 *.WEBP filter=lfs diff=lfs merge=lfs -text
+
+# Exception: design source inputs that design/tools/render.py inlines (design/mockups/assets.json).
+# They are small (0.3 MB) and stay in Git, so every environment can render the Brand Sheet without
+# downloading LFS objects; a cloud workspace cannot. This line must come after the rules above.
+design/brand/png/*.png -filter binary

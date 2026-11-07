@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Executed once, on a Mac, in #52 (`068c7e7`), on top of #50's `8a30ddd`. Kept for provenance; later commits
+# exempt design/brand/png (see .gitattributes), so rerunning it is neither needed nor expected to pass.
 # One-time, forward-only conversion of the tracked raster images to Git LFS pointers.
 # Run on a machine that can upload to GitHub LFS (not the Claude cloud workspace, whose proxy refuses
 # github-cloud.s3.amazonaws.com), from a clean checkout of the branch that adds .gitattributes.

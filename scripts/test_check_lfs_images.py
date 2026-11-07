@@ -16,13 +16,20 @@ def pointer(data):
 
 class GuardTests(unittest.TestCase):
     """The guard checks staged blobs, so a smudged working tree cannot hide a raw commit or fake one."""
-    def repo(self, files):
+    ATTRS = (b'*.png filter=lfs diff=lfs merge=lfs -text\n*.jpg filter=lfs diff=lfs merge=lfs -text\n*.JPG filter=lfs diff=lfs merge=lfs -text\n'
+             b'*.jpeg filter=lfs diff=lfs merge=lfs -text\n*.gif filter=lfs diff=lfs merge=lfs -text\n*.webp filter=lfs diff=lfs merge=lfs -text\n'
+             b'src/*.png -filter binary\n')
+
+    def repo(self, files, attrs=True):
         d = Path(tempfile.mkdtemp())
+        if attrs:
+            files = {'.gitattributes': self.ATTRS, **files}
         subprocess.run(['git', 'init', '-q', str(d)], check=True)
         for name, data in files.items():
             (d / name).parent.mkdir(parents=True, exist_ok=True)
             (d / name).write_bytes(data)
-        subprocess.run(['git', '-C', str(d), 'add', '-A'], check=True)
+        # Stage exactly these bytes, as a machine without git-lfs would: no clean filter converts them.
+        subprocess.run(['git', '-C', str(d), '-c', 'filter.lfs.process=', '-c', 'filter.lfs.clean=cat', '-c', 'filter.lfs.required=false', 'add', '-A'], check=True)
         return d
 
     def test_raw_image_fails(self):
@@ -36,6 +43,13 @@ class GuardTests(unittest.TestCase):
     def test_malformed_pointer_and_every_raster_extension_are_checked(self):
         bad = {'x.png': b'version https://git-lfs.github.com/spec/v1\noid sha256:zz\nsize 1\n', 'y.JPG': PNG, 'z.gif': PNG, 'w.jpeg': PNG}
         self.assertEqual({'x.png', 'y.JPG', 'z.gif', 'w.jpeg'}, set(guard.problems(self.repo(bad))))
+
+    def test_exempt_path_must_hold_real_bytes(self):
+        self.assertEqual([], guard.problems(self.repo({'src/logo.png': PNG, 'x/shot.png': pointer(PNG)})))
+        self.assertEqual(['src/logo.png (exempt from LFS but committed as a pointer)'], guard.problems(self.repo({'src/logo.png': pointer(PNG), 'x/shot.png': pointer(PNG)})))
+
+    def test_missing_lfs_rules_fail(self):
+        self.assertTrue(guard.problems(self.repo({'x/shot.png': PNG}, attrs=False))[0].startswith('(no image is tracked'))
 
     def test_no_images_is_fine(self):
         self.assertEqual([], guard.problems(self.repo({'README.md': b'x'})))
