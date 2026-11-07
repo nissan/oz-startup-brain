@@ -4,8 +4,8 @@ Written by the #25 builder for the facilitator who runs the first synthetic roun
 
 ## Build identity
 
-- Repository `nissan/oz-startup-brain`, PR #39 (issue #25). Pin the exact merge commit on `main` in the session record; do not run a round against a moving branch.
-- Fixture corpus `fixture-2026-11-05.1`, pinned clock `2026-11-05T00:00:00Z`, design system artifact version `1793913295-8883` consumed as committed.
+- Repository `nissan/oz-startup-brain`, PR #39 (issue #25) foundation, updated by PR #47 (Refs #26/#43). Pin the exact candidate or merged commit in the session record; do not run a round against a moving branch.
+- Fixture corpus `fixture-2026-11-07.1`, pinned clock `2026-11-07T00:00:00Z`, design system artifact version `1793913295-8883` consumed as committed.
 - The fonts are the pinned Fontsource faces; painted-font verification is part of the browser tests at this commit.
 
 ## Start and reset
@@ -29,7 +29,11 @@ OZSB_API_BASE_URL=http://127.0.0.1:3000 OZSB_API_KEY=$OZSB_API_KEY npm run web:s
 | `What should I do next for support?` | Asks for jurisdiction once (clarification). Unknown is offered and, once chosen, never asked again; national routes only, with the left-out state routes named. Queensland adds the hub route and a third prerequisite step. Another state gets "Outside current coverage". |
 | `Is round A1 open?` | A closed round: the planner abstains from recommending an application and offers the next round. |
 | `Is round B1 open?` | Stale evidence: "Needs a current check"; the summary never says the round is open. |
-| `What does round A2 require today?` | A requirement that takes effect on 1 December 2026 is dated and kept out of today's actions; "Effective date not stated" appears on a claim that lacks one. |
+| `What does round A2 require today?` | A2 is scheduled to open 1 December 2026. Eligibility is explicitly effective 15 October; security takes effect 1 December and is excluded from today's actions/sequence. A2 has two current sequence steps: working prototype/customer-interest evidence (sourced) and IP ownership/customer evidence preparation (editorial). Matched contribution remains unresolved. |
+| T01 exact university AI prototype brief | Support route; explicit Unknown retains national university contact, unresolved IP/contribution, no prose-inferred stage. |
+| T03 exact prototype / Round A2 brief | A2 requirements route above; no prose-inferred stage. |
+| T05 exact Gympie brief | Outside named-locality coverage; static fictional directory, not verified local matches. |
+| `support` / `help` / `next` / `start` / `begin` / `funding` / `grant(s)` / `program(s)` / `step` | Authored support route, with idea/prototype variants selected only by structured stage. Subject terms AI/prototype/university/commercialisation alone do not select it. |
 | anything else | `insufficient_evidence`: no answer rather than a guess, with the question kept. |
 
 Starter tasks prefill these questions; typing them is equivalent.
@@ -55,10 +59,12 @@ Starter tasks prefill these questions; typing them is equivalent.
 | Task | Variant(s) | Builder's note |
 | --- | --- | --- |
 | T01 (P1) | T01-base | All three required capabilities present. The explicit-Unknown route is the "What should I do next for support?" question with "Keep as unknown". |
-| T03 (P2) | T03-base | Needs the pinned fixture time; the default clock is already `2026-11-05`. The future-effective qualifier appears on the A2 question; sourced vs editorial sequencing on the support question with Queensland. Previously `blocked_pending_test_controls`; the controls now exist (#24), so preflight can reassess. |
+| T03 (P2) | T03-base | Needs the pinned fixture time; the default clock is already `2026-11-07`. The future-effective qualifier appears on the A2 question; sourced vs editorial sequencing on the support question with Queensland. Previously `blocked_pending_test_controls`; the controls now exist (#24), so preflight can reassess. |
 | T05 (P3) | T05-base | Phone viewport is emulated. "Outside current coverage" is reached by setting a state other than Queensland. |
 | T13 (UX7) | T13-base | Keyboard route and textual sequence are present. No screen reader was run by the builder; that remains #9. |
 | T14 (UX7) | T14-base | Context correction by keyboard works; real browser zoom at 200% is a runner facility to demonstrate. |
 | T15 (UX8) | T15-vector, T15-budget, T15-graph | Each needs its own API process with the fault set (above). The draft is kept and the earlier answer labelled stale; budget/concurrency accounting is not observable from the page, as the task's scope says. |
 
 Nothing above is an observation. Record readiness per variant in preflight with `present`/`absent`/`unknown` and the evidence you saw on the pinned build.
+
+PR47 review clarification: these are deterministic authored fixture matches, not general language understanding. The four off-topic AI regulation/patent/university ranking/model-mechanics questions return `insufficient_evidence`. T01/T03/T05 follow-ups remain independent queries; continuity (#45) is not implemented.

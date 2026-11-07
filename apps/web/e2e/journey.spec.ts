@@ -472,3 +472,62 @@ test.describe('issue 46 plain-language evidence help (primed regression)', () =>
     await expect(page.locator('.evidence-panel__heading:visible')).toBeFocused();
   });
 });
+
+test('PR47 off-topic subject words do not trigger support clarification', async ({ page }) => {
+  await open(page, WEB.fixture, 'light');
+  for (const question of ['Is AI regulated in Australia?', 'Can I patent my prototype?', 'Which university ranks highest?', 'How do AI models work?']) {
+    await ask(page, question);
+    await expect(page.locator('#results-heading')).toHaveText('No answer from the evidence');
+    await expect(page.getByRole('button', { name: 'Queensland', exact: true })).toHaveCount(0);
+  }
+});
+
+// PR47 review regressions: no stale claim while a response is hidden during loading.
+test('PR47 held follow-up hides earlier answer without claiming it is displayed', async ({ page }) => {
+  await open(page, WEB.fixture, 'light');
+  await ask(page, 'Is round A1 open?');
+  let release!: () => void;
+  const held = new Promise<void>((resolve) => { release = resolve; });
+  await page.route('**/api/bff/query', async (route) => { await held; await route.continue(); });
+  await page.getByLabel('Your question').fill('What does round A2 require today?');
+  await page.getByRole('button', { name: 'Ask the planner' }).click();
+  await expect(page.locator('.waiting')).toBeVisible();
+  try {
+    await expect(page.locator('.stale')).toHaveCount(0);
+    await expect(page.getByText(/^Answer context —/)).toHaveCount(0);
+  } finally { release(); }
+  await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+  const context = page.getByText(/^Answer context —/);
+  await expect(context).toBeVisible();
+  await expect(context).not.toHaveAttribute('aria-label');
+});
+
+for (const width of [390, 768, 1280]) {
+  test(`PR47 A2 and stage routes fit SVG bounds at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    for (const theme of ['light', 'dark'] as const) for (const stage of ['a2', 'idea', 'prototype'] as const) {
+      await open(page, WEB.fixture, theme);
+      if (stage !== 'a2') {
+        await page.getByRole('button', { name: /Stage: Not set/ }).click();
+        await page.locator('.context-editor__option', { hasText: stage === 'idea' ? /^Idea$/ : /^Working prototype$/ }).click();
+        await page.getByRole('button', { name: 'Save stage' }).click();
+      }
+      await ask(page, stage === 'a2' ? 'What does round A2 require today?' : 'What should I do next for support?');
+      if (stage !== 'a2') {
+        await page.getByRole('button', { name: 'Queensland', exact: true }).click();
+        await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+      }
+      await page.evaluate(() => document.fonts.ready);
+      const overflow = await page.locator('.osb-map__svg').evaluate((svg: SVGSVGElement) => {
+        const box = svg.viewBox.baseVal;
+        return Array.from(svg.querySelectorAll('text')).map((text) => {
+          const b = (text as SVGTextElement).getBBox();
+          return { text: text.textContent, x: b.x, y: b.y, right: b.x + b.width, bottom: b.y + b.height };
+        }).filter((b) => b.x < box.x || b.y < box.y || b.right > box.x + box.width || b.bottom > box.y + box.height);
+      });
+      // Capture before assertion so the failing baseline also leaves its actual rendered defect.
+      await page.locator('.results').screenshot({ path: join(EVIDENCE, `pr47-${test.info().project.name}-${stage}-${width}-${theme}.png`) });
+      expect(overflow, `${stage} ${theme} ${width}`).toEqual([]);
+    }
+  });
+}

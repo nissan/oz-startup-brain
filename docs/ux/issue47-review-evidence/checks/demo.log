@@ -1,0 +1,77 @@
+
+> demo:fixture
+> npm run build && node apps/api/scripts/demo-fixture.mjs
+
+
+> build
+> npm run build -w @ozsb/contracts && npm run build -w @ozsb/api-client && npm run build -w @ozsb/api && npm run build -w @ozsb/web
+
+
+> @ozsb/contracts@1.0.0 build
+> tsc -p tsconfig.build.json
+
+
+> @ozsb/api-client@1.0.0 build
+> tsc -p tsconfig.build.json
+
+
+> @ozsb/api@0.1.0 build
+> tsc -p tsconfig.build.json
+
+
+> @ozsb/web@0.1.0 build
+> next build
+
+▲ Next.js 16.4.2 (Turbopack)
+✓ Running next.config.ts took 11ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 65ms
+  Running TypeScript ...
+  Finished TypeScript in 522ms ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/3) ...
+✓ Generating static pages using 7 workers (3/3) in 160ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/bff/capabilities
+├ ƒ /api/bff/query
+└ ƒ /api/bff/sources/[sourceId]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [NestFactory] Starting Nest application...
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [InstanceLoader] ApiModule dependencies initialized +3ms
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [RoutesResolver] HealthController {/health}: +1ms
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [RouterExplorer] Mapped {/health/live, GET} route +1ms
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [RoutesResolver] V1Controller {/v1}: +0ms
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [RouterExplorer] Mapped {/v1/capabilities, GET} route +1ms
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [RouterExplorer] Mapped {/v1/queries, POST} route +0ms
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [RouterExplorer] Mapped {/v1/sources/:sourceId, GET} route +0ms
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [NestApplication] Nest application successfully started +1ms
+[Nest] 67883  - 11/08/2026, 9:10:44 AM     LOG [ozsb-api] listening on http://127.0.0.1:58170 — responder=fixture, credential_mode=development (1 key(s)), budget_store=in_process_development, clock=pinned 2026-11-05T00:00:00Z, harness_controls=disabled. Fictional fixture data only; never deploy this mode publicly.
+Standalone fixture client → http://127.0.0.1:58170 (every response validated against the v1 contract)
+PASS  liveness
+      GET /health/live ok
+PASS  capabilities announce development modes
+      credential_mode=development responder=fixture budget_store=in_process_development corpus=fixture-2026-11-07.1 clock=pinned 2026-11-05T00:00:00Z
+PASS  invalid key gets a generic 401
+      HTTP 401
+PASS  clarification
+      status=clarification field=jurisdiction
+PASS  explicit Unknown is not re-asked and is reported
+      Jurisdiction is Unknown, so state and territory routes were left out: "Book a session with the regional innovation hub" (Queensland), "Apply to an open Program A round" (Queensland). Set your jurisdiction to see them.
+PASS  future-effective requirement is dated, not an action today
+      Takes effect from 1 December 2026: Round A2 applicants must complete an independent security assessment of their product.
+PASS  closed round: no application recommended
+      Round A1 of Program A has closed (it accepted applications until 30 September 2026), so the planner does not recommend preparing an application for it. The next round, A2, is scheduled to open on 1 December 2026.
+PASS  insufficient_evidence
+      status=insufficient_evidence
+PASS  source excerpts gated on rights status
+      cleared excerpt 272/280 chars; rejected excerpt null
+All 9 checks passed. Fixture data is fictional; this is not advice.

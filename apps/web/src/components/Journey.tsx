@@ -171,7 +171,7 @@ export function Journey() {
   }, [selectedSourceIds.join('|'), sources]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const contextMismatch = !!result && (result.context.stage !== context.stage || result.context.jurisdiction !== context.jurisdiction);
-  const stale = !!result && (!!failure || pending || contextMismatch);
+  const stale = !!result && !pending && (!!failure || contextMismatch);
   const service = envelope ? serviceStatus(envelope) : null;
   const nodes = envelope ? sequenceNodes(envelope) : null;
   const supportedTasks = caps?.supported_tasks ?? (['next_step', 'round_status', 'requirements_today'] as const);
@@ -349,7 +349,7 @@ export function Journey() {
           <p className="stale" role="status">
             <strong>Stale</strong>
             <span>
-              Showing your earlier {result.context.stage === undefined ? 'Not set' : stageLabel(result.context.stage)} stage answer to &ldquo;{result.question}&rdquo; from {result.askedAt.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}. This is not an updated answer for your current context (Stage: {context.stage === undefined ? 'Not set' : stageLabel(context.stage)}; Jurisdiction: {context.jurisdiction === undefined ? 'Not set' : jurisdictionLabel(context.jurisdiction)}).
+              Showing your earlier answer {result.context.stage === undefined ? 'with no stage selected' : `for the ${stageLabel(result.context.stage)} stage`} to &ldquo;{result.question}&rdquo; from {result.askedAt.toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}. This is not an updated answer for your current context (Stage: {context.stage === undefined ? 'Not set' : stageLabel(context.stage)}; Jurisdiction: {context.jurisdiction === undefined ? 'Not set' : jurisdictionLabel(context.jurisdiction)}).
             </span>
           </p>
         ) : null}
@@ -384,7 +384,7 @@ export function Journey() {
         {!pending && envelope && answer ? (
           <div className="results">
             <div className="results__main">
-              <p className="section__caption" aria-label="Answer context">
+              <p className="section__caption">
                 Answer context — Stage: {result?.context.stage === undefined ? 'Not set' : stageLabel(result.context.stage)} · Jurisdiction: {result?.context.jurisdiction === undefined ? 'Not set' : jurisdictionLabel(result.context.jurisdiction)}
               </p>
               <p className="summary">{answer.summary}</p>

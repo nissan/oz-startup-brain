@@ -434,14 +434,14 @@
       ],
       "sequence": [
         {
-          "label": "Prepare a working prototype and customer-interest evidence before applying",
+          "label": "Working prototype + customer-interest evidence",
           "jurisdiction": "QLD",
           "claim_ids": [
             "clm_progA_prerequisites"
           ]
         },
         {
-          "label": "Suggested preparation: check IP ownership and gather customer evidence",
+          "label": "Check IP ownership; gather customer evidence",
           "jurisdiction": "national",
           "claim_ids": [
             "clm_ip_first",
@@ -551,11 +551,7 @@
           "funding",
           "start",
           "begin",
-          "step",
-          "university",
-          "ai",
-          "prototype",
-          "commercialisation"
+          "step"
         ]
       ],
       "jurisdiction_sensitive": true,

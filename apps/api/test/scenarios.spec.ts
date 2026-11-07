@@ -108,7 +108,7 @@ describe('fixture responder through the API', () => {
     expect(codes(e)).not.toContain('effective_date_not_stated');
   });
 
-  it.each(['university AI project', 'university prototype', 'commercialisation help'])('retrieves national university contact and unresolved contribution for %s without reasking Unknown', async (question) => {
+  it.each(['university AI project support', 'university prototype support', 'commercialisation help'])('retrieves national university contact and unresolved contribution for %s without reasking Unknown', async (question) => {
     const e = await ask(question, { jurisdiction: 'unknown' });
     expect(e.status).toBe('answer');
     expect(e.clarification).toBeNull();
@@ -124,6 +124,26 @@ describe('fixture responder through the API', () => {
     expect(e.answer!.prerequisite_sequence!.map((s) => s.assertion_kind)).toEqual(['sourced', 'editorial']);
     expect(e.answer!.prerequisite_sequence!.some((s) => /security/.test(s.label))).toBe(false);
     expect(e.unresolved_conditions).toContainEqual(expect.objectContaining({ field: 'matched_contribution', reason: 'not_in_evidence' }));
+  });
+
+  it('preserves exact authored initial T01/T03/T05 tasks without inferring stage from prose', async () => {
+    const questions = [
+      'I have a university AI prototype. What should I check before applying for support? I do not know who owns the IP and want to leave my jurisdiction unknown.',
+      'I have a prototype and early customer discussions. Help me work out what needs attention before I apply for Round A2 today.',
+      'I am building a software prototype in Gympie. I need a local or remote support route, not a long national list.',
+    ];
+    for (const question of questions) {
+      const e = await ask(question, { jurisdiction: 'unknown' });
+      expect(e.status).toBe('answer');
+      expect(e.confirmed_context.stage).toBeUndefined();
+    }
+  });
+
+  it.each(['Is AI regulated in Australia?', 'Can I patent my prototype?', 'Which university ranks highest?', 'How do AI models work?'])('does not turn off-topic question %s into support advice', async (question) => {
+    const e = await ask(question, { jurisdiction: 'QLD' });
+    expect(e.status).toBe('insufficient_evidence');
+    expect(e.answer).toBeNull();
+    expect(e.clarification).toBeNull();
   });
 
   it('Gympie is an explicitly uncovered locality with a readable static directory, not a state hub match', async () => {

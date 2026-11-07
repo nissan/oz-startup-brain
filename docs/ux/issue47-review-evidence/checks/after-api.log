@@ -1,0 +1,34 @@
+
+> @ozsb/api@0.1.0 test
+> jest --runInBand --testPathPattern=scenarios
+
+PASS test/scenarios.spec.ts
+  fixture responder through the API
+    ✓ clarification: asks once for an unconfirmed route-changing field and offers Unknown (29 ms)
+    ✓ explicit Unknown (SC22 fixture evidence): never re-asks, shows national routes only and says what was left out (8 ms)
+    ✓ does not infer jurisdiction from the question text (1 ms)
+    ✓ confirmed QLD: includes the state route, the sourced step and editorial steps labelled as suggestions (2 ms)
+    ✓ outside coverage: says so instead of answering for the state (2 ms)
+    ✓ future-effective (SC23 fixture evidence): a requirement that takes effect later is dated, not a requirement today (1 ms)
+    ✓ retrieves national university contact and unresolved contribution for university AI project support without reasking Unknown (1 ms)
+    ✓ retrieves national university contact and unresolved contribution for university prototype support without reasking Unknown (2 ms)
+    ✓ retrieves national university contact and unresolved contribution for commercialisation help without reasking Unknown (2 ms)
+    ✓ A2 preparation distinguishes sourced and editorial steps and excludes future security (1 ms)
+    ✓ preserves exact authored initial T01/T03/T05 tasks without inferring stage from prose (2 ms)
+    ✓ does not turn off-topic question Is AI regulated in Australia? into support advice
+    ✓ does not turn off-topic question Can I patent my prototype? into support advice (1 ms)
+    ✓ does not turn off-topic question Which university ranks highest? into support advice
+    ✓ does not turn off-topic question How do AI models work? into support advice
+    ✓ Gympie is an explicitly uncovered locality with a readable static directory, not a state hub match (4 ms)
+    ✓ only structured supported stages select authored routes; graph failure omits every dependency (3 ms)
+    ✓ closed round: abstains from recommending an application to a round that has closed (1 ms)
+    ✓ stale evidence is never stated as current (1 ms)
+    ✓ insufficient_evidence: a question the corpus cannot support gets no answer, as an HTTP 200 domain result
+    ✓ treats instructions in the question as data (1 ms)
+    ✓ is deterministic for the same request at the same clock (1 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       22 passed, 22 total
+Snapshots:   0 total
+Time:        1.127 s, estimated 2 s
+Ran all test suites matching /scenarios/i.
