@@ -21,6 +21,8 @@ For every frontend or visual-design change, follow [the visual quality standard]
 3. Address the material weaknesses in scope, then render and inspect the revised result again. Repeat where material problems remain.
 4. Include before/after evidence, review conditions, remaining limitations and the final judgement in the PR.
 
+Commit screenshots and other raster images only through Git LFS (see `.gitattributes`); CI rejects raw images. A workspace that cannot upload to Git LFS hands its renders to the owner or another agent to commit, and says so in the PR (HANDOVER.md section 8).
+
 Passing functional tests, screenshots merely existing, or a successful build does not satisfy this requirement. If visual inspection cannot be performed, record the blocker and leave visual sign-off incomplete. Never fabricate screenshots, review results or user feedback. Backend-only work may mark the gate not applicable with a reason.
 
 Preserve accessibility, truthful evidence states and usable performance while polishing. Use the design system and brand assets deliberately; low-fidelity research sketches are not the production visual target. Owner design approval and synthetic/human usability research remain separate from an agent's visual review.

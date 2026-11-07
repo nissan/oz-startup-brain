@@ -26,6 +26,20 @@ jobs:
       - name: Validator regression tests
         run: python -m unittest discover -s research/synthetic-ux/tools -p 'test_*.py' -v
 
+  lfs-images:
+    name: Raster images are stored as Git LFS pointers
+    runs-on: ubuntu-latest
+    steps:
+      # Default checkout (no LFS download): the guard reads staged blobs and never needs image bytes.
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Every tracked image is an LFS pointer
+        run: python scripts/check-lfs-images.py
+      - name: Guard regression tests
+        run: python -m unittest discover -s scripts -p 'test_*.py' -v
+
   source-audit:
     name: Source inventory validator, report drift and tests (#28)
     runs-on: ubuntu-latest
