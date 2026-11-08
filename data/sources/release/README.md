@@ -2,11 +2,18 @@
 
 Refs [#28](https://github.com/nissan/oz-startup-brain/issues/28). Prepared 8 November 2026 by Claude, run `claude-28-20261108`. This is builder preparation, not a decision, a clearance or an independent review.
 
-Stage 1 can't release a corpus until the owner makes the decisions below and a person checks the facts. The machine-readable record is [`decisions.json`](decisions.json): every decision and fact-check result in it is `null`. `tools/release_decisions.py` runs inside `source_audit.py validate` and refuses:
-- any decision without Nissan's dated GitHub record;
-- any fact check recorded by an agent or without a date;
-- any inclusion that skips a gate;
-- anything that looks like copied source text.
+Stage 1 can't release a corpus until the owner makes the decisions below and a person checks the facts. The machine-readable record is [`decisions.json`](decisions.json): every decision and fact-check result in it is `null`.
+
+`tools/release_decisions.py` runs inside `source_audit.py validate`. Its checks are **structural**:
+- every required decision and the reviewed fact-check inventory are present (the inventory is pinned by a SHA-256 in code);
+- decision values come from a fixed list in code;
+- a recorded decision carries `decided_by: "Nissan (owner)"`, a valid date and a GitHub comment URL;
+- a recorded fact check carries a non-agent name, a date and a target;
+- inclusion requires a reviewed version, every decision and confirmed checks;
+- each page's licence policy follows its publisher, and its retrieval state follows the retrieval logs;
+- long passages and source-text keys are rejected.
+
+It **cannot** check whether the linked comment really authorises the decision, whether the named person checked anything, or whether a short string was copied from a source. Independent and human review remain the semantic gate.
 
 ## Where things stand (8 November 2026)
 
@@ -95,7 +102,7 @@ A page can be included only when all its checks are `confirmed`. Status and date
 ## How a decision gets recorded
 
 1. Nissan comments the decision on #28 (or on the PR that records it).
-2. An agent sets the field in `decisions.json`. It uses `decided_by: "Nissan (owner)"`, the date and that comment's URL, then opens a PR. The validator rejects any decision without that link.
+2. An agent sets the field in `decisions.json`. It uses `decided_by: "Nissan (owner)"`, the date and that comment's URL, then opens a PR. The validator checks that metadata is present and well formed; the reviewer checks that the comment actually says it.
 3. When the release itself is prepared, the manifest's gates move in a separate reviewed PR: `ingestion_approved`, `human_fact_verified` and each record's `rights_status` and `disposition`. Until then `source_audit.py` keeps rejecting `cleared`, `approved_for_ingestion` and `last_verified_at`.
 
 Nothing here makes a paid call, ingests anything or stores third-party text.
