@@ -1,0 +1,18 @@
+# Raster images are stored with Git LFS (owner decision, 8 November 2026; forward-only, history unchanged).
+# Clones without `git lfs pull` get small pointer files; CI never needs the image bytes.
+# Vector sources (SVG), fonts and PDFs stay in Git.
+*.png  filter=lfs diff=lfs merge=lfs -text
+*.jpg  filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.gif  filter=lfs diff=lfs merge=lfs -text
+*.webp filter=lfs diff=lfs merge=lfs -text
+*.PNG  filter=lfs diff=lfs merge=lfs -text
+*.JPG  filter=lfs diff=lfs merge=lfs -text
+*.JPEG filter=lfs diff=lfs merge=lfs -text
+*.GIF  filter=lfs diff=lfs merge=lfs -text
+*.WEBP filter=lfs diff=lfs merge=lfs -text
+
+# Exception: design source inputs that design/tools/render.py inlines (design/mockups/assets.json).
+# They are small (0.3 MB) and stay in Git, so every environment can render the Brand Sheet without
+# downloading LFS objects; a cloud workspace cannot. This line must come after the rules above.
+design/brand/png/*.png -filter binary

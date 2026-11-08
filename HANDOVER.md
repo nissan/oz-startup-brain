@@ -28,6 +28,7 @@ These are all already stated elsewhere; they are repeated here because each was 
 - **Never record a synthetic scenario review to make a check pass** (`--record-scenario-review` in `research/synthetic-ux/tools/`). That is a human review task.
 - **Synthetic UX actors are isolated.** If you are asked to act as a persona, you receive only the actor packet and starting URL. Do not read facilitator material, acceptance criteria, this file's "current state" section or the delivery documents while acting. If a context has already seen those, label its results a *primed inspection*.
 - **Frontend work is not done until the visual-polish pass is done and evidenced** (AGENTS.md). Backend-only work records the visual gate as "N/A, backend/CLI only" with that reason.
+- **Raster images (`.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`) go through Git LFS.** Install `git-lfs` before adding one. CI rejects a raw image. The exception is `design/brand/png/*.png`: design source inputs the renderer inlines, kept in Git so any environment can render. History before 8 November 2026 is unchanged, so its images stay raw in old commits and every cited SHA is still valid.
 - **Use `Refs #N`, not `Closes #N`, in PRs.** Issues close only after the merged build has been verified and the evidence posted.
 - **At most two active implementation issues at once**, and one branch owns the root `package.json` and `package-lock.json` at a time. #34 owns them until it merges or its claim is explicitly released.
 - **Do not force-push or rebase someone else's branch.** Add commits on top. (Owner-requested fixes to Codex's PR #35 were done this way.)
@@ -181,6 +182,7 @@ Other facts about these sessions:
 | Outbound HTTPS only to package registries and GitHub | Claude cloud session | `curl`/`wget` to other sites fail; ask for files to be attached instead. |
 | `tsx` IPC socket `EPERM` | Codex sandbox | `node --import tsx apps/api/scripts/generate-openapi.ts` from `apps/api` produced identical output; record the substitution separately from the literal CI command. |
 | GitHub GraphQL 403 | Claude cloud session | Section 7. |
+| Git LFS uploads refused (`github-cloud.s3.amazonaws.com`, `lfs.github.com`) | Claude cloud session | Raster images are stored with Git LFS (`.gitattributes`, from 8 November 2026), and this workspace cannot push them. Hand screenshots to Nissan or Loki to commit, and say so in the PR; do not commit raw images (the `lfs-images` CI job fails). Clones here get pointers, which `verify-evidence.py` and `scripts/check-lfs-images.py` still verify by hash. |
 | Nested `npm run` swallows `--flags` and prints banners | Any | Root scripts call `node`/`tsx` directly; use `npm run -s`. |
 | Foreground `sleep` is blocked in Claude Code | Claude cloud session | Use an `until … ; do sleep 15; done` loop inside one command, or background the wait. |
 
