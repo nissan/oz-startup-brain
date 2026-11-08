@@ -3,8 +3,8 @@
   "artifacts": [
     {
       "path": "README.md",
-      "sha256": "9961723b89d6ca940273d5b7f4194e0134257450c58b8a916b7a8efe9e2472dc",
-      "bytes": 3013
+      "sha256": "c97ac6ff679369ad328896589234bc6e93f716a5d33ecf5f1f01bc6574c41010",
+      "bytes": 4120
     },
     {
       "path": "evidence/phases.jsonl",

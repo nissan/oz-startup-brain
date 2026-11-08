@@ -1,7 +1,7 @@
-# PR65 independent verifier — in progress
+# PR65 independent verifier — completed bounded tooling verification
 Run openclaw-verify65-20409, source Telegram20409. Candidate 60c95b00863d29427c1e7835f0e9e7eeced9787f; main at start 4921f29. Separate verifier branch verify/65-openclaw-20409. This context coordinated earlier foundation work but did not build this controller. All scripted observations are primed, not fresh actor results. No screen reader operated. No product edits, merge or deployment.
 
-Preparation: clean isolated worktree, locked npm ci under Node22.23.0/npm10.9.8 (npm advertised10.9.9). Default Node26/Python3.15 lack required compatibility/Playwright; using existing Node22 and Python3.14.3 Playwright installation. Candidate tooling and manual browser verification remain pending.
+Preparation: clean isolated worktree, locked npm ci under Node22.23.0/npm10.9.8 (npm advertised10.9.9). Default Node26/Python3.15 lack required compatibility/Playwright; using existing Node22 and Python3.14.3 Playwright installation. Candidate tooling tests and the scripted browser verification are complete; results and limits are recorded below. No independent manual facilitator CLI cycle was run.
 
 ## Results
 - Clean locked install and build PASS. Tool suite 35 discovered:34 passed,1 opt-in browser skipped.
@@ -17,4 +17,10 @@ Preparation: clean isolated worktree, locked npm ci under Node22.23.0/npm10.9.8 
 `PATH=/tmp/node-v22.23.0-darwin-arm64/bin:$PATH npm ci`
 `PATH=/tmp/node-v22.23.0-darwin-arm64/bin:$PATH npm run build`
 `python -m unittest discover -s research/synthetic-ux/tools -p 'test_*.py' -v` (Python3.14.3, Node22PATH)
-`python research/synthetic-ux/runs/verify65-openclaw-20409/tools/browser_check_installed.py --out research/synthetic-ux/runs/verify65-openclaw-20409/evidence-r2 --web-port3165 --api-port3965` (flags separated in actual invocation; see tool source).
+`python research/synthetic-ux/runs/verify65-openclaw-20409/tools/browser_check_installed.py --out research/synthetic-ux/runs/verify65-openclaw-20409/evidence-r2 --web-port 3165 --api-port 3965` (Python3.14.3, Node22PATH; set `OZSB_CHROME` to an installed Chromium executable for the retained portable adapter).
+
+## Review clarification — 8 November 2026
+- Claude review at `40fe2e3c` identified the stale preparation header; the completion wording above supersedes it. Historical results and screenshots are unchanged.
+- The facilitator CLI was not independently run by hand. The browser harness calls `phasectl.request`; the tooling suite includes CLI tests. This does not establish a separate manual-terminal workflow pass.
+- `reports/browser.log` is the failed first `browser_check.py` invocation: missing expected browser executable. Its summary agrees with `evidence/report.json`.
+- The separate `cannot reach controller socket` message appears at the end of `reports/tool-tests.log`, emitted during the tooling-suite execution. The suite tests CLI error handling against a missing socket. It is not the successful r2 browser run and not evidence of a live controller failure. No manual post-cleanup command is claimed.
