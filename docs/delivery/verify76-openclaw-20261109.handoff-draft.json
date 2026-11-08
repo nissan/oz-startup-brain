@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "run_id": "openclaw-76-20438-20261109",
+  "role": "verifier",
+  "agent": "OpenClaw/Loki",
+  "model": "openai/gpt-6.1-sol (session-reported)",
+  "issue_url": "https://github.com/nissan/oz-startup-brain/issues/55",
+  "base_sha": "f81b2d71c29bea725970e8988384d124d4f5ed57",
+  "head_sha": "fda0911b910a2a40f394d36e6c2e4fea1487f2e1",
+  "catalog_sha256": "5657ba2c36b7206f245f6f01d2aea7fe7cfb436d145a038dd2d124986ac096af",
+  "lesson_ids": [],
+  "capabilities": [
+    "Mac shell",
+    "GitHub artifact download",
+    "portable Git LFS"
+  ],
+  "context_disclosure": "Primed verifier; PR77 template draft rehearsal only, unreviewed and unadopted; catalog hash from producer handoff, not independent validation. No fresh research.",
+  "checks": [
+    {
+      "name": "required runtime",
+      "kind": "command",
+      "command": "PATH=/tmp/node-v22.23.0-darwin-arm64/bin:$PATH npm --version",
+      "status": "fail",
+      "exit_code": 0,
+      "observation": "10.9.8, not required10.9.9; execution stopped before fixture preparation. Command success is not acceptance.",
+      "evidence": [
+        "docs/delivery/verify76-openclaw-20261109.md"
+      ]
+    },
+    {
+      "name": "actual Mac zoom/focus matrix",
+      "kind": "manual",
+      "command": "not executed",
+      "status": "not-run",
+      "exit_code": null,
+      "observation": "Required runtime unavailable under stop instruction.",
+      "evidence": []
+    }
+  ],
+  "visual": {
+    "status": "pending",
+    "reason": "No Mac renders or actual visual inspection; existing CI captures archived with original provenance."
+  },
+  "remaining": [
+    "actual Mac zoom/focus/source-return matrix",
+    "Claude evidence interpretation",
+    "Codex integrity review",
+    "PR77 review and structured-schema adoption"
+  ],
+  "next_action": "Codex reconcile exact runtime stop; Claude review partial evidence; no merge readiness.",
+  "cleanup": "No services/browser launched; no settings changed. Checkout retained."
+}
