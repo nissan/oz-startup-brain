@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "run_id": "codex-10-vocabulary-20261109",
+  "role": "builder",
+  "agent": "Codex / ChatGPT Work",
+  "model": "unknown exact session model version",
+  "issue_url": "https://github.com/nissan/oz-startup-brain/issues/10",
+  "base_sha": "3c360993684829118c84029a0b968504189e0c80",
+  "head_sha": "f56a584c9313fe985f4b6c68722b638e06d21286",
+  "catalog_sha256": "a5b06880ce74cb3d74e4f0997a13ecf66921cf78f82315ebf07e5be6e17fbcb5",
+  "lesson_ids": [
+    "OSB-001",
+    "OSB-002",
+    "OSB-003",
+    "OSB-004",
+    "OSB-005",
+    "OSB-006",
+    "OSB-007"
+  ],
+  "capabilities": [
+    "locked Node/npm runtime",
+    "substitute Chromium 153",
+    "local Python/design renderer",
+    "GitHub connector code publication",
+    "no authenticated Git LFS upload"
+  ],
+  "context_disclosure": "Continuing builder/integration context. Primed checks, not independent reviewer or fresh actor. Detailed commands and limitations in linked report.",
+  "checks": [
+    {
+      "name": "core workspace checks",
+      "kind": "command",
+      "command": "npm run check:compat && npm run typecheck && npm test && npm run demo:fixture",
+      "status": "pass",
+      "exit_code": 0,
+      "observation": "Compatibility, full build/typecheck,194 unit and9 HTTP checks passed with Node22.23.0/npm10.9.9.",
+      "evidence": [
+        "docs/delivery/vocabulary10-20261109.md#actual-checks-and-substitutions"
+      ]
+    },
+    {
+      "name": "literal generation",
+      "kind": "command",
+      "command": "npm run generate",
+      "status": "fail",
+      "exit_code": 1,
+      "observation": "tsx IPC EPERM; documented node --import tsx substitution and subsequent generation/drift checks passed; literal CI still required.",
+      "evidence": [
+        "docs/delivery/vocabulary10-20261109.md#actual-checks-and-substitutions"
+      ]
+    },
+    {
+      "name": "local browser suite with disclosed substitute",
+      "kind": "manual",
+      "status": "pass",
+      "exit_code": null,
+      "observation": "80/80 with Chromium153.0.8010.0,1440x900/390x844; pinned download failed. Configuration is recorded in the report.",
+      "evidence": [
+        "docs/delivery/vocabulary10-20261109.md#actual-checks-and-substitutions"
+      ]
+    },
+    {
+      "name": "durable final-render preservation",
+      "kind": "manual",
+      "status": "blocked",
+      "exit_code": null,
+      "observation": "Local LFS upload lacks credentials; local captures not published. Exact-head CI archival/readback still needed.",
+      "evidence": [
+        "docs/delivery/vocabulary10-20261109.local-captures.json"
+      ]
+    }
+  ],
+  "visual": {
+    "status": "performed",
+    "reason": "Six actual after renders inspected; comparison rectangles limited to generated request IDs. Artifact preservation is still open, distinct from performed local inspection.",
+    "evidence": [
+      "docs/delivery/vocabulary10-20261109.md#visual-inspection",
+      "docs/delivery/vocabulary10-20261109.local-captures.json"
+    ]
+  },
+  "remaining": [
+    "Current-head CI for literal generation, pinned browser and controller mechanics",
+    "Claude exact-head code/evidence review",
+    "Durable final-render archival and upstream readback using authenticated capability",
+    "Authorized integration and resulting-build verification",
+    "Export parity remains deferred; do not close #10"
+  ],
+  "next_action": "Claude reviews code/evidence; Codex pins completed CI artifacts and hands only authenticated Mac archival to OpenClaw; no repeat application suite.",
+  "cleanup": "All eight fixture ports closed. No settings changed. Six local captures remain unpublished; original product, pilot and evidence worktrees preserved."
+}
