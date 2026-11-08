@@ -14,7 +14,7 @@ Stage 1 cannot release a corpus until page-level rights review and human checks 
 - Set the seven substantive pages' inclusion to `defer` and the grants-finder shell to `exclude`.
 - Prioritize the 15 human checks on the federal pages. No named human checker or completion date has been assigned. All 26 check results remain null.
 
-This records 22 of 34 selections. The 12 remaining use/retention/attribution fields concern the three unretrieved Queensland pages and excluded finder; leave them pending. No manifest gate or source version changes. The original options and rationale below remain for reference; the selection record above supersedes their proposal labels.
+This records 22 of 34 selections. The 12 remaining use/retention/attribution fields concern the three Queensland pages and the excluded finder; leave them pending. The Queensland pages are now retrieved and promoted (#59, #60), but the owner record covered only the federal pages: their selections and page-level rights exceptions are [#61](https://github.com/nissan/oz-startup-brain/issues/61). The 15 priority federal fact checks are [#62](https://github.com/nissan/oz-startup-brain/issues/62). No manifest gate or source version changes. The original options and rationale below remain for reference; the selection record above supersedes their proposal labels.
 
 `tools/release_decisions.py` runs inside `source_audit.py validate`. Its checks are **structural**:
 - every required decision and the reviewed fact-check inventory are present (the inventory is pinned by a SHA-256 in code);
