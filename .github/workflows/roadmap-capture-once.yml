@@ -1,0 +1,193 @@
+name: One-shot roadmap evidence capture
+
+on:
+  push:
+    branches: [ci/roadmap-capture-20261108]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: roadmap-capture-20261108
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    if: github.repository == 'nissan/oz-startup-brain' && github.event_name == 'push' && github.ref == 'refs/heads/ci/roadmap-capture-20261108'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.12'
+          cache: npm
+      - name: Install locked capture dependencies
+        run: |
+          npm ci
+          npx --no-install playwright install --with-deps chromium
+      - name: Retrieve optional hash-verified actor PNG blobs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/stage-roadmap-actor-evidence.py
+      - name: Capture the exact reviewed static HTML
+        run: node scripts/capture-roadmap-20261108.mjs
+      - name: Preserve final renders and explicitly reconstructed comparison
+        uses: actions/upload-artifact@v4
+        with:
+          name: roadmap-captures-20261108
+          path: _roadmap-capture
+          retention-days: 90
+          if-no-files-found: error
+
+  preserve-final:
+    needs: capture
+    if: github.repository == 'nissan/oz-startup-brain' && github.event_name == 'push' && github.ref == 'refs/heads/ci/roadmap-capture-20261108'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    env:
+      EVIDENCE_REF: refs/heads/evidence/roadmap-captures-20261108
+      SOURCE_COMMIT: 99c516df8af4b94cb05bbbf63855b8d6ce35f3eb
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 99c516df8af4b94cb05bbbf63855b8d6ce35f3eb
+          lfs: false
+      - name: Refuse an existing evidence branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          git ls-remote --exit-code --heads origin "$EVIDENCE_REF" > "$RUNNER_TEMP/roadmap-existing-ref"
+          status=$?
+          set -e
+          if [ "$status" -eq 0 ]; then
+            echo 'Evidence branch already exists; refusing to update it.' >&2
+            exit 1
+          fi
+          if [ "$status" -ne 2 ]; then
+            echo 'Could not establish absence of evidence branch.' >&2
+            exit 1
+          fi
+          test "$(git rev-parse HEAD)" = "$SOURCE_COMMIT"
+      - uses: actions/download-artifact@v4
+        with:
+          name: roadmap-captures-20261108
+          path: _roadmap-capture
+      - name: Validate only the four final captures and manifest
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, pathlib, re, shutil, struct
+          artifact = pathlib.Path('_roadmap-capture')
+          final = artifact / 'final'
+          target = pathlib.Path('design/exports/roadmap-20261108')
+          expected = {f'final-{width}-{theme}.png' for width in (390, 1440) for theme in ('light', 'dark')}
+          assert {p.name for p in final.iterdir()} == expected | {'manifest.json'}
+          m = json.loads((final / 'manifest.json').read_text())
+          assert m['source_commit'] == os.environ['SOURCE_COMMIT']
+          assert m['source_path'] == 'docs/delivery/roadmap/index.html'
+          assert m['source_sha256'] == hashlib.sha256(pathlib.Path(m['source_path']).read_bytes()).hexdigest()
+          assert m['capture_script_commit'] == os.environ['GITHUB_SHA']
+          assert m['repository'] == 'nissan/oz-startup-brain'
+          assert m['event'] == 'push' and m['ref'] == 'refs/heads/ci/roadmap-capture-20261108'
+          assert m['run_id'] == os.environ['GITHUB_RUN_ID'] and m['run_attempt'] == os.environ['GITHUB_RUN_ATTEMPT']
+          assert m['evidence_class'] == 'primed_document_visual_capture'
+          assert m['external_requests'] == [] and len(m['captures']) == 4
+          assert {c['path'] for c in m['captures']} == {str(target / n) for n in expected}
+          for c in m['captures']:
+              name = pathlib.Path(c['path']).name
+              assert c['artifact_path'] == f'final/{name}'
+              p = final / name
+              assert p.is_file() and not p.is_symlink()
+              b = p.read_bytes()
+              assert b[:8] == b'\x89PNG\r\n\x1a\n' and b[12:16] == b'IHDR'
+              assert hashlib.sha256(b).hexdigest() == c['sha256'] and len(b) == c['bytes']
+              width, height = struct.unpack('>II', b[16:24])
+              assert width == c['css_viewport']['width'] and 900 <= height < 50000
+              assert c['theme'] in ('light', 'dark') and c['full_page'] is True
+          r = m['reconstruction']
+          assert r['historical_original_available'] is False and r['git_storage'] is False
+          assert r['artifact_path'] == 'reconstruction/reconstructed-before-390-light.png'
+          rb = (artifact / r['artifact_path']).read_bytes()
+          assert hashlib.sha256(rb).hexdigest() == r['sha256'] and len(rb) == r['bytes']
+          actors = m['actor_evidence']
+          assert actors == json.loads((artifact / 'actor-staging.json').read_text())
+          assert isinstance(actors['entries'], list) and len(actors['entries']) <= 30
+          assert actors['provided'] or actors['entries'] == []
+          prefix = 'research/synthetic-ux/runs/consolidation-20261108/actors/'
+          seen = set()
+          validated_actors = []
+          total = 0
+          for c in actors['entries']:
+              assert set(c) == {'blob_sha', 'sha256', 'bytes', 'path', 'artifact_path'}
+              path = c['path']
+              assert path.startswith(prefix) and path.endswith('.png') and path not in seen
+              assert str(pathlib.PurePosixPath(path)) == path
+              assert all(re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*', part) for part in path.split('/'))
+              seen.add(path)
+              assert c['artifact_path'] == 'actors/' + path[len(prefix):]
+              p = artifact / c['artifact_path']
+              assert p.is_file() and not p.is_symlink()
+              b = p.read_bytes()
+              assert type(c['bytes']) is int and len(b) == c['bytes'] and 24 <= len(b) <= 10 * 1024 * 1024
+              assert hashlib.sha256(b).hexdigest() == c['sha256']
+              assert hashlib.sha1(f'blob {len(b)}\0'.encode() + b).hexdigest() == c['blob_sha']
+              assert b[:8] == b'\x89PNG\r\n\x1a\n' and b[12:16] == b'IHDR'
+              assert not pathlib.Path(path).exists(), 'actor destination already exists in fixed source tree'
+              total += len(b)
+              validated_actors.append((p, pathlib.Path(path)))
+          assert total <= 100 * 1024 * 1024
+          assert not target.exists(), 'destination already exists in the fixed source tree'
+          target.mkdir(parents=True)
+          for name in sorted(expected | {'manifest.json'}):
+              shutil.copyfile(final / name, target / name)
+          for source, actor_target in validated_actors:
+              actor_target.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copyfile(source, actor_target)
+          PY
+      - name: Commit canonical LFS pointers on a new evidence branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git lfs install --local
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch --create evidence/roadmap-captures-20261108
+          python - <<'PY'
+          import json, pathlib, subprocess
+          target = pathlib.Path('design/exports/roadmap-20261108')
+          m = json.loads((target / 'manifest.json').read_text())
+          captures = m['captures'] + m['actor_evidence']['entries']
+          expected = {str(target / 'manifest.json')} | {c['path'] for c in captures}
+          subprocess.run(['git', 'add', '--', *sorted(expected)], check=True)
+          changed = set(subprocess.check_output(['git', 'diff', '--cached', '--name-only'], text=True).splitlines())
+          assert changed == expected, changed
+          for c in captures:
+              staged = subprocess.check_output(['git', 'show', ':' + c['path']]).decode()
+              canonical = f"version https://git-lfs.github.com/spec/v1\noid sha256:{c['sha256']}\nsize {c['bytes']}\n"
+              assert staged == canonical, c['path']
+          PY
+          git diff --cached --check
+          git commit -m 'docs: preserve final roadmap captures with explicit reconstruction provenance' -m 'AI-Agent: Codex; run roadmap-capture-20261108'
+          test "$(git rev-parse HEAD^)" = "$SOURCE_COMMIT"
+      - name: Upload only these LFS objects and create the absent branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY' > "$RUNNER_TEMP/roadmap-lfs-oids"
+          import json
+          m = json.load(open('design/exports/roadmap-20261108/manifest.json'))
+          for oid in sorted({c['sha256'] for c in m['captures'] + m['actor_evidence']['entries']}):
+              print(oid)
+          PY
+          git lfs push --object-id origin --stdin < "$RUNNER_TEMP/roadmap-lfs-oids"
+          GIT_LFS_SKIP_PUSH=1 git push --force-with-lease="$EVIDENCE_REF:" origin "HEAD:$EVIDENCE_REF"
+          echo "Final capture evidence commit: $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+          echo 'Reconstructed-before comparison is in the roadmap-captures-20261108 artifact (90 days), not in Git.' >> "$GITHUB_STEP_SUMMARY"
