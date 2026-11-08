@@ -122,6 +122,37 @@ jobs:
         run: npm test -w @ozsb/web
       - name: Browser tests (desktop and phone, both themes, harness faults, painted fonts)
         run: npm run e2e -w @ozsb/web
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install phase-controller browser runner (same pin as design checks)
+        run: |
+          python -m pip install playwright==1.51.0
+          python -m playwright install --with-deps chromium
+      - name: Verify same-page failure and recovery on the actual checkout
+        timeout-minutes: 5
+        run: |
+          python - <<'PYIDENTITY'
+          import json, os, pathlib, subprocess
+          out = pathlib.Path('phase-browser-results')
+          out.mkdir()
+          identity = {'checkout_sha': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(), 'event': os.environ['GITHUB_EVENT_NAME'], 'run_id': os.environ['GITHUB_RUN_ID'], 'evidence_class': 'primed_regression'}
+          (out / 'identity.json').write_text(json.dumps(identity, indent=2) + '\n')
+          print(json.dumps(identity))
+          PYIDENTITY
+          python research/synthetic-ux/tools/phase-controller/browser_check.py --out phase-browser-results
+      - name: Print phase result for durable log readback
+        if: always()
+        run: |
+          if [ -f phase-browser-results/report.json ]; then cat phase-browser-results/report.json; fi
+      - name: Retain phase report and captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-browser-${{ github.sha }}
+          path: phase-browser-results
+          retention-days: 30
+          if-no-files-found: ignore
       - name: Keep traces of any failure
         if: failure()
         uses: actions/upload-artifact@v4
