@@ -2,7 +2,7 @@
 
 ## Current checkpoint — 8 November 2026
 
-Read [the consolidation assessment and start prompts](docs/delivery/consolidation-20261108.md) and live [issue #23](https://github.com/nissan/oz-startup-brain/issues/23) before choosing work. #67/#69/#71 are merged; actual main recovery and fresh T03/T05 retests are recorded there. Next prepared build lanes are #55 (Codex) and bounded #10 (Claude), with OpenClaw verification. Owner/human/AT gates remain explicit. The older status tables and dispatch prompts below are historical, not active assignments. Working commands and safety boundaries remain useful, subject to current repository files and live issues.
+Read [the consolidation assessment and start prompts](docs/delivery/consolidation-20261108.md) and live [issue #23](https://github.com/nissan/oz-startup-brain/issues/23) before choosing work. #67/#69/#71 are merged; actual main recovery and fresh T03/T05 retests are recorded there. Owner update: Codex owns builds (#55 first, bounded #10 next); Claude reviews PRs only; OpenClaw handles verification requiring local Mac commands. Codex/CI handles other checks with builder-verification disclosure. Owner/human/AT gates remain explicit. The older status tables and dispatch prompts below are historical, not active assignments. Working commands and safety boundaries remain useful, subject to current repository files and live issues.
 
 ## Historical handover and operating reference
 

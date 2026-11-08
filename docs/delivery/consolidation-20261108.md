@@ -23,7 +23,7 @@ The fixture journey works and preserves bounded conversational scope. It is not 
 | Issue | Readiness / next action |
 | --- | --- |
 | #55 | Ready for next build after consolidation: action evidence dismissal, focus restoration, narrow inline layout and source-return preservation. |
-| #10 | Ready for a bounded existing-surface vocabulary increment; export acceptance stays open until an export exists. Coordinate exact file ownership below. |
+| #10 | Queued for Codex after #55, as a bounded existing-surface vocabulary increment; export acceptance stays open until an export exists. |
 | #53 | Verification blocked on #55; fresh isolated T13 source → return → dismiss attempt, separate from primed checks. |
 | #9 | Continue available component activation/actual zoom coverage; actual screen-reader evidence needs a real available tool/operator. Prior #56 scope is not full acceptance. |
 | #72 / #73 | P2 backlog after #55; context explanations and evidence presentation. Coordinate shared labels with #10. |
@@ -34,33 +34,35 @@ The fixture journey works and preserves bounded conversational scope. It is not 
 | #54 | Real-founder research backlog; synthetic observations do not replace it. |
 | #30 | Native Project access blocked; issue index remains usable. |
 
-## Next two implementation lanes
+## Current provider roles — owner update, 8 November 2026
 
-These are prepared assignments for the next sessions, not claims that external runtimes have started. Each session posts its exact model ID, run, branch and base SHA; coordinator confirms the unique claim before editing. At most two implementation issues, including review fixes. No lane owns the root manifests until explicitly needed and assigned.
+Nissan removed Claude build assignments for now: **Codex builds, Claude reviews PRs only, and OpenClaw performs verification that requires local Mac commands.** This supersedes the earlier two-provider build plan. External sessions are not automatically started or stopped by this record.
 
-| Session / recommended model class | Exclusive build boundary | Reviewer | Verifier / stop gate |
-| --- | --- | --- | --- |
-| Codex — strong coding/reasoning model | #55: `Journey.tsx`, `EvidencePanel.tsx`, dismissal/focus styles and scoped UI regressions. Own `journey.spec.ts` during this increment. No shared vocabulary edits. | Claude in a fresh review context | OpenClaw exact-head keyboard/phone/desktop, both themes; then merged-build smoke and #53 actor. Stop if shared labels/contracts are needed; coordinate first. |
-| Claude — strongest available reasoning/coding tier | #10: new shared vocabulary table in `packages/contracts`, API/schema consumers, `EvidenceLabel`/`StatusNotice`, design bundle generator and its tests/docs. No Journey/EvidencePanel/`journey.spec.ts` edits while #55 owns them. | Codex in a fresh review context | OpenClaw label parity/browser checks after reviewed head. Export parity remains explicitly incomplete; no export invention to close the issue. |
-| OpenClaw — verification harness using its configured capable model | No concurrent product edits. Reproduce candidates and merged builds; preserve hashes, failures and actual runner/browser/model IDs. #53 fresh actor only after #55 readiness. Inventory real AT/zoom tools for remaining #9. | Claude assesses UX/AT interpretation; Codex checks integrity and exact-head provenance | Never self-certify its own evidence as independent acceptance. If a check cannot run, report blocked; no substitute relabelled as AT/human evidence. |
+| Session | Current responsibility | Boundary |
+| --- | --- | --- |
+| Codex | Implementation, review fixes, coordination and checks available in this environment or CI. Build #55 first; queue #10's existing-surface increment next. | Separate bounded PRs. Preserve existing acceptance and export deferral. Builder-run checks are labelled as such, not independent review. |
+| Claude | Review PRs at their exact heads, including code, UX/evidence interpretation and any local verification evidence PR. | No build assignments, implementation commits or review-fix ownership. Return findings to Codex; re-review changed heads. Use a fresh context where possible and disclose prior context. |
+| OpenClaw | Execute scoped verification requiring commands on Nissan's local Mac. | Receive a pinned checkout plus exact commands, expected evidence, cleanup and stop conditions. No general build assignment or blanket verification ownership; no product fixes. |
 
-OpenClaw is a harness, not a model provider. This session has not inspected its current model configuration or Claude's enabled versions. Do not invent those IDs. For a Codex session offering GPT-6.1, use its coding-focused option for bounded #55 implementation and a stronger reasoning option for difficult contract/security review; use the exact offered model name in the claim. Fast/cheap models may triage, format or summarize logs under review, but should not be sole semantic/visual/security/merge reviewers. A fresh context is still necessary even when changing model.
+Default sequence: Codex builds #55 → Claude reviews → Codex fixes findings → run remaining verification in Codex/CI, handing only local-Mac-required checks to OpenClaw → Claude reviews any verification evidence PR → merge under standing authority → check resulting build → reconcile issues. Then Codex takes #10. The two-implementation-issue maximum remains a ceiling, not a target; there is no Claude parallel build lane.
 
-Sequence: confirm #55 and #10 file claims → build separately → cross-review exact heads → OpenClaw verifies → coordinator merges one at a time under standing owner authority → verify resulting build → reconcile issues. #55 and #10 may run in parallel only within the disjoint boundaries above. If both need a shared path or root lockfile, serialize that part. #53 is a verification lane, not a third implementation lane. Reserve review capacity; do not start #72/#73 while review fixes occupy both slots.
+#53 remains blocked on #55 readiness. Codex coordinates its fresh isolated actor retest; OpenClaw participates only if the required execution needs the local Mac. For #9, Mac browser/VoiceOver/actual zoom work may require OpenClaw, but tooling availability and actual execution must be recorded. Do not equate a command, viewport emulation or DOM inspection with observed assistive-technology behaviour.
+
+Record exact model ID, run, branch and base SHA when claiming work. One builder owns each shared path and root manifest at a time. OpenClaw is a harness, not a model provider; its configured model and Claude's enabled version have not been independently inventoried. Use a capable coding model for Codex implementation and a capable reasoning model for Claude review. Fast models may assist bounded triage and log summaries, not sole semantic, visual, security or merge sign-off.
 
 ## Copyable start prompts
 
-### Codex
+### Codex — implementation
 
-> Work on nissan/oz-startup-brain #55. Read HANDOVER's current checkpoint, AGENTS, docs/delivery/consolidation-20261108.md, issue #55 and its latest comments. Claim one unique run/model/branch at current main and obtain the coordinator’s unique-claim confirmation before editing. Implement bounded action-evidence dismissal with accessible keyboard control and focus return, including narrow inline placement at actual zoom where available. Own Journey.tsx, EvidencePanel.tsx and journey.spec.ts; coordinate any contract/label/manifest change with #10. Preserve source-return, rights gating, context and prerequisite toggles. Capture before/refined-after phone/desktop, light/dark evidence through LFS. Run applicable clean checks, open a bounded PR with exact head, request fresh Claude review, then hand OpenClaw the pinned verification target. Do not close #53/#9 or claim external sessions ran.
+> Build nissan/oz-startup-brain #55 first; queue #10's bounded existing-surface vocabulary increment next in a separate PR. Read HANDOVER, AGENTS, this current provider-role update and live #23/#55/#10 before claiming. Record exact model/run/branch/base and unique ownership. Implement and fix review findings, run applicable clean checks and visual review, and publish exact-head evidence. Claude reviews PRs only. Perform ordinary verification here or through CI, accurately labelled; hand OpenClaw only checks requiring local Mac commands, with pinned SHA, commands, evidence paths, cleanup and stop conditions. Preserve #53/#9 gates and #10's deferred export parity. Do not claim external sessions ran.
 
-### Claude
+### Claude — PR review only
 
-> Work on nissan/oz-startup-brain #10's existing-surface increment. Read current checkpoint, AGENTS, delivery plan and latest #10/#55 comments. Claim exact model/run/branch and disjoint files. Centralize approved state/service words in contracts and wire existing API/UI/design consumers with meaningful drift tests. Do not change the words or implement an export just to satisfy an absent surface. Keep #10 open for export parity. Codex #55 owns Journey.tsx, EvidencePanel.tsx and journey.spec.ts; agree a handoff before touching them or root manifests. Validate generated files, compatibility and actual rendered labels as applicable. Open a bounded PR and request fresh Codex review. Also review #55 in a fresh context when ready, disclosing shared context if isolation is unavailable.
+> Review PRs for nissan/oz-startup-brain only; do not take build tasks, implement #10, or push fixes. Read AGENTS, the current #23 provider roles, each PR's exact head and linked acceptance/evidence. Assess code, regressions, visual quality and evidence limits as applicable. Post actionable findings with file/location and severity, or scoped GO; disclose context and re-review changed heads. Return implementation findings to Codex. Review local Mac verification evidence PRs when provided; do not substitute review for tests that have not run.
 
-### OpenClaw
+### OpenClaw — local Mac verification only
 
-> Take the verification lane for nissan/oz-startup-brain under docs/delivery/consolidation-20261108.md and #23. Record the actual configured model, browser, tools and runner; do not assume a model name. First preserve/check any unpushed prior evidence against the consolidation record; don't repeat accepted runs without a changed target or unresolved concern. Wait for reviewed exact heads for #55/#10; verify acceptance, phone/desktop and both themes, preserve artifacts/hashes/failures in a separate evidence PR. For #53 after #55, create a fresh isolated actor context receiving only the registered T13 packet, URL and constraints; do not expose expected outcomes. Distinguish primed regression, fresh synthetic attempts, actual zoom and real AT. Inventory available screen reader/zoom tools for remaining #9 and state blocked coverage honestly. No product edits, source-release decisions or fabricated human findings. Request Claude interpretation and Codex integrity review, then verify the actual merged identity.
+> Perform only scoped verifications that require commands on Nissan's local Mac for nissan/oz-startup-brain. Wait for Codex's pinned SHA and command handoff. Record the actual model, macOS/tool/browser versions, commands, outputs, failures and cleanup; preserve artifacts and hashes in an evidence PR for Claude review. Do not take general build work, product fixes or repeat verification already completed in Codex/CI without a stated need. For browser/VoiceOver/zoom work, report only actual executed coverage and unavailable capabilities. Keep fresh synthetic actors isolated from expected outcomes and separate from primed checks. No invented human findings, source-release choices or secret-bearing logs.
 
 ## Retrospective
 
