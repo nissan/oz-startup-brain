@@ -130,6 +130,19 @@ jobs:
           path: apps/web/test-results/shots/*-r55-*.png
           retention-days: 90
           if-no-files-found: warn
+      - name: Retain existing-surface vocabulary captures for review (#10)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-vocabulary-${{ github.sha }}
+          path: |
+            apps/web/test-results/shots/*-answer-qld-light.png
+            apps/web/test-results/shots/*-a2-dark.png
+            apps/web/test-results/shots/*-fault-graph-light.png
+            apps/web/test-results/shots/*-fault-vector-light.png
+            apps/web/test-results/shots/*-fault-budget-dark.png
+          retention-days: 90
+          if-no-files-found: warn
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
