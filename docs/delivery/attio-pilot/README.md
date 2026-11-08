@@ -5,7 +5,7 @@ Prepared 9 November 2026 (Australia/Sydney). **Opt-in trial, not replacement pol
 ## Start here
 
 1. Read repository instructions and the live issue/PR. [The current delivery workflow](../agent-workflow.md) remains authoritative; live Delivery blocks establish assignments.
-2. Read [the three session prompts](prompts.md). Keep an existing session's branch and work intact. Use a fresh Claude context when independent review is required.
+2. Use [the continuous discovery/session prompts](continuous-prompts.md) for normal operation. The [original task-specific prompts](prompts.md) remain as historical pilot-start examples. Keep an existing session's branch and work intact. Use a fresh Claude context when independent review is required.
 3. Use [the reusable playbooks](playbooks.md) and select relevant lessons with the tool below.
 4. Use [the handoff template](handoff.template.json), validate its structure, then have the receiving agent inspect the actual evidence.
 5. Run the [three-task trial](trial.md). Measure before choosing whether to retain or automate anything.

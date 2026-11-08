@@ -1,4 +1,6 @@
-# Prompts for current sessions
+# Original task-specific pilot prompts
+
+For reusable sessions that discover their own eligible work and publish durable checkpoints, use [continuous-prompts.md](continuous-prompts.md). The numbered task references below are historical startup examples, not the standing work queue.
 
 These prompts add a pilot to the current work; they do not reset branches, override live assignments, transfer ownership or start other sessions. Read this pack from its reviewed commit/branch until merged. Fetch it into a separate worktree if needed; do not overwrite in-progress product work. The tools accept paths in the target product diff even when run from the separate pack worktree, provided the referenced commits exist there.
 
