@@ -1,0 +1,624 @@
+{
+  "format_version": "1",
+  "purpose": "Pending owner decisions and human fact checks for the eight core Queensland-pilot pages (#28 Stage 1 gates 4-5). Nothing here is decided: every `selected` and `result` is null until the owner records a decision in GitHub and links it.",
+  "prepared_by": "Claude, run claude-28-20261108 (builder preparation, not a decision or independent review)",
+  "prepared_on": "2026-11-08",
+  "options": {
+    "use": {
+      "link_only": "Metadata and link only; the planner points to the page and says nothing from it.",
+      "paraphrase": "Short factual statements in the planner's own words, each cited and dated; no copied passages.",
+      "licensed_excerpts": "Department-owned text quoted under the page's CC licence with the prescribed attribution, excluding the page's listed exceptions (images, marks, third-party material, operator-supplied text)."
+    },
+    "retention": {
+      "hashes_only": "Repository keeps hashes and version IDs; the private snapshot is deleted.",
+      "private_snapshot_until_recheck": "Owner keeps the private snapshot until the next reviewed re-fetch, for audit and re-hashing.",
+      "private_store_for_pipeline": "Snapshot moves to a private store an ingestion pipeline can read. Needs a storage decision and is not proposed now."
+    },
+    "attribution": {
+      "policy_prescribed": "Copy the attribution exactly as the publisher's copyright notice prescribes, at decision time, plus source URL, access date, licence link and a change note."
+    },
+    "release_inclusion": {
+      "include": "Include in the first corpus release.",
+      "exclude": "Leave out of the first release.",
+      "defer": "Decide after the blocking item (retrieval or fact check) clears."
+    },
+    "queensland_retrieval_route": {
+      "owner_computer": "Owner runs the repository's fetch tool from their own computer (commands in release/README.md); stop on any 403 or challenge page.",
+      "permission_request": "Ask the department for an access route or a supplied copy (draft in release/README.md).",
+      "federal_only_interim": "Release only federal sources first, labelled as not Queensland coverage; Queensland follows when retrievable.",
+      "change_pilot": "Revisit the pilot jurisdiction decision of 6 November 2026."
+    },
+    "release_scope": {
+      "federal_interim": "A first release of the reviewed federal pages only, labelled federal and not Queensland coverage.",
+      "wait_for_queensland": "No release until the Queensland pages are retrieved and reviewed."
+    }
+  },
+  "global_decisions": {
+    "queensland_retrieval_route": {
+      "selected": null,
+      "decided_by": null,
+      "decided_on": null,
+      "record_url": null
+    },
+    "release_scope": {
+      "selected": null,
+      "decided_by": null,
+      "decided_on": null,
+      "record_url": null
+    }
+  },
+  "sources": [
+    {
+      "source_id": "src_8db3776594ab",
+      "title_as_cited": "Advance Queensland Ignite Ideas Fund",
+      "url": "https://advance.qld.gov.au/grants-and-programs/ignite-ideas-fund",
+      "rights_policy_candidate": "qld_detsi",
+      "retrieval": {
+        "state": "blocked_403",
+        "source_version_id": null,
+        "evidence": "audits/retrieval-28-20261106-review.md"
+      },
+      "decisions": {
+        "use": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "retention": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "attribution": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "release_inclusion": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        }
+      },
+      "fact_checks": [
+        {
+          "check_id": "src_8db3776594ab/status",
+          "area": "status",
+          "check": "Is the fund open, closed or paused, and is any next round or closing date stated?",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_8db3776594ab/eligibility",
+          "area": "eligibility",
+          "check": "Who may apply (business type, location, stage), as stated?",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_8db3776594ab/funding",
+          "area": "funding",
+          "check": "Stated funding amount or range and any co-contribution requirement.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_8db3776594ab/dates",
+          "area": "dates",
+          "check": "Any stated round, closing or decision dates, with their year.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "source_id": "src_5dcbf23541e6",
+      "title_as_cited": "Advance Queensland Ignite+",
+      "url": "https://advance.qld.gov.au/grants-and-programs/ignite-program/ignite-plus",
+      "rights_policy_candidate": "qld_detsi",
+      "retrieval": {
+        "state": "blocked_403",
+        "source_version_id": null,
+        "evidence": "audits/retrieval-28-20261106-review.md"
+      },
+      "decisions": {
+        "use": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "retention": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "attribution": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "release_inclusion": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        }
+      },
+      "fact_checks": [
+        {
+          "check_id": "src_5dcbf23541e6/status",
+          "area": "status",
+          "check": "Is Ignite+ open, closed or paused, and how does it relate to the Ignite Ideas Fund?",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_5dcbf23541e6/eligibility",
+          "area": "eligibility",
+          "check": "Stated eligibility and stage requirements.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_5dcbf23541e6/dates",
+          "area": "dates",
+          "check": "Any stated round or closing dates, with their year.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "source_id": "src_d1313206eafa",
+      "title_as_cited": "Advance Queensland Ignite Spark Program",
+      "url": "https://advance.qld.gov.au/grants-and-programs/ignite-spark-program",
+      "rights_policy_candidate": "qld_detsi",
+      "retrieval": {
+        "state": "blocked_403",
+        "source_version_id": null,
+        "evidence": "audits/retrieval-28-20261106-review.md"
+      },
+      "decisions": {
+        "use": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "retention": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "attribution": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "release_inclusion": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        }
+      },
+      "fact_checks": [
+        {
+          "check_id": "src_d1313206eafa/status",
+          "area": "status",
+          "check": "Is Ignite Spark open, closed or paused? (The 6 November audit observed closed applications through the provider; confirm on the live page.)",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_d1313206eafa/eligibility",
+          "area": "eligibility",
+          "check": "Stated eligibility and stage requirements.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_d1313206eafa/dates",
+          "area": "dates",
+          "check": "Any stated round or closing dates, with their year.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "source_id": "src_7d73188025be",
+      "title_as_cited": "AI Adopt Centres",
+      "url": "https://business.gov.au/expertise-and-advice/ai-adopt-centres",
+      "rights_policy_candidate": "business_gov",
+      "retrieval": {
+        "state": "reviewed_version",
+        "source_version_id": "sv_5c4b6a8ffd94aa780022",
+        "evidence": "audits/retrieval-28-20261106-review.md"
+      },
+      "decisions": {
+        "use": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "retention": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "attribution": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "release_inclusion": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        }
+      },
+      "fact_checks": [
+        {
+          "check_id": "src_7d73188025be/operators",
+          "area": "operators",
+          "check": "Which AI Adopt Centres are listed, and which, if any, serve Queensland businesses?",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_7d73188025be/eligibility",
+          "area": "eligibility",
+          "check": "Who the centres serve (business size or sector) and whether services are free or charged, as stated.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_7d73188025be/status",
+          "area": "status",
+          "check": "Is the program still operating, and is an end date stated?",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_7d73188025be/authorship",
+          "area": "authorship",
+          "check": "Are the centre descriptions department-authored or operator-supplied? (Rights exception; see the retrieval review.)",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "source_id": "src_f164f71e6364",
+      "title_as_cited": "State and territory programs",
+      "url": "https://business.gov.au/grants-and-programs",
+      "rights_policy_candidate": "business_gov",
+      "retrieval": {
+        "state": "shell_not_promoted",
+        "source_version_id": null,
+        "evidence": "audits/retrieval-28-20261106-review.md"
+      },
+      "decisions": {
+        "use": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "retention": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "attribution": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "release_inclusion": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        }
+      },
+      "fact_checks": [
+        {
+          "check_id": "src_f164f71e6364/replacement",
+          "area": "replacement",
+          "check": "The finder holds no results in its HTML. Decide whether to drop it from the core or replace it with specific program pages; nothing on it is fact-checkable as a source.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "source_id": "src_03aaa6584d27",
+      "title_as_cited": "Industry Growth Program",
+      "url": "https://business.gov.au/grants-and-programs/industry-growth-program",
+      "rights_policy_candidate": "business_gov",
+      "retrieval": {
+        "state": "reviewed_version",
+        "source_version_id": "sv_bd9ea252a09e4ff8262a",
+        "evidence": "audits/retrieval-28-20261106-review.md"
+      },
+      "decisions": {
+        "use": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "retention": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "attribution": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "release_inclusion": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        }
+      },
+      "fact_checks": [
+        {
+          "check_id": "src_03aaa6584d27/status",
+          "area": "status",
+          "check": "Is the program still \"paused to new applications\", and is a reopening date or replacement stated?",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_03aaa6584d27/services",
+          "area": "services",
+          "check": "What remains available while paused (for example advisory services), as stated?",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_03aaa6584d27/dates",
+          "area": "dates",
+          "check": "Any dates stated on the page, with their year.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "source_id": "src_96ad709aa550",
+      "title_as_cited": "R&D Tax Incentive overview",
+      "url": "https://business.gov.au/grants-and-programs/research-and-development-tax-incentive/overview-of-rd-tax-incentive",
+      "rights_policy_candidate": "business_gov",
+      "retrieval": {
+        "state": "reviewed_version",
+        "source_version_id": "sv_87c9b944493e4b99b654",
+        "evidence": "audits/retrieval-28-20261106-review.md"
+      },
+      "decisions": {
+        "use": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "retention": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "attribution": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "release_inclusion": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        }
+      },
+      "fact_checks": [
+        {
+          "check_id": "src_96ad709aa550/rates",
+          "area": "rates",
+          "check": "The stated refundable and non-refundable offset rates and the turnover threshold that separates them.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_96ad709aa550/thresholds",
+          "area": "thresholds",
+          "check": "The stated minimum eligible R&D expenditure.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_96ad709aa550/registration",
+          "area": "registration",
+          "check": "The stated registration deadline relative to the income year, and the joint DISR/ATO administration.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_96ad709aa550/currency",
+          "area": "currency",
+          "check": "Any \"last updated\" date shown on the page.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "source_id": "src_9ba1bc6b991a",
+      "title_as_cited": "R&D Tax Incentive software development guide",
+      "url": "https://business.gov.au/grants-and-programs/research-and-development-tax-incentive/sector-guides-for-r-and-d-tax-incentive-applicants/software-development",
+      "rights_policy_candidate": "business_gov",
+      "retrieval": {
+        "state": "reviewed_version",
+        "source_version_id": "sv_b1322863d404e0fb62fc",
+        "evidence": "audits/retrieval-28-20261106-review.md"
+      },
+      "decisions": {
+        "use": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "retention": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "attribution": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        },
+        "release_inclusion": {
+          "selected": null,
+          "decided_by": null,
+          "decided_on": null,
+          "record_url": null
+        }
+      },
+      "fact_checks": [
+        {
+          "check_id": "src_9ba1bc6b991a/scope",
+          "area": "scope",
+          "check": "The guide's stated distinction between core and supporting R&D activities for software.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_9ba1bc6b991a/exclusions",
+          "area": "exclusions",
+          "check": "The stated exclusions (for example software for internal administration).",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_9ba1bc6b991a/examples",
+          "area": "examples",
+          "check": "The case studies are labelled as hypothetical; confirm the label is still shown.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        },
+        {
+          "check_id": "src_9ba1bc6b991a/disclaimer",
+          "area": "disclaimer",
+          "check": "The disclaimer that must travel with any extract is still present.",
+          "result": null,
+          "checked_by": null,
+          "checked_on": null,
+          "checked_against": null,
+          "note": null
+        }
+      ]
+    }
+  ]
+}
