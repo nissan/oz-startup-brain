@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "run_id": "REPLACE",
+  "role": "builder",
+  "agent": "Codex",
+  "model": "unknown unless exposed by the session",
+  "issue_url": "REPLACE with the live issue URL",
+  "base_sha": "REPLACE with 40 lowercase hex characters",
+  "head_sha": "REPLACE with the exact tested head",
+  "catalog_sha256": "REPLACE from context tool output",
+  "lesson_ids": [],
+  "capabilities": ["REPLACE with capabilities actually available"],
+  "context_disclosure": "REPLACE: builder, prior context, independent or shared context and why",
+  "checks": [
+    {
+      "name": "REPLACE with acceptance check",
+      "kind": "command",
+      "command": "REPLACE with the exact command",
+      "status": "not-run",
+      "exit_code": null,
+      "observation": "REPLACE with the actual observation or why not run",
+      "evidence": []
+    }
+  ],
+  "visual": {"status": "pending", "reason": "REPLACE with observations/evidence or an N/A reason"},
+  "remaining": ["REPLACE with remaining acceptance; empty only when none remain for this handoff's scope"],
+  "next_action": "REPLACE with exact role, scope and required evidence",
+  "cleanup": "REPLACE with cleanup performed or why none was needed"
+}

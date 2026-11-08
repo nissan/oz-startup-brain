@@ -8,6 +8,7 @@ Start with the [current iteration, issue #23](https://github.com/nissan/oz-start
 - [Ordered product backlog](backlog.md): outcomes, dependencies and later roadmap gates.
 - [Iteration 01](iterations/iteration-01.md): first bounded delivery goal and dispatch prompt.
 - [Agent workflow](agent-workflow.md): assignment, handoffs, reviews, verification and completion.
+- [Optional Attio-inspired pilot](attio-pilot/README.md): scoped lessons, local context/handoff tools and session prompts for a measured trial; existing workflow and live assignments remain authoritative.
 - [Product roadmap](../06-delivery.md): architecture stages and release gates.
 - [Visual quality](../ux/visual-quality.md): mandatory polish and review for each frontend increment.
 
