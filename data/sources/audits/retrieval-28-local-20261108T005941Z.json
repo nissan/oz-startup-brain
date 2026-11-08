@@ -1,0 +1,68 @@
+{
+  "format_version": "2",
+  "run": {
+    "run_id": "retrieval-28-local-20261108T005941Z",
+    "tool_version": "0.3",
+    "transport": "direct",
+    "method": "direct_https_get",
+    "user_agent": "OzStartupBrain-SourceAudit/0.3 (source retrieval for rights review; no ingestion)",
+    "started_at": "2026-11-08T00:59:41.535960+00:00",
+    "finished_at": "2026-11-08T00:59:43.700598+00:00",
+    "address_check": "local_dns_global_only",
+    "snapshots": "retained_outside_git"
+  },
+  "note": "Fresh retrieval of selected sources. A received body is a fetched representation, not verified content, rights clearance or ingestion approval. Snapshots, if any, are kept outside git. Proxy error codes do not prove publisher availability.",
+  "attempts": [
+    {
+      "source_id": "src_8db3776594ab",
+      "requested_url": "https://advance.qld.gov.au/grants-and-programs/ignite-ideas-fund",
+      "attempted_at": "2026-11-08T00:59:41.536191+00:00",
+      "method": "direct_https_get",
+      "outcome": "http_body_received",
+      "http_status": 200,
+      "final_url": "https://innovation.qld.gov.au/grants-and-programs/ignite-ideas-fund",
+      "content_type": "text/html; charset=utf-8",
+      "raw_content_sha256": "943bf5dac60a378f7bd66e1c5b2f408ea24b6743bb325be1e46666f0fcdb94d3",
+      "bytes_received": 39940,
+      "source_version_id": "sv_57886ef3d5c8149e1493",
+      "fetched_at": "2026-11-08T00:59:43.697414+00:00",
+      "last_verified_at": null,
+      "snapshot_location": "snapshot:sv_57886ef3d5c8149e1493.body",
+      "failure_reason": null
+    },
+    {
+      "source_id": "src_5dcbf23541e6",
+      "requested_url": "https://advance.qld.gov.au/grants-and-programs/ignite-program/ignite-plus",
+      "attempted_at": "2026-11-08T00:59:41.536295+00:00",
+      "method": "direct_https_get",
+      "outcome": "http_body_received",
+      "http_status": 200,
+      "final_url": "https://innovation.qld.gov.au/grants-and-programs/ignite-program/ignite-plus",
+      "content_type": "text/html; charset=utf-8",
+      "raw_content_sha256": "c1aeafebaae50a27b0dfe677132e47239fc7a90f31cf640164e4e55fde6e5d2c",
+      "bytes_received": 36855,
+      "source_version_id": "sv_e178e12679fad4e7c0a9",
+      "fetched_at": "2026-11-08T00:59:42.712279+00:00",
+      "last_verified_at": null,
+      "snapshot_location": "snapshot:sv_e178e12679fad4e7c0a9.body",
+      "failure_reason": null
+    },
+    {
+      "source_id": "src_d1313206eafa",
+      "requested_url": "https://advance.qld.gov.au/grants-and-programs/ignite-spark-program",
+      "attempted_at": "2026-11-08T00:59:41.536359+00:00",
+      "method": "direct_https_get",
+      "outcome": "http_body_received",
+      "http_status": 200,
+      "final_url": "https://innovation.qld.gov.au/grants-and-programs/ignite-spark-program",
+      "content_type": "text/html; charset=utf-8",
+      "raw_content_sha256": "b94a8bee25b88383993288d4568bacfc92f7e02a5ec0f7f99f4c7b968f51d226",
+      "bytes_received": 36194,
+      "source_version_id": "sv_90b431e7f3c73c826661",
+      "fetched_at": "2026-11-08T00:59:43.348620+00:00",
+      "last_verified_at": null,
+      "snapshot_location": "snapshot:sv_90b431e7f3c73c826661.body",
+      "failure_reason": null
+    }
+  ]
+}
