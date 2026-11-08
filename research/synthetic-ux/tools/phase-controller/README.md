@@ -54,7 +54,7 @@ Run each T15 variant separately, in its own fresh browser context and with its o
 
 `phase` replies take a few seconds because they wait for the restarted API to be live and probed. Leave the actor idle until the reply arrives. A request made during the restart window gets a transport failure, which is a different condition from the named fault.
 
-Finish with `python $CTL "$SOCK" stop`, or Ctrl-C the controller. Both stop both processes, remove the private directory and print a `cleanup` line. Check that it reports `ok: true`, `raw_key_found_in: []` and both ports free.
+Finish with `python $CTL "$SOCK" stop`, or Ctrl-C the controller. Either one stops both processes and removes the private directory. It stops each child's whole process group, including members that outlive an exited leader: SIGTERM first, SIGKILL after a grace period. It then prints a `cleanup` line. That line reports `ok: true` only when no key was found in any output and both fixed ports are free again; on failure the controller exits non-zero. A port that stays held after the controller's own groups are gone belongs to something else. The controller reports it and never kills a process just because it holds a port; find and stop that process yourself before the next session.
 
 ## Checks
 
@@ -66,7 +66,7 @@ Finish with `python $CTL "$SOCK" stop`, or Ctrl-C the controller. Both stop both
   - key secrecy, including a deliberately leaking child;
   - busy ports;
   - web exit;
-  - cleanup.
+  - cleanup of a surviving group member after its leader exited, and a failed cleanup (not `ok`) when a port stays held by an unrelated process, which is left running.
 - `OZSB_PHASE_BROWSER=1` with a build and Python Playwright also runs [`browser_check.py`](browser_check.py) through the real web and API. For each of the three variants, on one mounted page, it checks:
   - an Idea answer;
   - the named fault after a prototype stage edit, with the draft kept and an earlier answer labelled `Stale … for the Idea stage … Stage: Working prototype` (graph shows the passage-only notice instead);

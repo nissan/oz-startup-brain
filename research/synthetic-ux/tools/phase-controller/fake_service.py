@@ -4,6 +4,7 @@ so restart, readiness, secrecy and cleanup mechanics run without `npm run build`
 
   fake_service.py api   (PORT, OZSB_HARNESS_FAULT, OZSB_DEV_KEYS from the environment)
   fake_service.py web PORT   (OZSB_API_KEY from the environment; FAKE_LEAK_KEY=1 prints it)
+  fake_service.py orphan PORT   (forks a child that keeps listening on PORT, then the parent exits)
 """
 from __future__ import annotations
 
@@ -59,6 +60,11 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
+    if MODE == 'orphan':
+        # Leaves a surviving member of this process group holding the port after the leader exits.
+        if os.fork() == 0:
+            ThreadingHTTPServer(('127.0.0.1', int(sys.argv[2])), Handler).serve_forever()
+        os._exit(0)
     port = int(os.environ['PORT']) if MODE == 'api' else int(sys.argv[2])
     if MODE == 'web' and os.environ.get('FAKE_LEAK_KEY') == '1':
         print(f"debug key={os.environ.get('OZSB_API_KEY')}", flush=True)

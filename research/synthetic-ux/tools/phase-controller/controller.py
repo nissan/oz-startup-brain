@@ -121,9 +121,15 @@ def check_probe(phase: str, status: int, body: object, headers: dict[str, str]) 
 
 
 def port_open(port: int) -> bool:
+    """True while something holds the loopback port, judged by whether it can be bound (as the next
+    API would need), not by connecting: a listener with a full backlog can refuse or time out a connect."""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.settimeout(0.3)
-        return s.connect_ex((HOST, port)) == 0
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            s.bind((HOST, port))
+        except OSError:
+            return True
+        return False
 
 
 def http_get(url: str, timeout: float = 2.0) -> int:
@@ -180,21 +186,38 @@ class PhaseController:
             fh.close()
 
     @staticmethod
-    def _terminate(proc: subprocess.Popen | None, grace: float = 10.0) -> None:
-        if proc is None or proc.poll() is not None:
-            return
+    def _signal_group(pgid: int, sig: int) -> bool:
+        """Signals the process group this controller created (start_new_session makes the child's PID its
+        group ID). Returns False once no member of that group exists. Never targets a process by port."""
         try:
-            os.killpg(proc.pid, signal.SIGTERM)
+            os.killpg(pgid, sig)
+            return True
         except ProcessLookupError:
+            return False
+        except PermissionError:  # not ours to signal: report as still present, never escalate elsewhere
+            return True
+
+    @classmethod
+    def _terminate(cls, proc: subprocess.Popen | None, grace: float = 10.0) -> None:
+        """Stops the whole owned process group, including members that outlive an exited leader:
+        SIGTERM, then SIGKILL after `grace` seconds, then a bounded wait for the group to disappear."""
+        if proc is None:
             return
-        try:
-            proc.wait(grace)
-        except subprocess.TimeoutExpired:
-            try:
-                os.killpg(proc.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-            proc.wait(5)
+        pgid = proc.pid
+
+        def gone() -> bool:
+            proc.poll()  # reap the leader so a zombie leader does not count as a live member
+            return proc.returncode is not None and not cls._signal_group(pgid, 0)
+
+        if gone():
+            return
+        for sig, wait in ((signal.SIGTERM, grace), (signal.SIGKILL, 5.0)):
+            cls._signal_group(pgid, sig)
+            deadline = time.monotonic() + wait
+            while time.monotonic() < deadline:
+                if gone():
+                    return
+                time.sleep(0.05)
 
     def _wait(self, what: str, ready: Callable[[], bool], proc: subprocess.Popen) -> None:
         deadline = time.monotonic() + self.ready_timeout
@@ -346,6 +369,8 @@ class PhaseController:
                 conn, _ = self._server.accept()
             except socket.timeout:
                 continue
+            except OSError:  # the socket was closed by stop()
+                break
             with conn:
                 conn.settimeout(120)
                 buf = b''
@@ -369,8 +394,14 @@ class PhaseController:
         if self._server is not None:
             self._server.close()
         leaks = self.key_leaks()
-        result = {'ok': not leaks, 'op': 'cleanup', 'raw_key_found_in': leaks,
-                  'api_port_free': not port_open(self.api_port), 'web_port_free': not port_open(self.web_port)}
+        deadline = time.monotonic() + 5
+        while (port_open(self.api_port) or port_open(self.web_port)) and time.monotonic() < deadline:
+            time.sleep(0.1)
+        api_free, web_free = not port_open(self.api_port), not port_open(self.web_port)
+        # Success needs no key in any output and both fixed ports released for the next session. A port
+        # still held after the owned groups are gone belongs to something else: report it, never kill it.
+        result = {'ok': not leaks and api_free and web_free, 'op': 'cleanup', 'raw_key_found_in': leaks,
+                  'api_port_free': api_free, 'web_port_free': web_free}
         self._log({'event': 'cleanup', **result})
         shutil.rmtree(self.private_dir, ignore_errors=True)
         self._raw_key = ''

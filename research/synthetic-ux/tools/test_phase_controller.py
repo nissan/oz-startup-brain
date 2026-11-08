@@ -10,11 +10,13 @@ from __future__ import annotations
 import importlib.util
 import json
 import os
+import signal
 import socket
 import stat
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -209,6 +211,34 @@ class ControllerMechanics(unittest.TestCase):
         self.assertFalse(cleanup['ok'])
         self.assertEqual(cleanup['raw_key_found_in'], ['web.log'])
         self.assertNotIn('ozsb_', self.log.read_text(), 'the phase log names the file, never the key')
+
+    def test_cleanup_stops_a_surviving_group_member_after_its_leader_exited(self):
+        ctl = self.make()
+        leader = subprocess.Popen([*FAKE, 'orphan', str(self.api_port)], start_new_session=True,
+                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        self.addCleanup(lambda: C.PhaseController._signal_group(leader.pid, signal.SIGKILL))
+        leader.wait(10)
+        deadline = time.monotonic() + 10
+        while not C.port_open(self.api_port):
+            self.assertLess(time.monotonic(), deadline, 'orphaned child never listened')
+            time.sleep(0.05)
+        ctl.api = leader  # exited leader; its group still owns the listener
+        cleanup = ctl.stop()
+        self.assertTrue(cleanup['api_port_free'], cleanup)
+        self.assertTrue(cleanup['ok'], cleanup)
+        with self.assertRaises(ProcessLookupError):
+            os.killpg(leader.pid, 0)
+
+    def test_cleanup_fails_when_a_port_stays_held_and_never_kills_unrelated_holders(self):
+        ctl = self.make()
+        holder = socket.socket()
+        self.addCleanup(holder.close)
+        holder.bind(('127.0.0.1', self.api_port))
+        holder.listen(1)  # this test process, not a controller child
+        cleanup = ctl.stop()
+        self.assertFalse(cleanup['ok'])
+        self.assertFalse(cleanup['api_port_free'])
+        self.assertTrue(C.port_open(self.api_port), 'an unrelated listener was not touched')
 
     def test_busy_port_refuses_to_start(self):
         ctl = self.make()
