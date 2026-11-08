@@ -1,10 +1,10 @@
 # Oz Startup Brain — Road to public release
 
-Snapshot checked **8 November 2026, 19:38 AEDT (08:38 UTC)**. Manually maintained; live issue Delivery blocks and exact-head PR evidence supersede this snapshot.
+Historical snapshot checked **8 November 2026, 19:38 AEDT (08:38 UTC)**. All statuses and handoffs below describe that checkpoint, not current assignments. Later merges and verification supersede them; consult the [live delivery hub](https://github.com/nissan/oz-startup-brain/issues/23) before assigning work.
 
 **Not public-release ready.** The working journey uses fictional fixtures. This roadmap publication is not a product deployment, corpus release or live funding advice. No release date committed.
 
-## Current continuity checkpoint
+## Continuity checkpoint at snapshot time
 
 | Stage | Status |
 | --- | --- |
