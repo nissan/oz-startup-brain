@@ -28,3 +28,7 @@ When validation reports `scenario-review`:
 `.github/workflows/checks.yml` runs the validator and these tests on every pull request and on pushes to `main`. CI never runs `--record-scenario-review`: a `scenario-review` failure there is a review task for a person, not something to fix in the workflow. A green run establishes no UX outcome, no hosted-artifact behaviour and no owner approval.
 
 The initial checkpoint was recorded by Codex after reviewing all 16 task mappings against the feature definitions. It is an agent review record, not human approval. A hash detects changed inputs, not semantic correctness: the explicit record command can accept incorrect prose if its operator skips review. It must never run automatically as a fix in CI. Existing ID, variant and actor-boundary checks still run before a checkpoint can be recorded. Neither checkpoint freshness nor passing tests demonstrates any UX outcome.
+
+## Same-page API phase controller (#42)
+
+[`phase-controller/`](phase-controller/README.md) is the facilitator-only procedure for T14/T15 healthy → named fault → recovery on one mounted page. It restarts only the fixture API, with the same port and key, under the existing guarded harness settings, and is driven through a private Unix socket. `test_phase_controller.py` runs here with the other tests; its browser check runs only with `OZSB_PHASE_BROWSER=1` and a build.
