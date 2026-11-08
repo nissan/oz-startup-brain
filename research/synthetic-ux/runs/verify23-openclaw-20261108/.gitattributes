@@ -1,0 +1,2 @@
+# Scoped new evidence; compatible with the forward-only repository migration in PR50.
+evidence/*.png filter=lfs diff=lfs merge=lfs -text

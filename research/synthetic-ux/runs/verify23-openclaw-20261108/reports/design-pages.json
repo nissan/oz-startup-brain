@@ -1,0 +1,338 @@
+[
+  {
+    "name": "components/Button-light",
+    "file": "components--Button-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/Button-dark",
+    "file": "components--Button-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/Checklist-light",
+    "file": "components--Checklist-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/Checklist-dark",
+    "file": "components--Checklist-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/ClarificationPrompt-light",
+    "file": "components--ClarificationPrompt-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/ClarificationPrompt-dark",
+    "file": "components--ClarificationPrompt-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/ComparisonTable-light",
+    "file": "components--ComparisonTable-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/ComparisonTable-dark",
+    "file": "components--ComparisonTable-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/ContextChip-light",
+    "file": "components--ContextChip-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/ContextChip-dark",
+    "file": "components--ContextChip-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/Cover-light",
+    "file": "components--Cover-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/Cover-dark",
+    "file": "components--Cover-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/CoverageBanner-light",
+    "file": "components--CoverageBanner-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/CoverageBanner-dark",
+    "file": "components--CoverageBanner-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/EvidenceLabel-light",
+    "file": "components--EvidenceLabel-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/EvidenceLabel-dark",
+    "file": "components--EvidenceLabel-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/LimitPanel-light",
+    "file": "components--LimitPanel-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/LimitPanel-dark",
+    "file": "components--LimitPanel-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/NextStepCard-light",
+    "file": "components--NextStepCard-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/NextStepCard-dark",
+    "file": "components--NextStepCard-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/PrerequisiteMap-light",
+    "file": "components--PrerequisiteMap-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/PrerequisiteMap-dark",
+    "file": "components--PrerequisiteMap-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/SourcePanel-light",
+    "file": "components--SourcePanel-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/SourcePanel-dark",
+    "file": "components--SourcePanel-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/StarterTask-light",
+    "file": "components--StarterTask-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/StarterTask-dark",
+    "file": "components--StarterTask-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/StatusNotice-light",
+    "file": "components--StatusNotice-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/StatusNotice-dark",
+    "file": "components--StatusNotice-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/TranscriptReview-light",
+    "file": "components--TranscriptReview-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/TranscriptReview-dark",
+    "file": "components--TranscriptReview-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/WaitingState-light",
+    "file": "components--WaitingState-light.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "components/WaitingState-dark",
+    "file": "components--WaitingState-dark.html",
+    "width": 720,
+    "height": null,
+    "artboard": false
+  },
+  {
+    "name": "mockups/Brand-Sheet-light",
+    "file": "mockups--Brand-Sheet-light.html",
+    "width": 1440,
+    "height": 1480,
+    "artboard": true
+  },
+  {
+    "name": "mockups/Brand-Sheet-dark",
+    "file": "mockups--Brand-Sheet-dark.html",
+    "width": 1440,
+    "height": 1480,
+    "artboard": true
+  },
+  {
+    "name": "mockups/Main-light",
+    "file": "mockups--Main-light.html",
+    "width": 1280,
+    "height": 1800,
+    "artboard": true
+  },
+  {
+    "name": "mockups/Main-dark",
+    "file": "mockups--Main-dark.html",
+    "width": 1280,
+    "height": 1800,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB3-Ask-light",
+    "file": "mockups--SB3-Ask-light.html",
+    "width": 390,
+    "height": 844,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB3-Ask-dark",
+    "file": "mockups--SB3-Ask-dark.html",
+    "width": 390,
+    "height": 844,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB3-Route-light",
+    "file": "mockups--SB3-Route-light.html",
+    "width": 390,
+    "height": 844,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB3-Route-dark",
+    "file": "mockups--SB3-Route-dark.html",
+    "width": 390,
+    "height": 844,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB3-Summary-light",
+    "file": "mockups--SB3-Summary-light.html",
+    "width": 390,
+    "height": 844,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB3-Summary-dark",
+    "file": "mockups--SB3-Summary-dark.html",
+    "width": 390,
+    "height": 844,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB3-Transcript-light",
+    "file": "mockups--SB3-Transcript-light.html",
+    "width": 390,
+    "height": 844,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB3-Transcript-dark",
+    "file": "mockups--SB3-Transcript-dark.html",
+    "width": 390,
+    "height": 844,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB5a-Evidence-light",
+    "file": "mockups--SB5a-Evidence-light.html",
+    "width": 1440,
+    "height": 1080,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB5a-Evidence-dark",
+    "file": "mockups--SB5a-Evidence-dark.html",
+    "width": 1440,
+    "height": 1080,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB5b-Service-light",
+    "file": "mockups--SB5b-Service-light.html",
+    "width": 1440,
+    "height": 1320,
+    "artboard": true
+  },
+  {
+    "name": "mockups/SB5b-Service-dark",
+    "file": "mockups--SB5b-Service-dark.html",
+    "width": 1440,
+    "height": 1320,
+    "artboard": true
+  }
+]

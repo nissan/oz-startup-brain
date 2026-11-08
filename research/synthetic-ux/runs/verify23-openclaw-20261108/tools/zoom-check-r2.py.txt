@@ -1,0 +1,41 @@
+"""Primed keyboard regression on actual Chrome tab zoom, not a synthetic actor."""
+import json,urllib.request,re,sys
+from pathlib import Path
+root=Path(__file__).resolve().parent.parent
+sid='zoom-'+sys.argv[1]+'-r2';theme=sys.argv[1]
+def do(op,**kw):
+ q=dict(session=sid,op=op,**kw)
+ r=json.load(urllib.request.urlopen(urllib.request.Request('http://127.0.0.1:3959',data=json.dumps(q).encode())))
+ return r
+r=do('prepare',theme=theme,zoom=2)
+def key(k):return do('key',key=k)
+def tabto(pattern,back=False):
+ for _ in range(65):
+  r=key('Shift+Tab' if back else 'Tab');f=r['focus'];label=f.get('label') or f.get('text') or f.get('id') or (('radio:'+str(f.get('value'))) if f.get('tag')=='INPUT' else '')
+  if re.search(pattern,label):return r
+ raise RuntimeError('Keyboard target not reached: '+pattern)
+def note(name,r):
+ with (root/'reports'/'zoom-checkpoints.jsonl').open('a') as f:f.write(json.dumps(dict(session=sid,checkpoint=name,step=r['step'],evidence=r['evidence'],focus=r['focus'],viewport=r['viewport'],zoom=r['zoom']))+'\n')
+ print(name,r['step'],r['focus'].get('label') or r['focus'].get('text'),flush=True)
+try:
+ assert r['zoom']['zoom']==2 and r['viewport']['innerWidth']==640
+ tabto('^question$');do('type',text='What should I do next for support?');r=key('Control+Enter');assert 'One detail first' in r['text'];note('question-submission',r)
+ tabto('^Keep as unknown$');r=key('Enter');assert 'Your next steps' in r['text'] and 'Unknown' in r['text'];note('explicit-unknown-answer',r)
+ tabto('Jurisdiction: Unknown');r=key('Enter');note('context-editor',r)
+ tabto('^radio:unknown$');
+ for _ in range(6):r=key('ArrowUp')
+ assert r['focus']['value']=='QLD'
+ tabto('^Save jurisdiction$');r=key('Enter');assert 'Queensland' in r['text'];note('context-edited-qld',r)
+ tabto('Stage: Not set');key('Enter');tabto('^radio:');
+ for _ in range(2):r=key('ArrowDown')
+ assert r['focus']['value']=='prototype'
+ tabto('^Save stage$');r=key('Enter');note('stage-edited-prototype',r)
+ tabto('^question$');key('Meta+a');do('type',text='What does round A2 require today?');r=key('Control+Enter');assert 'Round A2' in r['text'];note('a2-answer-cards',r)
+ tabto('Show evidence for step 1:');r=key('Enter');assert r['focus']['id']=='evidence-heading-step';note('step-evidence-open',r)
+ r=key('Tab');assert r['focus']['tag']=='A';r=key('Enter');assert 'LOCAL FICTIONAL PUBLISHER FIXTURE' in r['text'];note('publisher-popup',r)
+ r=key('Meta+w');assert r['url']=='http://127.0.0.1:3140/';note('publisher-return',r)
+ tabto('Hide evidence for step 1:',back=True);r=key('Enter');assert 'For Step 1:' not in r['text'];note('step-evidence-closed',r)
+ r=do('snapshot');assert r['viewport']['scrollWidth']<=r['viewport']['innerWidth'];note('final-no-horizontal-overflow',r)
+ (root/'reports'/f'{sid}-result.json').write_text(json.dumps({'status':'passed-scoped-primed','theme':theme,'final_step':r['step'],'screen_reader':False},indent=2))
+except Exception as e:
+ (root/'reports'/f'{sid}-result.json').write_text(json.dumps({'status':'failed-or-incomplete','error':str(e)},indent=2));raise

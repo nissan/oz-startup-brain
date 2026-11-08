@@ -1,0 +1,15 @@
+▲ Next.js 16.4.2
+- Local:         http://127.0.0.1:3140
+- Network:       http://127.0.0.1:3140
+✓ Ready in 67ms
+✓ Running next.config.ts took 15ms
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [NestFactory] Starting Nest application...
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [InstanceLoader] ApiModule dependencies initialized +4ms
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [RoutesResolver] HealthController {/health}: +1ms
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [RouterExplorer] Mapped {/health/live, GET} route +1ms
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [RoutesResolver] V1Controller {/v1}: +0ms
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [RouterExplorer] Mapped {/v1/capabilities, GET} route +0ms
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [RouterExplorer] Mapped {/v1/queries, POST} route +0ms
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [RouterExplorer] Mapped {/v1/sources/:sourceId, GET} route +0ms
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [NestApplication] Nest application successfully started +1ms
+[Nest] 10584  - 11/08/2026, 10:15:08 AM     LOG [ozsb-api] listening on http://127.0.0.1:3940 — responder=fixture, credential_mode=development (1 key(s)), budget_store=in_process_development, clock=pinned 2026-11-05T00:00:00Z, harness_controls=disabled. Fictional fixture data only; never deploy this mode publicly.
