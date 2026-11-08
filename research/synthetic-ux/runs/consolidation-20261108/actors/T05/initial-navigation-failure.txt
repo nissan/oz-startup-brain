@@ -1,0 +1,1 @@
+Initial attempt: Chromium browser launched successfully, but visible navigation to http://127.0.0.1:3187/ failed with Page.goto: net::ERR_CONNECTION_REFUSED. No app interaction occurred. Parent facilitator notified. Runner exited before screenshot or environment metadata was written.

@@ -1,5 +1,11 @@
 # Handover for fresh agent sessions
 
+## Current checkpoint — 8 November 2026
+
+Read [the consolidation assessment and start prompts](docs/delivery/consolidation-20261108.md) and live [issue #23](https://github.com/nissan/oz-startup-brain/issues/23) before choosing work. #67/#69/#71 are merged; actual main recovery and fresh T03/T05 retests are recorded there. Next prepared build lanes are #55 (Codex) and bounded #10 (Claude), with OpenClaw verification. Owner/human/AT gates remain explicit. The older status tables and dispatch prompts below are historical, not active assignments. Working commands and safety boundaries remain useful, subject to current repository files and live issues.
+
+## Historical handover and operating reference
+
 Read this file completely before doing anything else in this repository. It is written for an agent session that starts with no memory of earlier work, so it states things explicitly rather than assuming you will infer them. It records how the repository is worked on, what has been done, what is open, the commands that are known to work, the environment limits that are known to bite, and the prompts to start the next sessions with.
 
 Written 6 November 2026 (Australia/Sydney) at the end of the session that built the fixture API (#24, PR #33), reviewed the fonts work (#22, PR #32) and the retrospective (PR #35), and merged all three. `main` was `ab89aebd5e632c351d97c32856755123bd69ba2b` when this was written. If the live records on GitHub disagree with this file, **the live records win**: an issue's Delivery block is the current status, its comments are the history, and the PR holds the evidence.
@@ -30,11 +36,11 @@ These are all already stated elsewhere; they are repeated here because each was 
 - **Frontend work is not done until the visual-polish pass is done and evidenced** (AGENTS.md). Backend-only work records the visual gate as "N/A, backend/CLI only" with that reason.
 - **Raster images (`.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`) go through Git LFS.** Install `git-lfs` before adding one. CI rejects a raw image. The exception is `design/brand/png/*.png`: design source inputs the renderer inlines, kept in Git so any environment can render. History before 8 November 2026 is unchanged, so its images stay raw in old commits and every cited SHA is still valid.
 - **Use `Refs #N`, not `Closes #N`, in PRs.** Issues close only after the merged build has been verified and the evidence posted.
-- **At most two active implementation issues at once**, and one branch owns the root `package.json` and `package-lock.json` at a time. #34 owns them until it merges or its claim is explicitly released.
+- **At most two active implementation issues at once**, and one branch owns the root `package.json` and `package-lock.json` at a time. The historical #34 claim is complete; confirm new ownership in #23 before editing.
 - **Do not force-push or rebase someone else's branch.** Add commits on top. (Owner-requested fixes to Codex's PR #35 were done this way.)
 - **Every commit and PR you create ends with the attribution lines your session's system reminder gives you** (`Co-Authored-By` and `Claude-Session`, or the Codex equivalent). Do not invent them from memory; copy them from the reminder in your own session.
 
-## 3. Current state (6 November 2026)
+## 3. Historical state (6 November 2026; not current dispatch)
 
 ### Merged on `main`
 
