@@ -242,6 +242,48 @@
       "filename": "phone-edited-draft.png",
       "sha256": "dcddfcd42b76dd234c00f9c2d30b6a022c88d1cf9f53536cab93bd7d7012cf3a",
       "bytes": 341620
+    },
+    {
+      "phase": "review-before-40f6193",
+      "filename": "390-light-uncovered.png",
+      "sha256": "f3417edad91a354d6dd07d1f997296e8537edeb8ca8fd93e35974881d31c7f5e",
+      "bytes": 110789
+    },
+    {
+      "phase": "review-before-40f6193",
+      "filename": "390-dark-uncovered.png",
+      "sha256": "f70ac0a9b5d622be38107ab87a40261002917252e69a1aae8f4e106f88008d9e",
+      "bytes": 114124
+    },
+    {
+      "phase": "review-fix-candidate",
+      "filename": "1440-light-uncovered.png",
+      "sha256": "b5c47e35b74aea217dd036b24ca0448fbf0afab59552484a24b9120d421f4c98",
+      "bytes": 112042
+    },
+    {
+      "phase": "review-fix-candidate",
+      "filename": "1280-dark-locality-limit.png",
+      "sha256": "7360e8c0513f9ce11577fde9fced0858f308e54c3bc4ff76a5764d93ad599f6c",
+      "bytes": 123119
+    },
+    {
+      "phase": "review-fix-candidate",
+      "filename": "390-light-uncovered.png",
+      "sha256": "78053cebb006e615333e5d0c769255eedbbb1d8e1dc8b5af35a9fc9ffd92dce3",
+      "bytes": 109967
+    },
+    {
+      "phase": "review-fix-candidate",
+      "filename": "390-dark-locality-limit.png",
+      "sha256": "cf26889733d9f16c4aa77f9e415cb08bc178409c277e40482fc51c29690bf6ff",
+      "bytes": 121254
+    },
+    {
+      "phase": "review-fix-candidate",
+      "filename": "390-dark-ambiguous.png",
+      "sha256": "28a9748687d2667d7693466ba057107a669785a7834f1c59aca6a2a73a6bc136",
+      "bytes": 111469
     }
   ],
   "product_files": {

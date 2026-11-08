@@ -44,7 +44,22 @@ Builder visual judgement: implementation is suitable for independent review. Rem
 
 ## Claude handoff
 
-Review the exact head of this PR against #45 and ADR 003, including the lifecycle table and prior review 5815788420. Inspect contract compatibility, subject resolution before clarification, ambiguity/three-turn abstention, currency, browser request snapshots, reset/late responses and preservation of explicit Unknown. Independently rerun relevant checks. Record findings/sign-off against the head SHA as Claude; do not count this builder report as independent evidence. No product edits in the separate #42 lane.
+Claude reviewed `40f61934adcd12bcbfdb1f43fc4aa37c3e2c4e2e` in review 5816614487. The follow-up below addresses that review; re-review the new exact head and delta, including abstention reason/copy and unchanged resolution/lifecycle boundaries. Independently rerun relevant checks and record findings/sign-off against that SHA. Do not count this builder report as independent evidence. No product edits in the separate #42 lane.
+
+## Review follow-up — 8 November 2026
+
+Claude's P2 reproduced: a question already naming Round A1, A2 or an unsupported round was told to name its subject. The retriever now returns an internal reason; response conditions distinguish missing antecedents, multiple subjects, a known subject without matching evidence, an out-of-inventory round, and a guarded generic follow-up. Only authored labels may appear in explanations. No response schema, topic inventory, dependencies or browser lifecycle changed.
+
+The P3 request-size message now says a shortened question is sent without the preceding question, matching the existing failure lifecycle. The other P3 remains an explicit fixture limitation: an unregistered, non-generic paraphrase such as “What is still unknown?” after A2 gets neutral no-evidence text, not a successful continuation. Generic guards explain that only Gympie is recognised as a locality; this is not general locality recognition.
+
+Validation on the review-fix candidate (same declared runtime and browser substitutes as above):
+
+- The expanded API continuity suite has **50 cases**. With the old product code, **11 failed / 39 passed**; with the fix, **50/50 pass**. This includes Claude's A1-require/A2-open/C9 probes, multiple known/unknown subjects, Toowoomba after Gympie and no reflection of hostile round/prose text.
+- Removed dependency/build output, then ran a clean `npm ci`. Literal `check:generated` again reached the documented `tsx` IPC EPERM; the generator substitute and remaining normal generators produced **no generated-file diff**. Compatibility and full typecheck/production build pass.
+- Workspace tests: **190 passing** (24 contracts, 4 client, 142 API, 20 BFF). Fixture demo **9/9**. Persona validation + **13 tests**, token check + **22 design-tool tests** pass.
+- The complete browser suite passes **76/76**. New browser regressions render the distinct explanations in both themes at 390, 1280 and 1440, and verify that editing a question after 413 drops the antecedent. They use the real fixture API except the explicitly intercepted 413 transport response.
+
+Visual finding/fix: the prior phone render showed “What does round A1 require?” above a panel asking the founder to name the round. The revised phone/light and desktop/light panels identify the actual lack of evidence for the question about Round A1; phone/dark ambiguity asks for one subject, and phone/dark plus desktop/dark locality guards state the limited inventory. Inspected these actual captures at 100% zoom. Text wraps inside the existing limit card, both action buttons remain legible, and the longer locality explanation does not clip. No layout or styling change was needed. The full browser checks also verify painted fonts. Selected before/after hashes are appended to the capture manifest under `review-before-40f6193` and `review-fix-candidate`; the latter means the candidate containing this report. Raster upload and independent visual acceptance remain pending, as above. An initial browser assertion incorrectly selected the answer-only `.conditions` list; it was corrected to select the visible abstention text. That failed attempt is not claimed as a product regression.
 
 ## OpenClaw handoff
 

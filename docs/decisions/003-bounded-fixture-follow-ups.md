@@ -43,6 +43,13 @@ antecedents use `insufficient_evidence` with a `not_in_evidence` condition,
 locality. The generic evidence heading may remain; the visible condition must
 explain that the subject needs restating, not imply that no source exists.
 
+For a current question that already names a subject, explain the actual limit:
+multiple subjects require one at a time; a known subject without a matching
+question has no evidence for that question; an unknown round is outside the
+fixture inventory. Use authored labels only. The generic-route guard explains
+that the fixture cannot resolve the question and recognises only Gympie as a
+locality, rather than claiming the founder omitted a locality they may have named.
+
 ## Resolution policy to review
 
 1. Store the bounded complete follow-up phrases and subject labels as authored

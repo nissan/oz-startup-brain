@@ -70,6 +70,14 @@ export class FixtureResponder {
     const variant = context.stage === 'idea' || context.stage === 'prototype' ? retrieved?.stage_variants?.[context.stage] : undefined;
     const topic = retrieved && variant ? { ...retrieved, ...variant } : retrieved;
     if (!topic) {
+      // Labels come only from the authored corpus, never from either question's prose.
+      const explanations = {
+        missing_subject: 'Name the round or locality in your question so the planner can identify its subject, or choose Start a new question to begin again.',
+        ambiguous_subject: 'Ask about one round or locality at a time so the planner can identify which evidence applies.',
+        uncovered_subject: `The fixture corpus has no evidence for this question about ${resolution.subjectLabel}, so the planner gives no answer rather than a guess.`,
+        unknown_round: 'That round is not in the fixture corpus, so the planner gives no answer rather than a guess.',
+        guarded_follow_up: 'The fixture cannot resolve this question against the preceding subject. It recognises only authored round questions and follow-up phrases; only Gympie is recognised as a locality. Restate a supported question, or choose Start a new question to begin again.',
+      };
       return {
         ...base,
         status: 'insufficient_evidence',
@@ -79,7 +87,7 @@ export class FixtureResponder {
         claims: [],
         citations: [],
         unresolved_conditions: [
-          { condition_id: 'cond_1', reason: 'not_in_evidence', field: resolution.needsSubject ? 'subject' : null, text: resolution.needsSubject ? 'Name the round or locality in your question so the planner can identify its subject, or choose Start a new question to begin again.' : 'The fixture corpus holds no evidence for this question, so the planner gives no answer rather than a guess.' },
+          { condition_id: 'cond_1', reason: 'not_in_evidence', field: resolution.abstention ? 'subject' : null, text: resolution.abstention ? explanations[resolution.abstention] : 'The fixture corpus holds no evidence for this question, so the planner gives no answer rather than a guess.' },
         ],
         warnings,
       };

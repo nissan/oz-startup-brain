@@ -224,3 +224,48 @@ test('reset discards delayed source records as well as answer state', async ({ p
   await ask(page, A2);
   await expect.poll(() => newRequests).toBeGreaterThan(0);
 });
+
+for (const theme of ['light', 'dark'] as const) {
+  test(`abstention explains named evidence gaps in ${theme} theme`, async ({ page }, info) => {
+    await page.addInitScript((t) => localStorage.setItem('osb-theme', t), theme);
+    await open(page);
+    const widths = info.project.name === 'desktop' ? [1440, 1280] : [390];
+    const dir = process.env.OSB_EVIDENCE_DIR ?? 'test-results/continuity'; mkdirSync(dir, { recursive: true });
+    for (const width of widths) {
+      await page.setViewportSize({ width, height: width === 390 ? 844 : 900 });
+      for (const [q, copy, name] of [
+        ['What does round A1 require?', 'no evidence for this question about Round A1', 'uncovered'],
+        ['Is Round A2 still open?', 'no evidence for this question about Round A2', 'a2-uncovered'],
+        ['Is round C9 open?', 'That round is not in the fixture corpus', 'unknown'],
+        ['Is round A2 or B1 open?', 'Ask about one round or locality at a time', 'ambiguous'],
+      ]) {
+        await ask(page, q);
+        await page.evaluate(() => document.fonts.ready);
+        await page.screenshot({ path: join(dir, `${width}-${theme}-${name}.png`), fullPage: true });
+        await expect(page.getByText(copy, { exact: false })).toBeVisible();
+        await expect(page.getByText('Name the round', { exact: false })).toHaveCount(0);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      }
+      await ask(page, GYMPIE);
+      if (await page.getByRole('button', { name: 'Keep as unknown' }).isVisible()) {
+        await page.getByRole('button', { name: 'Keep as unknown' }).click();
+        await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+      }
+      await ask(page, 'What support is there in Toowoomba?');
+      await expect(page.getByText('only Gympie is recognised as a locality', { exact: false })).toBeVisible();
+      await page.screenshot({ path: join(dir, `${width}-${theme}-locality-limit.png`), fullPage: true });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    }
+  });
+}
+
+test('request-size guidance agrees with the new-question lifecycle after failure', async ({ page }) => {
+  const sent = await open(page);
+  await ask(page, A2);
+  await page.route('**/api/bff/query', (route) => route.fulfill({ status: 413, contentType: 'application/json', body: JSON.stringify({ error: { code: 'payload_too_large' } }) }));
+  await ask(page, T03);
+  await expect(page.getByText('Shorten your question; it will be sent without the preceding question.', { exact: false })).toBeVisible();
+  await page.unrouteAll();
+  await ask(page, 'Which step is required now?');
+  expect(sent.at(-1)?.previous_question).toBeUndefined();
+});
