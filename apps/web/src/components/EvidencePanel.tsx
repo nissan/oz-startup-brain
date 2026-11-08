@@ -1,7 +1,7 @@
 'use client';
 import { forwardRef } from 'react';
 import type { components } from '@ozsb/api-client';
-import { SourcePanel } from '@/design-system/generated/bundle';
+import { Button, SourcePanel } from '@/design-system/generated/bundle';
 import { APPLICABILITY_WORDS, claimsFor, longDate, type Envelope } from '@/lib/present';
 
 type SourceRecord = components['schemas']['SourceRecord'];
@@ -14,6 +14,8 @@ interface Props {
   sources: Record<string, SourceRecord | null | 'unavailable'>;
   /** aside: beside the cards on wide screens; inline: under the selected card on narrow ones; step: under the prerequisite list. */
   placement: 'aside' | 'inline' | 'step';
+  /** Action evidence can close without changing the answer. Prerequisite steps keep their toggle. */
+  onDismiss?: () => void;
 }
 
 /**
@@ -22,7 +24,7 @@ interface Props {
  * then every claim with the applicability the API decided and its dates. Nothing here re-judges
  * freshness or dates; it shows what the envelope says.
  */
-export const EvidencePanel = forwardRef<HTMLHeadingElement, Props>(function EvidencePanel({ item, envelope, sources, placement }, ref) {
+export const EvidencePanel = forwardRef<HTMLHeadingElement, Props>(function EvidencePanel({ item, envelope, sources, placement, onDismiss }, ref) {
   const claims = claimsFor(item, envelope);
   const citations = new Map(envelope.citations.map((c) => [c.citation_id, c]));
   // Distinct citations in claim order, each with the first claim that uses it (for its evidence state and qualifier).
@@ -34,10 +36,23 @@ export const EvidencePanel = forwardRef<HTMLHeadingElement, Props>(function Evid
       .map((citation) => ({ citation, claim })),
   );
   return (
-    <section className={`evidence-panel evidence-panel--${placement}`} aria-labelledby={`evidence-heading-${placement}`}>
-      <h2 id={`evidence-heading-${placement}`} className="evidence-panel__heading" tabIndex={-1} ref={ref}>
-        Evidence
-      </h2>
+    <section
+      className={`evidence-panel evidence-panel--${placement}`}
+      aria-labelledby={`evidence-heading-${placement}`}
+      onKeyDown={(event) => {
+        if (onDismiss && event.key === 'Escape' && !event.defaultPrevented) {
+          event.preventDefault();
+          event.stopPropagation();
+          onDismiss();
+        }
+      }}
+    >
+      <div className="evidence-panel__header">
+        <h2 id={`evidence-heading-${placement}`} className="evidence-panel__heading" tabIndex={-1} ref={ref}>
+          Evidence
+        </h2>
+        {onDismiss ? <Button variant="secondary" onClick={onDismiss}>Close evidence</Button> : null}
+      </div>
       <p className="evidence-panel__for">
         For <strong>{item.title}</strong>
         {panels.length > 1 ? ` · ${panels.length} sources` : null}

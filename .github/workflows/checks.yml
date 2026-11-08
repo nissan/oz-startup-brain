@@ -122,6 +122,14 @@ jobs:
         run: npm test -w @ozsb/web
       - name: Browser tests (desktop and phone, both themes, harness faults, painted fonts)
         run: npm run e2e -w @ozsb/web
+      - name: Retain action-evidence dismissal captures for review (#55)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-dismissal-${{ github.sha }}
+          path: apps/web/test-results/shots/*-r55-*.png
+          retention-days: 90
+          if-no-files-found: warn
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

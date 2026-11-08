@@ -163,6 +163,92 @@ test.describe('keyboard', () => {
   });
 });
 
+test.describe('R55 action evidence dismissal', () => {
+  for (const theme of ['light', 'dark'] as const) {
+    test(`close control and Escape restore the selected action trigger (${theme})`, async ({ page, context }, testInfo) => {
+      if (testInfo.project.name === 'desktop') await page.setViewportSize({ width: 1440, height: 900 });
+      // Fictional publisher page only: no real publisher/network acceptance is implied.
+      await context.route('https://**.invalid/**', (route) => route.fulfill({
+        contentType: 'text/html', body: '<!doctype html><title>Fictional publisher</title><h1>Local fictional publisher</h1>',
+      }));
+      await open(page, WEB.fixture, theme);
+      await ask(page, 'What should I do next for support?');
+      await page.getByRole('button', { name: 'Queensland', exact: true }).click();
+      await expect(page.locator('#results-heading')).toHaveText('Your next steps');
+      const summary = await page.locator('.summary').innerText();
+      const request = await page.locator('.footer-line').innerText();
+      const triggers = page.getByRole('article').getByRole('button', { name: 'Show supporting passage', exact: true });
+      const panel = page.locator('.evidence-panel:visible');
+      await triggers.first().focus();
+      await page.keyboard.press('Enter');
+      await expect(panel.locator('h2')).toBeFocused();
+      await shot(page, `r55-open-${theme}`);
+      // Escape is local to evidence: typing elsewhere must not silently close it.
+      await page.getByLabel('Your question').focus();
+      await page.keyboard.press('Escape');
+      await expect(panel).toBeVisible();
+      await triggers.first().focus();
+      await page.keyboard.press('Enter');
+      await expect(panel.locator('h2')).toBeFocused();
+      await page.keyboard.press('Tab');
+      await expect(panel.getByRole('button', { name: 'Close evidence', exact: true })).toBeFocused();
+      await page.keyboard.press('Enter');
+      await expect(page.locator('.evidence-panel')).toHaveCount(0);
+      await expect(triggers.first()).toBeFocused();
+      await expect(page.locator('.card--selected')).toHaveCount(0);
+      await shot(page, `r55-closed-${theme}`);
+
+      // A different action must restore its own trigger, including after source visit/return.
+      await triggers.nth(1).focus();
+      await page.keyboard.press('Enter');
+      await expect(panel.locator('h2')).toBeFocused();
+      const sourceLink = panel.locator('.osb-source a').first();
+      await sourceLink.focus();
+      const popupPromise = page.waitForEvent('popup');
+      await page.keyboard.press('Enter');
+      const popup = await popupPromise;
+      await expect(popup.getByRole('heading', { name: 'Local fictional publisher' })).toBeVisible();
+      await popup.close();
+      await page.bringToFront();
+      await sourceLink.focus();
+      await page.keyboard.press('Escape');
+      await expect(page.locator('.evidence-panel')).toHaveCount(0);
+      await expect(triggers.nth(1)).toBeFocused();
+      await expect(page.locator('.summary')).toHaveText(summary);
+      await expect(page.locator('.footer-line')).toHaveText(request, { useInnerText: true });
+      await expect(page.getByRole('button', { name: /Jurisdiction: Queensland\. Edit/ })).toBeVisible();
+      await expect(page.getByLabel('Your question')).toHaveValue('What should I do next for support?');
+
+      // Existing prerequisite toggles and rights gating are independent of action dismissal.
+      const step = page.getByRole('button', { name: 'Show evidence for step 1: Confirm IP ownership', exact: true });
+      await step.focus();
+      await page.keyboard.press('Enter');
+      const stepPanel = page.locator('.evidence-panel--step');
+      await expect(stepPanel).toContainText('Excerpt not shown: this source is not cleared');
+      await expect(stepPanel.getByRole('button', { name: 'Close evidence' })).toHaveCount(0);
+      await page.keyboard.press('Escape');
+      await expect(stepPanel).toBeVisible();
+      const hideStep = page.getByRole('button', { name: 'Hide evidence for step 1: Confirm IP ownership', exact: true });
+      await hideStep.focus();
+      await page.keyboard.press('Enter');
+      await expect(stepPanel).toHaveCount(0);
+
+      // Dismissal still returns to the action when the responsive placement changes while open.
+      await triggers.first().focus();
+      await page.keyboard.press('Enter');
+      await expect(panel.locator('h2')).toBeFocused();
+      const width = testInfo.project.name === 'desktop' ? 390 : 1440;
+      await page.setViewportSize({ width, height: 900 });
+      const movedPanel = page.locator('.evidence-panel:visible');
+      await movedPanel.getByRole('button', { name: 'Close evidence' }).focus();
+      await page.keyboard.press('Enter');
+      await expect(page.locator('.evidence-panel')).toHaveCount(0);
+      await expect(triggers.first()).toBeFocused();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+    });
+  }
+});
+
 test.describe('faults (local harness configuration)', () => {
   test('vector_timeout: outage panel, draft kept, earlier answer labelled stale', async ({ page }) => {
     await open(page, WEB.fixture, 'light');
