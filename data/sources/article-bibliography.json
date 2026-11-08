@@ -30,19 +30,24 @@
       "observed_redirect_url": "https://innovation.qld.gov.au/grants-and-programs/ignite-ideas-fund",
       "rights_evidence_id": "qld_detsi",
       "rights_review_note": "Policy triaged; page/passage exceptions and intended-use clearance remain pending.",
-      "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
+      "retention_policy": "Hashes and version metadata only in repository. The raw snapshot is held privately on the owner's computer (fetched there by the owner-authorised run, 8 November 2026), pending a rights decision; no third-party body in the repository.",
       "published_at": null,
       "source_updated_at": null,
-      "fetched_at": null,
-      "content_hash": null,
-      "source_version_id": null,
+      "fetched_at": "2026-11-08T00:59:43.697414+00:00",
+      "content_hash": "943bf5dac60a378f7bd66e1c5b2f408ea24b6743bb325be1e46666f0fcdb94d3",
+      "source_version_id": "sv_57886ef3d5c8149e1493",
       "valid_from": null,
       "valid_to": null,
       "verification_method": null,
       "disposition": "awaiting_rights_review",
       "disposition_reason": "Commercialisation route; preserve closed-round status rather than recommend applying.",
       "shortlist_tier": "core",
-      "version_review": null
+      "version_review": {
+        "reviewed_on": "2026-11-08",
+        "reviewer": "OpenClaw retrieval operator, run retrieval-28-local-20261108T005941Z (operator inspection of the private snapshot; not seen by Claude; owner choice (b), 8 November 2026)",
+        "representation": "source_page",
+        "note": "Operator assessment (#59 report): program-page HTML with a main region, one matching program heading, multiple content headings and paragraphs, application and eligibility material; no denial, human-verification or challenge markers. Bounded static-HTML check, not a rendering. Owner record: https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715605146"
+      }
     },
     {
       "source_id": "src_5dcbf23541e6",
@@ -69,19 +74,24 @@
       "observed_redirect_url": "https://innovation.qld.gov.au/grants-and-programs/ignite-program/ignite-plus",
       "rights_evidence_id": "qld_detsi",
       "rights_review_note": "Policy triaged; page/passage exceptions and intended-use clearance remain pending.",
-      "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
+      "retention_policy": "Hashes and version metadata only in repository. The raw snapshot is held privately on the owner's computer (fetched there by the owner-authorised run, 8 November 2026), pending a rights decision; no third-party body in the repository.",
       "published_at": null,
       "source_updated_at": "2026-08-17",
-      "fetched_at": null,
-      "content_hash": null,
-      "source_version_id": null,
+      "fetched_at": "2026-11-08T00:59:42.712279+00:00",
+      "content_hash": "c1aeafebaae50a27b0dfe677132e47239fc7a90f31cf640164e4e55fde6e5d2c",
+      "source_version_id": "sv_e178e12679fad4e7c0a9",
       "valid_from": null,
       "valid_to": null,
       "verification_method": null,
       "disposition": "awaiting_rights_review",
       "disposition_reason": "Business support accompanying commercialisation; separate from grant eligibility.",
       "shortlist_tier": "core",
-      "version_review": null
+      "version_review": {
+        "reviewed_on": "2026-11-08",
+        "reviewer": "OpenClaw retrieval operator, run retrieval-28-local-20261108T005941Z (operator inspection of the private snapshot; not seen by Claude; owner choice (b), 8 November 2026)",
+        "representation": "source_page",
+        "note": "Operator assessment (#59 report): program-page HTML with a main region, one matching program heading, multiple content headings and paragraphs; program and support material rather than an application form; no denial, human-verification or challenge markers. Owner record: https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715605146"
+      }
     },
     {
       "source_id": "src_d1313206eafa",
@@ -108,19 +118,24 @@
       "observed_redirect_url": "https://innovation.qld.gov.au/grants-and-programs/ignite-spark-program",
       "rights_evidence_id": "qld_detsi",
       "rights_review_note": "Policy triaged; page/passage exceptions and intended-use clearance remain pending.",
-      "retention_policy": "Metadata only in repository; no third-party body or snapshot retained.",
+      "retention_policy": "Hashes and version metadata only in repository. The raw snapshot is held privately on the owner's computer (fetched there by the owner-authorised run, 8 November 2026), pending a rights decision; no third-party body in the repository.",
       "published_at": null,
       "source_updated_at": null,
-      "fetched_at": null,
-      "content_hash": null,
-      "source_version_id": null,
+      "fetched_at": "2026-11-08T00:59:43.348620+00:00",
+      "content_hash": "b94a8bee25b88383993288d4568bacfc92f7e02a5ec0f7f99f4c7b968f51d226",
+      "source_version_id": "sv_90b431e7f3c73c826661",
       "valid_from": null,
       "valid_to": null,
       "verification_method": null,
       "disposition": "awaiting_rights_review",
       "disposition_reason": "Prototype validation route; preserve closed-round status.",
       "shortlist_tier": "core",
-      "version_review": null
+      "version_review": {
+        "reviewed_on": "2026-11-08",
+        "reviewer": "OpenClaw retrieval operator, run retrieval-28-local-20261108T005941Z (operator inspection of the private snapshot; not seen by Claude; owner choice (b), 8 November 2026)",
+        "representation": "source_page",
+        "note": "Operator assessment (#59 report): program-page HTML with a main region, one matching program heading, multiple content headings and paragraphs, application and eligibility material; no denial, human-verification or challenge markers. Bounded static-HTML check, not a rendering. Owner record: https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715605146"
+      }
     },
     {
       "source_id": "src_980ddb89d267",
@@ -5317,7 +5332,8 @@
     "direct_attempts": "audits/2026-11-06-direct-attempts.json",
     "retrievals": [
       "audits/retrieval-28-20261106a.json",
-      "audits/retrieval-28-20261106b.json"
+      "audits/retrieval-28-20261106b.json",
+      "audits/retrieval-28-local-20261108T005941Z.json"
     ],
     "retrieval_corrections": [
       {

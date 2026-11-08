@@ -54,9 +54,9 @@
       "url": "https://advance.qld.gov.au/grants-and-programs/ignite-ideas-fund",
       "rights_policy_candidate": "qld_detsi",
       "retrieval": {
-        "state": "blocked_403",
-        "source_version_id": null,
-        "evidence": "audits/retrieval-28-20261106-review.md"
+        "state": "reviewed_version",
+        "source_version_id": "sv_57886ef3d5c8149e1493",
+        "evidence": "audits/retrieval-28-local-20261108T005941Z-report.md"
       },
       "decisions": {
         "use": {
@@ -133,9 +133,9 @@
       "url": "https://advance.qld.gov.au/grants-and-programs/ignite-program/ignite-plus",
       "rights_policy_candidate": "qld_detsi",
       "retrieval": {
-        "state": "blocked_403",
-        "source_version_id": null,
-        "evidence": "audits/retrieval-28-20261106-review.md"
+        "state": "reviewed_version",
+        "source_version_id": "sv_e178e12679fad4e7c0a9",
+        "evidence": "audits/retrieval-28-local-20261108T005941Z-report.md"
       },
       "decisions": {
         "use": {
@@ -202,9 +202,9 @@
       "url": "https://advance.qld.gov.au/grants-and-programs/ignite-spark-program",
       "rights_policy_candidate": "qld_detsi",
       "retrieval": {
-        "state": "blocked_403",
-        "source_version_id": null,
-        "evidence": "audits/retrieval-28-20261106-review.md"
+        "state": "reviewed_version",
+        "source_version_id": "sv_90b431e7f3c73c826661",
+        "evidence": "audits/retrieval-28-local-20261108T005941Z-report.md"
       },
       "decisions": {
         "use": {
