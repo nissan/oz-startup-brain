@@ -1,0 +1,30 @@
+{
+  "actor": {
+    "id": "P2",
+    "name": "Arun",
+    "role": "Research founder planning commercialisation",
+    "context": "Has a laboratory prototype and early customer discussions. Preparing a meeting with a commercialisation adviser.",
+    "starting_facts": {
+      "stage": "working prototype",
+      "jurisdiction": "Queensland",
+      "customer_evidence": "early discussions",
+      "IP_access": "not yet confirmed"
+    },
+    "surface": "Desktop, 1440\u00d7900 CSS pixels, pointer and keyboard.",
+    "disclosure_boundary": "Uses fictional project details; does not share unpublished research or actual institution documents.",
+    "autonomy": "May mark a personal task and export a local checklist; cannot change shared program requirements.",
+    "knowledge": "Has subject expertise and experience reading research evidence; new to funding pathways.",
+    "preferences": "Prefers structured comparisons and something portable for an adviser meeting.",
+    "goal": "Prepare for a commercialisation adviser meeting."
+  },
+  "task": {
+    "id": "T03",
+    "persona": "P2",
+    "title": "Sequence a milestone",
+    "brief": "I have a prototype and early customer discussions. Help me work out what needs attention before I apply for Round A2 today.",
+    "follow_up": "Which step is required now, which is a suggestion, and what is still unknown?",
+    "mode": "browser"
+  },
+  "starting_url": "http://127.0.0.1:3167/",
+  "input_constraints": "Use visible UI only, pointer/keyboard per profile. Browser emulation,100%zoom. No network outside starting origin. No external submissions. No repository/facilitator inspection."
+}

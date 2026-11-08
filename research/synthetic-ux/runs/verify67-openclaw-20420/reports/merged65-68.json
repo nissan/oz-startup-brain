@@ -1,0 +1,64 @@
+{
+  "65": {
+    "reviewed": "60c95b0",
+    "merge": "3b0a6f9",
+    "reviewed_scope_identical": true,
+    "checks": [
+      {
+        "name": "Source inventory validator, report drift and tests (#28)",
+        "conclusion": "success"
+      },
+      {
+        "name": "Design token and renderer checks",
+        "conclusion": "success"
+      },
+      {
+        "name": "Fixture API, contracts and generated client (slice 1A-0)",
+        "conclusion": "success"
+      },
+      {
+        "name": "Raster images are stored as Git LFS pointers",
+        "conclusion": "success"
+      },
+      {
+        "name": "Synthetic persona pack validator and tests",
+        "conclusion": "success"
+      },
+      {
+        "name": "Founder journey UI (slice 1A-UI): build, BFF boundary tests and browser tests",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "68": {
+    "reviewed": "b51db67",
+    "merge": "ab6c768",
+    "reviewed_scope_identical": true,
+    "checks": [
+      {
+        "name": "Founder journey UI (slice 1A-UI): build, BFF boundary tests and browser tests",
+        "conclusion": "success"
+      },
+      {
+        "name": "Source inventory validator, report drift and tests (#28)",
+        "conclusion": "success"
+      },
+      {
+        "name": "Fixture API, contracts and generated client (slice 1A-0)",
+        "conclusion": "success"
+      },
+      {
+        "name": "Raster images are stored as Git LFS pointers",
+        "conclusion": "success"
+      },
+      {
+        "name": "Synthetic persona pack validator and tests",
+        "conclusion": "success"
+      },
+      {
+        "name": "Design token and renderer checks",
+        "conclusion": "success"
+      }
+    ]
+  }
+}

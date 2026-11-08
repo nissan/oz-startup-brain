@@ -1,0 +1,15 @@
+{
+  "ports_not_listening": {
+    "3110": true,
+    "3111": true,
+    "3112": true,
+    "3113": true,
+    "3910": true,
+    "3911": true,
+    "3912": true,
+    "3913": true,
+    "3167": true,
+    "3967": true
+  },
+  "owned_browser_children_reported_closed": true
+}

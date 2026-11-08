@@ -1,0 +1,29 @@
+{
+  "actor": {
+    "id": "P1",
+    "name": "Mei",
+    "role": "Student founder building an AI prototype",
+    "context": "Has a working university project and wants one useful action before applying for support. Has not clarified ownership with the institution.",
+    "starting_facts": {
+      "stage": "working prototype",
+      "jurisdiction": "deliberately unknown",
+      "IP_ownership": "unknown"
+    },
+    "surface": "Desktop, 1366\u00d7768 CSS pixels, text and pointer; keyboard smoke variant.",
+    "disclosure_boundary": "No nationality, visa status, institution name or personal identity documents are supplied or inferred.",
+    "autonomy": "May edit and inspect. Will not submit an application or contact anyone.",
+    "knowledge": "Comfortable with web forms; unfamiliar with grant and commercialisation terminology.",
+    "preferences": "Prefers discreet text input and short explanations. Makes her own choices about what to disclose.",
+    "goal": "Find a useful first step for a university prototype."
+  },
+  "task": {
+    "id": "T01",
+    "persona": "P1",
+    "title": "Find the first useful step",
+    "brief": "I have a university AI prototype. What should I check before applying for support? I do not know who owns the IP and want to leave my jurisdiction unknown.",
+    "follow_up": "Explain what you would do next and what you still need to find out.",
+    "mode": "browser"
+  },
+  "starting_url": "http://127.0.0.1:3167/",
+  "input_constraints": "Use visible UI only, pointer/keyboard per profile. Browser emulation,100%zoom. No network outside starting origin. No external submissions. No repository/facilitator inspection."
+}
