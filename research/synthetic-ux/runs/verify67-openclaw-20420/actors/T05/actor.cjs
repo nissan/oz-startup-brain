@@ -1,0 +1,26 @@
+const {chromium}=require('<candidate>/node_modules/playwright');
+const fs=require('fs');
+const dir=__dirname;
+(async()=>{
+const browser=await chromium.launch({headless:true});
+const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true});
+const page=await context.newPage();
+await context.route('**/*',route=>new URL(route.request().url()).origin==='http://127.0.0.1:3167'?route.continue():route.abort());
+await page.goto('http://127.0.0.1:3167/');
+await page.screenshot({path:dir+'/01-start.png',fullPage:true});
+fs.writeFileSync(dir+'/01-text.txt',await page.locator('body').innerText());
+fs.appendFileSync(dir+'/report.md','\n1. Start page labels planner as fictional fixture, Queensland/national coverage. Question box is discoverable; no location or microphone permission requested.\n');
+await page.getByRole('textbox').fill('I am building a software prototype in Gympie, Queensland. I need a local or remote support route, not a long national list. If there is no evidence for my area, show the next useful place to check.');
+await page.getByRole('button',{name:'Ask the planner',exact:true}).click();
+await page.waitForTimeout(1000);
+await page.screenshot({path:dir+'/02-answer.png',fullPage:true});
+fs.writeFileSync(dir+'/02-text.txt',await page.locator('body').innerText());
+console.log(await page.locator('body').innerText());
+fs.appendFileSync(dir+'/report.md','\n2. Entered my Gympie/software prototype request and the fallback request together, then asked planner. It says Gympie is outside local coverage, and offers one static fictional directory rather than a national list. Stage/jurisdiction remain Not set despite question text, which is slightly confusing. The useful next check is whether the regional hub network offers remote sessions and serves Gympie.\n');
+await page.getByRole('button',{name:'Show supporting passage',exact:true}).click();
+await page.screenshot({path:dir+'/03-passage.png',fullPage:true});
+fs.writeFileSync(dir+'/03-text.txt',await page.locator('body').innerText());
+console.log('AFTER PASSAGE\n'+await page.locator('body').innerText());
+fs.appendFileSync(dir+'/report.md','\n3. Opened supporting passage. Directory contains a regional hub network to ask about remote sessions/Gympie and a university commercialisation contact. I would try the hub first; I have no stated university connection, so the second route is less obviously useful. Links are fictional external destinations; I did not follow them or submit externally.\n\nResult: Found a next place to check, but not an actual confirmed local/remote service. I understand the answer as an availability-check task, not a recommendation that Gympie is supported. The fictional mode prevents me resolving availability in this session. Mobile layout is narrow but readable; answer/evidence requires substantial scrolling. No real device verification or product acceptance claim.\nUI actions in final replay: navigation, text fill, Ask click, supporting passage click (4). Earlier start-only inspection runs used separate fresh contexts, no submitted question. Browser closed at end.\n');
+await browser.close();
+})();
