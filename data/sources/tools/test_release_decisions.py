@@ -10,9 +10,13 @@ GOOD_URL = 'https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-67
 
 
 class _Base(unittest.TestCase):
-    """The decision record can hold owner decisions and human fact checks, but never invented ones."""
+    """Structural checks; semantic authorization still requires review of the linked record."""
     def setUp(self):
         self.doc = json.loads((ROOT / 'release/decisions.json').read_text())
+        # Counterexamples start from an explicitly undecided fixture, independent of live owner selections.
+        for decision in list(self.doc['global_decisions'].values()) + [v for s in self.doc['sources'] for v in s['decisions'].values()]:
+            for key in decision:
+                decision[key] = None
         self.m = json.loads((ROOT / 'article-bibliography.json').read_text())
         self.p = json.loads((ROOT / 'rights-evidence.json').read_text())['policies']
         self.attempts = {}
@@ -31,8 +35,11 @@ class _Base(unittest.TestCase):
 
 
 class ReleaseDecisionTests(_Base):
-    def test_committed_record_is_valid_and_fully_open(self):
-        self.assertEqual([], self.errors())
+    def test_committed_record_has_policy_decisions_but_no_release_or_human_signoff(self):
+        committed = json.loads((ROOT / 'release/decisions.json').read_text())
+        self.assertEqual([], self.errors(committed))
+        self.assertEqual((12, 34, 26, 26), rd.pending_summary(committed))
+        self.assertTrue(all(s['decisions']['release_inclusion']['selected'] in ('defer', 'exclude') for s in committed['sources']))
         self.assertEqual((34, 34, 26, 26), rd.pending_summary(self.doc))
 
     def test_a_properly_recorded_owner_decision_passes(self):

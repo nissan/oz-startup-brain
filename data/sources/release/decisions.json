@@ -1,6 +1,6 @@
 {
   "format_version": "1",
-  "purpose": "Pending owner decisions and human fact checks for the eight core Queensland-pilot pages (#28 Stage 1 gates 4-5). Nothing here is decided: every `selected` and `result` is null until the owner records a decision in GitHub and links it.",
+  "purpose": "Owner policy selections recorded on 8 November 2026 for the eight core Queensland-pilot pages (#28). Inclusion remains deferred or excluded; every human fact-check result is pending. This record does not clear rights, approve ingestion or release a corpus.",
   "prepared_by": "Claude, run claude-28-20261108 (builder preparation, not a decision or independent review)",
   "prepared_on": "2026-11-08",
   "options": {
@@ -35,16 +35,16 @@
   },
   "global_decisions": {
     "queensland_retrieval_route": {
-      "selected": null,
-      "decided_by": null,
-      "decided_on": null,
-      "record_url": null
+      "selected": "owner_computer",
+      "decided_by": "Nissan (owner)",
+      "decided_on": "2026-11-08",
+      "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
     },
     "release_scope": {
-      "selected": null,
-      "decided_by": null,
-      "decided_on": null,
-      "record_url": null
+      "selected": "federal_interim",
+      "decided_by": "Nissan (owner)",
+      "decided_on": "2026-11-08",
+      "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
     }
   },
   "sources": [
@@ -78,10 +78,10 @@
           "record_url": null
         },
         "release_inclusion": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "defer",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         }
       },
       "fact_checks": [
@@ -157,10 +157,10 @@
           "record_url": null
         },
         "release_inclusion": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "defer",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         }
       },
       "fact_checks": [
@@ -226,10 +226,10 @@
           "record_url": null
         },
         "release_inclusion": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "defer",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         }
       },
       "fact_checks": [
@@ -277,28 +277,28 @@
       },
       "decisions": {
         "use": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "paraphrase",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "retention": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "private_snapshot_until_recheck",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "attribution": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "policy_prescribed",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "release_inclusion": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "defer",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         }
       },
       "fact_checks": [
@@ -374,10 +374,10 @@
           "record_url": null
         },
         "release_inclusion": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "exclude",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         }
       },
       "fact_checks": [
@@ -405,28 +405,28 @@
       },
       "decisions": {
         "use": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "paraphrase",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "retention": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "private_snapshot_until_recheck",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "attribution": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "policy_prescribed",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "release_inclusion": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "defer",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         }
       },
       "fact_checks": [
@@ -474,28 +474,28 @@
       },
       "decisions": {
         "use": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "paraphrase",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "retention": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "private_snapshot_until_recheck",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "attribution": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "policy_prescribed",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "release_inclusion": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "defer",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         }
       },
       "fact_checks": [
@@ -553,28 +553,28 @@
       },
       "decisions": {
         "use": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "paraphrase",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "retention": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "private_snapshot_until_recheck",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "attribution": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "policy_prescribed",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         },
         "release_inclusion": {
-          "selected": null,
-          "decided_by": null,
-          "decided_on": null,
-          "record_url": null
+          "selected": "defer",
+          "decided_by": "Nissan (owner)",
+          "decided_on": "2026-11-08",
+          "record_url": "https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855"
         }
       },
       "fact_checks": [

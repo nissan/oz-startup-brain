@@ -1,8 +1,20 @@
 # #28 release decision package
 
-Refs [#28](https://github.com/nissan/oz-startup-brain/issues/28). Prepared 8 November 2026 by Claude, run `claude-28-20261108`. This is builder preparation, not a decision, a clearance or an independent review.
+Refs [#28](https://github.com/nissan/oz-startup-brain/issues/28). Prepared 8 November 2026 by Claude, run `claude-28-20261108`. Originally builder preparation. Owner policy selections were approved on 8 November 2026 and transcribed by Codex; this is not rights clearance or an independent review.
 
-Stage 1 can't release a corpus until the owner makes the decisions below and a person checks the facts. The machine-readable record is [`decisions.json`](decisions.json): every decision and fact-check result in it is `null`.
+Stage 1 cannot release a corpus until page-level rights review and human checks are complete. The machine-readable record is [`decisions.json`](decisions.json).
+
+## Owner selections — 8 November 2026
+
+[Owner authorization, transcribed by Codex](https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715324855).
+
+- Keep Queensland as the pilot. Select `owner_computer`; OpenClaw may execute the existing local fetch on Nissan's behalf. If blocked, stop and prepare a department access/copy request.
+- Select `federal_interim`, explicitly labelled limited federal coverage.
+- For the four retrieved federal pages: `paraphrase`, `private_snapshot_until_recheck`, `policy_prescribed`. Verify the exact attribution wording and page-specific exceptions before release; paraphrasing does not waive rights review.
+- Set the seven substantive pages' inclusion to `defer` and the grants-finder shell to `exclude`.
+- Prioritize the 15 human checks on the federal pages. No named human checker or completion date has been assigned. All 26 check results remain null.
+
+This records 22 of 34 selections. The 12 remaining use/retention/attribution fields concern the three unretrieved Queensland pages and excluded finder; leave them pending. No manifest gate or source version changes. The original options and rationale below remain for reference; the selection record above supersedes their proposal labels.
 
 `tools/release_decisions.py` runs inside `source_audit.py validate`. Its checks are **structural**:
 - every required decision and the reviewed fact-check inventory are present (the inventory is pinned by a SHA-256 in code);
@@ -56,7 +68,7 @@ The three Queensland pages returned 403 on the tested GitHub-hosted runner, from
 | `federal_only_interim` | Go ahead with federal pages only, labelled as not Queensland coverage. |
 | `change_pilot` | Revisit the 6 November jurisdiction decision. |
 
-**Proposal (not a decision):** try `owner_computer` first, because it takes minutes. If it is refused, send `permission_request`. Meanwhile, `federal_only_interim` unblocks the release work (decision 4).
+**Approved direction:** try `owner_computer` first, because it takes minutes. If it is refused, prepare `permission_request` as the fallback. Meanwhile, `federal_only_interim` unblocks the release work (decision 4).
 
 **Commands for `owner_computer`**, from an up-to-date clone of `main`. Snapshots go *outside* the repository, and the tool refuses a folder that isn't git-ignored:
 
@@ -85,10 +97,10 @@ Options for each page are in `decisions.json` → `options`:
 - **retention:** `hashes_only`, `private_snapshot_until_recheck` or `private_store_for_pipeline`;
 - **attribution:** `policy_prescribed`.
 
-**Proposal for the four business.gov.au versions (not a decision):**
+**Approved policies for the four business.gov.au versions (release checks remain pending):**
 - **Use: `paraphrase`** for the first release. Short cited statements carry less rights risk than excerpts. They also avoid the per-page exceptions the retrieval review lists: operator-supplied centre descriptions, customer stories and images, an embedded video, and a disclaimer and "hypothetical" labels that must travel with any extract. Move to `licensed_excerpts` later, once extraction can enforce those exceptions.
 - **Retention: `private_snapshot_until_recheck`**, so each fact check and re-hash stays auditable.
-- **Attribution: `policy_prescribed`.** Copy the business.gov.au notice's wording exactly at decision time. I couldn't open the notice from this workspace, so the record holds no attribution text yet. The register summarises it as the Commonwealth of Australia attribution under CC BY 3.0 AU, with source URL, licence link and change note.
+- **Attribution: `policy_prescribed`.** Verify and apply the business.gov.au notice's exact wording before release. I couldn't open the notice from this workspace, so the selection records the attribution policy, not verified attribution text. The register summarises it as the Commonwealth of Australia attribution under CC BY 3.0 AU, with source URL, licence link and change note.
 
 ## Decision 3: human fact checks
 
@@ -107,7 +119,7 @@ A page can be included only when all its checks are `confirmed`. Status and date
 | `federal_interim` | A first release of the reviewed federal pages, labelled federal and not Queensland coverage. It gives #29 a real, small corpus to integrate against. |
 | `wait_for_queensland` | No release until the Queensland pages are retrieved and reviewed. Truer to the pilot, but it depends on decision 1. |
 
-**Proposal:** `federal_interim`, with the finder `src_f164f71e6364` set to `exclude`. Its HTML holds no results, so it can't serve as a source. Replace it later with specific program pages from the reserves, after their own rights review.
+**Approved scope:** `federal_interim`, with the finder `src_f164f71e6364` set to `exclude`. Its HTML holds no results, so it can't serve as a source. Replace it later with specific program pages from the reserves, after their own rights review.
 
 ## How a decision gets recorded
 
