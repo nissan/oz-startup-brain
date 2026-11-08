@@ -79,10 +79,10 @@ class ReleaseDecisionTests(_Base):
         d = copy.deepcopy(self.doc)
         rec = lambda sid: self.src(d, sid)
         owner = dict(decided_by='Nissan (owner)', decided_on='2026-11-09', record_url=GOOD_URL)
-        rec('src_8db3776594ab')['decisions']['release_inclusion'].update(selected='include', **owner)
+        rec('src_f164f71e6364')['decisions']['release_inclusion'].update(selected='include', **owner)
         rec('src_03aaa6584d27')['decisions']['release_inclusion'].update(selected='include', **owner)
         errors = self.errors(d)
-        self.assertTrue(any('src_8db3776594ab: only a reviewed' in e for e in errors))
+        self.assertTrue(any('src_f164f71e6364: only a reviewed' in e for e in errors))
         self.assertTrue(any('src_03aaa6584d27: inclusion needs use' in e for e in errors))
         self.assertTrue(any('src_03aaa6584d27: inclusion needs every fact check' in e for e in errors))
 
@@ -99,7 +99,7 @@ class ReleaseDecisionTests(_Base):
         d['sources'] = d['sources'][1:]
         self.assertTrue(any('exactly once' in e for e in self.errors(d)))
         d = copy.deepcopy(self.doc)
-        self.src(d, 'src_8db3776594ab')['retrieval']['state'] = 'reviewed_version'
+        self.src(d, 'src_f164f71e6364')['retrieval']['state'] = 'reviewed_version'
         self.assertTrue(any('disagrees' in e for e in self.errors(d)))
         d = copy.deepcopy(self.doc)
         self.src(d, 'src_7d73188025be')['url'] = 'https://business.gov.au/elsewhere'
@@ -155,12 +155,16 @@ class CodexReview57Regressions(_Base):
         self.assertTrue(any("must be 'qld_detsi'" in e for e in self.errors(d)))
 
     def test_the_two_no_version_states_follow_the_retrieval_logs(self):
-        for sid, wrong in (('src_8db3776594ab', 'shell_not_promoted'), ('src_f164f71e6364', 'blocked_403')):
-            with self.subTest(sid=sid):
+        for sid, wrong in (('src_8db3776594ab', 'blocked_403'), ('src_f164f71e6364', 'blocked_403'), ('src_f164f71e6364', 'reviewed_version')):
+            with self.subTest(sid=sid, wrong=wrong):
                 d = copy.deepcopy(self.doc)
                 self.src(d, sid)['retrieval']['state'] = wrong
                 self.assertTrue(any('retrieval logs' in e for e in self.errors(d)))
-        self.assertEqual('blocked_403', rd.expected_state(next(s for s in self.m['sources'] if s['source_id'] == 'src_8db3776594ab'), self.attempts['src_8db3776594ab']))
+        # Ignite Ideas: the historical 403 attempts alone derive blocked_403; with the #59 run and a
+        # manifest version it is a reviewed version.
+        historic = [a for a in self.attempts['src_8db3776594ab'] if a['outcome'] == 'http_error']
+        self.assertEqual('blocked_403', rd.expected_state({'source_version_id': None}, historic))
+        self.assertEqual('reviewed_version', rd.expected_state(next(s for s in self.m['sources'] if s['source_id'] == 'src_8db3776594ab'), self.attempts['src_8db3776594ab']))
         self.assertEqual('shell_not_promoted', rd.expected_state(next(s for s in self.m['sources'] if s['source_id'] == 'src_f164f71e6364'), self.attempts['src_f164f71e6364']))
         self.assertIsNone(rd.expected_state({'source_version_id': None}, []))
 

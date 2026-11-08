@@ -150,10 +150,11 @@ class RetrievedVersionTests(unittest.TestCase):
 
     def test_committed_versions_need_their_committed_logs(self):
         m=audit.read(ROOT/'article-bibliography.json')
-        self.assertEqual(4,sum(s['source_version_id'] is not None for s in m['sources']))
+        promoted=sum(s['source_version_id'] is not None for s in m['sources'])
+        self.assertEqual(7,promoted)  # 4 federal (#40) + 3 Queensland (#59 run, owner choice b)
         self.assertEqual([],audit.validate(m,self.o,self.p,audit.load_retrievals(ROOT,m)[1]))
         m['audit']['retrievals']=[]
-        self.assertEqual(4,sum('not backed' in e for e in audit.validate(m,self.o,self.p,audit.load_retrievals(ROOT,m)[1])))
+        self.assertEqual(promoted,sum('not backed' in e for e in audit.validate(m,self.o,self.p,audit.load_retrievals(ROOT,m)[1])))
 
     def test_hash_or_time_drift_rejected(self):
         self.s['content_hash']='b'*64
@@ -406,9 +407,11 @@ class ReviewFortyRegressions(unittest.TestCase):
     def test_committed_logs_keep_their_original_header_and_carry_a_correction(self):
         m = audit.read(ROOT/'article-bibliography.json')
         c = {x['log']: x for x in m['audit']['retrieval_corrections']}
+        self.assertEqual({'audits/retrieval-28-20261106a.json', 'audits/retrieval-28-20261106b.json'}, set(c))
         for name in m['audit']['retrievals']:
             self.assertEqual(USER_AGENT, audit.read(ROOT/name)['run']['user_agent'])
-            self.assertEqual(LEGACY_USER_AGENT, c[name]['actually_sent'])
+            if name in c:  # the two GitHub-runner logs sent the legacy agent (#40 review)
+                self.assertEqual(LEGACY_USER_AGENT, c[name]['actually_sent'])
         m['audit']['retrieval_corrections'][0]['recorded'] = LEGACY_USER_AGENT
         self.assertTrue(any('not rewritten' in e for e in audit.validate_corrections(ROOT, m)))
 
@@ -430,8 +433,10 @@ class ReviewFortyPromotionMetadata(unittest.TestCase):
         return errors + audit.validate(m, self.o, self.p, records)
 
     def promoted(self, logs):
+        # A promoted version from log a (AI Adopt Centres), whatever other logs are registered.
         log = logs['audits/retrieval-28-20261106a.json']
-        rec = next(r for r in log['attempts'] if r['source_version_id'] == next(s for s in self.m['sources'] if s['source_version_id'])['source_version_id'])
+        version = next(s for s in self.m['sources'] if s['source_id'] == 'src_7d73188025be')['source_version_id']
+        rec = next(r for r in log['attempts'] if r['source_version_id'] == version)
         return log, rec
 
     def test_committed_records_remain_valid(self):

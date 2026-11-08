@@ -11,7 +11,7 @@ This is provisional subject/operator classification, not jurisdiction eligibilit
 | discovered | 135 |
 | classified | 135 |
 | original_snapshots_recovered | 0 |
-| raw_versions_retained | 4 |
+| raw_versions_retained | 7 |
 | ingestion_approved | 0 |
 | fact_verified | 0 |
 | observations: empty_representation | 2 |
@@ -33,6 +33,9 @@ Each retrieved version is a fetched representation that a reviewer confirmed is 
 
 | Source ID | Version | Fetched (UTC) | SHA-256 | Representation review |
 | --- | --- | --- | --- | --- |
+| `src_8db3776594ab` | `sv_57886ef3d5c8149e1493` | 2026-11-08T00:59:43.697414+00:00 | `943bf5dac60a378f…` | 2026-11-08, OpenClaw retrieval operator, run retrieval-28-local-20261108T005941Z (operator inspection of the private snapshot; not seen by Claude; owner choice (b), 8 November 2026): Operator assessment (#59 report): program-page HTML with a main region, one matching program heading, multiple content headings and paragraphs, application and eligibility material; no denial, human-verification or challenge markers. Bounded static-HTML check, not a rendering. Owner record: https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715605146 |
+| `src_5dcbf23541e6` | `sv_e178e12679fad4e7c0a9` | 2026-11-08T00:59:42.712279+00:00 | `c1aeafebaae50a27…` | 2026-11-08, OpenClaw retrieval operator, run retrieval-28-local-20261108T005941Z (operator inspection of the private snapshot; not seen by Claude; owner choice (b), 8 November 2026): Operator assessment (#59 report): program-page HTML with a main region, one matching program heading, multiple content headings and paragraphs; program and support material rather than an application form; no denial, human-verification or challenge markers. Owner record: https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715605146 |
+| `src_d1313206eafa` | `sv_90b431e7f3c73c826661` | 2026-11-08T00:59:43.348620+00:00 | `b94a8bee25b88383…` | 2026-11-08, OpenClaw retrieval operator, run retrieval-28-local-20261108T005941Z (operator inspection of the private snapshot; not seen by Claude; owner choice (b), 8 November 2026): Operator assessment (#59 report): program-page HTML with a main region, one matching program heading, multiple content headings and paragraphs, application and eligibility material; no denial, human-verification or challenge markers. Bounded static-HTML check, not a rendering. Owner record: https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715605146 |
 | `src_7d73188025be` | `sv_5c4b6a8ffd94aa780022` | 2026-11-06T11:21:49.371769+00:00 | `486cb59c25368a1b…` | 2026-11-06, Claude claude-28-20261106-2200 (builder; not independent): Program page: title and h1 "AI Adopt Centres", about 580 words of main content naming four centres. A reCAPTCHA script for the feedback form is not a challenge. |
 | `src_03aaa6584d27` | `sv_bd9ea252a09e4ff8262a` | 2026-11-06T11:21:47.622000+00:00 | `f3c54397233b73d2…` | 2026-11-06, Claude claude-28-20261106-2200 (builder; not independent): Program page: "Industry Growth Program", about 1,700 words. Carries the banner "This program is currently paused to new applications" above the application sections. Feedback-form reCAPTCHA only. |
 | `src_96ad709aa550` | `sv_87c9b944493e4b99b654` | 2026-11-06T11:21:51.011180+00:00 | `76305d8aefcf96bb…` | 2026-11-06, Claude claude-28-20261106-2200 (builder; not independent): Program page: "Overview of the R&D Tax Incentive", about 980 words of main content with offset, eligibility and four-step headings. Feedback-form reCAPTCHA only. |

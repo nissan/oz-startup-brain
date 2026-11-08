@@ -14,7 +14,7 @@ Stage 1 cannot release a corpus until page-level rights review and human checks 
 - Set the seven substantive pages' inclusion to `defer` and the grants-finder shell to `exclude`.
 - Prioritize the 15 human checks on the federal pages. No named human checker or completion date has been assigned. All 26 check results remain null.
 
-This records 22 of 34 selections. The 12 remaining use/retention/attribution fields concern the three unretrieved Queensland pages and excluded finder; leave them pending. No manifest gate or source version changes. The original options and rationale below remain for reference; the selection record above supersedes their proposal labels.
+This records 22 of 34 selections. The 12 remaining use/retention/attribution fields concern the three Queensland pages and the excluded finder; leave them pending. The Queensland pages are now retrieved and promoted (#59, #60), but the owner record covered only the federal pages: their selections and page-level rights exceptions are [#61](https://github.com/nissan/oz-startup-brain/issues/61). The 15 priority federal fact checks are [#62](https://github.com/nissan/oz-startup-brain/issues/62). No manifest gate or source version changes. The original options and rationale below remain for reference; the selection record above supersedes their proposal labels.
 
 `tools/release_decisions.py` runs inside `source_audit.py validate`. Its checks are **structural**:
 - every required decision and the reviewed fact-check inventory are present (the inventory is pinned by a SHA-256 in code);
@@ -31,9 +31,9 @@ It **cannot** check whether the linked comment really authorises the decision, w
 
 | Page | Publisher licence (triage, not clearance) | Retrieved version | Blocking item |
 | --- | --- | --- | --- |
-| Ignite Ideas Fund `src_8db3776594ab` | DETSI, CC BY 4.0 | none: HTTP 403 | Retrieval route (decision 1) |
-| Ignite+ `src_5dcbf23541e6` | DETSI, CC BY 4.0 | none: HTTP 403 | Retrieval route |
-| Ignite Spark `src_d1313206eafa` | DETSI, CC BY 4.0 | none: HTTP 403 | Retrieval route |
+| Ignite Ideas Fund `src_8db3776594ab` | DETSI, CC BY 4.0 | `sv_57886ef3d5c8149e1493` (#59, local run; operator-reviewed) | Page-level rights exceptions; fact checks; release inclusion `defer` |
+| Ignite+ `src_5dcbf23541e6` | DETSI, CC BY 4.0 | `sv_e178e12679fad4e7c0a9` (#59, local run; operator-reviewed) | Page-level rights exceptions; fact checks; release inclusion `defer` |
+| Ignite Spark `src_d1313206eafa` | DETSI, CC BY 4.0 | `sv_90b431e7f3c73c826661` (#59, local run; operator-reviewed) | Page-level rights exceptions; fact checks; release inclusion `defer` |
 | AI Adopt Centres `src_7d73188025be` | business.gov.au, CC BY 3.0 AU | `sv_5c4b6a8ffd94aa780022` | Use, retention, attribution; 4 fact checks |
 | Grants and programs finder `src_f164f71e6364` | business.gov.au | none: interactive shell | Drop or replace (decision 4) |
 | Industry Growth Program `src_03aaa6584d27` | business.gov.au, CC BY 3.0 AU | `sv_bd9ea252a09e4ff8262a` | Use, retention, attribution; 3 fact checks |
@@ -46,6 +46,16 @@ Evidence:
 - [inventory](../audits/2026-11-06-inventory.md).
 
 The four snapshots are held privately by Nissan; the repository holds hashes only.
+
+## Update, 8 November 2026: Queensland pages retrieved
+
+Nissan chose `owner_computer` (#28 owner record). OpenClaw ran the fetch on his computer (run `retrieval-28-local-20261108T005941Z`, #59, merged as `269fc8c`). All three discovery URLs returned HTTP 200 after normal redirects to their reviewed `innovation.qld.gov.au` destinations.
+
+The versions are now promoted in the manifest. Their representation review is **OpenClaw's operator inspection** of the private snapshots, by Nissan's choice (b) ([record](https://github.com/nissan/oz-startup-brain/issues/28#issuecomment-6715605146)). Claude has not seen these bytes.
+
+**Page-level rights exceptions for the Queensland pages are not yet listed.** The DETSI notice excludes images, marks and third-party material. Listing what that means on each page needs someone with the snapshots. Until it is done, `licensed_excerpts` is not available for these pages; `paraphrase` still needs the same check before release.
+
+The decision below is kept for the record.
 
 ## Decision 1: Queensland retrieval route
 
