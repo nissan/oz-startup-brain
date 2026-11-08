@@ -1,4 +1,6 @@
 import type { components } from '@ozsb/api-client';
+// Lightweight words-only entry point: do not bring the contract validator into the client.
+import { EVIDENCE_STATE_WORDS } from '@ozsb/contracts/dist/vocabulary';
 
 /**
  * Pure mapping from the v1 envelope to what the design-system components render. No business
@@ -112,7 +114,7 @@ export const CONDITION_HEADINGS: Record<S['UnresolvedCondition']['reason'], stri
   explicit_unknown: 'Left out because a field is Unknown',
   stale_evidence: 'Current status unverified',
   future_effective: 'Takes effect later',
-  outside_coverage: 'Outside current coverage',
+  outside_coverage: EVIDENCE_STATE_WORDS.outside,
   not_in_evidence: 'Not in the evidence',
 };
 
@@ -120,7 +122,7 @@ export const APPLICABILITY_WORDS: Record<Claim['applicability'], string> = {
   current: 'In effect now',
   future_effective: 'Takes effect later',
   historical: 'No longer in effect',
-  unverified: 'Needs a current check',
+  unverified: EVIDENCE_STATE_WORDS['needs-check'],
 };
 
 /** The service condition to announce with StatusNotice, if any. Evidence and coverage warnings are not service states. */

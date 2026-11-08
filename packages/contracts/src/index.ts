@@ -14,14 +14,7 @@ export const SOURCE_ID_PATTERN = v1Schema.$defs.Citation.properties.source_id.pa
 
 export const STANDING_STATEMENT = 'Information and routing, not an application or approval.' as const;
 
-/** The five evidence-state words rendered by the design system's EvidenceLabel. #10 moves the UI to this table. */
-export const EVIDENCE_STATE_WORDS = {
-  checked: 'Source checked',
-  'needs-check': 'Needs a current check',
-  disagree: 'Sources disagree',
-  suggested: 'Suggested next step',
-  outside: 'Outside current coverage',
-} as const;
+export { EVIDENCE_STATE_WORDS, SERVICE_STATUS_WORDS, type ServiceStatus } from './vocabulary';
 
 const ajv = new Ajv2020({ allErrors: true, strict: true, strictRequired: false });
 addFormats(ajv);
