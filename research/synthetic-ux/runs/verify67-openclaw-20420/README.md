@@ -36,8 +36,11 @@ Three children launched with `fork_turns=none`, receiving only their packet path
 Parent also inspected T01 `03-unknown.png`, T03 `05-screen.png`, T05 `03-passage.png`. Synthetic observations suggest task-understanding within fixtures, not real eligibility or human comprehension. Context chips remaining Not set caused confusion, but avoiding inferred personal context is intentional; builder should assess explanatory copy, not silently auto-populate it. Duplicate future caveat and mobile length are reported for triage rather than changed here.
 
 ## Other handoffs and remaining gates
-#65 merge3b0a6f9 and #68 mergeab6c768 preserve their reviewed scopes byte-for-byte; both merge commits have6/6CIgreen (`reports/merged65-68.json`). This is scope/CI verification, not a new full browser run on merged #65.
+#65 merge3b0a6f9 and #68 mergeab6c768 preserve their reviewed scopes byte-for-byte; both merge commits have6/6CIgreen (`reports/merged65-68.json`). Affected tooling was additionally rerun in a clean detached worktree at merged mainab6c768:35discovered,34PASS/1opt-inbrowserSKIP (`reports/merged65-tools.log`). The expected missing-socket CLI negative-test message is not a live service failure. This is not a full browser rerun on merged #65.
 #67 requires its own actual merged-build verification later. #53 dismissal waits#55. Actual screen reader not operated; #9 outstanding AT/zoom and human/real-source gates remain. Unregistered non-generic follow-ups remain a documented fixture limitation, not continuity passes. No cloud hosting, paid providers or production service.
 
 ## Evidence contract
 135 PNGs (122primed/13actor) go through Git LFS. `manifest.json` records original-byte SHA256/size for every artifact except itself; `tools/verify-artifacts.py` verifies tracked text bytes or canonical LFS pointer joins. Text paths are sanitized to `<candidate>`/`<home>`; retained historical scripts may need the local module path restored for replay. No private raw source data or credentials included.
+
+## Publication readback
+Fresh empty-cache Git LFS fetch through the nissan upstream endpoint downloaded all135capture paths/114distinctobjects; recomputed every image SHA256/size against manifest:PASS (`reports/lfs-readback.json`). This is actual downloaded-byte verification, separate from local pointer checks. Historical original-byte hashes remain unchanged.

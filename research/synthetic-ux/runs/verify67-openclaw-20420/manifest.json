@@ -3,8 +3,8 @@
   "artifacts": [
     {
       "path": "README.md",
-      "bytes": 6969,
-      "sha256": "b543025ed3cd29a6393cd0098cb6fef9ff94823bfae1197b41dd63a49027abc6"
+      "bytes": 7555,
+      "sha256": "3e7f1aa605d953a8ead4f89bc4415262a89a19769d321684cdb73288e8c4fe40"
     },
     {
       "path": "actors/T01/01-start.png",
@@ -777,9 +777,19 @@
       "sha256": "92401b7108854e3918f8d6233a0170f973cd95742e244783f25f2082b6b0e440"
     },
     {
+      "path": "reports/lfs-readback.json",
+      "bytes": 152,
+      "sha256": "7e781f4b42f7f3e2c13565c0110e15575f76ca8edf49699bce00fe36e04f1342"
+    },
+    {
       "path": "reports/merged65-68.json",
       "bytes": 1695,
       "sha256": "a37dde08f16d41260f43f9ba23302c01c5a20a96ae90ee57280b9e3f3033beeb"
+    },
+    {
+      "path": "reports/merged65-tools.log",
+      "bytes": 6354,
+      "sha256": "bcc4da3082e63d2447c4f255cdbccb722c983989353c7b60bc45677498e28b4c"
     },
     {
       "path": "reports/pack.log",

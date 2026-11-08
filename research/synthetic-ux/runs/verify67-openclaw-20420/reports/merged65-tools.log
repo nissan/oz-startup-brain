@@ -1,0 +1,56 @@
+test_three_variants_on_mounted_pages (test_phase_controller.BrowserCheck.test_three_variants_on_mounted_pages) ... skipped 'browser check needs OZSB_PHASE_BROWSER=1, `npm run build` and Python Playwright'
+test_a_child_that_prints_the_key_fails_cleanup (test_phase_controller.ControllerMechanics.test_a_child_that_prints_the_key_fails_cleanup) ... ok
+test_api_child_receives_the_guarded_harness_env (test_phase_controller.ControllerMechanics.test_api_child_receives_the_guarded_harness_env) ... <home>/.pyenv/versions/3.14.3/lib/python3.14/tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 429: 'Too Many Requests'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+ok
+test_busy_port_refuses_to_start (test_phase_controller.ControllerMechanics.test_busy_port_refuses_to_start) ... ok
+test_cleanup_fails_when_a_port_stays_held_and_never_kills_unrelated_holders (test_phase_controller.ControllerMechanics.test_cleanup_fails_when_a_port_stays_held_and_never_kills_unrelated_holders) ... ok
+test_cleanup_stops_a_surviving_group_member_after_its_leader_exited (test_phase_controller.ControllerMechanics.test_cleanup_stops_a_surviving_group_member_after_its_leader_exited) ... ok
+test_control_channel_is_a_unix_socket_only (test_phase_controller.ControllerMechanics.test_control_channel_is_a_unix_socket_only)
+The controller's only listener is AF_UNIX; phases cannot be reached over TCP/HTTP. ... ok
+test_log_and_reply_guards_refuse_the_raw_key (test_phase_controller.ControllerMechanics.test_log_and_reply_guards_refuse_the_raw_key) ... ok
+test_mismatched_probe_is_not_ready (test_phase_controller.ControllerMechanics.test_mismatched_probe_is_not_ready) ... ok
+test_phase_cycle_restarts_only_the_api_on_the_same_port_and_key (test_phase_controller.ControllerMechanics.test_phase_cycle_restarts_only_the_api_on_the_same_port_and_key) ... <home>/.pyenv/versions/3.14.3/lib/python3.14/tempfile.py:484: ResourceWarning: Implicitly cleaning up <HTTPError 504: 'Gateway Timeout'>
+  _warnings.warn(self.warn_message, ResourceWarning)
+ok
+test_replies_and_log_never_contain_the_raw_key (test_phase_controller.ControllerMechanics.test_replies_and_log_never_contain_the_raw_key) ... ok
+test_socket_is_private_and_rejects_bad_requests (test_phase_controller.ControllerMechanics.test_socket_is_private_and_rejects_bad_requests) ... ok
+test_web_exit_is_reported_instead_of_restarting_it (test_phase_controller.ControllerMechanics.test_web_exit_is_reported_instead_of_restarting_it) ... ok
+test_api_env_uses_existing_guards_and_drops_caller_overrides (test_phase_controller.Environments.test_api_env_uses_existing_guards_and_drops_caller_overrides) ... ok
+test_key_matches_the_registry_digest (test_phase_controller.Environments.test_key_matches_the_registry_digest) ... ok
+test_ports_are_validated (test_phase_controller.Environments.test_ports_are_validated) ... ok
+test_web_env_carries_the_key_but_no_harness_setting (test_phase_controller.Environments.test_web_env_carries_the_key_but_no_harness_setting) ... ok
+test_unreachable_socket_is_not_ok (test_phase_controller.PhasectlCli.test_unreachable_socket_is_not_ok) ... ok
+test_usage_and_phase_validation (test_phase_controller.PhasectlCli.test_usage_and_phase_validation) ...   python phasectl.py SOCKET phase {none,vector_timeout,budget_exhausted,graph_unavailable}
+  python phasectl.py SOCKET status
+  python phasectl.py SOCKET stop
+  python phasectl.py SOCKET phase {none,vector_timeout,budget_exhausted,graph_unavailable}
+  python phasectl.py SOCKET status
+  python phasectl.py SOCKET stop
+unknown phase 'down'; expected one of none, vector_timeout, budget_exhausted, graph_unavailable
+  python phasectl.py SOCKET phase {none,vector_timeout,budget_exhausted,graph_unavailable}
+  python phasectl.py SOCKET status
+  python phasectl.py SOCKET stop
+ok
+test_each_phase_accepts_only_its_own_response (test_phase_controller.ProbeExpectations.test_each_phase_accepts_only_its_own_response) ... ok
+test_graph_degradation_is_not_interchangeable_with_errors (test_phase_controller.ProbeExpectations.test_graph_degradation_is_not_interchangeable_with_errors) ... ok
+test_unknown_phase_is_rejected (test_phase_controller.ProbeExpectations.test_unknown_phase_is_rejected) ... ok
+test_actor_metadata_leak_names_rule_and_task_even_optimized (test_validate_pack.PackValidationTests.test_actor_metadata_leak_names_rule_and_task_even_optimized) ... ok
+test_background_change_requires_review (test_validate_pack.PackValidationTests.test_background_change_requires_review) ... ok
+test_checkpoint_cannot_bypass_actor_boundary (test_validate_pack.PackValidationTests.test_checkpoint_cannot_bypass_actor_boundary) ... ok
+test_comment_and_whitespace_only_feature_edits_do_not_require_review (test_validate_pack.PackValidationTests.test_comment_and_whitespace_only_feature_edits_do_not_require_review) ... ok
+test_current_pack_passes_normally_and_optimized (test_validate_pack.PackValidationTests.test_current_pack_passes_normally_and_optimized) ... ok
+test_docstring_payload_changes_change_the_hash (test_validate_pack.PackValidationTests.test_docstring_payload_changes_change_the_hash) ... ok
+test_existing_scenario_id_does_not_hide_changed_steps (test_validate_pack.PackValidationTests.test_existing_scenario_id_does_not_hide_changed_steps) ... ok
+test_formatting_outside_docstrings_is_still_ignored (test_validate_pack.PackValidationTests.test_formatting_outside_docstrings_is_still_ignored) ... ok
+test_missing_capability_names_missing_id (test_validate_pack.PackValidationTests.test_missing_capability_names_missing_id) ... ok
+test_missing_checkpoint_and_bad_json_are_actionable (test_validate_pack.PackValidationTests.test_missing_checkpoint_and_bad_json_are_actionable) ... ok
+test_one_word_background_change_still_requires_review (test_validate_pack.PackValidationTests.test_one_word_background_change_still_requires_review) ... ok
+test_scope_change_requires_explicit_review (test_validate_pack.PackValidationTests.test_scope_change_requires_explicit_review) ... ok
+test_table_cell_inner_whitespace_still_counts (test_validate_pack.PackValidationTests.test_table_cell_inner_whitespace_still_counts) ... ok
+
+----------------------------------------------------------------------
+Ran 35 tests in 15.456s
+
+OK (skipped=1)
+{"ok": false, "error": "cannot reach controller socket: [Errno 2] No such file or directory"}
