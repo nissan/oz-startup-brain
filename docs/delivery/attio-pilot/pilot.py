@@ -15,6 +15,8 @@ SHA = re.compile(r"[0-9a-f]{40}\Z")
 HANDOFF_FIELDS = {"version", "run_id", "role", "agent", "model", "issue_url", "base_sha", "head_sha",
                   "catalog_sha256", "lesson_ids", "capabilities", "context_disclosure", "checks",
                   "visual", "remaining", "next_action", "cleanup"}
+CHECK_FIELDS = {"name", "kind", "command", "status", "exit_code", "observation", "evidence"}
+VISUAL_FIELDS = {"status", "reason", "evidence"}
 NOTICE = "Structural validity only; not evidence truth, completion, independence, approval or merge permission."
 
 
@@ -116,6 +118,7 @@ def validate_handoff(data, expected_head):
     names = set()
     for check in data["checks"]:
         require(isinstance(check, dict), "check must be an object")
+        require(not (set(check) - CHECK_FIELDS), "unknown check fields: " + ", ".join(sorted(set(check) - CHECK_FIELDS)))
         for field in ("name", "kind", "status", "observation"):
             require(isinstance(check.get(field), str) and check[field].strip(), f"missing check {field}")
         require(check["name"] not in names, "duplicate check name")
@@ -138,6 +141,7 @@ def validate_handoff(data, expected_head):
         else:
             require(check.get("exit_code") is None, "manual check has no exit_code")
     require(isinstance(data.get("visual"), dict), "visual record required")
+    require(not (set(data["visual"]) - VISUAL_FIELDS), "unknown visual fields: " + ", ".join(sorted(set(data["visual"]) - VISUAL_FIELDS)))
     require(data["visual"].get("status") in {"performed", "pending", "not-applicable"}, "invalid visual status")
     require(isinstance(data["visual"].get("reason"), str) and data["visual"]["reason"].strip(), "visual reason required")
     visual_refs = data["visual"].get("evidence", [])
