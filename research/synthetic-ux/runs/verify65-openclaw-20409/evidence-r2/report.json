@@ -1,0 +1,255 @@
+{
+  "web_port": 3165,
+  "api_port": 3965,
+  "variants": {
+    "vector_timeout": {
+      "ok": true,
+      "steps": [
+        {
+          "step": "healthy before load",
+          "phase": "none",
+          "api_pid": 75230,
+          "api_starts": 2,
+          "web_pid": 75192,
+          "probe": {
+            "http": 200,
+            "error_code": null,
+            "answer_status": "answer",
+            "retrieval_mode": "fixture",
+            "prerequisite_sequence": "present",
+            "warning_codes": [
+              "fixture_corpus"
+            ],
+            "retry_after": null
+          }
+        },
+        {
+          "step": "idea answer",
+          "first_action": "Start an exploratory customer-discovery conversation"
+        },
+        {
+          "step": "fault",
+          "phase": "vector_timeout",
+          "api_pid": 75231,
+          "api_starts": 3,
+          "web_pid": 75192,
+          "probe": {
+            "http": 504,
+            "error_code": "retrieval_timeout",
+            "answer_status": null,
+            "retrieval_mode": null,
+            "prerequisite_sequence": null,
+            "warning_codes": [],
+            "retry_after": null
+          }
+        },
+        {
+          "step": "fault observed on mounted page",
+          "heading": "The planner could not answer"
+        },
+        {
+          "step": "recover",
+          "phase": "none",
+          "api_pid": 75241,
+          "api_starts": 4,
+          "web_pid": 75192,
+          "probe": {
+            "http": 200,
+            "error_code": null,
+            "answer_status": "answer",
+            "retrieval_mode": "fixture",
+            "prerequisite_sequence": "present",
+            "warning_codes": [
+              "fixture_corpus"
+            ],
+            "retry_after": null
+          }
+        },
+        {
+          "step": "recovered",
+          "first_action": "Prepare prototype and customer-interest evidence"
+        }
+      ],
+      "navigations": [
+        "http://127.0.0.1:3165/",
+        "http://127.0.0.1:3165/"
+      ],
+      "document_loads": [
+        "http://127.0.0.1:3165/"
+      ],
+      "same_mounted_page": true
+    },
+    "budget_exhausted": {
+      "ok": true,
+      "steps": [
+        {
+          "step": "healthy before load",
+          "phase": "none",
+          "api_pid": 75251,
+          "api_starts": 5,
+          "web_pid": 75192,
+          "probe": {
+            "http": 200,
+            "error_code": null,
+            "answer_status": "answer",
+            "retrieval_mode": "fixture",
+            "prerequisite_sequence": "present",
+            "warning_codes": [
+              "fixture_corpus"
+            ],
+            "retry_after": null
+          }
+        },
+        {
+          "step": "idea answer",
+          "first_action": "Start an exploratory customer-discovery conversation"
+        },
+        {
+          "step": "fault",
+          "phase": "budget_exhausted",
+          "api_pid": 75253,
+          "api_starts": 6,
+          "web_pid": 75192,
+          "probe": {
+            "http": 429,
+            "error_code": "budget_exhausted",
+            "answer_status": null,
+            "retrieval_mode": null,
+            "prerequisite_sequence": null,
+            "warning_codes": [],
+            "retry_after": "3600"
+          }
+        },
+        {
+          "step": "fault observed on mounted page",
+          "heading": "The planner could not answer"
+        },
+        {
+          "step": "recover",
+          "phase": "none",
+          "api_pid": 75255,
+          "api_starts": 7,
+          "web_pid": 75192,
+          "probe": {
+            "http": 200,
+            "error_code": null,
+            "answer_status": "answer",
+            "retrieval_mode": "fixture",
+            "prerequisite_sequence": "present",
+            "warning_codes": [
+              "fixture_corpus"
+            ],
+            "retry_after": null
+          }
+        },
+        {
+          "step": "recovered",
+          "first_action": "Prepare prototype and customer-interest evidence"
+        }
+      ],
+      "navigations": [
+        "http://127.0.0.1:3165/",
+        "http://127.0.0.1:3165/"
+      ],
+      "document_loads": [
+        "http://127.0.0.1:3165/"
+      ],
+      "same_mounted_page": true
+    },
+    "graph_unavailable": {
+      "ok": true,
+      "steps": [
+        {
+          "step": "healthy before load",
+          "phase": "none",
+          "api_pid": 75259,
+          "api_starts": 8,
+          "web_pid": 75192,
+          "probe": {
+            "http": 200,
+            "error_code": null,
+            "answer_status": "answer",
+            "retrieval_mode": "fixture",
+            "prerequisite_sequence": "present",
+            "warning_codes": [
+              "fixture_corpus"
+            ],
+            "retry_after": null
+          }
+        },
+        {
+          "step": "idea answer",
+          "first_action": "Start an exploratory customer-discovery conversation"
+        },
+        {
+          "step": "fault",
+          "phase": "graph_unavailable",
+          "api_pid": 75261,
+          "api_starts": 9,
+          "web_pid": 75192,
+          "probe": {
+            "http": 200,
+            "error_code": null,
+            "answer_status": "answer",
+            "retrieval_mode": "fixture_passages_only",
+            "prerequisite_sequence": "omitted",
+            "warning_codes": [
+              "fixture_corpus",
+              "graph_unavailable"
+            ],
+            "retry_after": null
+          }
+        },
+        {
+          "step": "fault observed on mounted page",
+          "heading": "Your next steps"
+        },
+        {
+          "step": "recover",
+          "phase": "none",
+          "api_pid": 75262,
+          "api_starts": 10,
+          "web_pid": 75192,
+          "probe": {
+            "http": 200,
+            "error_code": null,
+            "answer_status": "answer",
+            "retrieval_mode": "fixture",
+            "prerequisite_sequence": "present",
+            "warning_codes": [
+              "fixture_corpus"
+            ],
+            "retry_after": null
+          }
+        },
+        {
+          "step": "recovered",
+          "first_action": "Prepare prototype and customer-interest evidence"
+        }
+      ],
+      "navigations": [
+        "http://127.0.0.1:3165/",
+        "http://127.0.0.1:3165/"
+      ],
+      "document_loads": [
+        "http://127.0.0.1:3165/"
+      ],
+      "same_mounted_page": true
+    }
+  },
+  "ok": true,
+  "start": {
+    "phase": "none",
+    "api_pid": 75191,
+    "web_pid": 75192,
+    "api_port": 3965,
+    "key_id": "973ecb8b14ce"
+  },
+  "cleanup": {
+    "ok": true,
+    "op": "cleanup",
+    "raw_key_found_in": [],
+    "api_port_free": true,
+    "web_port_free": true
+  }
+}
