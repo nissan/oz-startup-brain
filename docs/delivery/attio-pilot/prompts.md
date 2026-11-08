@@ -77,8 +77,9 @@ Separate defects, questions and optional preferences. Post a COMMENT review
 under the existing task's publication authority, scoped to the exact head;
 never imply that a scoped GO supplies merge authority or completes unrun checks.
 For #10, do not approve changed owner-approved words or close deferred export
-parity. For #76, preserve an existing GO if nothing material changed; assess
-new Mac evidence when it arrives rather than restarting the entire review.
+parity. For #76, retain the GO only for its unchanged reviewed head; on a new
+head inspect the delta and recheck affected scope. Assess new Mac evidence
+when it arrives rather than restarting unchanged product review.
 
 Validate the supplied handoff structurally, then inspect the real evidence.
 Record accepted/duplicate/rejected/unresolved finding dispositions for the

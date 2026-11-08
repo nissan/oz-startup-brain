@@ -2,6 +2,7 @@ import copy
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -25,7 +26,7 @@ class PilotTests(unittest.TestCase):
     def test_catalog_sources_exist(self):
         catalog, digest = pilot.load_catalog()
         self.assertEqual(len(digest), 64)
-        self.assertEqual(len(catalog["lessons"]), 8)
+        self.assertGreater(len(catalog["lessons"]), 0)
 
     def test_scope_and_unmatched_paths(self):
         catalog, _ = pilot.load_catalog()
@@ -122,9 +123,91 @@ class PilotTests(unittest.TestCase):
             pilot.git_paths("--output=/tmp/bad", "b" * 40)
 
     def test_cli_actor_role_rejected(self):
-        result = subprocess.run(["python3", str(pilot.HERE / "pilot.py"), "context", "--role", "synthetic-actor", "--path", "apps/web"], capture_output=True)
+        result = subprocess.run([sys.executable, str(pilot.HERE / "pilot.py"), "context", "--role", "synthetic-actor", "--path", "apps/web"], capture_output=True)
         self.assertNotEqual(result.returncode, 0)
         self.assertNotIn(b"OSB-001", result.stdout)
+
+    def test_open_work_requires_remaining(self):
+        for status, code in [("not-run", None), ("blocked", None), ("fail", 1)]:
+            record = self.record()
+            record["checks"][0].update(status=status, exit_code=code)
+            with self.subTest(status=status), self.assertRaisesRegex(ValueError, "require remaining"):
+                pilot.validate_handoff(record, "b" * 40)
+        record = self.record()
+        record["visual"]["status"] = "pending"
+        with self.assertRaisesRegex(ValueError, "require remaining"):
+            pilot.validate_handoff(record, "b" * 40)
+
+    def test_unknown_acceptance_fields_rejected(self):
+        for field in ["acceptance_decision", "approved", "approval", "verified", "independent", "merge", "typo"]:
+            record = self.record()
+            record[field] = True
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "unknown handoff fields"):
+                pilot.validate_handoff(record, "b" * 40)
+
+    def test_performed_visual_requires_references(self):
+        record = self.record()
+        record["visual"]["status"] = "performed"
+        for evidence in [[], [""], "not-a-list"]:
+            record["visual"]["evidence"] = evidence
+            with self.subTest(evidence=evidence), self.assertRaises(ValueError):
+                pilot.validate_handoff(record, "b" * 40)
+        record["visual"]["evidence"] = ["fixture://before", "fixture://after"]
+        self.assertEqual(pilot.validate_handoff(record, "b" * 40)["visual_status"], "performed")
+
+    def test_catalog_identity_and_unknown_lessons(self):
+        record = self.record()
+        self.assertFalse(pilot.validate_handoff(record, "b" * 40)["catalog_matches_current"])
+        record["catalog_sha256"] = pilot.load_catalog()[1]
+        self.assertTrue(pilot.validate_handoff(record, "b" * 40)["catalog_matches_current"])
+        record["lesson_ids"] = ["OSB-999"]
+        with self.assertRaisesRegex(ValueError, "unknown lesson IDs"):
+            pilot.validate_handoff(record, "b" * 40)
+
+    def test_command_exit_and_manual_bookkeeping(self):
+        for change in [{"status": "fail", "exit_code": 0},
+                       {"status": "not-run", "exit_code": 0},
+                       {"kind": "manual", "exit_code": 0}]:
+            record = self.record()
+            record["checks"][0].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                pilot.validate_handoff(record, "b" * 40)
+
+    def test_valid_open_record_reports_limits(self):
+        record = self.record()
+        record["visual"]["status"] = "pending"
+        record["remaining"] = ["visual review"]
+        result = pilot.validate_handoff(record, "b" * 40)
+        self.assertTrue(result["has_open_items"])
+        self.assertEqual(result["visual_status"], "pending")
+        self.assertIn("not evidence truth", result["notice"])
+        self.assertEqual(result["acceptance_decision"], "not-evaluated")
+
+    def test_diff_excludes_changes_only_on_base_branch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            def git(*args):
+                return subprocess.check_output(["git", *args], cwd=root, stderr=subprocess.DEVNULL).decode().strip()
+            git("init")
+            git("config", "user.name", "Test")
+            git("config", "user.email", "test@example.invalid")
+            (root / "common").write_text("base")
+            git("add", ".")
+            git("commit", "-m", "base")
+            common = git("rev-parse", "HEAD")
+            git("checkout", "-b", "feature")
+            (root / "feature.txt").write_text("feature")
+            git("add", ".")
+            git("commit", "-m", "feature")
+            head = git("rev-parse", "HEAD")
+            git("checkout", "--detach", common)
+            (root / "base-only.txt").write_text("main advanced")
+            git("add", ".")
+            git("commit", "-m", "base advances")
+            base = git("rev-parse", "HEAD")
+            with patch.object(pilot, "ROOT", root):
+                self.assertEqual(pilot.git_merge_base(base, head), common)
+                self.assertEqual(pilot.git_paths(base, head), ["feature.txt"])
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # Continuous discovery, execution and handoff
 
-These reusable prompts replace the task-number-specific dispatch prompts for normal continuation. Paste the appropriate prompt into a new or existing session. They authorize work discovery and execution within that role and existing project scope, including the GitHub records needed to coordinate it. They do not authorize new spending, deployments, owner/human decisions or additional merge powers.
+These reusable prompts replace the task-number-specific dispatch prompts for normal continuation. Paste the appropriate prompt into a new or existing session. They are intended for use under existing authority supplied by the operator when requesting the work; repository text does not itself grant authority. Within that authority, they guide role-scoped discovery, execution and GitHub coordination. They do not authorize new spending, deployments, owner/human decisions or additional merge powers.
 
 Use the reviewed repository version of this protocol when available. While this pack is unmerged, read its current PR head in a separate worktree or through GitHub; existing adopted policy governs conflicts and candidate tools remain subject to their review gate. Do not copy an unreviewed tool into a product branch merely to continue work. The manual discovery/handoff procedure can use the existing delivery templates.
 
@@ -23,6 +23,8 @@ Prefer, in order: actionable feedback on the current claimed work; failures or v
 Use `(repository, issue/PR, role, target head, scope/check set)` as the work identity. Before starting, check whether another active run owns it or whether equivalent evidence already exists. A new head, changed base, unresolved finding or explicitly requested new check can justify another attempt; a rerun of this prompt alone cannot. Record the reason when repeating work.
 
 Post a claim with role, model/harness, run, branch/worktree, base/head, owned paths or verification scope and intended outcome. Follow coordinator confirmation rules. A Codex run already delegated coordination may confirm a unique claim within that authority; merely calling itself coordinator grants nothing. Keep one active coordinator recorded. Multiple Codex sessions do not each elect themselves coordinator. Preserve the two-implementation-issue ceiling and shared-file ownership rules.
+
+Reviewer dispatch still follows `agent-workflow.md`: a role assignment alone does not dispatch every future PR. An explicit named PR handoff from the authorized coordinator dispatches that review and its changed-head re-reviews unless withdrawn or scoped otherwise. The current iteration's named handoffs plus standing reviewer assignment satisfy that requirement for those PRs only. The coordinator records any broader standing dispatch explicitly in the live hub; this document does not create one. Discover and report an unassigned review candidate rather than self-dispatching it.
 
 For a resume, link the existing confirmed claim rather than requesting permission again. Conflicting or abandoned ownership requires an explicit coordinator reconciliation. A blocked claim stays owned until explicitly released/reassigned; elapsed time is not a lease expiry. While waiting on one task, continue another eligible task only if role, WIP and ownership permit it.
 
@@ -60,7 +62,7 @@ Stop only when no eligible work remains, a required decision/capability blocks e
 
 ## Common checkpoint format
 
-Use this concise Markdown record for all models/harnesses. Where adopted, link a completed `handoff.template.json` as additional machine-readable bookkeeping. The current validator does not validate this entire protocol or enforce coordination.
+This optional expanded record is a superset of the canonical `agent-workflow.md` Copyable claim / handoff template, not a competing requirement. The existing template remains canonical; use its fields and add relevant recovery detail below. Keep shared field meanings aligned through normal review. Where adopted, link a completed `handoff.template.json` as additional machine-readable bookkeeping. The current validator does not validate this entire protocol or enforce coordination.
 
 ```text
 Type: claim | progress | review | verification | blocked | handoff | completion

@@ -22,7 +22,7 @@
       "evidence": []
     }
   ],
-  "visual": {"status": "pending", "reason": "REPLACE with observations/evidence or an N/A reason"},
+  "visual": {"status": "pending", "reason": "REPLACE with observations/evidence or an N/A reason", "evidence": []},
   "remaining": ["REPLACE with remaining acceptance; empty only when none remain for this handoff's scope"],
   "next_action": "REPLACE with exact role, scope and required evidence",
   "cleanup": "REPLACE with cleanup performed or why none was needed"

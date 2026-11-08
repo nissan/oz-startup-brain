@@ -44,8 +44,8 @@ python docs/delivery/attio-pilot/pilot.py context --role builder \
   --path design/system/components/bundle.js \
   --path apps/web/src/lib/present.ts
 
-# Actual changed paths between two full commit IDs. Deletions and both sides
-# of a rename are included. Replace placeholders; shell does not infer them.
+# PR paths from the unique merge base to head, excluding base-only changes.
+# Deletions and both rename paths are included. Use full commit IDs.
 python docs/delivery/attio-pilot/pilot.py context --role reviewer \
   --base FULL_BASE_SHA --head FULL_HEAD_SHA
 
@@ -56,9 +56,13 @@ python docs/delivery/attio-pilot/pilot.py validate /absolute/path/handoff.json \
 python -m unittest discover -s docs/delivery/attio-pilot -p 'test_*.py' -v
 ```
 
-The context tool emits matching lessons, matching reasons, authoritative source paths, lesson-catalog hash and commit IDs when using diff mode. Unknown paths are flagged for manual context review; no match never means no risk. Prefix selection is deterministic, not semantic retrieval. A cross-cutting issue may require adding paths manually. Re-run after scope or head changes.
+The context tool emits matching lessons, matching reasons, authoritative source paths, lesson-catalog hash and commit IDs when using diff mode. `base_sha` records the supplied comparison tip; `diff_base_sha` records the unique merge base used for path selection. Missing or multiple merge bases fail explicitly. Unknown paths are flagged for manual context review; no match never means no risk. No specific lesson currently covers `.github/`, `scripts/`, `docs/decisions/` or `docs/delivery/`: inspect workflow permissions, untrusted-code boundaries and process changes manually alongside the always-on lessons. Prefix selection is deterministic, not semantic retrieval. A cross-cutting issue may require adding paths manually. Re-run after scope or head changes.
 
 The validator checks structure, head identity and evidence bookkeeping. It **does not** fetch links, inspect logs, verify signatures, run tests, enforce tool permissions, determine independence, grant approval, or mark an issue Done. A structurally valid handoff can contain failures and unrun checks. The receiver must evaluate them. No workflow, webhook or MCP server is installed by this pack.
+
+Unknown top-level fields are rejected, including self-declared approval/acceptance fields. Nonpassing checks or pending visuals require explicit `remaining` items. Performed visual inspection requires non-empty `visual.evidence` references; the receiver still assesses before/after coverage and truth. Lesson IDs must exist in the loaded catalog. `catalog_matches_current` reports hash equality without rejecting a legitimate older revision; if IDs have been retired, validate using the recorded catalog revision and disclose that choice.
+
+Exit 0 means structurally valid only, even with open work; exit 1 means invalid input/execution failure. Consumers must inspect `has_open_items`, `nonpassing_checks`, `visual_status`, `remaining` and the notice rather than treating exit 0 as completion. No completion/approval exit code is provided.
 
 ## Two harnesses, with different jobs
 
@@ -71,6 +75,8 @@ Suggested later evaluation cases: contradictory sources, stale versus future-eff
 ## Lesson maintenance
 
 `lessons.json` is a compact index and checklist, not a second source of policy. A lesson needs a concrete trigger, actionable rule, counterexample, check and existing source. The included lessons are proposed condensations of repository rules, pending review. When a review reveals reusable knowledge, Codex proposes one small lesson change, Claude checks scope and evidence, and the coordinator retains or retires it after the pilot. Do not convert stylistic preferences or one-off environment accidents into universal rules. Revalidate affected lessons when their source changes. Keep human research out of this shared development context.
+
+Assignment/scope-specific lessons include `source_dated` and `retire_when` reminders. These are human-readable maintenance triggers, not automatic expiry or permission enforcement; live owner direction and the issue remain authoritative.
 
 ## Sources and attribution boundaries
 

@@ -13,3 +13,43 @@
 - Application/contract files, dependencies, required CI and generated assets are unchanged. Application/browser/design-renderer suites were not run locally for this isolated tooling proposal; any PR CI results are separate, head-specific evidence.
 
 Remaining: Claude review of this proposal, actual use by the three existing sessions, and three prospective task records. The template is intentionally invalid until real identity fields are filled. Tool validation does not verify cited artifacts, independently attest observations, enforce capabilities or make acceptance/merge decisions. Frontend visual gate: not applicable to this documentation/CLI-only change.
+
+## Claude review fixes — 9 November 2026 (AEDT)
+
+Run `codex-pilot-review-fixes-20261109`, continuing builder/integration context,
+not independent review. Review baseline: `32960bc7903871a7399f713040473743d57dfeab`.
+The final published/tested commit is recorded in PR #77's exact-head handoff.
+
+Accepted F1–F5: open work requires remaining items; unknown top-level keys are
+rejected; performed visuals need references; diff selection uses and reports the
+unique merge base; loaded-catalog IDs are checked and digest equality reported.
+F6 adds explicit visual/open-item/notice output; exit 0 remains structural-only,
+with this contract documented. F7 is resolved by documenting the manual workflow/
+process coverage gap, without inventing an untested new lesson. F8 now scopes GO
+to the unchanged reviewed head. F9 adds dated maintenance triggers to the two
+assignment/scope-specific lessons. F10 adds missing exit-code cases, uses the
+current interpreter and removes the fixed lesson-count assertion.
+
+CP1 removes document-conferred authority. CP2 clarifies explicit named handoffs
+and changed-head re-reviews; the coordinator's current claim on PR #77 records
+that decision within existing authority, not a universal future review dispatch.
+CP3 makes the optional expanded checkpoint a superset of the canonical workflow
+handoff, preserving that template's authority.
+
+Actual preparation checks (Python 3.12.14 / Git 2.51.1):
+
+- 21 unique unit cases pass normally and under `python3 -O`.
+- F1/F2/F3 counterexamples were accepted by the reviewed 32960bc implementation
+  and rejected by this revision. A real divergent Git graph reproduces F4: the
+  old selector includes the base-only file, the corrected one selects only the
+  feature file. Temporary Git fixtures are removed by their context manager.
+- Persona-pack validator and token consistency pass; no research session runs.
+- Local Markdown targets, code fences and whitespace checks pass.
+- The corrected #78 draft at `ca8c6961fa0c70df27282bbdd19726f6540a5f21`
+  is structurally valid with open items and pending visual status. Its old
+  catalog digest is reported as different; it is not relabelled as adopted or
+  accepted evidence. No #78 files are modified by this pilot fix.
+
+No application, dependencies, lockfile or required CI changes; product visual
+inspection is not applicable to this CLI/documentation delta. No Mac checks,
+independent re-review, trial productivity gains or prospective build claimed.

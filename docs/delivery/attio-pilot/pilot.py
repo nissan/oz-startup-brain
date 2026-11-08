@@ -12,6 +12,10 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 ROLES = {"builder", "reviewer", "verifier", "coordinator"}
 SHA = re.compile(r"[0-9a-f]{40}\Z")
+HANDOFF_FIELDS = {"version", "run_id", "role", "agent", "model", "issue_url", "base_sha", "head_sha",
+                  "catalog_sha256", "lesson_ids", "capabilities", "context_disclosure", "checks",
+                  "visual", "remaining", "next_action", "cleanup"}
+NOTICE = "Structural validity only; not evidence truth, completion, independence, approval or merge permission."
 
 
 def require(condition, message):
@@ -50,6 +54,9 @@ def load_catalog():
         for source in lesson["sources"]:
             resolved = (ROOT / path_value(source)).resolve()
             require(resolved.is_relative_to(ROOT) and resolved.is_file(), f"missing or escaped lesson source: {source}")
+        for field in ("source_dated", "retire_when"):
+            if field in lesson:
+                require(isinstance(lesson[field], str) and lesson[field].strip(), f"invalid {field}")
     return data, hashlib.sha256(raw).hexdigest()
 
 
@@ -69,8 +76,17 @@ def select_lessons(paths, catalog):
     return selected, sorted(set(paths) - matched_paths)
 
 
-def git_paths(base, head):
+def git_merge_base(base, head):
     require(SHA.fullmatch(base) and SHA.fullmatch(head), "base and head must be full lowercase commit SHAs")
+    result = subprocess.run(["git", "merge-base", "--all", base, head], cwd=ROOT,
+                            check=True, capture_output=True, text=True)
+    bases = result.stdout.splitlines()
+    require(len(bases) == 1 and SHA.fullmatch(bases[0]), "need one unambiguous merge base")
+    return bases[0]
+
+
+def git_paths(base, head):
+    base = git_merge_base(base, head)
     # No shell evaluation; no rename detection means both old and new paths survive.
     result = subprocess.run(["git", "diff", "--name-only", "-z", "--no-renames", base, head, "--"],
                             cwd=ROOT, check=True, capture_output=True)
@@ -79,6 +95,7 @@ def git_paths(base, head):
 
 def validate_handoff(data, expected_head):
     require(isinstance(data, dict), "handoff must be an object")
+    require(not (set(data) - HANDOFF_FIELDS), "unknown handoff fields: " + ", ".join(sorted(set(data) - HANDOFF_FIELDS)))
     require(SHA.fullmatch(expected_head), "expected head must be a full lowercase commit SHA")
     require(data.get("version") == 1, "unsupported handoff version")
     for field in ("run_id", "agent", "model", "issue_url", "context_disclosure", "next_action", "cleanup"):
@@ -92,6 +109,9 @@ def validate_handoff(data, expected_head):
     for field in ("lesson_ids", "capabilities", "remaining"):
         require(all(isinstance(v, str) and v.strip() for v in data[field]), f"invalid {field} entry")
     require(isinstance(data.get("catalog_sha256"), str) and re.fullmatch(r"[0-9a-f]{64}", data["catalog_sha256"]), "invalid catalog hash")
+    catalog, current_digest = load_catalog()
+    known_ids = {lesson["id"] for lesson in catalog["lessons"]}
+    require(set(data["lesson_ids"]) <= known_ids, "unknown lesson IDs for this catalog")
     require(data["checks"], "record at least one performed or unrun check")
     names = set()
     for check in data["checks"]:
@@ -120,10 +140,19 @@ def validate_handoff(data, expected_head):
     require(isinstance(data.get("visual"), dict), "visual record required")
     require(data["visual"].get("status") in {"performed", "pending", "not-applicable"}, "invalid visual status")
     require(isinstance(data["visual"].get("reason"), str) and data["visual"]["reason"].strip(), "visual reason required")
+    visual_refs = data["visual"].get("evidence", [])
+    require(isinstance(visual_refs, list) and all(isinstance(r, str) and r.strip() for r in visual_refs), "visual evidence must be a list of references")
+    if data["visual"]["status"] == "performed":
+        require(visual_refs, "performed visual inspection requires evidence references")
+    nonpassing = [c["name"] for c in data["checks"] if c["status"] != "pass"]
+    if nonpassing or data["visual"]["status"] == "pending":
+        require(data["remaining"], "open checks or pending visual inspection require remaining items")
     return {"structurally_valid": True, "acceptance_decision": "not-evaluated",
             "head_sha": expected_head, "checks": len(data["checks"]),
-            "nonpassing_checks": [c["name"] for c in data["checks"] if c["status"] != "pass"],
-            "remaining": data["remaining"]}
+            "nonpassing_checks": nonpassing, "visual_status": data["visual"]["status"],
+            "has_open_items": bool(data["remaining"]),
+            "catalog_matches_current": data["catalog_sha256"] == current_digest,
+            "notice": NOTICE, "remaining": data["remaining"]}
 
 
 def main():
@@ -146,6 +175,7 @@ def main():
             catalog, digest = load_catalog()
             lessons, unmatched = select_lessons(paths, catalog)
             result = {"role": args.role, "base_sha": args.base, "head_sha": args.head,
+                      "diff_base_sha": git_merge_base(args.base, args.head) if args.base else None,
                       "catalog_sha256": digest, "lessons": lessons, "unmatched_paths": unmatched,
                       "notice": "Supplement to mandatory instructions; not a permission boundary or complete risk analysis."}
         else:

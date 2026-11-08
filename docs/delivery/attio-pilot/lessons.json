@@ -4,6 +4,8 @@
   "lessons": [
     {
       "id": "OSB-001",
+      "source_dated": "2026-11-08",
+      "retire_when": "Revalidate role routing whenever live owner assignments supersede the cited consolidation.",
       "always": true,
       "prefixes": [],
       "rule": "Reconcile the live issue, role, run, owned paths and current head before work. Codex builds, Claude reviews, OpenClaw handles required local-Mac checks. A role label or different model does not establish independence.",
@@ -49,6 +51,8 @@
     },
     {
       "id": "OSB-006",
+      "source_dated": "2026-11-08",
+      "retire_when": "Revalidate #10 scope after existing-surface delivery, an export implementation or a new approved vocabulary decision.",
       "always": false,
       "prefixes": ["packages/contracts", "apps/web", "design/system", "design/brand", "docs/ux"],
       "rule": "Preserve approved evidence words and service statuses. #10 consolidates existing surfaces; export parity remains outstanding until an export exists and is verified.",
