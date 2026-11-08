@@ -1,0 +1,6 @@
+Synthetic emulation, not human research.
+Attempt 1: Python Playwright browser navigation to http://127.0.0.1:3187/ failed with net::ERR_CONNECTION_REFUSED. No page content or screenshot obtained. No task input submitted. Browser launch succeeded; version query was after navigation and was not reached. Executable /tmp/chromium, Python /tmp/45-render-venv/bin/python, fresh context configured 1440x900 CSS pixels, device scale 1, default 100% zoom. Shell /bin/bash login:false. No repository inspection or product changes.
+Attempt 2 succeeded after facilitator environment correction: run provided fixture launcher inside same exec session as browser.
+Runner locator failure: get_by_role('button', name='Evidence for step 1', exact=True).click() timed out after 30000 ms. Exact visible text click succeeded immediately. Not treated as product interaction failure.
+Visible content limitation: Step-two article excerpt withheld by app due redistribution clearance; external publisher not visited.
+Startup screenshot captured transient Loading coverage; later coverage loaded.

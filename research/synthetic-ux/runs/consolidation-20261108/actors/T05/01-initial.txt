@@ -1,0 +1,36 @@
+Oz Startup Brain
+
+Evidence-backed next steps for Australian founders.
+
+Local fixture mode
+☾
+Light theme
+The planner provides information and routing, not advice or approval.
+Covers: Queensland, National routes only
+corpus fixture-2026-11-08.1 · as of 5 November 2026
+Development mode — fixture data, not live sources
+Start with a task
+Find my next step
+Start from your goal and situation
+Check a round
+Is a program round open today?
+What is required today
+Conditions in effect now, dated
+Your question
+Ask the planner
+Start a new question
+0/2000
+
+Information and routing, not an application or approval. This local build answers from a fictional fixture corpus.
+
+Your situation
+Jurisdiction
+Not set
+Stage
+Not set
+
+Unknown is a valid answer and is never asked about twice. A field that is not set may be asked about once. The planner never assumes personal status or IP rights.
+
+Your next steps will appear here
+
+Ask a question above, or start from a task. Answers show up to three next steps, the sources and dates behind each, what the planner could not resolve, and what comes first.

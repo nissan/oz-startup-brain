@@ -1,7 +1,8 @@
 # Delivery home
 
-Start with the [current iteration, issue #23](https://github.com/nissan/oz-startup-brain/issues/23), then read the selected issue and its latest comments/linked PR before claiming work. This is the shared entry point for Claude, Codex and future agents. Product implementation has not started merely because issues exist.
+Start with the [current iteration, issue #23](https://github.com/nissan/oz-startup-brain/issues/23), then read the selected issue and its latest comments/linked PR before claiming work. This is the shared entry point for Claude, Codex and future agents. The fixture implementation and consolidation evidence are delivered; a proposed assignment does not launch a session.
 
+- [Current consolidation assessment and start prompts](consolidation-20261108.md): completed work, remaining gates, exact provider/file boundaries and retrospective.
 - [Session handover](../../HANDOVER.md): read first in any new agent session; current state, working commands, GitHub access from agent sessions, environment limits and fresh-session prompts.
 - [Foundation retrospective](retrospectives/foundation-pr32-pr33.md): verified outcomes, review lessons and proposed independent next lanes.
 - [Ordered product backlog](backlog.md): outcomes, dependencies and later roadmap gates.

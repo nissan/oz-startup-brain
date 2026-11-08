@@ -1,0 +1,15 @@
+{
+  "runner": "Python Playwright",
+  "playwright_version": "1.51.0",
+  "browser": "Chromium",
+  "browser_version": "153.0.8010.0",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "device_scale_factor": 1,
+  "zoom": "100% (default)",
+  "mobile": "synthetic mobile emulation, not real device",
+  "context": "fresh isolated context",
+  "timestamp_utc": "2026-11-08T09:03:16.179590+00:00"
+}

@@ -1,0 +1,114 @@
+Oz Startup Brain
+
+Evidence-backed next steps for Australian founders.
+
+Local fixture mode
+☾
+Light theme
+The planner provides information and routing, not advice or approval.
+Covers: Queensland, National routes only
+corpus fixture-2026-11-08.1 · as of 5 November 2026
+Development mode — fixture data, not live sources
+Start with a task
+Find my next step
+Start from your goal and situation
+Check a round
+Is a program round open today?
+What is required today
+Conditions in effect now, dated
+Your question
+Ask the planner
+Start a new question
+123/2000
+
+Information and routing, not an application or approval. This local build answers from a fictional fixture corpus.
+
+Your situation
+Jurisdiction
+Not set
+Stage
+Not set
+
+Unknown is a valid answer and is never asked about twice. A field that is not set may be asked about once. The planner never assumes personal status or IP rights.
+
+Your next steps
+
+Answer context — Stage: Not set · Jurisdiction: Not set
+
+Prepare for Round A2, scheduled to open on 1 December 2026. Check the published conditions without assuming you are eligible. A security assessment requirement has been announced but takes effect from 1 December 2026, so it is not listed as a requirement today.
+
+Confirm you are a Queensland-registered company with a working prototype
+Why
+Round A2 guidelines state this eligibility condition.
+Evidence
+Source checked
+4 November 2026
+ Program A, Round A2: guidelines (fictional)
+Next door
+Program A, Round A2 guidelines
+Show supporting passage
+Note the Round A2 opening date
+Why
+Applications cannot be lodged before the round opens.
+Evidence
+Source checked
+4 November 2026
+ Program A, Round A2: guidelines (fictional)
+Next door
+Program A, Round A2 guidelines
+Show supporting passage
+Terms in plain language
+What the planner could not resolve
+Not in the evidence
+A matched contribution may apply. Its applicability, required amount and your ability to contribute are not established; check the relevant guidelines before committing funds.
+Takes effect later
+Takes effect from 1 December 2026: Round A2 applicants must complete an independent security assessment of their product. It is not a requirement or action today.
+Takes effect later
+Takes effect from 1 December 2026: Round A2 applicants must complete an independent security assessment of their product. It is not a prerequisite today.
+What comes first
+1
+Working prototype +customer-interest evidence
+2
+Check IP ownership; gathercustomer evidence
+Working prototype + customer-interest evidence 
+Source checked
+28 October 2026
+Check IP ownership; gather customer evidence 
+Suggested next step
+
+Requirement: A source-stated requirement says what must be in place before applying. Keep its dates and qualifiers in view.
+
+Preparation: A suggested preparation step helps you get ready; its place in this list is not an extra eligibility rule. Steps marked “Suggested next step” are editorial sequencing, not a documented requirement.
+
+For example, customer-interest evidence can appear in both: the requirement is to have it, and the preparation step is to gather it. That overlap is not a source disagreement.
+
+Evidence for step 1
+Evidence for step 2
+Evidence
+
+For Step 1: Working prototype + customer-interest evidence
+
+Source checked
+28 October 2026
+Program A overview (fictional)
+Publisher
+Fictional Department of Innovation (Queensland)
+Source version
+20 October 2026
+Verified
+28 October 2026
+Link
+https://programs.example.invalid/qld/program-a
+Program A (fictional) supports Queensland founders who have a working prototype. Applicants need evidence of customer interest, such as interviews or letters of intent, before they apply to a round. Program A is delivered in rounds; each round publishes its own dates and…
+What this rests on
+Program A requires a working prototype and evidence of customer interest before you apply to a round.
+In effect now
+from 1 February 2026
+stated by the source
+Fictional Department of Innovation (Queensland)
+
+Information and routing, not an application or approval.
+corpus fixture-2026-11-08.1
+as of 5 November 2026
+responder fixture
+request req_6224018db34d8e93

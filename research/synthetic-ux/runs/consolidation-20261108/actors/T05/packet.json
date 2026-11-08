@@ -1,0 +1,30 @@
+{
+  "actor": {
+    "id": "P3",
+    "name": "Jess",
+    "role": "Regional Queensland software founder",
+    "context": "Works on a prototype in Gympie and has a short break to find support that can be used locally or remotely.",
+    "starting_facts": {
+      "stage": "working prototype",
+      "jurisdiction": "Queensland",
+      "town": "Gympie",
+      "remote_support": "acceptable"
+    },
+    "surface": "Mobile viewport 390\u00d7844 CSS pixels. This is emulation unless real device/browser details are recorded.",
+    "disclosure_boundary": "Only fictional business context. No location permissions or microphone access beyond an explicitly prepared test fixture.",
+    "autonomy": "May edit a transcript and choose text instead. Never grants recording permission just to satisfy the test.",
+    "knowledge": "Knows her product and town; unfamiliar with ecosystem organisation names.",
+    "preferences": "Uses a phone in short sessions. Open to speech input when convenient, but also types.",
+    "goal": "Find relevant support from a phone."
+  },
+  "task": {
+    "id": "T05",
+    "persona": "P3",
+    "title": "Find relevant regional support",
+    "brief": "I am building a software prototype in Gympie. I need a local or remote support route, not a long national list.",
+    "follow_up": "If there is no evidence for my area, show the next useful place to check.",
+    "mode": "browser"
+  },
+  "starting_url": "http://127.0.0.1:3187/",
+  "input_constraints": "Use visible UI only, pointer/keyboard per profile. Browser emulation,100%zoom. No network outside starting origin. No external submissions. No repository/facilitator inspection."
+}

@@ -1,0 +1,84 @@
+Oz Startup Brain
+
+Evidence-backed next steps for Australian founders.
+
+Local fixture mode
+☾
+Light theme
+The planner provides information and routing, not advice or approval.
+Covers: Queensland, National routes only
+corpus fixture-2026-11-08.1 · as of 5 November 2026
+Development mode — fixture data, not live sources
+Start with a task
+Find my next step
+Start from your goal and situation
+Check a round
+Is a program round open today?
+What is required today
+Conditions in effect now, dated
+Your question
+Ask the planner
+Start a new question
+111/2000
+
+Information and routing, not an application or approval. This local build answers from a fictional fixture corpus.
+
+Your situation
+Jurisdiction
+Not set
+Stage
+Not set
+
+Unknown is a valid answer and is never asked about twice. A field that is not set may be asked about once. The planner never assumes personal status or IP rights.
+
+Your next steps
+
+Answer context — Stage: Not set · Jurisdiction: Not set
+
+Gympie is outside this fixture’s local coverage. Queensland and national coverage do not establish a Gympie match. Use the static fictional source directory to check local or remote availability yourself.
+
+Read the STATIC FICTIONAL SOURCE DIRECTORY
+Why
+These entries are starting points for availability checks, not verified Gympie matches.
+Evidence
+Source checked
+4 November 2026
+ STATIC FICTIONAL SOURCE DIRECTORY (fictional)
+Next door
+Static fictional source directory — open the evidence below
+Show supporting passage
+Evidence
+
+For Read the STATIC FICTIONAL SOURCE DIRECTORY
+
+Source checked
+4 November 2026
+STATIC FICTIONAL SOURCE DIRECTORY (fictional)
+Publisher
+Fictional Founder Support Network
+Source version
+4 November 2026
+Verified
+4 November 2026
+Link
+https://support.example.invalid/src_static_directory
+STATIC FICTIONAL SOURCE DIRECTORY — not verified local matches. 1. Fictional Regional Innovation Hub Network: https://hubs.example.invalid/qld/sessions — ask whether remote sessions are available and whether Gympie is served. 2. Fictional University Commercialisation Office:…
+What this rests on
+STATIC FICTIONAL SOURCE DIRECTORY — not verified local matches. 1. Fictional Regional Innovation Hub Network: https://hubs.example.invalid/qld/sessions — ask whether remote sessions are available and whether Gympie is served. 2. Fictional University Commercialisation Office: https://support.example.invalid/src_university_contact — ask whether your institution or project can use its IP conversation. Verify locality, remote access, scope and current availability before relying on either entry.
+In effect now
+from 4 November 2026
+stated by the source
+Fictional Founder Support Network
+Terms in plain language
+What the planner could not resolve
+Outside current coverage
+Gympie local coverage is not available. The named-locality fixture recognises Gympie only; it does not understand arbitrary towns or verify local matches.
+What comes first
+
+No prerequisite sequence applies to this question.
+
+Information and routing, not an application or approval.
+corpus fixture-2026-11-08.1
+as of 5 November 2026
+responder fixture
+request req_0b53217b8e6725a5
