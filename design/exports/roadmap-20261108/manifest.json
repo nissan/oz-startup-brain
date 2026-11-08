@@ -1,0 +1,626 @@
+{
+  "schema_version": 1,
+  "evidence_class": "primed_document_visual_capture",
+  "source_commit": "99c516df8af4b94cb05bbbf63855b8d6ce35f3eb",
+  "source_path": "docs/delivery/roadmap/index.html",
+  "source_sha256": "7a19be3ee35be31c6ae1ba7ef290b4e6df57fa3eb7653dbc3bf0400cc4c3c005",
+  "capture_script_commit": "b007835f36851ea83f85430f081f9fab2f24c8f3",
+  "capture_script_sha256": "0e6d38f022ba3a2c2db6f2a468ef553a43f788fec5ba1c1ca92ea810a8f438b0",
+  "repository": "nissan/oz-startup-brain",
+  "event": "push",
+  "ref": "refs/heads/ci/roadmap-capture-20261108",
+  "run_id": "42466173078",
+  "run_attempt": "1",
+  "run_url": "https://github.com/nissan/oz-startup-brain/actions/runs/42466173078",
+  "artifact_name": "roadmap-captures-20261108",
+  "artifact_retention_days": 90,
+  "captured_at": "2026-11-08T09:13:30.479Z",
+  "browser": {
+    "name": "chromium",
+    "version": "153.0.8010.12",
+    "playwright": "1.63.0"
+  },
+  "context": {
+    "locale": "en-AU",
+    "timezone": "UTC",
+    "reduced_motion": "reduce",
+    "device_scale_factor": 1,
+    "actual_browser_zoom_tested": false
+  },
+  "limitations": [
+    "Scripted captures and interaction checks require a separate human/agent visual inspection.",
+    "CSS viewport widths are not actual browser zoom, assistive technology or physical devices.",
+    "The original initial screenshot was not preserved. The before comparison is explicitly reconstructed, not historical evidence.",
+    "Reconstruction PNG is only in the 90-day Actions artifact; only final renders and this manifest enter Git.",
+    "The dated 08:38 UTC roadmap snapshot is preserved; later issue changes supersede its status."
+  ],
+  "captures": [
+    {
+      "path": "design/exports/roadmap-20261108/final-390-light.png",
+      "artifact_path": "final/final-390-light.png",
+      "sha256": "a8a4c8dc4973ffbb27277e1153ef8928e4705edcf3b60c1c7c82efb9b2639734",
+      "bytes": 611217,
+      "css_viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "device_scale_factor": 1,
+      "theme": "light",
+      "full_page": true,
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "height": 9306
+      },
+      "font_loaded": [
+        {
+          "name": "Fraunces",
+          "loaded": true
+        },
+        {
+          "name": "Atkinson regular",
+          "loaded": true
+        },
+        {
+          "name": "Atkinson bold",
+          "loaded": true
+        },
+        {
+          "name": "JetBrains Mono",
+          "loaded": true
+        }
+      ],
+      "painted_fonts": [
+        {
+          "selector": "h1",
+          "fonts": [
+            {
+              "familyName": "Fraunces",
+              "postScriptName": "Fraunces-9ptBlack",
+              "isCustomFont": true,
+              "glyphCount": 38
+            }
+          ]
+        },
+        {
+          "selector": ".lede",
+          "fonts": [
+            {
+              "familyName": "Atkinson Hyperlegible",
+              "postScriptName": "AtkinsonHyperlegible-Regular",
+              "isCustomFont": true,
+              "glyphCount": 101
+            }
+          ]
+        },
+        {
+          "selector": ".owner",
+          "fonts": [
+            {
+              "familyName": "Atkinson Hyperlegible",
+              "postScriptName": "AtkinsonHyperlegible-Bold",
+              "isCustomFont": true,
+              "glyphCount": 14
+            }
+          ]
+        },
+        {
+          "selector": ".refs",
+          "fonts": [
+            {
+              "familyName": "JetBrains Mono",
+              "postScriptName": "JetBrainsMono-Regular",
+              "isCustomFont": true,
+              "glyphCount": 8
+            }
+          ]
+        }
+      ],
+      "filters": [
+        {
+          "filter": "all",
+          "visible": 10
+        },
+        {
+          "filter": "delivered",
+          "visible": 2
+        },
+        {
+          "filter": "review",
+          "visible": 2
+        },
+        {
+          "filter": "next",
+          "visible": 5
+        },
+        {
+          "filter": "later",
+          "visible": 1
+        },
+        {
+          "filter": "all",
+          "visible": 10
+        }
+      ],
+      "theme_toggle": "passed",
+      "disclosure_enter": "passed",
+      "disclosure_state": "closed",
+      "stale_notice_visible": false
+    },
+    {
+      "path": "design/exports/roadmap-20261108/final-390-dark.png",
+      "artifact_path": "final/final-390-dark.png",
+      "sha256": "2c247cbc686c3d339f8a4409c6201004b37b44bfb858d99175f8907ca6e3619d",
+      "bytes": 621729,
+      "css_viewport": {
+        "width": 390,
+        "height": 900
+      },
+      "device_scale_factor": 1,
+      "theme": "dark",
+      "full_page": true,
+      "dimensions": {
+        "viewport": 390,
+        "document": 390,
+        "height": 9306
+      },
+      "font_loaded": [
+        {
+          "name": "Fraunces",
+          "loaded": true
+        },
+        {
+          "name": "Atkinson regular",
+          "loaded": true
+        },
+        {
+          "name": "Atkinson bold",
+          "loaded": true
+        },
+        {
+          "name": "JetBrains Mono",
+          "loaded": true
+        }
+      ],
+      "painted_fonts": [
+        {
+          "selector": "h1",
+          "fonts": [
+            {
+              "familyName": "Fraunces",
+              "postScriptName": "Fraunces-9ptBlack",
+              "isCustomFont": true,
+              "glyphCount": 38
+            }
+          ]
+        },
+        {
+          "selector": ".lede",
+          "fonts": [
+            {
+              "familyName": "Atkinson Hyperlegible",
+              "postScriptName": "AtkinsonHyperlegible-Regular",
+              "isCustomFont": true,
+              "glyphCount": 101
+            }
+          ]
+        },
+        {
+          "selector": ".owner",
+          "fonts": [
+            {
+              "familyName": "Atkinson Hyperlegible",
+              "postScriptName": "AtkinsonHyperlegible-Bold",
+              "isCustomFont": true,
+              "glyphCount": 14
+            }
+          ]
+        },
+        {
+          "selector": ".refs",
+          "fonts": [
+            {
+              "familyName": "JetBrains Mono",
+              "postScriptName": "JetBrainsMono-Regular",
+              "isCustomFont": true,
+              "glyphCount": 8
+            }
+          ]
+        }
+      ],
+      "filters": [
+        {
+          "filter": "all",
+          "visible": 10
+        },
+        {
+          "filter": "delivered",
+          "visible": 2
+        },
+        {
+          "filter": "review",
+          "visible": 2
+        },
+        {
+          "filter": "next",
+          "visible": 5
+        },
+        {
+          "filter": "later",
+          "visible": 1
+        },
+        {
+          "filter": "all",
+          "visible": 10
+        }
+      ],
+      "theme_toggle": "passed",
+      "disclosure_enter": "passed",
+      "disclosure_state": "closed",
+      "stale_notice_visible": false
+    },
+    {
+      "path": "design/exports/roadmap-20261108/final-1440-light.png",
+      "artifact_path": "final/final-1440-light.png",
+      "sha256": "9d58a12acedbc7d7fa6733d038bd6e528c8c886d76ec38d9175864d4e0f37728",
+      "bytes": 621035,
+      "css_viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "device_scale_factor": 1,
+      "theme": "light",
+      "full_page": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "height": 4772
+      },
+      "font_loaded": [
+        {
+          "name": "Fraunces",
+          "loaded": true
+        },
+        {
+          "name": "Atkinson regular",
+          "loaded": true
+        },
+        {
+          "name": "Atkinson bold",
+          "loaded": true
+        },
+        {
+          "name": "JetBrains Mono",
+          "loaded": true
+        }
+      ],
+      "painted_fonts": [
+        {
+          "selector": "h1",
+          "fonts": [
+            {
+              "familyName": "Fraunces",
+              "postScriptName": "Fraunces-9ptBlack",
+              "isCustomFont": true,
+              "glyphCount": 38
+            }
+          ]
+        },
+        {
+          "selector": ".lede",
+          "fonts": [
+            {
+              "familyName": "Atkinson Hyperlegible",
+              "postScriptName": "AtkinsonHyperlegible-Regular",
+              "isCustomFont": true,
+              "glyphCount": 102
+            }
+          ]
+        },
+        {
+          "selector": ".owner",
+          "fonts": [
+            {
+              "familyName": "Atkinson Hyperlegible",
+              "postScriptName": "AtkinsonHyperlegible-Bold",
+              "isCustomFont": true,
+              "glyphCount": 14
+            }
+          ]
+        },
+        {
+          "selector": ".refs",
+          "fonts": [
+            {
+              "familyName": "JetBrains Mono",
+              "postScriptName": "JetBrainsMono-Regular",
+              "isCustomFont": true,
+              "glyphCount": 8
+            }
+          ]
+        }
+      ],
+      "filters": [
+        {
+          "filter": "all",
+          "visible": 10
+        },
+        {
+          "filter": "delivered",
+          "visible": 2
+        },
+        {
+          "filter": "review",
+          "visible": 2
+        },
+        {
+          "filter": "next",
+          "visible": 5
+        },
+        {
+          "filter": "later",
+          "visible": 1
+        },
+        {
+          "filter": "all",
+          "visible": 10
+        }
+      ],
+      "theme_toggle": "passed",
+      "disclosure_enter": "passed",
+      "disclosure_state": "closed",
+      "stale_notice_visible": false
+    },
+    {
+      "path": "design/exports/roadmap-20261108/final-1440-dark.png",
+      "artifact_path": "final/final-1440-dark.png",
+      "sha256": "dd01be4977d393d5d67e8f9276dd4f8988691052417ae8cc7e8e2dd9dfab49a8",
+      "bytes": 628694,
+      "css_viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "device_scale_factor": 1,
+      "theme": "dark",
+      "full_page": true,
+      "dimensions": {
+        "viewport": 1440,
+        "document": 1440,
+        "height": 4772
+      },
+      "font_loaded": [
+        {
+          "name": "Fraunces",
+          "loaded": true
+        },
+        {
+          "name": "Atkinson regular",
+          "loaded": true
+        },
+        {
+          "name": "Atkinson bold",
+          "loaded": true
+        },
+        {
+          "name": "JetBrains Mono",
+          "loaded": true
+        }
+      ],
+      "painted_fonts": [
+        {
+          "selector": "h1",
+          "fonts": [
+            {
+              "familyName": "Fraunces",
+              "postScriptName": "Fraunces-9ptBlack",
+              "isCustomFont": true,
+              "glyphCount": 38
+            }
+          ]
+        },
+        {
+          "selector": ".lede",
+          "fonts": [
+            {
+              "familyName": "Atkinson Hyperlegible",
+              "postScriptName": "AtkinsonHyperlegible-Regular",
+              "isCustomFont": true,
+              "glyphCount": 102
+            }
+          ]
+        },
+        {
+          "selector": ".owner",
+          "fonts": [
+            {
+              "familyName": "Atkinson Hyperlegible",
+              "postScriptName": "AtkinsonHyperlegible-Bold",
+              "isCustomFont": true,
+              "glyphCount": 14
+            }
+          ]
+        },
+        {
+          "selector": ".refs",
+          "fonts": [
+            {
+              "familyName": "JetBrains Mono",
+              "postScriptName": "JetBrainsMono-Regular",
+              "isCustomFont": true,
+              "glyphCount": 8
+            }
+          ]
+        }
+      ],
+      "filters": [
+        {
+          "filter": "all",
+          "visible": 10
+        },
+        {
+          "filter": "delivered",
+          "visible": 2
+        },
+        {
+          "filter": "review",
+          "visible": 2
+        },
+        {
+          "filter": "next",
+          "visible": 5
+        },
+        {
+          "filter": "later",
+          "visible": 1
+        },
+        {
+          "filter": "all",
+          "visible": 10
+        }
+      ],
+      "theme_toggle": "passed",
+      "disclosure_enter": "passed",
+      "disclosure_state": "closed",
+      "stale_notice_visible": false
+    }
+  ],
+  "reconstruction": {
+    "label": "RECONSTRUCTED comparison — not the lost historical initial screenshot",
+    "artifact_path": "reconstruction/reconstructed-before-390-light.png",
+    "sha256": "cf4ba2f2c9ad4b220854f6f01a44d53afe3900190417254988d4a0917e49f023",
+    "bytes": 58757,
+    "css_viewport": {
+      "width": 390,
+      "height": 900
+    },
+    "device_scale_factor": 1,
+    "theme": "light",
+    "full_page": false,
+    "source_commit": "99c516df8af4b94cb05bbbf63855b8d6ce35f3eb",
+    "source_sha256": "7a19be3ee35be31c6ae1ba7ef290b4e6df57fa3eb7653dbc3bf0400cc4c3c005",
+    "override_css": "@media(max-width:700px){h1{font-size:46px}.hero{padding-top:38px}}",
+    "basis": "REVIEW.md records initial phone heading 46px and a 10px top-padding reduction; current top padding is 28px, so this reconstruction uses 38px.",
+    "historical_original_available": false,
+    "git_storage": false
+  },
+  "actor_evidence": {
+    "provided": true,
+    "manifest_path": "scripts/roadmap-actor-staging.json",
+    "manifest_sha256": "2fcffec7ac0d0cfc135437dcd646bba189ae92b283702dddbe9e631d19db0e69",
+    "entries": [
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T03/01-start.png",
+        "bytes": 78129,
+        "sha256": "3045fac0b73753e1b28d9cf2e3b1c2c01adb6703fbf9ed0615fe9e7373719074",
+        "blob_sha": "5ccde1ca5dce0f5350f9411787d5b3b716fd8cbc",
+        "artifact_path": "actors/T03/01-start.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T03/02-brief-submitted.png",
+        "bytes": 342235,
+        "sha256": "ba048bf1681e2fba34597b9dd6c23e420953fda23c6d430a4507f500c5cfec59",
+        "blob_sha": "edf6cb145f28754495cd3119a54da0821104d12d",
+        "artifact_path": "actors/T03/02-brief-submitted.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T03/03-step-one.png",
+        "bytes": 339870,
+        "sha256": "0f5a88d2c36df86d95a890e818eaa174d0f4ff2d20252c025754314ef12915ff",
+        "blob_sha": "d26c62f981e4a6d392584221a230a2457ab76945",
+        "artifact_path": "actors/T03/03-step-one.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T03/04-step-two.png",
+        "bytes": 342531,
+        "sha256": "4d72bc3b44683e67d977e49ded53c89507aa2e206f020afcd8e6031b580338ef",
+        "blob_sha": "747d15d58f00161de72ff5d209b7b3c17426bda2",
+        "artifact_path": "actors/T03/04-step-two.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T03/05-follow-up.png",
+        "bytes": 340510,
+        "sha256": "8e017a92c49428ec0c00efd2ab196894d2a51fd619145091349308612406a466",
+        "blob_sha": "d9928cba941a97b64df8a6735213c1158d1506c2",
+        "artifact_path": "actors/T03/05-follow-up.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T03/06-terms.png",
+        "bytes": 372219,
+        "sha256": "872c3ed9cd093c12f5dcf6cced1f271ca53dcd3eddbbf78f53e06ca64485f20c",
+        "blob_sha": "4e1cc30e65be3f0b9179afb9890881081a7cc07e",
+        "artifact_path": "actors/T03/06-terms.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T03/07-sequence-viewport.png",
+        "bytes": 176197,
+        "sha256": "f0237a2baa4e3998e09e0549178db11e3ba94d792d628fc0e62c0a0d48541709",
+        "blob_sha": "9dc1356b4156d55a9b749df123ec6390a22fbed6",
+        "artifact_path": "actors/T03/07-sequence-viewport.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T05/01-initial.png",
+        "bytes": 88346,
+        "sha256": "e26857ff6ef9214fc0c78d873346a10b2b27db74b01a45d911689717de1dbf48",
+        "blob_sha": "c9843b190ce9da4dfd40db44c802d5c7ceaab363",
+        "artifact_path": "actors/T05/01-initial.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T05/02-brief-result.png",
+        "bytes": 238821,
+        "sha256": "552609c538b65833266496cfa2607159416bab97d6b6dcdfa7211954ac4ca4d3",
+        "blob_sha": "3f87002e9754c72204476cc634f2c4c5d9ad30f6",
+        "artifact_path": "actors/T05/02-brief-result.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T05/03-supporting-passage-viewport.png",
+        "bytes": 65436,
+        "sha256": "2567f11b825d3080f4d60d3587473f66e7dffe430857ea35c4dc26e4e6d1717b",
+        "blob_sha": "27c9036762be18e50426e9769c4d74e28785320d",
+        "artifact_path": "actors/T05/03-supporting-passage-viewport.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T05/03-supporting-passage.png",
+        "bytes": 238821,
+        "sha256": "552609c538b65833266496cfa2607159416bab97d6b6dcdfa7211954ac4ca4d3",
+        "blob_sha": "3f87002e9754c72204476cc634f2c4c5d9ad30f6",
+        "artifact_path": "actors/T05/03-supporting-passage.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T05/04-directory-detail-viewport.png",
+        "bytes": 64237,
+        "sha256": "492e89242a85861a1d7439b6529b09e3e7f5d5fd0f64134f9db6c611f375f2e8",
+        "blob_sha": "29dad66797db64d5443f227d94b90c47eb651545",
+        "artifact_path": "actors/T05/04-directory-detail-viewport.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T05/05-directory-reading-viewport.png",
+        "bytes": 62667,
+        "sha256": "25415d20c6df833daa5db03b9fd99da40cf381f811816f3a1f85f29d730b74c8",
+        "blob_sha": "a03d92fbd13abf348054bd5fe601a4a76103ddd6",
+        "artifact_path": "actors/T05/05-directory-reading-viewport.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T05/06-follow-up-result.png",
+        "bytes": 238221,
+        "sha256": "b8770e2187dedd367b3787ba749dd2c3c858e30b4e279c7aa691ec1fe974fcbf",
+        "blob_sha": "de5a123e56c53f59148dcd18df52e91de734013b",
+        "artifact_path": "actors/T05/06-follow-up-result.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T05/07-follow-up-next-steps-viewport.png",
+        "bytes": 53556,
+        "sha256": "5a6b532ca7162542a21dc23e917b285843728031f5111d562d535863ebbb4334",
+        "blob_sha": "1d638d24b693a6c3a8b4a4925844f2f57fbd439e",
+        "artifact_path": "actors/T05/07-follow-up-next-steps-viewport.png"
+      },
+      {
+        "path": "research/synthetic-ux/runs/consolidation-20261108/actors/T05/08-follow-up-context-viewport.png",
+        "bytes": 65251,
+        "sha256": "6eff37aa2dae9437c1b03864dd37ca9d93d808d9e90fa52f0922a07fbfb14a78",
+        "blob_sha": "46a0c6839f1ca42ad1a2e0c6b62ec0bff40caffa",
+        "artifact_path": "actors/T05/08-follow-up-context-viewport.png"
+      }
+    ]
+  },
+  "external_requests": []
+}
