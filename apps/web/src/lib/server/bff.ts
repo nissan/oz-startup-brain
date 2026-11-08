@@ -1,6 +1,6 @@
 import 'server-only';
 import { ContractViolationError } from '@ozsb/api-client';
-import { check, type ErrorResponse } from '@ozsb/contracts';
+import { check, type ErrorResponse, type QueryRequest } from '@ozsb/contracts';
 import { apiClient, BffConfigError } from './api';
 
 /**
@@ -78,7 +78,7 @@ export async function readBodyLimited(request: Request, maxBytes: number): Promi
 
 export async function handleQuery(request: Request): Promise<Response> {
   const read = await readBodyLimited(request, MAX_BODY_BYTES);
-  if (!read.ok && read.tooLarge) return errorJson(413, { error: { code: 'payload_too_large', message: 'The question is too long.', request_id: null } });
+  if (!read.ok && read.tooLarge) return errorJson(413, { error: { code: 'payload_too_large', message: 'The combined request exceeds the 16,384-byte limit.', request_id: null } });
   let body: unknown;
   try {
     if (!read.ok) throw new Error('unreadable');
@@ -87,12 +87,12 @@ export async function handleQuery(request: Request): Promise<Response> {
     return errorJson(400, { error: { code: 'bff_invalid_request', message: 'The request body is not valid JSON.', request_id: null } });
   }
   // Validate against the contract here so a malformed browser request never reaches the API, and
-  // only the two documented fields are forwarded: client-supplied consumer IDs, scopes or anything
+  // only the documented fields are forwarded: client-supplied consumer IDs, scopes or anything
   // else are dropped by construction.
   const issues = check('QueryRequest', body);
   if (issues.length) return errorJson(400, { error: { code: 'bff_invalid_request', message: 'The request does not satisfy QueryRequest.', request_id: null, details: issues } });
-  const { question, confirmed_context } = body as { question: string; confirmed_context?: Record<string, string> };
-  const forwarded = confirmed_context ? { question, confirmed_context } : { question };
+  const { question, confirmed_context, previous_question } = body as QueryRequest;
+  const forwarded = { question, ...(confirmed_context ? { confirmed_context } : {}), ...(previous_question !== undefined ? { previous_question } : {}) };
   try {
     const r = await apiClient().query(forwarded);
     return r.ok ? okJson(200, r.data, r.requestId) : fromApiError(r.status, r.requestId, r.error);

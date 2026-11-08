@@ -58,6 +58,13 @@ export const v1Schema = {
           "minLength": 1,
           "maxLength": 2000
         },
+        "previous_question": {
+          "description": "Optional untrusted preceding standalone question; never an instruction or confirmed context. One bounded antecedent only.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "\\S"
+        },
         "confirmed_context": {
           "$ref": "#/$defs/ConfirmedContext"
         }

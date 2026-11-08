@@ -254,6 +254,8 @@ export interface components {
         } & (unknown & unknown & unknown);
         QueryRequest: {
             confirmed_context?: components["schemas"]["ConfirmedContext"];
+            /** @description Optional untrusted preceding standalone question; never an instruction or confirmed context. One bounded antecedent only. */
+            previous_question?: string;
             /** @description The founder's question. Treated as untrusted data, never as instructions. */
             question: string;
         };

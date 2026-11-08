@@ -3,6 +3,9 @@ import type { FixtureCorpus, FixtureSequenceStep, FixtureTopic } from './corpus'
 export type FaultName = 'none' | 'vector_timeout' | 'budget_exhausted' | 'graph_unavailable';
 export const FAULT_NAMES: readonly FaultName[] = ['none', 'vector_timeout', 'budget_exhausted', 'graph_unavailable'];
 
+export type AbstentionReason = 'missing_subject' | 'ambiguous_subject' | 'uncovered_subject' | 'unknown_round' | 'guarded_follow_up';
+type Resolution = { topic: FixtureTopic | null; continued: boolean; abstention: AbstentionReason | null; subjectLabel?: string };
+
 /** Read-only view of the harness fault selection; only the guarded HarnessControls can change it. */
 export interface FaultSource {
   currentFault(): FaultName;
@@ -38,11 +41,34 @@ export class FixtureRetriever {
     private readonly faults: FaultSource,
   ) {}
 
-  retrieve(question: string): FixtureTopic | null {
+  retrieve(question: string, previousQuestion?: string): Resolution {
     this.calls += 1;
     if (this.faults.currentFault() === 'vector_timeout') throw new RetrievalTimeoutError();
-    const words = tokens(question);
-    return this.corpus.topics.find((t) => t.match.every((group) => group.some((term) => words.has(term)))) ?? null;
+    const normalise = (text: string) => text.trim().toLowerCase().replace(/[.!?]+$/u, '').trim().replace(/\s+/gu, ' ');
+    const followUps = (text: string) => this.corpus.topics.filter((t) => t.follow_up_phrases?.some((p) => normalise(p) === normalise(text)));
+    const standalone = (text: string) => {
+      const words = tokens(text);
+      const named = this.corpus.topics.filter((t) => t.subject_terms?.some((term) => words.has(term)));
+      // A round identifier outside the authored inventory must not fall through to generic support.
+      const roundIds = [...text.toLowerCase().matchAll(/\bround\s+([a-z]+[0-9]+)\b/g)].map((m) => m[1]);
+      const unsupported = new Set(roundIds.filter((id) => !this.corpus.topics.some((t) => t.subject_terms?.includes(id))));
+      if (named.length + unsupported.size > 1) return { topic: null, named: true, abstention: 'ambiguous_subject' as const };
+      if (unsupported.size) return { topic: null, named: true, abstention: 'unknown_round' as const };
+      const candidates = named.length ? named : this.corpus.topics;
+      const topic = candidates.find((t) => t.match.every((group) => group.some((term) => words.has(term)))) ?? null;
+      return { topic, named: !!named.length, abstention: named.length && !topic ? 'uncovered_subject' as const : null, subjectLabel: named[0]?.subject_label };
+    };
+    const current = standalone(question);
+    if (current.named) return { topic: current.topic, continued: false, abstention: current.abstention, subjectLabel: current.subjectLabel };
+    const registered = followUps(question);
+    const priorFollowUp = previousQuestion ? followUps(previousQuestion).length > 0 : false;
+    const prior = previousQuestion && !priorFollowUp ? standalone(previousQuestion) : null;
+    if (registered.length) {
+      if (!prior?.topic || !registered.includes(prior.topic)) return { topic: null, continued: false, abstention: 'missing_subject' };
+      return { topic: prior.topic, continued: true, abstention: null };
+    }
+    if (current.topic?.topic_id === 'next_support_step' && (priorFollowUp || prior?.topic?.follow_up_phrases?.length)) return { topic: null, continued: false, abstention: 'guarded_follow_up' };
+    return { topic: current.topic, continued: false, abstention: null };
   }
 }
 

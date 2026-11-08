@@ -57,6 +57,9 @@ export interface FixtureStageVariant {
 
 export interface FixtureTopic {
   topic_id: string;
+  subject_label?: string;
+  subject_terms?: string[];
+  follow_up_phrases?: string[];
   conditions?: Omit<UnresolvedCondition, 'condition_id'>[];
   stage_variants?: Partial<Record<'idea' | 'prototype', FixtureStageVariant>>;
   task: 'next_step' | 'round_status' | 'requirements_today';
@@ -124,6 +127,8 @@ export function loadFixtureCorpus(path = CORPUS_PATH): FixtureCorpus {
     }
   }
   for (const t of corpus.topics) {
+    if (t.subject_terms && (!t.subject_label?.trim() || !t.subject_terms.length || t.subject_terms.some((term) => !/^[a-z0-9]+$/.test(term)))) throw new Error(`topic ${t.topic_id} has invalid subject metadata`);
+    if (t.follow_up_phrases?.length && (!t.subject_terms || t.follow_up_phrases.some((phrase) => !phrase.trim()))) throw new Error(`topic ${t.topic_id} has invalid follow-up metadata`);
     if (t.summary_base !== null && typeof t.summary_base_unverified !== 'string') {
       throw new Error(`topic ${t.topic_id} sets summary_base without summary_base_unverified`);
     }

@@ -33,6 +33,17 @@ describe('BFF over the fixture API', () => {
   });
   afterAll(() => api.stop());
 
+  it('forwards bounded continuity without interpreting it and keeps byte/code-point limits distinct', async () => {
+    const e = await envelope({ question: 'Which step is required now, which is a suggestion, and what is still unknown?', previous_question: 'What does round A2 require today?', confirmed_context: { jurisdiction: 'unknown' } });
+    expect(e.answer!.summary).toContain('Continuing with Round A2.');
+    expect(e.confirmed_context).toEqual({ jurisdiction: 'unknown' });
+    expect((await handleQuery(json({ question: 'help', previous_question: '   ' }))).status).toBe(400);
+    expect((await handleQuery(json({ question: '😀'.repeat(2000), previous_question: '😀'.repeat(2000) }))).status).toBe(200);
+    const oversized = await handleQuery(json({ question: 'a' + '\u0001'.repeat(1999), previous_question: 'a' + '\u0001'.repeat(1999) }));
+    expect(oversized.status).toBe(413);
+    expect(failureView(413, (await oversized.json()).error.code).body).toContain('preceding question');
+  });
+
   it('forwards a valid question and returns the contract-valid envelope with its request ID', async () => {
     const res = await handleQuery(json({ question: 'Is round A1 open?' }));
     expect(res.status).toBe(200);
