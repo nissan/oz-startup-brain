@@ -57,6 +57,8 @@ a:hover { color: var(--ink); }
 .card--selected > .osb-card { border-color: var(--ironbark); box-shadow: 0 0 0 1px var(--ironbark); }
 .evidence-panel { display: flex; flex-direction: column; gap: 12px; scroll-margin-top: 16px; }
 .evidence-panel .osb-card { max-width: none; }
+.evidence-panel__header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
+.evidence-panel__header .osb-btn { min-height: 44px; }
 .evidence-panel__heading { margin: 0; font-size: 20px; line-height: 26px; font-weight: 700; }
 .evidence-panel__for { margin: -8px 0 0; font-size: 15px; line-height: 22px; color: var(--ink-muted); }
 .evidence-panel__for strong { color: var(--ink); font-weight: 700; }

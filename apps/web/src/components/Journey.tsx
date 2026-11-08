@@ -98,6 +98,7 @@ export function Journey() {
   const evidenceAsideRef = useRef<HTMLHeadingElement>(null);
   const evidenceInlineRef = useRef<HTMLHeadingElement>(null);
   const evidenceStepRef = useRef<HTMLHeadingElement>(null);
+  const actionCards = useRef(new Map<string, HTMLDivElement>());
   /** Focus whichever evidence heading is displayed (the aside and inline action panels swap by width). */
   const focusEvidence = () => {
     const target = [evidenceStepRef.current, evidenceInlineRef.current, evidenceAsideRef.current].find((el) => el && el.offsetParent !== null);
@@ -174,6 +175,15 @@ export function Journey() {
   const selectedStep = selected?.kind === 'step' ? answer?.prerequisite_sequence?.find((s) => s.position === selected.position) ?? null : null;
   const selectedItem = selectedAction ? { title: selectedAction.title, claim_ids: selectedAction.claim_ids } : selectedStep ? { title: `Step ${selectedStep.position}: ${selectedStep.label}`, claim_ids: selectedStep.claim_ids } : null;
   const selectedSourceIds = envelope && selectedItem ? sourceIdsFor(selectedItem, envelope) : [];
+
+  const dismissActionEvidence = () => {
+    if (selected?.kind !== 'action') return;
+    // NextStepCard's first action is its inspect button. Resolve it from the current card so
+    // automatic first-action selection and responsive aside/inline swaps also restore focus.
+    const trigger = actionCards.current.get(selected.id)?.querySelector<HTMLButtonElement>('.osb-card__actions button');
+    setSelected(null);
+    trigger?.focus();
+  };
 
   // Fetch the rights-gated source record for every source behind the selected item, once per source.
   useEffect(() => {
@@ -434,7 +444,11 @@ export function Journey() {
                   {answer.actions.map((a, i) => {
                     const ev = evidenceFor(a, envelope);
                     return (
-                      <div key={a.action_id} className={selectedAction?.action_id === a.action_id ? 'card card--selected' : 'card'}>
+                      <div
+                        key={a.action_id}
+                        className={selectedAction?.action_id === a.action_id ? 'card card--selected' : 'card'}
+                        ref={(node) => { if (node) actionCards.current.set(a.action_id, node); else actionCards.current.delete(a.action_id); }}
+                      >
                         <NextStepCard
                           title={a.title}
                           why={a.why}
@@ -447,7 +461,7 @@ export function Journey() {
                           }}
                         />
                         {selectedAction && selectedItem && a.action_id === selectedAction.action_id ? (
-                          <EvidencePanel ref={evidenceInlineRef} placement="inline" item={selectedItem} envelope={envelope} sources={sources} />
+                          <EvidencePanel ref={evidenceInlineRef} placement="inline" item={selectedItem} envelope={envelope} sources={sources} onDismiss={dismissActionEvidence} />
                         ) : null}
                       </div>
                     );
@@ -482,7 +496,7 @@ export function Journey() {
               ) : null}
             </div>
             <aside className="results__aside">
-              {selectedAction && selectedItem ? <EvidencePanel ref={evidenceAsideRef} placement="aside" item={selectedItem} envelope={envelope} sources={sources} /> : null}
+              {selectedAction && selectedItem ? <EvidencePanel ref={evidenceAsideRef} placement="aside" item={selectedItem} envelope={envelope} sources={sources} onDismiss={dismissActionEvidence} /> : null}
               <section className="section" aria-labelledby="sequence-heading">
                 <h2 id="sequence-heading" className="section__title">
                   What comes first
