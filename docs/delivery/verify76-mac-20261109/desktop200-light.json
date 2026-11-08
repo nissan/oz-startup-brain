@@ -1,0 +1,55 @@
+{
+  "notes": [
+    {
+      "check": "open-close-layout",
+      "rect": {
+        "x": 544.9375,
+        "y": 297.5,
+        "width": 142.0625,
+        "height": 46
+      }
+    },
+    {
+      "check": "outside-escape-retains",
+      "pass": true
+    },
+    {
+      "check": "close-enter-first-focus",
+      "pass": true
+    },
+    {
+      "check": "source-popup",
+      "url": "chrome-error://chromewebdata/",
+      "title": "support.example.invalid",
+      "note": "Unintercepted fictional.invalid navigation; failure is not publisher validation"
+    },
+    {
+      "check": "different-action-source-return-escape-state",
+      "pass": true
+    },
+    {
+      "check": "prerequisite-toggle-rights",
+      "pass": true
+    }
+  ],
+  "geometry": {
+    "innerWidth": 720,
+    "innerHeight": 449,
+    "outerWidth": 1440,
+    "outerHeight": 986,
+    "dpr": 2,
+    "scrollWidth": 720
+  },
+  "condition": "desktop200-light",
+  "initial_geometry": {
+    "innerWidth": 720,
+    "innerHeight": 449,
+    "outerWidth": 1440,
+    "outerHeight": 986,
+    "dpr": 2,
+    "scrollWidth": 720
+  },
+  "status": "scoped-primed-pass",
+  "screen_reader": "not-run",
+  "input": "Playwright input/focus; OS browser-menu zoom, not human or fresh actor"
+}

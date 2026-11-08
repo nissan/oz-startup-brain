@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "run_id": "openclaw-76-20438-20261109",
+  "role": "verifier",
+  "agent": "OpenClaw/Loki",
+  "model": "openai/gpt-6.1-sol (session-reported)",
+  "issue_url": "https://github.com/nissan/oz-startup-brain/issues/55",
+  "base_sha": "f81b2d71c29bea725970e8988384d124d4f5ed57",
+  "head_sha": "fda0911b910a2a40f394d36e6c2e4fea1487f2e1",
+  "catalog_sha256": "5657ba2c36b7206f245f6f01d2aea7fe7cfb436d145a038dd2d124986ac096af",
+  "lesson_ids": [],
+  "capabilities": [
+    "Mac shell",
+    "GitHub artifact download",
+    "portable Git LFS"
+  ],
+  "context_disclosure": "Primed verifier; PR77 template draft rehearsal only, unreviewed and unadopted; catalog hash from producer handoff, not independent validation. No fresh research. No proposed lesson IDs operationally applied; pre-adoption run. Subsequent six scoped Mac conditions recorded separately, not full manual/AT acceptance.",
+  "checks": [
+    {
+      "name": "required runtime",
+      "kind": "command",
+      "command": "PATH=/tmp/node-v22.23.0-darwin-arm64/bin:$PATH npm --version",
+      "status": "pass",
+      "exit_code": 0,
+      "observation": "Successful version probe returned10.9.8; original runtime prerequisite was blocked, not a failed command.",
+      "evidence": [
+        "docs/delivery/verify76-openclaw-20261109.md"
+      ]
+    },
+    {
+      "name": "original runtime prerequisite",
+      "kind": "manual",
+      "command": "not a shell assertion; prerequisite comparison only",
+      "status": "blocked",
+      "exit_code": null,
+      "observation": "Original10.9.8 mismatched required10.9.9; no invented failing command exit. Later cleared by disposable10.9.9 bootstrap in20442.",
+      "evidence": [
+        "docs/delivery/verify76-resume-20261109.md"
+      ]
+    },
+    {
+      "name": "actual Mac zoom/focus matrix",
+      "kind": "manual",
+      "command": "not executed",
+      "status": "not-run",
+      "exit_code": null,
+      "observation": "Required runtime unavailable under stop instruction.",
+      "evidence": []
+    },
+    {
+      "name": "subsequent six-condition Mac scoped check",
+      "kind": "manual",
+      "command": "Python matrix.py with actual OS View zoom menu and Playwright inputs",
+      "status": "pass",
+      "exit_code": null,
+      "observation": "Six scoped conditions pass with disclosed1px desktop height deviation, DOM-targeted focus setup and fictional source error; not full acceptance.",
+      "evidence": [
+        "docs/delivery/verify76-mac-20261109.md"
+      ]
+    }
+  ],
+  "visual": {
+    "status": "pending",
+    "reason": "Actual selected renders inspected; independent evidence interpretation/acceptance pending."
+  },
+  "remaining": [
+    "Claude interpretation review of Mac evidence",
+    "Codex integrity and disposition of1px geometry/input setup limitations",
+    "integration/resulting-build verification; separatefresh53 andAT9",
+    "PR77 exact-head review before operational schema adoption"
+  ],
+  "next_action": "Claude review Mac report; Codex integrity and integration decision; no automatic closure.",
+  "cleanup": "No services/browser launched; no settings changed. Checkout retained."
+}

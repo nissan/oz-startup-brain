@@ -1,0 +1,56 @@
+{
+  "product_head": "fda0911b910a2a40f394d36e6c2e4fea1487f2e1",
+  "product_tree": "664069dbacad4b7464e626c2e0f479f5f82f8503",
+  "ci_checkout": "040ad29c72c828eb447bd7889dc552bd330b4e0d",
+  "artifact_id": 13616514131,
+  "files": [
+    {
+      "path": "design/exports/verify76-openclaw-20261109/desktop-r55-closed-dark.png",
+      "sha256": "28b2695457eefa9d910fb87867fc19d26c7da05adc4d14e2cc1d9a2b5235278d",
+      "size": 311036,
+      "producer": "GitHub CI 42479396760; NOT Mac capture"
+    },
+    {
+      "path": "design/exports/verify76-openclaw-20261109/desktop-r55-closed-light.png",
+      "sha256": "1703b1bfaa01381bdb91d31442370bfb3d4fbf5de2aef8801405204b44f98150",
+      "size": 304103,
+      "producer": "GitHub CI 42479396760; NOT Mac capture"
+    },
+    {
+      "path": "design/exports/verify76-openclaw-20261109/desktop-r55-open-dark.png",
+      "sha256": "5bba85d5d69f3f9e99f0f56d203afd7d905b121682ce8c91c4e444f138dd735b",
+      "size": 369351,
+      "producer": "GitHub CI 42479396760; NOT Mac capture"
+    },
+    {
+      "path": "design/exports/verify76-openclaw-20261109/desktop-r55-open-light.png",
+      "sha256": "051196182018441af8822d8aecfa67ba67ccc95c4a6c51ee4fedda54d1ecfce3",
+      "size": 360604,
+      "producer": "GitHub CI 42479396760; NOT Mac capture"
+    },
+    {
+      "path": "design/exports/verify76-openclaw-20261109/phone-r55-closed-dark.png",
+      "sha256": "fe8fa636b678bed9fa24a5beddb340a973c69cb5d8bca54e075573795a1451b7",
+      "size": 307845,
+      "producer": "GitHub CI 42479396760; NOT Mac capture"
+    },
+    {
+      "path": "design/exports/verify76-openclaw-20261109/phone-r55-closed-light.png",
+      "sha256": "60614c501e46cdd7f3b883793cd916364237a43fda49e2994d6602c1d65a3466",
+      "size": 298232,
+      "producer": "GitHub CI 42479396760; NOT Mac capture"
+    },
+    {
+      "path": "design/exports/verify76-openclaw-20261109/phone-r55-open-dark.png",
+      "sha256": "82748d28ef450af43a618cc351a59a0e22069d443f633760d1dd94de2afc2ae1",
+      "size": 367924,
+      "producer": "GitHub CI 42479396760; NOT Mac capture"
+    },
+    {
+      "path": "design/exports/verify76-openclaw-20261109/phone-r55-open-light.png",
+      "sha256": "cd807021e74123fe16d1ebbfde0beea0738e92c0ea5ad288550fceeb09813e5d",
+      "size": 357149,
+      "producer": "GitHub CI 42479396760; NOT Mac capture"
+    }
+  ]
+}

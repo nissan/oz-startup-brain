@@ -1,0 +1,25 @@
+{
+  "product_head": "fda0911b910a2a40f394d36e6c2e4fea1487f2e1",
+  "files": [
+    {
+      "path": "docs/delivery/verify76-resume-20261109/build.log",
+      "sha256": "a0e14b6d5e9b7ff0de19d06d5cb019e8bf3cdf70a74bdca6c32a0e547cd5052c",
+      "size": 977
+    },
+    {
+      "path": "docs/delivery/verify76-resume-20261109/npm-bootstrap.log",
+      "sha256": "311259dd028b05dd5067809b9c48fe999b27845112d2d203b4748e0ca1ba1c12",
+      "size": 231
+    },
+    {
+      "path": "docs/delivery/verify76-resume-20261109/npm-ci.log",
+      "sha256": "73a6de9effd8db4c65d69db1bbfbf4b3d997b4c5b645723cc72810e53102d2fa",
+      "size": 853
+    },
+    {
+      "path": "docs/delivery/verify76-resume-20261109/prepare.sh",
+      "sha256": "a6895afe5e1da2e63f5f99ad4ed36fe5d16e8a41f93dbb5643ae74b97216e7a1",
+      "size": 1660
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "product_head": "fda0911b910a2a40f394d36e6c2e4fea1487f2e1",
+  "files": [
+    {
+      "path": "docs/delivery/verify76-mac-20261109/cleanup.json",
+      "sha256": "6a5446c88a9416debd8dfb50533f6ebdec05e154b4c2738b43b55bb1842ee513",
+      "size": 95
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/desktop100-dark-failure.json",
+      "sha256": "92cdf45489732a0dd3c34650d632f83934438101a758f784af7695d733b174ba",
+      "size": 469
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/desktop100-dark.json",
+      "sha256": "f944cc0caae3cfa5d03fe40ef8b42c81492aacc40f1cfa5ba5f9473c43d0a9b2",
+      "size": 1229
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/desktop100-light-failure.json",
+      "sha256": "42ecffc2c0473560fb641f5746546c141779b0a13abc9ab783d241ca7ba02186",
+      "size": 429
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/desktop100-light.json",
+      "sha256": "0feebb4712a3fe7653a355cec5434a781dce4227a2e75815a25275ac1ef8b38b",
+      "size": 1230
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/desktop200-dark.json",
+      "sha256": "63cee1ab9fb97378bd5226d2f2806ddad5d4b5a7b844d8d7dc4e10c058d97b17",
+      "size": 1226
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/desktop200-light-failure.json",
+      "sha256": "4739340481d29663bfcc51f2fb3ab25bc63896e170f5a452824c0ead430fbd4c",
+      "size": 199
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/desktop200-light.json",
+      "sha256": "201757d96394eda5f6bdf0f5c70fad1413c30de16be92fead1de228da425ef7b",
+      "size": 1227
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/driver.cjs",
+      "sha256": "55505b557171b9268b2783051f37f9cc5a24746176046d5941fdc6ecae7bbb43",
+      "size": 826
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/harness-immediate-unmount-assertion.json",
+      "sha256": "92cdf45489732a0dd3c34650d632f83934438101a758f784af7695d733b174ba",
+      "size": 469
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/harness-step-label-failure.json",
+      "sha256": "42ecffc2c0473560fb641f5746546c141779b0a13abc9ab783d241ca7ba02186",
+      "size": 429
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/matrix.py",
+      "sha256": "6a90ca866cb538fd2d6a29e94d52574d795ac5e9083ff37a9cb8116e9fa11621",
+      "size": 6604
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/menu.jsonl",
+      "sha256": "8ffadb506c5ea7c94d0e99253829c7e341868a951dcc25de5dbedb9831577660",
+      "size": 4362
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/phone100-dark.json",
+      "sha256": "e70750bca4459313553012c626acca97784c046924a40c34b28858f6b217f35d",
+      "size": 1222
+    },
+    {
+      "path": "docs/delivery/verify76-mac-20261109/phone100-light.json",
+      "sha256": "efb21725b46e16f1663896550aa142e447a8505d64a43f64d46f467c0cae17bd",
+      "size": 1223
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/desktop100-dark-closed.png",
+      "sha256": "e3afb6a09ee2e8ad706a4d115e025dbf54ffded858b6501a9cf397a54fa66955",
+      "size": 188645
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/desktop100-dark-open.png",
+      "sha256": "72c408ec6db78869146b91ef833929f53d2d3a24c42d17ca676080a1993dfdc9",
+      "size": 181161
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/desktop100-light-closed.png",
+      "sha256": "745cabed6c3b34d9b3747ea978f989f9cd781665382c1ffb10f10b9f6ba38043",
+      "size": 190159
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/desktop100-light-open.png",
+      "sha256": "2dfc566346f2be095b8beb886b71c9d0656d08609b46f1597019f51dd197a8a7",
+      "size": 181608
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/desktop200-dark-closed.png",
+      "sha256": "70145496ca8ffd81a9bde69cc8a7f95e67d42a1d7a12cccd7dbb4987902f1e1f",
+      "size": 137347
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/desktop200-dark-open.png",
+      "sha256": "7bc4d88e44b6639c27932b2cb0094d5f72350468b79669ea8a29813c9ac3c9fa",
+      "size": 123571
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/desktop200-light-closed.png",
+      "sha256": "095e3c4212abdcf646f125a52369acbe449c0df5d97f8a4dfd9fb96a8d62822f",
+      "size": 137879
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/desktop200-light-open.png",
+      "sha256": "7abe273fe5375426d86c4ef47b47222d4ba538eaac540b2001d45d1a3892fbb0",
+      "size": 124460
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/phone100-dark-closed.png",
+      "sha256": "c25b9ceeef186672c33a05db8f7d3ed4ce69d4fc726fb079d41f485ca1f99f2e",
+      "size": 78745
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/phone100-dark-open.png",
+      "sha256": "f0d554fb39a859f3f96f5c0e03c7c7317caca237ccae005578c5bc47f722f91a",
+      "size": 79573
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/phone100-light-closed.png",
+      "sha256": "35a7542f32e73958f6ec69b556281d7078486d83cfeebf11c065827d3531f592",
+      "size": 78187
+    },
+    {
+      "path": "design/exports/verify76-mac-20261109/phone100-light-open.png",
+      "sha256": "b71090d4fbe2a8f6ba750534b7add3651edff6c9e4b087bf3061dacfd7591331",
+      "size": 79056
+    }
+  ]
+}

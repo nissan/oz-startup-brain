@@ -1,0 +1,5 @@
+{
+  "condition": "desktop200-light",
+  "error": "{'innerWidth': 1440, 'innerHeight': 899, 'outerWidth': 1440, 'outerHeight': 986, 'dpr': 1, 'scrollWidth': 1440}",
+  "status": "failed-or-incomplete"
+}
