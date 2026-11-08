@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "status": "pilot condensations; canonical sources prevail",
+  "lessons": [
+    {
+      "id": "OSB-001",
+      "source_dated": "2026-11-08",
+      "retire_when": "Revalidate role routing whenever live owner assignments supersede the cited consolidation.",
+      "always": true,
+      "prefixes": [],
+      "rule": "Reconcile the live issue, role, run, owned paths and current head before work. Codex builds, Claude reviews, OpenClaw handles required local-Mac checks. A role label or different model does not establish independence.",
+      "counterexample": "An old handover assigns Claude to build #10 while the current owner instruction assigns it to Codex.",
+      "check": "Record the live assignment, exact commit, context disclosure and remaining gate; retain existing merge authority without inventing new permission.",
+      "sources": ["docs/delivery/consolidation-20261108.md", "docs/delivery/agent-workflow.md"]
+    },
+    {
+      "id": "OSB-002",
+      "always": true,
+      "prefixes": [],
+      "rule": "Record what ran on which build. Builder checks, reviewer reproduction, CI, visual inspection and human research are separate evidence classes.",
+      "counterexample": "Green CI or an available screenshot is described as independent usability or actual screen-reader verification.",
+      "check": "Name command/manual step, result, runtime, SHA, artifact identity and limitations; leave unrun acceptance open.",
+      "sources": ["AGENTS.md", "docs/delivery/agent-workflow.md"]
+    },
+    {
+      "id": "OSB-003",
+      "always": false,
+      "prefixes": ["apps", "packages", "docs/api", "package.json", "package-lock.json"],
+      "rule": "Use a clean locked install and regenerate outputs through their source. Validate the real API/client boundary and prior compatibility baseline; do not hand-edit generated files or refresh the baseline to hide a break.",
+      "counterexample": "A sibling constraint next to an unchanged $ref breaks a client while a shallow schema-name comparison passes.",
+      "check": "Run applicable generated/compatibility/build/type/unit/fixture checks; demonstrate real-validator counterexamples for compatibility fixes and record substitutions.",
+      "sources": ["AGENTS.md", "docs/api/README.md", "docs/delivery/retrospectives/foundation-pr32-pr33.md"]
+    },
+    {
+      "id": "OSB-004",
+      "always": false,
+      "prefixes": ["apps/api", "apps/web/src/lib", "packages/contracts", "data/sources"],
+      "rule": "Effective-date and freshness rules must agree across summary, claims, actions, prerequisites and warnings. Never promote future-effective or historical evidence into today's recommended actions.",
+      "counterexample": "A warning says evidence needs a current check while the summary still asserts that a program is open now.",
+      "check": "Use a pinned as_of, test both sides of date boundaries and assert forbidden confident wording is absent.",
+      "sources": ["HANDOVER.md", "docs/delivery/retrospectives/foundation-pr32-pr33.md"]
+    },
+    {
+      "id": "OSB-005",
+      "always": false,
+      "prefixes": ["apps/web", "design"],
+      "rule": "Frontend completion includes actual rendered inspection, ranked visual weaknesses, fixes and reinspection, with intended fonts, phone/desktop and themes as applicable.",
+      "counterexample": "An automated screenshot exists but no one inspected focus return, wrapping or the changed state.",
+      "check": "Record conditions and before/after artifacts; preserve keyboard focus and truthful evidence labels; actual zoom/AT claims need actual execution. Use LFS for raster evidence under current policy.",
+      "sources": ["AGENTS.md", "docs/ux/visual-quality.md", "design/tools/README.md"]
+    },
+    {
+      "id": "OSB-006",
+      "source_dated": "2026-11-08",
+      "retire_when": "Revalidate #10 scope after existing-surface delivery, an export implementation or a new approved vocabulary decision.",
+      "always": false,
+      "prefixes": ["packages/contracts", "apps/web", "design/system", "design/brand", "docs/ux"],
+      "rule": "Preserve approved evidence words and service statuses. #10 consolidates existing surfaces; export parity remains outstanding until an export exists and is verified.",
+      "counterexample": "Unifying UI labels is used to close the issue's unimplemented export acceptance or silently rename an approved state.",
+      "check": "Check live #10 scope, one-to-one schema-to-word coverage, generation drift and actual consumers; separately record deferred export coverage.",
+      "sources": ["docs/delivery/consolidation-20261108.md", "docs/delivery/backlog.md", "design/system/HANDOFF.md"]
+    },
+    {
+      "id": "OSB-007",
+      "always": false,
+      "prefixes": ["apps/api", "apps/web/src/lib/server", "apps/web/src/app/api", "research/synthetic-ux/tools/phase-controller"],
+      "rule": "Preserve server-only credentials, guarded fixture mode, loopback test controls and validate-before-mutate semantics. The Next BFF does not acquire backend business logic.",
+      "counterexample": "A convenient browser query parameter changes the fixture fault or exposes the backend key.",
+      "check": "Exercise startup/auth boundaries and invalid atomic updates; no new HTTP harness controls, paid calls, hosting or live providers in this pilot.",
+      "sources": ["docs/decisions/001-api-first-nestjs.md", "HANDOVER.md", "apps/api/src/harness.ts"]
+    },
+    {
+      "id": "OSB-008",
+      "always": false,
+      "prefixes": ["research", "evaluation", "data/sources", "features"],
+      "rule": "Isolate fresh synthetic actors from acceptance criteria and expected answers. Keep source-release decisions, named human checks and model evaluations distinct; preserve their provenance.",
+      "counterexample": "A primed agent report is entered as fresh user research or a reviewed source is treated as cleared for public release.",
+      "check": "Label priming, task variant and observed coverage; transcribe only explicit owner/human records; keep research fixtures outside production retrieval and held-out evaluations.",
+      "sources": ["AGENTS.md", "docs/delivery/agent-workflow.md", "docs/delivery/consolidation-20261108.md"]
+    }
+  ]
+}
