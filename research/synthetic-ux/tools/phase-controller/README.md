@@ -81,3 +81,9 @@ Finish with `python $CTL "$SOCK" stop`, or Ctrl-C the controller. Either one sto
 - `browser_check.py` is a primed, scripted regression: it knows the outcomes it asserts. It is not an actor session and establishes no UX outcome. An independent verifier still needs to observe the browser transitions.
 - T14 still needs actual 200% browser zoom evidence under #9. This controller does not provide zoom.
 - One controller serves one session at a time. A phase is global to its API, so actor sessions sharing a controller must run in series.
+
+## Continuous merged-build verification
+
+The existing `checks` workflow runs the same primed `browser_check.py` in the founder UI job after building the actual checkout. It runs on pull requests and pushes to main; only the push-to-main result establishes verification of that actual merged commit. `phase-browser-results/identity.json` records the checkout SHA, event and run ID. The report and nine captures are retained as a 30-day Actions artifact, with the JSON report also printed in the job log. Link the exact main run and preserve a concise result in the issue/repository before artifact expiry.
+
+The Python browser uses Playwright 1.51.0 and its matching bundled Chromium, the existing design-check pin. The JavaScript product suite retains its separately locked Playwright browser. These are primed regressions, not fresh actors, actual zoom or assistive-technology acceptance. Controller guardrails, private Unix-socket permissions, simulated fault semantics and cleanup checks are unchanged. No cloud product deployment or provider calls occur.
