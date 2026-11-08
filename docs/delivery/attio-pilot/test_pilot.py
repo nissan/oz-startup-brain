@@ -155,6 +155,24 @@ class PilotTests(unittest.TestCase):
         record["visual"]["evidence"] = ["fixture://before", "fixture://after"]
         self.assertEqual(pilot.validate_handoff(record, "b" * 40)["visual_status"], "performed")
 
+    def test_nested_unknown_fields_rejected(self):
+        for target in ["check", "visual"]:
+            for field in ["approved", "acceptance", "typo"]:
+                record = self.record()
+                obj = record["checks"][0] if target == "check" else record["visual"]
+                obj[field] = True
+                with self.subTest(target=target, field=field), self.assertRaisesRegex(
+                        ValueError, f"unknown {target} fields: {field}"):
+                    pilot.validate_handoff(record, "b" * 40)
+
+    def test_documented_nested_fields_remain_valid(self):
+        record = self.record()
+        record["checks"][0].update(kind="manual", command="", exit_code=None)
+        record["visual"].update(status="performed", evidence=["fixture://before", "fixture://after"])
+        result = pilot.validate_handoff(record, "b" * 40)
+        self.assertTrue(result["structurally_valid"])
+        self.assertEqual(result["acceptance_decision"], "not-evaluated")
+
     def test_catalog_identity_and_unknown_lessons(self):
         record = self.record()
         self.assertFalse(pilot.validate_handoff(record, "b" * 40)["catalog_matches_current"])
