@@ -1,6 +1,6 @@
 {
   "notice": "FICTIONAL FIXTURE CORPUS. Every program, round, organisation, source and URL here is invented for slice 1A-0 tests. Nothing is a real program, a verified fact or advice. URLs use the reserved .invalid domain.",
-  "corpus_version": "fixture-2026-11-07.1",
+  "corpus_version": "fixture-2026-11-08.1",
   "fictional": true,
   "coverage": [
     "QLD",
@@ -360,7 +360,12 @@
         }
       ],
       "context_claim_ids": [],
-      "sequence": []
+      "sequence": [],
+      "subject_label": "Round A1",
+      "subject_terms": [
+        "a1"
+      ],
+      "follow_up_phrases": []
     },
     {
       "topic_id": "round_a2_requirements",
@@ -462,6 +467,13 @@
           "field": "matched_contribution",
           "text": "A matched contribution may apply. Its applicability, required amount and your ability to contribute are not established; check the relevant guidelines before committing funds."
         }
+      ],
+      "subject_label": "Round A2",
+      "subject_terms": [
+        "a2"
+      ],
+      "follow_up_phrases": [
+        "Which step is required now, which is a suggestion, and what is still unknown?"
       ]
     },
     {
@@ -500,7 +512,12 @@
         }
       ],
       "context_claim_ids": [],
-      "sequence": []
+      "sequence": [],
+      "subject_label": "Round B1",
+      "subject_terms": [
+        "b1"
+      ],
+      "follow_up_phrases": []
     },
     {
       "topic_id": "gympie_local_directory",
@@ -534,6 +551,13 @@
           "field": "locality",
           "text": "Gympie local coverage is not available. The named-locality fixture recognises Gympie only; it does not understand arbitrary towns or verify local matches."
         }
+      ],
+      "subject_label": "Gympie",
+      "subject_terms": [
+        "gympie"
+      ],
+      "follow_up_phrases": [
+        "If there is no evidence for my area, show the next useful place to check."
       ]
     },
     {

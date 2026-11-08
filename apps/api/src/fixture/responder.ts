@@ -64,7 +64,8 @@ export class FixtureResponder {
       statement: STANDING_STATEMENT,
     };
 
-    const retrieved = this.retriever.retrieve(request.question);
+    const resolution = this.retriever.retrieve(request.question, request.previous_question);
+    const retrieved = resolution.topic;
     // Stage is structured founder context, never inferred from prose. Only authored stages vary.
     const variant = context.stage === 'idea' || context.stage === 'prototype' ? retrieved?.stage_variants?.[context.stage] : undefined;
     const topic = retrieved && variant ? { ...retrieved, ...variant } : retrieved;
@@ -78,7 +79,7 @@ export class FixtureResponder {
         claims: [],
         citations: [],
         unresolved_conditions: [
-          { condition_id: 'cond_1', reason: 'not_in_evidence', field: null, text: 'The fixture corpus holds no evidence for this question, so the planner gives no answer rather than a guess.' },
+          { condition_id: 'cond_1', reason: 'not_in_evidence', field: resolution.needsSubject ? 'subject' : null, text: resolution.needsSubject ? 'Name the round or locality in your question so the planner can identify its subject, or choose Start a new question to begin again.' : 'The fixture corpus holds no evidence for this question, so the planner gives no answer rather than a guess.' },
         ],
         warnings,
       };
@@ -193,7 +194,7 @@ export class FixtureResponder {
 
     const matchedRules = topic.summary_rules.filter((r) => assessments.get(r.claim_id)?.applicability === r.applicability);
     // Over stale evidence the base sentence is swapped, not merely followed by a caveat (R33-01).
-    const summaryParts = [stale.length ? topic.summary_base_unverified : topic.summary_base, ...matchedRules.map((r) => r.text)];
+    const summaryParts = [resolution.continued ? `Continuing with ${topic.subject_label}.` : null, stale.length ? topic.summary_base_unverified : topic.summary_base, ...matchedRules.map((r) => r.text)];
     // The topic's base summary describes the fresh case; never let it read as current over stale evidence.
     if (stale.length && !matchedRules.some((r) => r.applicability === 'unverified')) {
       summaryParts.push('Some of this evidence is outside its staleness window, so check the official source before relying on it.');

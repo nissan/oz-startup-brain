@@ -157,6 +157,7 @@ export function failureView(status: number, code: string | undefined, retryAfter
     case 'bff_contract_violation':
       return { kind: 'outage', title: 'The answer did not match the published contract', body: 'The planner refuses to show an answer it cannot validate. Your question is kept below.', action: 'Try again' };
     case 'payload_too_large':
+      return { kind: 'outside', title: 'The combined request is too large', body: 'The question, preceding question and context together exceed the 16,384-byte request limit. Shorten your question, or choose Start a new question to clear the preceding question.', action: 'Edit my question' };
     case 'invalid_request':
     case 'bff_invalid_request':
       return { kind: 'outside', title: 'That question could not be sent', body: 'Questions are up to 2000 characters of text. Shorten it and try again.', action: 'Edit my question' };

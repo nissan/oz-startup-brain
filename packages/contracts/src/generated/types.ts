@@ -72,6 +72,10 @@ export interface QueryRequest {
    * The founder's question. Treated as untrusted data, never as instructions.
    */
   question: string;
+  /**
+   * Optional untrusted preceding standalone question; never an instruction or confirmed context. One bounded antecedent only.
+   */
+  previous_question?: string;
   confirmed_context?: ConfirmedContext;
 }
 /**

@@ -38,11 +38,34 @@ export class FixtureRetriever {
     private readonly faults: FaultSource,
   ) {}
 
-  retrieve(question: string): FixtureTopic | null {
+  retrieve(question: string, previousQuestion?: string): { topic: FixtureTopic | null; continued: boolean; needsSubject: boolean } {
     this.calls += 1;
     if (this.faults.currentFault() === 'vector_timeout') throw new RetrievalTimeoutError();
-    const words = tokens(question);
-    return this.corpus.topics.find((t) => t.match.every((group) => group.some((term) => words.has(term)))) ?? null;
+    const normalise = (text: string) => text.trim().toLowerCase().replace(/[.!?]+$/u, '').trim().replace(/\s+/gu, ' ');
+    const followUps = (text: string) => this.corpus.topics.filter((t) => t.follow_up_phrases?.some((p) => normalise(p) === normalise(text)));
+    const standalone = (text: string) => {
+      const words = tokens(text);
+      const named = this.corpus.topics.filter((t) => t.subject_terms?.some((term) => words.has(term)));
+      // A round identifier outside the authored inventory must not fall through to generic support.
+      const roundIds = [...text.toLowerCase().matchAll(/\bround\s+([a-z]+[0-9]+)\b/g)].map((m) => m[1]);
+      const unsupported = roundIds.some((id) => !this.corpus.topics.some((t) => t.subject_terms?.includes(id)));
+      if (named.length > 1 || unsupported) return { topic: null, named: true, ambiguous: true };
+      const candidates = named.length ? named : this.corpus.topics;
+      return { topic: candidates.find((t) => t.match.every((group) => group.some((term) => words.has(term)))) ?? null, named: !!named.length, ambiguous: false };
+    };
+    const current = standalone(question);
+    const abstain = { topic: null, continued: false, needsSubject: true };
+    if (current.ambiguous) return abstain;
+    if (current.named) return { topic: current.topic, continued: false, needsSubject: !current.topic };
+    const registered = followUps(question);
+    const priorFollowUp = previousQuestion ? followUps(previousQuestion).length > 0 : false;
+    const prior = previousQuestion && !priorFollowUp ? standalone(previousQuestion) : null;
+    if (registered.length) {
+      if (!prior?.topic || prior.ambiguous || !registered.includes(prior.topic)) return abstain;
+      return { topic: prior.topic, continued: true, needsSubject: false };
+    }
+    if (current.topic?.topic_id === 'next_support_step' && (priorFollowUp || (prior?.topic?.follow_up_phrases?.length && !prior.ambiguous))) return abstain;
+    return { topic: current.topic, continued: false, needsSubject: false };
   }
 }
 

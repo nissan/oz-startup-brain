@@ -39,6 +39,13 @@ type SourceRecord = components['schemas']['SourceRecord'];
 type Context = { jurisdiction?: Jurisdiction; stage?: Stage };
 /** What the evidence panel is showing: one of today's actions, or one prerequisite step. */
 type Selection = { kind: 'action'; id: string } | { kind: 'step'; position: number };
+interface ActiveRequest {
+  question: string;
+  previous_question?: string;
+  confirmed_context: Context;
+  generation: number;
+  failed: boolean;
+}
 interface Result {
   envelope: Envelope;
   question: string;
@@ -76,6 +83,7 @@ export function Journey() {
   const [caps, setCaps] = useState<Capabilities | null>(null);
   const [capsFailed, setCapsFailed] = useState(false);
   const [question, setQuestion] = useState('');
+  const [announcement, setAnnouncement] = useState('');
   const [questionError, setQuestionError] = useState<string | null>(null);
   const [context, setContext] = useState<Context>({});
   const [editing, setEditing] = useState<'jurisdiction' | 'stage' | null>(null);
@@ -97,8 +105,10 @@ export function Journey() {
   };
   /** Increments per request; a response is applied only if it belongs to the latest request. */
   const inFlight = useRef(0);
-  /** The question of the request currently in flight, so a context change can re-ask it. */
-  const pendingQuestion = useRef<string | null>(null);
+  // At most one eligible preceding question and one immutable dispatched-request snapshot.
+  const eligibleQuestion = useRef<string | null>(null);
+  const activeRequest = useRef<ActiveRequest | null>(null);
+  const sourceEpoch = useRef(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -113,40 +123,46 @@ export function Journey() {
   }, []);
 
   const submit = useCallback(
-    async (q: string, ctx: Context) => {
+    async (q: string, ctx: Context, reask?: ActiveRequest) => {
       const trimmed = q.trim();
       if (!trimmed) {
         setQuestionError('Type a question first.');
         textareaRef.current?.focus();
         return;
       }
-      if (trimmed.length > MAX_QUESTION) {
-        setQuestionError(`Questions are up to ${MAX_QUESTION} characters; this one is ${trimmed.length}.`);
+      if (Array.from(trimmed).length > MAX_QUESTION) {
+        setQuestionError(`Questions are up to ${MAX_QUESTION} characters; this one is ${Array.from(trimmed).length}.`);
         textareaRef.current?.focus();
         return;
       }
       setQuestionError(null);
+      setAnnouncement('');
+      const retry = reask ?? (activeRequest.current?.failed && activeRequest.current.question === trimmed ? activeRequest.current : undefined);
+      const previous = retry ? retry.previous_question : eligibleQuestion.current ?? undefined;
+      eligibleQuestion.current = null;
       const id = ++inFlight.current;
-      pendingQuestion.current = trimmed;
       setPending(true);
-      const body: { question: string; confirmed_context?: Context } = { question: trimmed };
+      const body: components['schemas']['QueryRequest'] = { question: trimmed };
+      if (previous !== undefined) body.previous_question = previous;
       const confirmed = Object.fromEntries(Object.entries(ctx).filter(([, v]) => v !== undefined)) as Context;
       if (Object.keys(confirmed).length) body.confirmed_context = confirmed;
+      activeRequest.current = { question: trimmed, previous_question: previous, confirmed_context: confirmed, generation: id, failed: false };
       const r = await bff<Envelope>('/api/bff/query', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
       // A newer request (for example after a context edit) supersedes this one, whatever order they return in.
       if (id !== inFlight.current) return;
-      pendingQuestion.current = null;
       setPending(false);
       if (r.ok) {
+        eligibleQuestion.current = r.data.status === 'answer' ? trimmed : null;
         setFailure(null);
         setResult({ envelope: r.data, question: trimmed, context: confirmed, askedAt: new Date() });
         const first = r.data.answer?.actions[0]?.action_id;
         setSelected(first ? { kind: 'action', id: first } : null);
-        requestAnimationFrame(() => resultsRef.current?.focus());
+        requestAnimationFrame(() => { if (id === inFlight.current) resultsRef.current?.focus(); });
       } else {
+        activeRequest.current!.failed = true;
         // The draft and the previous answer are both kept; the previous answer is labelled stale below.
         setFailure({ ...failureView(r.status, r.code, r.retryAfterSeconds), draft: trimmed });
-        requestAnimationFrame(() => resultsRef.current?.focus());
+        requestAnimationFrame(() => { if (id === inFlight.current) resultsRef.current?.focus(); });
       }
     },
     [],
@@ -164,7 +180,9 @@ export function Journey() {
     for (const id of selectedSourceIds) {
       if (sources[id] !== undefined) continue;
       setSources((s) => ({ ...s, [id]: null }));
+      const epoch = sourceEpoch.current;
       bff<SourceRecord>(`/api/bff/sources/${encodeURIComponent(id)}`).then((r) => {
+        if (epoch !== sourceEpoch.current) return;
         setSources((s) => ({ ...s, [id]: r.ok ? r.data : 'unavailable' }));
       });
     }
@@ -184,9 +202,25 @@ export function Journey() {
     // An edited assumption re-asks so the answer reflects the new context (SC02). If a request is in
     // flight, it is superseded: the new request gets a new ID and the old response is ignored when it
     // arrives, so the earlier context can never win. Nothing is sent when no question has been asked.
-    const inFlightQuestion = pendingQuestion.current;
-    if (inFlightQuestion) void submit(inFlightQuestion, next);
-    else if (question.trim() && (result || failure)) void submit(question, next);
+    const active = activeRequest.current;
+    if (active) void submit(active.question, next, active);
+  };
+
+  const startNewQuestion = () => {
+    ++inFlight.current;
+    ++sourceEpoch.current;
+    eligibleQuestion.current = null;
+    activeRequest.current = null;
+    setPending(false);
+    setQuestion('');
+    setQuestionError(null);
+    setResult(null);
+    setFailure(null);
+    setSelected(null);
+    setSources({});
+    setEditing(null);
+    setAnnouncement('New question started. Your confirmed situation is kept.');
+    textareaRef.current?.focus();
   };
 
   return (
@@ -246,7 +280,6 @@ export function Journey() {
             className="ask__textarea"
             rows={3}
             value={question}
-            maxLength={MAX_QUESTION + 500}
             placeholder="e.g. I am building a software startup in Toowoomba. Where should I begin?"
             aria-describedby="question-help question-count"
             aria-invalid={questionError ? 'true' : undefined}
@@ -267,10 +300,12 @@ export function Journey() {
             <Button variant="primary" onClick={() => void submit(question, context)} disabled={pending}>
               Ask the planner
             </Button>
+            <Button variant="secondary" onClick={startNewQuestion}>Start a new question</Button>
             <span id="question-count" className="ask__count" aria-live="polite">
-              {question.trim().length}/{MAX_QUESTION}
+              {Array.from(question.trim()).length}/{MAX_QUESTION}
             </span>
           </div>
+          <p role="status" className={announcement ? 'section__caption' : 'sr-only'}>{announcement}</p>
           <p id="question-help" className="section__caption">
             Information and routing, not an application or approval. This local build answers from a fictional fixture corpus.
           </p>
@@ -318,6 +353,11 @@ export function Journey() {
           {pending ? 'Working on your question' : failure ? 'The planner could not answer' : envelope?.status === 'clarification' ? 'One detail first' : envelope?.status === 'insufficient_evidence' ? 'No answer from the evidence' : answer ? 'Your next steps' : 'Your next steps will appear here'}
         </h2>
 
+        {activeRequest.current && question.trim() !== activeRequest.current.question ? (
+          <p className="section__caption" data-testid="answered-question">
+            {pending ? 'Answering' : 'Last submitted question'}: &ldquo;{activeRequest.current.question}&rdquo; Your edited question has not been sent.
+          </p>
+        ) : null}
         {pending ? (
           <div className="waiting" role="status" aria-live="polite">
             <span className="waiting__bar" aria-hidden="true" />
@@ -334,7 +374,7 @@ export function Journey() {
             actionLabel={failure.action}
             onAction={() => {
               if (failure.kind === 'outside') textareaRef.current?.focus();
-              else void submit(question, context);
+              else if (activeRequest.current) void submit(activeRequest.current.question, context, activeRequest.current);
             }}
             secondaryLabel="Change my context"
             onSecondary={() => setEditing('jurisdiction')}

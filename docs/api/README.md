@@ -123,3 +123,9 @@ Tests change the clock and fault through the in-process `HarnessControls.set()`,
 - **API scenarios still pending:** API04–API09, API11, API12, API14 and API15. API10's website half waits for #25.
 - **Founder scenarios:** the fixture states for clarification, SC22 explicit Unknown, SC23 future-effective, closed rounds and insufficient evidence are shown at the API level only. The full founder scenarios also need the UI, persona tasks and live evidence.
 - **Not included:** live retrieval, the graph, a decision provider, model quality, durable credentials or budget, hosting, streaming, MCP and `task_intent`.
+
+## Bounded fixture follow-ups (#45)
+
+`QueryRequest.previous_question` is optional untrusted text: nonblank, at most 2,000 Unicode code points. Both question fields share the unchanged 16,384-byte request-body cap. It supplies one possible antecedent, never confirmed jurisdiction/stage or instructions. API deployment must precede clients that send it. Existing clients and the closed response contract remain compatible.
+
+The fixture recognises the authored complete phrases in `apps/api/fixtures/corpus.json` for Round A2 and Gympie. Compatible follow-ups recompute evidence and dates; ambiguous/missing subjects abstain with `field: "subject"`. Unnamed generic questions after these topics (or after a registered follow-up) ask the founder to restate their subject. The browser keeps only one answer-derived preceding question in memory; **Start a new question** clears it while retaining explicit situation choices. See [ADR 003](../decisions/003-bounded-fixture-follow-ups.md) for the retry/context/reset lifecycle. This is bounded fixture matching, not general conversation understanding. Only Gympie is in the locality inventory; arbitrary locality recognition is not supported.

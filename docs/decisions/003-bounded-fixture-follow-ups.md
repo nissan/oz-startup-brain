@@ -1,10 +1,10 @@
 # ADR 003: bounded fixture follow-ups (#45)
 
-Status: revised proposal after Claude review of `f8a61c4`; independent re-review pending.
-Review response: P2-1 uses the conservative generic-route guard below; P2-2 has an explicit lifecycle table. Runtime implementation has not started.
+Status: design approved by Claude in review 5815788420 and merged in PR #51 (`cdd3a6c`). Runtime candidate implemented; independent code review, pinned verification and fresh actor acceptance pending.
+Review response: P2-1 uses the conservative generic-route guard below; P2-2 has an explicit lifecycle table. The runtime also guards generic paraphrases after a registered anaphoric preceding question.
 Owner dispatch: Nissan, 8 November 2026 (Australia/Sydney).
-Builder: Codex, run `codex-45-20261108`.
-Base: `0a7d9a6d1184e46042a299d44e0e1d54b8c8cf60` (PR #49 merged).
+Builder: Codex, runtime run `codex-45-runtime-20261108`.
+Runtime base: `c4f54ac8902a353d9497607b6736b591a95f97c6` (PR #63 merged). Historical design base: `0a7d9a6d1184e46042a299d44e0e1d54b8c8cf60`.
 
 ## Problem and boundaries
 
@@ -23,7 +23,7 @@ introduced. Original synthetic outcomes remain historical evidence.
 ## Proposed contract
 
 Add optional `previous_question` to `QueryRequest`: an untrusted, nonblank string
-of at most 2,000 characters. Existing `question`, context and request-byte limits
+of at most 2,000 Unicode code points. Existing `question`, context and request-byte limits
 continue to apply. Reject invalid input before admission/retrieval. The field is
 only a possible antecedent, never an instruction, identity or confirmed fact.
 
