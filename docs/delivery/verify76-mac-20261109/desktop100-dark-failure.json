@@ -1,0 +1,5 @@
+{
+  "condition": "desktop100-dark",
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(await sp.count()===0)\n\n    at eval (eval at <anonymous> (/Users/loki/.openclaw/workspace/projects/oz-startup-brain/verify76-20449/driver.cjs:3:508), <anonymous>:15:520)\n    at async Server.<anonymous> (/Users/loki/.openclaw/workspace/projects/oz-startup-brain/verify76-20449/driver.cjs:3:502)",
+  "status": "failed-or-incomplete"
+}

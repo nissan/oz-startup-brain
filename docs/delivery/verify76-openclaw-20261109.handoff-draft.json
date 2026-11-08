@@ -14,7 +14,7 @@
     "GitHub artifact download",
     "portable Git LFS"
   ],
-  "context_disclosure": "Primed verifier; PR77 template draft rehearsal only, unreviewed and unadopted; catalog hash from producer handoff, not independent validation. No fresh research.",
+  "context_disclosure": "Primed verifier; PR77 template draft rehearsal only, unreviewed and unadopted; catalog hash from producer handoff, not independent validation. No fresh research. No proposed lesson IDs operationally applied; pre-adoption run. Subsequent six scoped Mac conditions recorded separately, not full manual/AT acceptance.",
   "checks": [
     {
       "name": "required runtime",
@@ -46,17 +46,29 @@
       "exit_code": null,
       "observation": "Required runtime unavailable under stop instruction.",
       "evidence": []
+    },
+    {
+      "name": "subsequent six-condition Mac scoped check",
+      "kind": "manual",
+      "command": "Python matrix.py with actual OS View zoom menu and Playwright inputs",
+      "status": "pass",
+      "exit_code": null,
+      "observation": "Six scoped conditions pass with disclosed1px desktop height deviation, DOM-targeted focus setup and fictional source error; not full acceptance.",
+      "evidence": [
+        "docs/delivery/verify76-mac-20261109.md"
+      ]
     }
   ],
   "visual": {
     "status": "pending",
-    "reason": "No Mac renders or actual visual inspection; existing CI captures archived with original provenance."
+    "reason": "Actual selected renders inspected; independent evidence interpretation/acceptance pending."
   },
   "remaining": [
-    "actual Mac browser-menu zoom/focus/source-return observations: trusted UI control unavailable",
-    "Claude evidence interpretation",
-    "PR77 reviewed wrapper adoption"
+    "Claude interpretation review of Mac evidence",
+    "Codex integrity and disposition of1px geometry/input setup limitations",
+    "integration/resulting-build verification; separatefresh53 andAT9",
+    "PR77 exact-head review before operational schema adoption"
   ],
-  "next_action": "Operator supplies trusted browser-menu capability or observed manual execution; Codex reconciles the exact continuation, Claude reviews evidence.",
+  "next_action": "Claude review Mac report; Codex integrity and integration decision; no automatic closure.",
   "cleanup": "No services/browser launched; no settings changed. Checkout retained."
 }

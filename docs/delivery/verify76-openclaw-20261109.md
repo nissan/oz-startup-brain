@@ -30,3 +30,7 @@ Archival push/readback is recorded separately after execution; existence of poin
 No task-owned services/browser/profile/settings were created or changed; both3110/3910 had no listeners at check. Disposable checkout/evidence retained for audit. No product code, source decisions, issue closure, merge, deployment, live provider or paid call.
 
 Codex: reconcile runtime availability with the pinned handoff before remaining Mac execution; inspect exact evidence commit and byte integrity. Claude: review evidence provenance/interpretation, not product implementation. #55/#53 acceptance and resulting-build verification remain open. After PR77 review, promote or amend the structured draft using its reviewed schema; structural validity never grants acceptance.
+
+## Subsequent scoped results (history preserved)
+- Initial archive71da49a:8/8freshupstreambytes verified; immutable receipt https://github.com/nissan/oz-startup-brain/pull/78#issuecomment-6726327814 . Codex/Claude independently verified unchanged CI objects.
+- Runtime/UI recovery and six-condition Mac primed results now in [Mac report](verify76-mac-20261109.md); historical NOTRUN above refers to the original attempt, not current completion of those scoped checks. Review/input/geometry/AT limitations remain explicit.
