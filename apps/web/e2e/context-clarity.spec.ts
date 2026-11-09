@@ -17,7 +17,7 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
 
     const question = 'I have a software prototype in Gympie. What should I do next for support?';
-    const draft = page.getByLabel('Your question');
+    const draft = page.locator('textarea#question');
     await draft.fill(question);
     await page.getByRole('button', { name: 'Ask the planner' }).click();
     await expect(page.locator('#results-heading')).not.toHaveText(/Working on your question|will appear here/);
