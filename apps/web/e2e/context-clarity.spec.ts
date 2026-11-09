@@ -64,7 +64,10 @@ for (const theme of ['light', 'dark'] as const) {
 
     await situation.getByRole('button', { name: 'Jurisdiction: Not set. Edit' }).focus();
     await page.keyboard.press('Enter');
-    await situation.getByRole('radio', { name: 'Unknown', exact: true }).check();
+    const unknown = situation.getByRole('radio', { name: 'Unknown', exact: true });
+    await unknown.focus();
+    await page.keyboard.press('Space');
+    await expect(unknown).toBeChecked();
     await situation.getByRole('button', { name: 'Save jurisdiction' }).click();
     await expect(situation.getByRole('button', { name: 'Jurisdiction: Unknown. Edit' })).toBeVisible();
     await expect(draft).toHaveValue(question);
