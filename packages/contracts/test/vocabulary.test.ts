@@ -20,6 +20,20 @@ function components(bundle: string) {
 }
 
 describe('shared display vocabulary on existing surfaces (export deferred)', () => {
+
+  it('guards the published API evidence-state description against vocabulary drift', () => {
+    const schema = JSON.parse(readFileSync(join(root, 'packages/contracts/schemas/v1.schema.json'), 'utf8'));
+    const stateSchema = schema.$defs.EvidenceState;
+    // The API description repeats the approved labels for documentation.
+    // Checked alone adds a date suffix; it is not part of the canonical word.
+    const quoted = [...stateSchema.description.matchAll(/([a-z-]+) = '([^']+)'/g)]
+      .map(([, state, label]: string[]) => [state, label] as const);
+    expect(stateSchema.enum).toEqual(Object.keys(EVIDENCE_STATE_WORDS));
+    expect(quoted).toHaveLength(stateSchema.enum.length);
+    expect(Object.fromEntries(quoted.map(([state, label]) =>
+      [state, label.replace(/ \[date\]$/, '')]))).toEqual(EVIDENCE_STATE_WORDS);
+    expect(quoted.find(([state]) => state === 'checked')?.[1]).toBe('Source checked [date]');
+  });
   it('renders all five evidence words and all four service words from contracts', () => {
     const ds = components(source);
     for (const [state, word] of Object.entries(EVIDENCE_STATE_WORDS)) {
