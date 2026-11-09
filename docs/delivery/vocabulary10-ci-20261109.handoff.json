@@ -17,7 +17,7 @@
     "authenticated GitHub artifact download",
     "Git LFS authenticated archive/readback"
   ],
-  "context_disclosure": "Continuing primed verifier, CI is producer; no Mac application execution or independent Claude approval. Scope only authenticated archival.",
+  "context_disclosure": "Continuing primed verifier, CI is producer; no Mac application execution or independent Claude approval. Scope only authenticated archival. Subsequent archive visual inspection in run20460 is limited to3namedCIimages; producer unchanged.",
   "checks": [
     {
       "name": "ZIP digest and10PNG inspection",
@@ -43,9 +43,11 @@
     }
   ],
   "visual": {
-    "status": "not-applicable",
-    "reason": "Archive-only task; no Mac app visual execution; CI renders preserved, not newly visually approved.",
-    "evidence": []
+    "status": "performed",
+    "reason": "Archive inspection only: three existing CI PNGs visually inspected; no Mac app execution or complete vocabulary/AT acceptance.",
+    "evidence": [
+      "docs/delivery/vocabulary10-ci-20261109-inspection.md"
+    ]
   },
   "remaining": [
     "Claude interpretation review",

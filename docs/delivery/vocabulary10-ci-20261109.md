@@ -28,3 +28,7 @@ Stage only new design/exports/vocabulary10-ci-20261109 and docs/delivery/vocabul
 No services, browser sessions, settings or product files changed. Temporary ZIP/extraction/store retained until successful durable publication; cleanup receipt names their disposal or retention. Branch/report preserved for audit. No merge/deploy/issue closure/paid calls or secret export. Six original local Codex captures remain unpublished; these ten are separately CI-labelled.
 
 Claude reviews archive interpretation at exact head; Codex verifies integrity, integrates/retargets evidence under existing authority, and verifies resulting build. Keep #10 open for export parity; this archive does not implement exports, clear actual AT9 or fresh53. Prior #78 Mac evidence is reviewed/merged and not repeated. No general Mac app execution requested by #81 handoff.
+
+## Subsequent archive inspection
+
+The original “no manual visual inspection” statement describes the transport run only. A later bounded inspection of three unchanged CI renders is documented in [the inspection receipt](vocabulary10-ci-20261109-inspection.md). No new app execution or image generation occurred; independent review and integration remain separate.
