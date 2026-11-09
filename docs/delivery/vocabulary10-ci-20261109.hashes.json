@@ -1,0 +1,125 @@
+{
+  "zip_sha256": "42a3e3c9289b5292b9322a1da1581c90069aaa94788165a165cba71e28e33e53",
+  "artifact": {
+    "id": 13636453180,
+    "node_id": "MDg6QXJ0aWZhY3QxMzYzNjQ1MzE4MA==",
+    "name": "evidence-vocabulary-ff7d8c71bd249dc9577f6077e15f54f3a0703ffb",
+    "size_in_bytes": 2292373,
+    "url": "https://api.github.com/repos/nissan/oz-startup-brain/actions/artifacts/13636453180",
+    "archive_download_url": "https://api.github.com/repos/nissan/oz-startup-brain/actions/artifacts/13636453180/zip",
+    "expired": false,
+    "digest": "sha256:42a3e3c9289b5292b9322a1da1581c90069aaa94788165a165cba71e28e33e53",
+    "created_at": "2026-11-08T22:13:57Z",
+    "updated_at": "2026-11-08T22:13:57Z",
+    "expires_at": "2027-02-06T22:10:18Z",
+    "workflow_run": {
+      "id": 42528875433,
+      "repository_id": 1446828871,
+      "head_repository_id": 1446828871,
+      "head_branch": "feat/10-shared-vocabulary",
+      "head_sha": "191f83ca1fc1696f807e03fba2b73d8d5e10997e"
+    }
+  },
+  "files": [
+    {
+      "filename": "desktop-a2-dark.png",
+      "zip_path": "desktop-a2-dark.png",
+      "sha256": "8240ceecf5ef00170a9192dda4cec74dfbb069e2b89357f722f844da76ad82b2",
+      "size": 347591,
+      "width": 1280,
+      "height": 2240,
+      "path": "design/exports/vocabulary10-ci-20261109/desktop-a2-dark.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    },
+    {
+      "filename": "desktop-answer-qld-light.png",
+      "zip_path": "desktop-answer-qld-light.png",
+      "sha256": "d72d62751b70c030195ab5344a4b78ee67bd13a169fdd0dc72708f617eb4e021",
+      "size": 356884,
+      "width": 1280,
+      "height": 2474,
+      "path": "design/exports/vocabulary10-ci-20261109/desktop-answer-qld-light.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    },
+    {
+      "filename": "desktop-fault-budget-dark.png",
+      "zip_path": "desktop-fault-budget-dark.png",
+      "sha256": "101d5e87d6010e79aab6a816acfd826ed00be4ae1a6e5a0f6a610c5a7ad4b572",
+      "size": 114910,
+      "width": 1280,
+      "height": 1236,
+      "path": "design/exports/vocabulary10-ci-20261109/desktop-fault-budget-dark.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    },
+    {
+      "filename": "desktop-fault-graph-light.png",
+      "zip_path": "desktop-fault-graph-light.png",
+      "sha256": "35ca103ef1b804131131d4304b3ca62afb5c6416c4d59a16194d3ee6cdd0e6ea",
+      "size": 295451,
+      "width": 1280,
+      "height": 2336,
+      "path": "design/exports/vocabulary10-ci-20261109/desktop-fault-graph-light.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    },
+    {
+      "filename": "desktop-fault-vector-light.png",
+      "zip_path": "desktop-fault-vector-light.png",
+      "sha256": "e8dc18093c3d348125f765ac16f0d71c4bb77ead6b4b006eb1260ad427b612d3",
+      "size": 110440,
+      "width": 1280,
+      "height": 1210,
+      "path": "design/exports/vocabulary10-ci-20261109/desktop-fault-vector-light.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    },
+    {
+      "filename": "phone-a2-dark.png",
+      "zip_path": "phone-a2-dark.png",
+      "sha256": "81a739cbde0739b281905a37b76d6688cc55edba763565dc34e0603e9cf5142a",
+      "size": 337357,
+      "width": 390,
+      "height": 4543,
+      "path": "design/exports/vocabulary10-ci-20261109/phone-a2-dark.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    },
+    {
+      "filename": "phone-answer-qld-light.png",
+      "zip_path": "phone-answer-qld-light.png",
+      "sha256": "5329b63a73f79919f51a5f075612116f86f8460c8b8ffbf2f555c61553aecbcc",
+      "size": 356844,
+      "width": 390,
+      "height": 5130,
+      "path": "design/exports/vocabulary10-ci-20261109/phone-answer-qld-light.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    },
+    {
+      "filename": "phone-fault-budget-dark.png",
+      "zip_path": "phone-fault-budget-dark.png",
+      "sha256": "94467d9fdcaf84fe3cffe4ae0bf79f9d8945318b0a7bf9ecd796b7f15a532e8e",
+      "size": 106693,
+      "width": 390,
+      "height": 1585,
+      "path": "design/exports/vocabulary10-ci-20261109/phone-fault-budget-dark.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    },
+    {
+      "filename": "phone-fault-graph-light.png",
+      "zip_path": "phone-fault-graph-light.png",
+      "sha256": "893f31c2e0be1f1d0a6f20ca06670090bb5473b71f46417d8287c24d1d8af88a",
+      "size": 286525,
+      "width": 390,
+      "height": 4145,
+      "path": "design/exports/vocabulary10-ci-20261109/phone-fault-graph-light.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    },
+    {
+      "filename": "phone-fault-vector-light.png",
+      "zip_path": "phone-fault-vector-light.png",
+      "sha256": "a5f3e700319312a9bd0eb4bbfb383b5a8634e572251b1bb2dfbef909ff2e9ca7",
+      "size": 101539,
+      "width": 390,
+      "height": 1533,
+      "path": "design/exports/vocabulary10-ci-20261109/phone-fault-vector-light.png",
+      "producer": "GitHub CI42528875433; not Mac app execution"
+    }
+  ]
+}

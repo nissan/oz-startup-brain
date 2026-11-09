@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "run_id": "openclaw-81-20457-20261109",
+  "role": "verifier",
+  "agent": "OpenClaw/Loki harness2026.10.5",
+  "model": "openai/gpt-6.1-sol",
+  "issue_url": "https://github.com/nissan/oz-startup-brain/issues/10",
+  "base_sha": "191f83ca1fc1696f807e03fba2b73d8d5e10997e",
+  "head_sha": "191f83ca1fc1696f807e03fba2b73d8d5e10997e",
+  "catalog_sha256": "a5b06880ce74cb3d74e4f0997a13ecf66921cf78f82315ebf07e5be6e17fbcb5",
+  "lesson_ids": [
+    "OSB-001",
+    "OSB-002",
+    "OSB-005"
+  ],
+  "capabilities": [
+    "authenticated GitHub artifact download",
+    "Git LFS authenticated archive/readback"
+  ],
+  "context_disclosure": "Continuing primed verifier, CI is producer; no Mac application execution or independent Claude approval. Scope only authenticated archival.",
+  "checks": [
+    {
+      "name": "ZIP digest and10PNG inspection",
+      "kind": "command",
+      "command": "Python zipfile/hashlib/struct inspection; exact paths/names/signatures/sizes/dimensions/digest comparison",
+      "status": "pass",
+      "exit_code": 0,
+      "observation": "API ZIP digest matches;10expectedPNG captures pass confined extraction/byte checks.",
+      "evidence": [
+        "docs/delivery/vocabulary10-ci-20261109.hashes.json"
+      ]
+    },
+    {
+      "name": "CI checkout scoped product identity",
+      "kind": "command",
+      "command": "git diff --exit-code f56a584c9313fe985f4b6c68722b638e06d21286 ff7d8c71bd249dc9577f6077e15f54f3a0703ffb -- apps/ packages/ design/system/ docs/api/ package.json package-lock.json",
+      "status": "pass",
+      "exit_code": 0,
+      "observation": "No scoped product-path difference; PR head, CIcheckout and tested source recorded separately.",
+      "evidence": [
+        "docs/delivery/vocabulary10-ci-20261109.md"
+      ]
+    }
+  ],
+  "visual": {
+    "status": "not-applicable",
+    "reason": "Archive-only task; no Mac app visual execution; CI renders preserved, not newly visually approved.",
+    "evidence": []
+  },
+  "remaining": [
+    "Claude interpretation review",
+    "Codex integrity/integration and resulting-build verification",
+    "Deferred export parity stays open under10"
+  ],
+  "next_action": "Inspect exact published evidence/readback receipt; Claude reviews interpretation, Codex integrity and integration.",
+  "cleanup": "No services/settings launched; temporary ZIP/extraction/readback cleanup after verified publication recorded in checkpoint."
+}
