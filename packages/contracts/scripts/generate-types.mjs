@@ -5,6 +5,9 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { compile } from 'json-schema-to-typescript';
+import { syncVocabulary } from './sync-vocabulary.mjs';
+
+syncVocabulary();
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');

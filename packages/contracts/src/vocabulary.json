@@ -1,0 +1,15 @@
+{
+  "evidence": {
+    "checked": "Source checked",
+    "needs-check": "Needs a current check",
+    "disagree": "Sources disagree",
+    "suggested": "Suggested next step",
+    "outside": "Outside current coverage"
+  },
+  "service": {
+    "graph-degraded": "Graph unavailable: passage evidence only",
+    "retrieval-unavailable": "Source retrieval unavailable",
+    "budget-exhausted": "Daily budget reached",
+    "paused": "Graph paused; resume requested"
+  }
+}

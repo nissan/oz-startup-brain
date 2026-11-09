@@ -1,0 +1,108 @@
+{
+  "baseline_product_sha": "3c360993684829118c84029a0b968504189e0c80",
+  "tested_product_sha": "f56a584c9313fe985f4b6c68722b638e06d21286",
+  "files": [
+    {
+      "sha256": "34c011a0e7c6c0e4d1ce3d052aee196e17c52f65980b7fbdd97fc1bbf2cb7082",
+      "size": 368841,
+      "dimensions": [
+        1440,
+        2474
+      ],
+      "baseline_sha256": "061a31ef75c2e37795f37d00c34cec5a8faef1342276c01942504d0519686b5b",
+      "difference_bbox": [
+        201,
+        2380,
+        329,
+        2392
+      ],
+      "intended_path": "design/exports/vocabulary10-20261109/desktop-answer-qld-light.png",
+      "preservation": "local-only; not committed or uploaded"
+    },
+    {
+      "sha256": "33cb6af38133eb7b28405881b36ba92f3d02a2e8ba5b6c3a3887c0674430820e",
+      "size": 357901,
+      "dimensions": [
+        1440,
+        2240
+      ],
+      "baseline_sha256": "2e4b2a0019ffc727b4eb8b51ec67f3f42363a48cdd849bfbd893cb9477375721",
+      "difference_bbox": [
+        200,
+        2146,
+        328,
+        2158
+      ],
+      "intended_path": "design/exports/vocabulary10-20261109/desktop-a2-dark.png",
+      "preservation": "local-only; not committed or uploaded"
+    },
+    {
+      "sha256": "08b03cb41a49ac2d6b5527909b7f662d9d1e363aee6eba171e4b5ee5f6a9feee",
+      "size": 305017,
+      "dimensions": [
+        1440,
+        2336
+      ],
+      "baseline_sha256": "e44bcc09a890c03b485fdae83e9dfc8d79b43881001197299164c662d02bc9c6",
+      "difference_bbox": [
+        200,
+        2242,
+        329,
+        2254
+      ],
+      "intended_path": "design/exports/vocabulary10-20261109/desktop-fault-graph-light.png",
+      "preservation": "local-only; not committed or uploaded"
+    },
+    {
+      "sha256": "7c304700aab0264a129c75220a6eefcdd5fcccfb63d3150a3e1879abe3f52d6b",
+      "size": 362604,
+      "dimensions": [
+        390,
+        5130
+      ],
+      "baseline_sha256": "1b4ed9094e671c07e1b7ef091c13970e9200db6b063117816b8b256c29a72e67",
+      "difference_bbox": [
+        112,
+        5052,
+        241,
+        5064
+      ],
+      "intended_path": "design/exports/vocabulary10-20261109/phone-answer-qld-light.png",
+      "preservation": "local-only; not committed or uploaded"
+    },
+    {
+      "sha256": "8f74f69ea9caabe415f5196c51f06035fe560ca08a98a1ec8420445f05d4e4c3",
+      "size": 343806,
+      "dimensions": [
+        390,
+        4543
+      ],
+      "baseline_sha256": "9c9f03763036d6c39eb531f23d9e7a5af154856d61051079783dda8258614c30",
+      "difference_bbox": [
+        112,
+        4465,
+        241,
+        4477
+      ],
+      "intended_path": "design/exports/vocabulary10-20261109/phone-a2-dark.png",
+      "preservation": "local-only; not committed or uploaded"
+    },
+    {
+      "sha256": "3b24e8b681e56a92123da4d898ed63efc233158d729245c779b9ad40cbca761d",
+      "size": 293232,
+      "dimensions": [
+        390,
+        4145
+      ],
+      "baseline_sha256": "b428f5e6c38368eb8d1e21a2ab4f69e58cf3a528416efbd8f300b87f5d7f19fd",
+      "difference_bbox": [
+        112,
+        4067,
+        232,
+        4079
+      ],
+      "intended_path": "design/exports/vocabulary10-20261109/phone-fault-graph-light.png",
+      "preservation": "local-only; not committed or uploaded"
+    }
+  ]
+}

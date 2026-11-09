@@ -1,5 +1,6 @@
 import {
   STANDING_STATEMENT,
+  EVIDENCE_STATE_WORDS,
   type Action,
   type Answer,
   type Citation,
@@ -195,7 +196,7 @@ export class FixtureResponder {
           : `Current status unverified: "${s.claim.text}" has never been verified. Check ${s.source.title} before acting.`,
       });
     }
-    if (stale.length) warnings.push({ code: 'stale_evidence', kind: 'evidence', message: 'Some evidence is outside its staleness window and is labelled "Needs a current check".' });
+    if (stale.length) warnings.push({ code: 'stale_evidence', kind: 'evidence', message: `Some evidence is outside its staleness window and is labelled "${EVIDENCE_STATE_WORDS['needs-check']}".` });
     if ([...assessments.values()].some((a) => a.qualifier === 'effective_date_not_stated')) {
       warnings.push({ code: 'effective_date_not_stated', kind: 'evidence', message: 'A source that normally states effective dates does not state one for a claim used here.' });
     }

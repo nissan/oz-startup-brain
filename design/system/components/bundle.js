@@ -18,13 +18,30 @@
       h('path', { d: PATHS[name] }));
   }
 
+  // BEGIN GENERATED STATES from packages/contracts/src/vocabulary.json
   var STATES = {
-    'checked': { word: 'Source checked', icon: 'tick' },
-    'needs-check': { word: 'Needs a current check', icon: 'clock' },
-    'disagree': { word: 'Sources disagree', icon: 'disagree' },
-    'suggested': { word: 'Suggested next step', icon: 'arrow' },
-    'outside': { word: 'Outside current coverage', icon: 'outside' }
+    "checked": {
+      "word": "Source checked",
+      "icon": "tick"
+    },
+    "needs-check": {
+      "word": "Needs a current check",
+      "icon": "clock"
+    },
+    "disagree": {
+      "word": "Sources disagree",
+      "icon": "disagree"
+    },
+    "suggested": {
+      "word": "Suggested next step",
+      "icon": "arrow"
+    },
+    "outside": {
+      "word": "Outside current coverage",
+      "icon": "outside"
+    }
   };
+  // END GENERATED STATES
 
   function Button(p) {
     var v = p.variant || 'secondary';
@@ -169,12 +186,22 @@
       h('ol', { className: 'osb-wait__steps' }, steps.map(function (s, i) { return h('li', { key: i, 'aria-current': i === idx ? 'step' : undefined }, i < idx ? Icon('tick') : null, i < idx ? h('span', { className: 'osb-sr-only' }, 'Completed: ') : null, s); })));
   }
 
+  // BEGIN GENERATED SERVICE from packages/contracts/src/vocabulary.json
   var SERVICE = {
-    'graph-degraded': { word: 'Graph unavailable: passage evidence only' },
-    'retrieval-unavailable': { word: 'Source retrieval unavailable' },
-    'budget-exhausted': { word: 'Daily budget reached' },
-    'paused': { word: 'Graph paused; resume requested' }
+    "graph-degraded": {
+      "word": "Graph unavailable: passage evidence only"
+    },
+    "retrieval-unavailable": {
+      "word": "Source retrieval unavailable"
+    },
+    "budget-exhausted": {
+      "word": "Daily budget reached"
+    },
+    "paused": {
+      "word": "Graph paused; resume requested"
+    }
   };
+  // END GENERATED SERVICE
   function StatusNotice(p) {
     var s = SERVICE[p.status] || { word: p.status || 'Service status' };
     return h('span', { className: 'osb osb-status osb-status--' + (SERVICE[p.status] ? p.status : 'other'), role: p.live === false ? undefined : 'status' },
