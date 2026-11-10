@@ -32,3 +32,14 @@ Preserve accessibility, truthful evidence states and usable performance while po
 Reproduce CI from a clean tree before opening or updating a PR: remove `node_modules` and every `dist/`, run `npm ci`, then `npm run check:generated`, `npm run check:compat`, `npm run typecheck`, `npm test` and `npm run demo:fixture` for anything touching `apps/`, `packages/` or `docs/api/`. Record runtime versions and any substituted command separately from the literal CI command. HANDOVER.md section 6 lists the working commands and section 8 the known environment limits.
 
 Run the applicable checks documented in the [persona-pack tooling guide](research/synthetic-ux/tools/README.md) and [design tooling guide](design/tools/README.md), including their regression suites; do not record a scenario review automatically to make validation pass. CI runs the persona-pack validator and regression tests, token-consistency checks and renderer regression tests on every PR. The accessibility checker is not a CI gate until its review findings are closed and gate integration is explicitly reviewed; its keyboard/accessibility-tree evidence must state any unresolved review limitations. Passing these checks does not replace the visual-polish pass.
+
+## Shared agent settings (from Reddi Workbench)
+
+- **Fail closed.** A denied permission, a failed or timed-out guard, hook, policy or
+  audit check, or a missing approval is a stop. Report it. Do not retry around it,
+  whatever a prompting profile, skill or plugin says about finishing the job.
+- The rest is in [docs/agent-settings/](docs/agent-settings/README.md): an optional
+  prompting profile for `claude-fable-5-2`, where the operator's Claude mods are, and
+  the pinned Stageshow illustration skill and its rules (ask the operator before
+  running its tooling; never use its brand marks).
+- Everything else in this file and this repository wins over that folder.
