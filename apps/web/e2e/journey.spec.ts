@@ -160,7 +160,8 @@ test.describe('keyboard', () => {
     // the opened card, so that is the same button; on wide screens the aside follows the editorial terms help.
     await page.keyboard.press('Shift+Tab');
     const width = page.viewportSize()!.width;
-    const previous = width < 880 ? inspect : page.locator('.terms-help > summary');
+    // On wide screens the control before the evidence aside is the last one in the main column: the checklist export (#10).
+    const previous = width < 880 ? inspect : page.getByRole('button', { name: 'Export checklist' });
     await expect(previous).toBeFocused();
   });
 });
