@@ -85,7 +85,7 @@ So a call rejected at step 2 starts no validation, admission or retrieval, and u
 - **Revocation and expiry:** to revoke a key, set its `revoked_at`; to make one expire, set its `expires_at`. Restart the API for either change to take effect.
 - **Budget:** a per-consumer, single-process counter with a daily allowance (`OZSB_DAILY_QUERY_ALLOWANCE`, default 500) and concurrency leases (`OZSB_MAX_CONCURRENT_QUERIES`, default 4; a lease expires after 30 s). This is not a durable or global spend cap and records no monetary reservations. API06 and API07 cannot pass in this mode.
 - **Dependency advisories:** see [docs/dependency-advisories.md](../dependency-advisories.md) for every audit finding, its reachability and disposition; the two overrides in the root `package.json` are explained there.
-- **Never public:** development mode refuses to start when `VERCEL`, `VERCEL_ENV` or `NODE_ENV=production` is set. The only accepted values are `OZSB_RESPONDER=fixture` and `OZSB_CREDENTIAL_MODE=development`; any other value is a startup error.
+- **Never public:** the process refuses to start when `VERCEL`, `VERCEL_ENV` or `NODE_ENV=production` is set, in either credential mode, because the fixture responder is the only responder. `OZSB_RESPONDER` accepts only `fixture`. `OZSB_CREDENTIAL_MODE` accepts `development` (the default) or `durable`; any other value is a startup error.
 
 ## Pinned clock and harness controls
 
@@ -129,3 +129,42 @@ Tests change the clock and fault through the in-process `HarnessControls.set()`,
 `QueryRequest.previous_question` is optional untrusted text: nonblank, at most 2,000 Unicode code points. Both question fields share the unchanged 16,384-byte request-body cap. It supplies one possible antecedent, never confirmed jurisdiction/stage or instructions. API deployment must precede clients that send it. Existing clients and the closed response contract remain compatible.
 
 The fixture recognises the authored complete phrases in `apps/api/fixtures/corpus.json` for Round A2 and Gympie. Compatible follow-ups recompute evidence and dates; ambiguous/missing subjects abstain with `field: "subject"`. Abstention copy distinguishes missing antecedents, multiple subjects, a known subject without evidence for that question, and an out-of-inventory round. Generic questions after these topics (or after a registered follow-up) explain the fixture's limited recognition and ask for a supported question. The browser keeps only one answer-derived preceding question in memory; **Start a new question** clears it while retaining explicit situation choices. See [ADR 003](../decisions/003-bounded-fixture-follow-ups.md) for the retry/context/reset lifecycle. This is bounded fixture matching, not general conversation understanding. Only Gympie is in the locality inventory; arbitrary locality recognition is not supported. Unregistered, non-generic paraphrases such as “What is still unknown?” after A2 receive the neutral no-evidence response; that is a fixture limitation, not a continuity pass.
+
+## Durable credential registry (Postgres)
+
+`OZSB_CREDENTIAL_MODE=durable` checks keys against a Postgres database instead of the development file (issue 98; API04, API05). It is plain SQL through `pg`, so a local Postgres, Supabase or Neon all work. Nothing hosted is needed to build or test it, and no hosted database has been provisioned.
+
+```bash
+export OZSB_DATABASE_URL=postgres://user:password@host:5432/db   # a secret: keep it out of the repository
+npm run keys -- migrate                                          # creates the two tables, once
+npm run keys -- issue --consumer website                         # prints the raw key once; stores only its SHA-256 digest
+OZSB_CREDENTIAL_MODE=durable npm run api:start
+```
+
+| Command | What it does |
+| --- | --- |
+| `npm run keys -- issue --consumer <id> [--scopes a,b] [--expires <instant>]` | New consumer and its first key. A consumer ID is never reused. |
+| `npm run keys -- rotate --consumer <id>` | A second key for the same consumer, with the same scopes. Both keys work and share one allowance. |
+| `npm run keys -- revoke-key --key <key_id>` | Revokes one key. Its next request gets the generic `401`. |
+| `npm run keys -- revoke-consumer --consumer <id>` | Revokes a consumer and every key it holds. Other consumers are untouched. |
+| `npm run keys -- list` | Key IDs, consumers, scopes and dates. No digests, no keys. |
+
+Rotation is three steps: `rotate`, switch the consumer to the new key, then `revoke-key` on the old one.
+
+Behaviour to rely on:
+
+- **State is read on every request.** There is no cache of a successful check, so revocation takes effect on the next request without a restart. Any recorded revocation counts at once; it does not depend on the server's clock.
+- **Fails closed.** If the database cannot be reached, no caller is authenticated. `POST /v1/queries` answers `503 dependency_unavailable` with `Retry-After`; `GET /v1/capabilities` and `GET /v1/sources/{id}` answer the generic `500`, because the frozen v1 contract does not document `503` for them. Neither response names the database. `/health/live` stays up.
+- **Startup does not need the database.** The pool connects on first use; an unreachable database is logged at startup and refuses requests until it returns.
+- **Refused combinations.** `durable` without `OZSB_DATABASE_URL`, `durable` together with `OZSB_DEV_KEYS` or `OZSB_DEV_KEYS_FILE`, and `OZSB_DATABASE_URL` without `durable` are startup errors. Messages name the variable and never print the URL.
+- `OZSB_DATABASE_SCHEMA` (optional) selects a schema other than the connection's default. It is sent as a startup option and needs a direct connection; leave it unset behind a transaction-mode pooler. This has not been tried against a hosted database yet.
+- The budget store is still `in_process_development` in both modes. Durable budgets are issue 99.
+
+Tests for this mode need a Postgres they may create schemas in:
+
+```bash
+OZSB_TEST_DATABASE_URL=postgres://user@127.0.0.1:5432/ozsb_test npm test -w @ozsb/api
+```
+
+Without the variable those suites are skipped with a printed warning. CI sets `OZSB_REQUIRE_POSTGRES=1`, which makes a missing database a failure.
+

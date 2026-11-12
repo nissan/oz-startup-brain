@@ -56,18 +56,18 @@ describe('development key registry', () => {
     expect(JSON.stringify(record)).not.toContain(rawKey.slice(-43));
     expect(record.digest_sha256).toMatch(/^[0-9a-f]{64}$/);
     const registry = new DevKeyRegistry(parseRegistry(JSON.stringify([record])));
-    expect(registry.verify(rawKey)?.consumerId).toBe('consumer-a');
-    expect(registry.verify(rawKey.slice(0, -1) + (rawKey.endsWith('A') ? 'B' : 'A'))).toBeNull();
-    expect(registry.verify(undefined)).toBeNull();
+    expect(registry.verifySync(rawKey)?.consumerId).toBe('consumer-a');
+    expect(registry.verifySync(rawKey.slice(0, -1) + (rawKey.endsWith('A') ? 'B' : 'A'))).toBeNull();
+    expect(registry.verifySync(undefined)).toBeNull();
   });
 
   it('treats expiry and revocation as of the wall clock', () => {
     const { rawKey, record } = issueKey('consumer-b', ['query:execute'], new Date('2026-01-01T00:00:00Z'), '2026-06-01T00:00:00Z');
     const registry = new DevKeyRegistry([record]);
-    expect(registry.verify(rawKey, new Date('2026-05-31T00:00:00Z'))).not.toBeNull();
-    expect(registry.verify(rawKey, new Date('2026-06-01T00:00:00Z'))).toBeNull();
+    expect(registry.verifySync(rawKey, new Date('2026-05-31T00:00:00Z'))).not.toBeNull();
+    expect(registry.verifySync(rawKey, new Date('2026-06-01T00:00:00Z'))).toBeNull();
     const revoked = new DevKeyRegistry([{ ...record, expires_at: null, revoked_at: '2026-04-01T00:00:00Z' }]);
-    expect(revoked.verify(rawKey, new Date('2026-03-31T00:00:00Z'))).not.toBeNull();
-    expect(revoked.verify(rawKey, new Date('2026-04-01T00:00:00Z'))).toBeNull();
+    expect(revoked.verifySync(rawKey, new Date('2026-03-31T00:00:00Z'))).not.toBeNull();
+    expect(revoked.verifySync(rawKey, new Date('2026-04-01T00:00:00Z'))).toBeNull();
   });
 });

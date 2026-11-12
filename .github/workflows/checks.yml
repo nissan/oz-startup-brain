@@ -83,6 +83,26 @@ jobs:
   fixture-api:
     name: Fixture API, contracts and generated client (slice 1A-0)
     runs-on: ubuntu-latest
+    # A throwaway Postgres for the durable credential registry tests (issue 98). It exists only for
+    # this job; no hosted database is involved.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ozsb
+          POSTGRES_PASSWORD: ci-only-not-a-secret
+          POSTGRES_DB: ozsb_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ozsb -d ozsb_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      OZSB_TEST_DATABASE_URL: postgres://ozsb:ci-only-not-a-secret@127.0.0.1:5432/ozsb_test
+      # Makes a missing database a failure, so the Postgres suites cannot pass by being skipped.
+      OZSB_REQUIRE_POSTGRES: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

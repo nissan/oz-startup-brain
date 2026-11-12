@@ -17,6 +17,8 @@ export class ApiError extends Error {
 }
 
 export const unauthenticated = () => new ApiError(401, 'unauthenticated', 'A valid API key is required.');
+/** The credential registry could not be read. Deliberately vague: no dependency, host or cause is named. */
+export const registryUnavailable = () => new ApiError(503, 'dependency_unavailable', 'The service cannot check credentials right now. Try again shortly.', 5);
 export const insufficientScope = () => new ApiError(403, 'insufficient_scope', 'This API key is not permitted to use this operation.');
 
 function fromHttpException(e: HttpException): ApiError {

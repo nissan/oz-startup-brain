@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Logger, Module, type DynamicModule, type LoggerService } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
-import { DevKeyRegistry } from './auth/dev-keys';
+import { CREDENTIAL_REGISTRY } from './auth/registry';
 import { ApiRuntime } from './runtime';
 import { AuthGuard } from './http/auth.guard';
 import { HealthController, V1Controller } from './http/controllers';
@@ -18,7 +18,7 @@ export function apiModule(runtime: ApiRuntime): DynamicModule {
     controllers: [HealthController, V1Controller],
     providers: [
       { provide: ApiRuntime, useValue: runtime },
-      { provide: DevKeyRegistry, useValue: runtime.registry },
+      { provide: CREDENTIAL_REGISTRY, useValue: runtime.registry },
       { provide: APP_GUARD, useClass: AuthGuard },
       { provide: APP_FILTER, useClass: ApiErrorFilter },
     ],

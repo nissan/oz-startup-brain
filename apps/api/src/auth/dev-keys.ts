@@ -1,4 +1,5 @@
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto';
+import type { CredentialRegistry } from './registry';
 
 export const SCOPES = ['query:execute', 'sources:read', 'capabilities:read'] as const;
 export type Scope = (typeof SCOPES)[number];
@@ -23,7 +24,7 @@ export interface Identity {
   scopes: ReadonlySet<Scope>;
 }
 
-const KEY_PATTERN = /^ozsb_([a-z0-9]{8,32})_([A-Za-z0-9_-]{43})$/;
+export const KEY_PATTERN = /^ozsb_([a-z0-9]{8,32})_([A-Za-z0-9_-]{43})$/;
 const RAW_KEY_ANYWHERE = /ozsb_[a-z0-9]{8,32}_[A-Za-z0-9_-]{43}/;
 
 export function digest(rawKey: string): Buffer {
@@ -92,7 +93,8 @@ const DUMMY_DIGEST = Buffer.alloc(32);
  * SHA-256 digests in constant time. Every failure reason returns the same null, so callers can only
  * produce the generic 401 (ADR 001).
  */
-export class DevKeyRegistry {
+export class DevKeyRegistry implements CredentialRegistry {
+  readonly kind = 'development' as const;
   private readonly byId: Map<string, { record: DevKeyRecord; digest: Buffer }>;
 
   constructor(records: DevKeyRecord[]) {
@@ -103,7 +105,20 @@ export class DevKeyRegistry {
     return this.byId.size;
   }
 
-  verify(rawKey: string | undefined, now: Date = new Date()): Identity | null {
+  /** The port is asynchronous; this adapter answers from memory. */
+  verify(rawKey: string | undefined, now: Date = new Date()): Promise<Identity | null> {
+    return Promise.resolve(this.verifySync(rawKey, now));
+  }
+
+  describe(): Promise<string> {
+    return Promise.resolve(`${this.size} key(s)`);
+  }
+
+  close(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  verifySync(rawKey: string | undefined, now: Date = new Date()): Identity | null {
     if (typeof rawKey !== 'string') return null;
     const m = KEY_PATTERN.exec(rawKey);
     const entry = m ? this.byId.get(m[1]) : undefined;
