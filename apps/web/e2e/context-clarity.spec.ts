@@ -33,6 +33,11 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(situation.locator('.context-guidance')).toContainText(
       '“Not set” may be asked once; “Unknown” is a saved answer.',
     );
+    // Owner decision, 11 November 2026: the approved SB1 non-inference statement covers
+    // personal status as well as IP (docs/ux/sb1-student.svg).
+    await expect(situation.locator('.context-guidance')).toContainText(
+      'Personal status and IP ownership are never assumed.',
+    );
     const stage = situation.getByRole('button', { name: 'Stage: Not set. Edit' });
     await expect(stage).toBeVisible();
     await expect(situation.getByRole('button', { name: 'Jurisdiction: Not set. Edit' })).toBeVisible();

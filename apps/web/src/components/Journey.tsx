@@ -333,7 +333,7 @@ export function Journey() {
         </div>
         <p className="context-guidance" data-testid="context-guidance">
           <strong>Your question and confirmed situation are separate.</strong>{' '}
-          A town or prototype in your question won&apos;t fill these chips. Select Stage or Jurisdiction to confirm a detail. &ldquo;Not set&rdquo; may be asked once; &ldquo;Unknown&rdquo; is a saved answer. IP ownership is never assumed.
+          A town or prototype in your question won&apos;t fill these chips. Select Stage or Jurisdiction to confirm a detail. &ldquo;Not set&rdquo; may be asked once; &ldquo;Unknown&rdquo; is a saved answer. Personal status and IP ownership are never assumed.
         </p>
         {editing === 'jurisdiction' ? (
           <ContextEditor<Jurisdiction>
