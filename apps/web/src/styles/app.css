@@ -36,6 +36,8 @@ a:hover { color: var(--ink); }
 
 /* Context */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.context-guidance { margin: 0; max-width: 688px; padding: 4px 0 4px 12px; border-left: 2px solid var(--border-strong); color: var(--ink-muted); font-size: 14px; line-height: 20px; overflow-wrap: anywhere; }
+.context-guidance strong { color: var(--ink); font-weight: 700; }
 .context-editor { display: grid; gap: 8px; padding: 16px; border: 1px solid var(--hairline); border-radius: var(--radius-lg); background: var(--paper-raised); max-width: 688px; }
 .context-editor__legend { font-size: 15px; line-height: 20px; font-weight: 700; padding: 0; }
 .context-editor__options { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -76,6 +78,11 @@ a:hover { color: var(--ink); }
 .conditions { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; max-width: 688px; }
 .conditions__item { display: grid; gap: 2px; padding: 12px 16px; border-left: 3px solid var(--ochre); background: var(--paper-raised); border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: 15px; line-height: 22px; }
 .conditions__heading { font-weight: 700; font-size: 14px; line-height: 20px; color: var(--ochre); }
+.conditions__item--future { border-left-color: var(--border-strong); }
+.conditions__qualifications { margin: 4px 0 0; padding-left: 20px; display: grid; gap: 2px; color: var(--ink-muted); }
+.claims__kind { font-size: 13px; line-height: 18px; font-weight: 700; letter-spacing: 0.02em; color: var(--ink-muted); }
+.claims__item--editorial { border-style: dashed; }
+.evidence-panel__source--passage-below .osb-source__excerpt { display: none; }
 .stale { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 10px 14px; border: 1px dashed var(--border-strong); border-radius: var(--radius-md); background: var(--grey-tint); font-size: 15px; line-height: 20px; }
 .stale strong { color: var(--ochre); }
 .footer-line { display: flex; flex-wrap: wrap; gap: 8px 16px; padding-top: 16px; border-top: 1px solid var(--hairline); font-family: var(--font-mono); font-size: 14px; line-height: 20px; color: var(--ink-muted); }
@@ -108,3 +115,7 @@ a:hover { color: var(--ink); }
 .terms-help[open] > summary { margin-bottom: 8px; }
 .terms-help > .section { padding-bottom: 12px; }
 .terms-help p { margin: 0; }
+.export { padding-top: 16px; border-top: 1px solid var(--hairline); max-width: 688px; }
+.export__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.export__row .osb-btn { min-height: 44px; flex: none; }
+.export__row .section__caption { margin: 0; flex: 1 1 260px; }

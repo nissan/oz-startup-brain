@@ -13,7 +13,8 @@ import {
   StatusNotice,
 } from '@/design-system/generated/bundle';
 import {
-  CONDITION_HEADINGS,
+  conditionGroups,
+  type ConditionView,
   JURISDICTIONS,
   STAGES,
   STARTERS,
@@ -31,6 +32,7 @@ import {
   type Jurisdiction,
   type Stage,
 } from '@/lib/present';
+import { checklistFileName, renderChecklist } from '@/lib/export';
 import { ContextEditor } from './ContextEditor';
 import { EvidencePanel } from './EvidencePanel';
 import { ThemeToggle } from './ThemeToggle';
@@ -79,6 +81,40 @@ async function bff<T>(path: string, init?: RequestInit): Promise<{ ok: true; dat
  * the last answer, which step's evidence is open) and never decides freshness, applicability,
  * clarification or coverage itself.
  */
+/** SC09: the export is rendered in the browser from the envelope already on the page; nothing is sent anywhere. */
+function downloadChecklist(result: { envelope: Envelope; question: string }) {
+  const blob = new Blob([renderChecklist({ envelope: result.envelope, question: result.question })], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = checklistFileName(result.envelope);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function ConditionList({ items, future = false }: { items: ConditionView[]; future?: boolean }) {
+  return (
+    <ul className="conditions">
+      {items.map((c) => (
+        <li key={c.id} className={future ? 'conditions__item conditions__item--future' : 'conditions__item'}>
+          {/* The future group's own heading already says when; repeating it per item is noise (#73). */}
+          {future ? null : <span className="conditions__heading">{c.heading}</span>}
+          <span>{c.lead}</span>
+          {c.qualifications.length ? (
+            <ul className="conditions__qualifications">
+              {c.qualifications.map((q) => (
+                <li key={q}>{q}</li>
+              ))}
+            </ul>
+          ) : null}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function Journey() {
   const [caps, setCaps] = useState<Capabilities | null>(null);
   const [capsFailed, setCapsFailed] = useState(false);
@@ -202,6 +238,7 @@ export function Journey() {
   const stale = !!result && !pending && (!!failure || contextMismatch);
   const service = envelope ? serviceStatus(envelope) : null;
   const nodes = envelope ? sequenceNodes(envelope) : null;
+  const conditions = conditionGroups(envelope?.unresolved_conditions ?? []);
   const supportedTasks = caps?.supported_tasks ?? (['next_step', 'round_status', 'requirements_today'] as const);
 
   const saveContext = (patch: Context) => {
@@ -331,8 +368,9 @@ export function Journey() {
           <ContextChip label="Jurisdiction" value={context.jurisdiction === undefined ? 'Not set' : jurisdictionLabel(context.jurisdiction)} unknown={context.jurisdiction === 'unknown'} onEdit={() => setEditing(editing === 'jurisdiction' ? null : 'jurisdiction')} />
           <ContextChip label="Stage" value={context.stage === undefined ? 'Not set' : stageLabel(context.stage)} unknown={context.stage === 'unknown'} onEdit={() => setEditing(editing === 'stage' ? null : 'stage')} />
         </div>
-        <p className="section__caption">
-          Unknown is a valid answer and is never asked about twice. A field that is not set may be asked about once. The planner never assumes personal status or IP rights.
+        <p className="context-guidance" data-testid="context-guidance">
+          <strong>Your question and confirmed situation are separate.</strong>{' '}
+          A town or prototype in your question won&apos;t fill these chips. Select Stage or Jurisdiction to confirm a detail. &ldquo;Not set&rdquo; may be asked once; &ldquo;Unknown&rdquo; is a saved answer. Personal status and IP ownership are never assumed.
         </p>
         {editing === 'jurisdiction' ? (
           <ContextEditor<Jurisdiction>
@@ -479,19 +517,36 @@ export function Journey() {
                   <p><strong>Matched contribution</strong> means funding or other resources an applicant may need to provide alongside support. Whether it applies, what qualifies and how much are not established here; check the relevant guidelines.</p>
                 </div>
               </details>
-              {envelope.unresolved_conditions.length ? (
+              {conditions.unresolved.length ? (
                 <section className="section" aria-labelledby="conditions-heading">
                   <h3 id="conditions-heading" className="section__title" style={{ fontSize: 17, lineHeight: '24px' }}>
                     What the planner could not resolve
                   </h3>
-                  <ul className="conditions">
-                    {envelope.unresolved_conditions.map((c) => (
-                      <li key={c.condition_id} className="conditions__item">
-                        <span className="conditions__heading">{CONDITION_HEADINGS[c.reason]}</span>
-                        <span>{c.text}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <ConditionList items={conditions.unresolved} />
+                </section>
+              ) : null}
+              {conditions.future.length ? (
+                <section className="section" aria-labelledby="future-conditions-heading">
+                  <h3 id="future-conditions-heading" className="section__title" style={{ fontSize: 17, lineHeight: '24px' }}>
+                    Takes effect later
+                  </h3>
+                  <p className="section__caption">Stated and dated by the source, and kept apart from today&rsquo;s steps.</p>
+                  <ConditionList items={conditions.future} future />
+                </section>
+              ) : null}
+              {result ? (
+                <section className="section export" aria-labelledby="export-heading">
+                  <h3 id="export-heading" className="section__title" style={{ fontSize: 17, lineHeight: '24px' }}>
+                    Keep this answer
+                  </h3>
+                  <div className="export__row">
+                    <Button variant="secondary" onClick={() => downloadChecklist(result)}>
+                      Export checklist
+                    </Button>
+                    <p className="section__caption">
+                      A text file with these steps, their sources and dates, and what is still open. It is not an application or an approval.
+                    </p>
+                  </div>
                 </section>
               ) : null}
             </div>

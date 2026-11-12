@@ -57,7 +57,9 @@ jobs:
 
   design-exports:
     name: Design token and renderer checks
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest moved to 26.04 on 11 November 2026 and the pinned Playwright 1.51
+    # refuses to install Chromium there. Unpin together with a deliberate Playwright upgrade.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -105,7 +107,9 @@ jobs:
 
   founder-ui:
     name: "Founder journey UI (slice 1A-UI): build, BFF boundary tests and browser tests"
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest moved to 26.04 on 11 November 2026 and the pinned Playwright 1.51
+    # refuses to install Chromium there. Unpin together with a deliberate Playwright upgrade.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -141,6 +145,30 @@ jobs:
             apps/web/test-results/shots/*-fault-graph-light.png
             apps/web/test-results/shots/*-fault-vector-light.png
             apps/web/test-results/shots/*-fault-budget-dark.png
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Retain structured-context clarity captures for visual review (#72)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-context72-${{ github.sha }}
+          path: apps/web/test-results/shots/*-context72-*.png
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Retain dated-suggestion and phone-evidence captures for review (#73)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-dated73-${{ github.sha }}
+          path: apps/web/test-results/shots/*-dated73-*.png
+          retention-days: 90
+          if-no-files-found: warn
+      - name: Retain checklist-export captures for review (#10)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-export10-${{ github.sha }}
+          path: apps/web/test-results/shots/*-export10-*.png
           retention-days: 90
           if-no-files-found: warn
       - uses: actions/setup-python@v5

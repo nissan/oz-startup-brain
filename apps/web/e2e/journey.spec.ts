@@ -89,11 +89,13 @@ test.describe('journey', () => {
   test('future-effective requirement is dated and excluded; closed round abstains; stale evidence is never current', async ({ page }) => {
     await open(page, WEB.fixture, 'dark');
     await ask(page, 'What does round A2 require today?');
-    const futureConditions = page.locator('.conditions__item').filter({ hasText: 'Takes effect later' });
-    await expect(futureConditions).toHaveCount(2);
-    await expect(futureConditions).toContainText([
-      /Takes effect from 1 December 2026: .* It is not a requirement or action today\./,
-      /Takes effect from 1 December 2026: .* It is not a prerequisite today\./,
+    // #73: the twice-stated future condition is shown once; both closing qualifications are kept.
+    const futureConditions = page.getByRole('region', { name: 'Takes effect later' }).locator('.conditions__item');
+    await expect(futureConditions).toHaveCount(1);
+    await expect(futureConditions).toContainText(/Takes effect from 1 December 2026: .*security assessment/);
+    await expect(futureConditions.locator('.conditions__qualifications li')).toHaveText([
+      'It is not a requirement or action today.',
+      'It is not a prerequisite today.',
     ]);
     await expect(page.getByRole('heading', { name: /security assessment/ })).toHaveCount(0);
     await expect(page.locator('.osb-map__list')).not.toContainText(/security assessment/i);
@@ -158,7 +160,8 @@ test.describe('keyboard', () => {
     // the opened card, so that is the same button; on wide screens the aside follows the editorial terms help.
     await page.keyboard.press('Shift+Tab');
     const width = page.viewportSize()!.width;
-    const previous = width < 880 ? inspect : page.locator('.terms-help > summary');
+    // On wide screens the control before the evidence aside is the last one in the main column: the checklist export (#10).
+    const previous = width < 880 ? inspect : page.getByRole('button', { name: 'Export checklist' });
     await expect(previous).toBeFocused();
   });
 });
@@ -521,7 +524,7 @@ test.describe('issue 46 plain-language evidence help (primed regression)', () =>
     await expect(sequence).toContainText('A suggested preparation step helps you get ready; its place in this list is not an extra eligibility rule.');
     await expect(sequence).toContainText('For example, customer-interest evidence can appear in both: the requirement is to have it, and the preparation step is to gather it. That overlap is not a source disagreement.');
     await expect(sequence.locator('.osb-map__list')).toContainText('Suggested next step');
-    await expect(page.locator('.conditions')).toContainText('1 December 2026');
+    await expect(page.getByRole('region', { name: 'Takes effect later' }).locator('.conditions')).toContainText('1 December 2026');
     await page.getByRole('button', { name: /Show evidence for step 1:/ }).click();
     await expect(page.locator('#evidence-heading-step')).toBeFocused();
     await expect(page.locator('.evidence-panel--step blockquote').first()).toBeVisible();

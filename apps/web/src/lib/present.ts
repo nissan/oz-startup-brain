@@ -125,6 +125,82 @@ export const APPLICABILITY_WORDS: Record<Claim['applicability'], string> = {
   unverified: EVIDENCE_STATE_WORDS['needs-check'],
 };
 
+export type Condition = S['UnresolvedCondition'];
+
+export interface ConditionView {
+  id: string;
+  reason: Condition['reason'];
+  heading: string;
+  /** The statement, shown once. */
+  lead: string;
+  /** Distinct closing qualifications of conditions that otherwise say the same thing; none are dropped. */
+  qualifications: string[];
+}
+
+const sentences = (text: string): string[] => text.trim().split(/(?<=[.!?])\s+/);
+
+/**
+ * Presentation only (#73): conditions that share a reason and every sentence but the last are
+ * shown as one statement followed by each distinct closing qualification, so a founder does not
+ * read the same dated condition twice. Nothing is removed and no condition is re-judged.
+ */
+export function conditionViews(conditions: Condition[]): ConditionView[] {
+  const out: (ConditionView & { stem: string | null })[] = [];
+  for (const c of conditions) {
+    const parts = sentences(c.text);
+    const stem = parts.length > 1 ? parts.slice(0, -1).join(' ') : null;
+    const tail = parts[parts.length - 1];
+    const twin = stem === null ? undefined : out.find((o) => o.reason === c.reason && o.stem === stem);
+    if (twin) {
+      if (!twin.qualifications.length) {
+        // First merge: move the twin's own closing sentence out of its lead.
+        const own = sentences(twin.lead);
+        twin.qualifications.push(own[own.length - 1]);
+        twin.lead = stem!;
+      }
+      if (!twin.qualifications.includes(tail)) twin.qualifications.push(tail);
+    } else {
+      out.push({ id: c.condition_id, reason: c.reason, heading: CONDITION_HEADINGS[c.reason], lead: c.text, qualifications: [], stem });
+    }
+  }
+  return out.map(({ stem: _stem, ...view }) => view);
+}
+
+/**
+ * A known future condition is dated and stated by a source; it is not something the planner
+ * failed to resolve, so it is listed under its own heading (#73).
+ */
+export function conditionGroups(conditions: Condition[]): { unresolved: ConditionView[]; future: ConditionView[] } {
+  const views = conditionViews(conditions);
+  return { unresolved: views.filter((v) => v.reason !== 'future_effective'), future: views.filter((v) => v.reason === 'future_effective') };
+}
+
+/**
+ * True when a source excerpt (possibly truncated with an ellipsis) only repeats the opening of a
+ * claim that the evidence panel prints in full directly below it.
+ */
+export function excerptRepeatsClaim(excerpt: string | null | undefined, claimTexts: string[]): boolean {
+  if (!excerpt) return false;
+  const norm = (t: string) => t.replace(/\s+/g, ' ').trim();
+  const head = norm(excerpt).replace(/(…|\.\.\.)$/, '').trim();
+  if (head.length < 40) return false;
+  return claimTexts.some((t) => norm(t).startsWith(head));
+}
+
+/** How a claim's kind and timing read in the evidence panel: the kind first, so a suggestion is never taken for a rule. */
+export function claimKindView(claim: Claim): { kind: string; timing: string; note: string } {
+  const timing = claim.qualifier_text ?? APPLICABILITY_WORDS[claim.applicability];
+  if (claim.assertion_kind === 'editorial') {
+    return {
+      kind: 'Suggested preparation',
+      // A current editorial suggestion is guidance, not a rule "in effect"; other timings keep the API's word.
+      timing: claim.applicability === 'current' && !claim.qualifier_text ? 'Editorial guidance' : timing,
+      note: 'editorial sequencing, not a source requirement',
+    };
+  }
+  return { kind: 'Stated by the source', timing, note: '' };
+}
+
 /** The service condition to announce with StatusNotice, if any. Evidence and coverage warnings are not service states. */
 export function serviceStatus(envelope: Envelope): { status: 'graph-degraded'; detail?: string } | null {
   const w = envelope.warnings.find((x) => x.kind === 'service' && x.code === 'graph_unavailable');
