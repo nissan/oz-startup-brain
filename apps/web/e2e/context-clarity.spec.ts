@@ -67,7 +67,14 @@ for (const theme of ['light', 'dark'] as const) {
     await expect(situation.getByRole('button', { name: 'Stage: Working prototype. Edit' })).toBeVisible();
     await expect(draft).toHaveValue(question);
 
-    await situation.getByRole('button', { name: 'Jurisdiction: Not set. Edit' }).focus();
+    // Saving a detail re-asks the active question, and the new answer takes focus when it lands.
+    // Wait for that before the next key press, or Enter can reach the results heading instead of
+    // the chip (the cause of the hosted failures at 7d5392a and of review note L3).
+    await expect(page.locator('.results__main .section__caption').first()).toContainText('Stage: Working prototype');
+    await expect(page.locator('#results-heading')).toBeFocused();
+    const jurisdiction = situation.getByRole('button', { name: 'Jurisdiction: Not set. Edit' });
+    await jurisdiction.focus();
+    await expect(jurisdiction).toBeFocused();
     await page.keyboard.press('Enter');
     const unknown = situation.getByRole('radio', { name: 'Unknown', exact: true });
     await unknown.focus();
