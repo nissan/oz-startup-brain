@@ -32,6 +32,7 @@ import {
   type Jurisdiction,
   type Stage,
 } from '@/lib/present';
+import { checklistFileName, renderChecklist } from '@/lib/export';
 import { ContextEditor } from './ContextEditor';
 import { EvidencePanel } from './EvidencePanel';
 import { ThemeToggle } from './ThemeToggle';
@@ -80,6 +81,19 @@ async function bff<T>(path: string, init?: RequestInit): Promise<{ ok: true; dat
  * the last answer, which step's evidence is open) and never decides freshness, applicability,
  * clarification or coverage itself.
  */
+/** SC09: the export is rendered in the browser from the envelope already on the page; nothing is sent anywhere. */
+function downloadChecklist(result: { envelope: Envelope; question: string }) {
+  const blob = new Blob([renderChecklist({ envelope: result.envelope, question: result.question })], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = checklistFileName(result.envelope);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 function ConditionList({ items, future = false }: { items: ConditionView[]; future?: boolean }) {
   return (
     <ul className="conditions">
@@ -518,6 +532,21 @@ export function Journey() {
                   </h3>
                   <p className="section__caption">Stated and dated by the source, and kept apart from today&rsquo;s steps.</p>
                   <ConditionList items={conditions.future} future />
+                </section>
+              ) : null}
+              {result ? (
+                <section className="section export" aria-labelledby="export-heading">
+                  <h3 id="export-heading" className="section__title" style={{ fontSize: 17, lineHeight: '24px' }}>
+                    Keep this answer
+                  </h3>
+                  <div className="export__row">
+                    <Button variant="secondary" onClick={() => downloadChecklist(result)}>
+                      Export checklist
+                    </Button>
+                    <p className="section__caption">
+                      A text file with these steps, their sources and dates, and what is still open. It is not an application or an approval.
+                    </p>
+                  </div>
                 </section>
               ) : null}
             </div>
