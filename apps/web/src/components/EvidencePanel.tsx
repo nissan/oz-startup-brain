@@ -2,7 +2,7 @@
 import { forwardRef } from 'react';
 import type { components } from '@ozsb/api-client';
 import { Button, SourcePanel } from '@/design-system/generated/bundle';
-import { APPLICABILITY_WORDS, claimsFor, longDate, type Envelope } from '@/lib/present';
+import { claimKindView, claimsFor, excerptRepeatsClaim, longDate, type Envelope } from '@/lib/present';
 
 type SourceRecord = components['schemas']['SourceRecord'];
 
@@ -60,8 +60,11 @@ export const EvidencePanel = forwardRef<HTMLHeadingElement, Props>(function Evid
       {panels.length ? (
         panels.map(({ citation, claim }) => {
           const record = sources[citation.source_id];
+          const excerpt = record && record !== 'unavailable' && record.excerpt ? record.excerpt : undefined;
+          // The claim list below prints this passage in full, so the truncated copy is not shown twice (#73).
+          const repeated = excerptRepeatsClaim(excerpt, claims.map((c) => c.claim.text));
           return (
-            <div key={citation.source_id} className="evidence-panel__source" data-source-id={citation.source_id}>
+            <div key={citation.source_id} className={repeated ? 'evidence-panel__source evidence-panel__source--passage-below' : 'evidence-panel__source'} data-source-id={citation.source_id}>
               <SourcePanel
                 title={citation.title}
                 publisher={citation.publisher}
@@ -70,8 +73,9 @@ export const EvidencePanel = forwardRef<HTMLHeadingElement, Props>(function Evid
                 verifiedAt={longDate(citation.last_verified_at) ?? null}
                 state={claim.evidence_state}
                 effectiveFrom={claim.qualifier === 'takes_effect_from' ? claim.qualifier_text ?? undefined : undefined}
-                excerpt={record && record !== 'unavailable' && record.excerpt ? record.excerpt : undefined}
+                excerpt={excerpt}
               />
+              {repeated ? <p className="section__caption">The source passage is shown in full under &ldquo;What this rests on&rdquo;.</p> : null}
               {record === null || record === undefined ? (
                 <p className="section__caption" role="status">
                   Loading the source record…
@@ -92,18 +96,22 @@ export const EvidencePanel = forwardRef<HTMLHeadingElement, Props>(function Evid
         What this rests on
       </h3>
       <ol className="claims">
-        {claims.map(({ claim, citation }) => (
-          <li key={claim.claim_id} className="claims__item">
-            <span>{claim.text}</span>
-            <span className="claims__meta">
-              <span className="claims__qualifier">{claim.qualifier_text ?? APPLICABILITY_WORDS[claim.applicability]}</span>
-              {claim.valid_from ? <span>from {longDate(claim.valid_from)}</span> : null}
-              {claim.valid_to ? <span>until {longDate(claim.valid_to)}</span> : null}
-              <span>{claim.assertion_kind === 'editorial' ? 'editorial sequencing' : 'stated by the source'}</span>
-              {citation ? <span>{citation.publisher}</span> : null}
-            </span>
-          </li>
-        ))}
+        {claims.map(({ claim, citation }) => {
+          const view = claimKindView(claim);
+          return (
+            <li key={claim.claim_id} className={claim.assertion_kind === 'editorial' ? 'claims__item claims__item--editorial' : 'claims__item'}>
+              <span className="claims__kind">{view.kind}</span>
+              <span>{claim.text}</span>
+              <span className="claims__meta">
+                <span className="claims__qualifier">{view.timing}</span>
+                {claim.valid_from ? <span>from {longDate(claim.valid_from)}</span> : null}
+                {claim.valid_to ? <span>until {longDate(claim.valid_to)}</span> : null}
+                {view.note ? <span>{view.note}</span> : null}
+                {citation ? <span>{citation.publisher}</span> : null}
+              </span>
+            </li>
+          );
+        })}
       </ol>
     </section>
   );
