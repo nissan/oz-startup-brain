@@ -147,6 +147,14 @@ jobs:
             apps/web/test-results/shots/*-fault-budget-dark.png
           retention-days: 90
           if-no-files-found: warn
+      - name: Retain structured-context clarity captures for visual review (#72)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-context72-${{ github.sha }}
+          path: apps/web/test-results/shots/*-context72-*.png
+          retention-days: 90
+          if-no-files-found: warn
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

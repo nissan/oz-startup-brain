@@ -36,6 +36,8 @@ a:hover { color: var(--ink); }
 
 /* Context */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.context-guidance { margin: 0; max-width: 688px; padding: 4px 0 4px 12px; border-left: 2px solid var(--border-strong); color: var(--ink-muted); font-size: 14px; line-height: 20px; overflow-wrap: anywhere; }
+.context-guidance strong { color: var(--ink); font-weight: 700; }
 .context-editor { display: grid; gap: 8px; padding: 16px; border: 1px solid var(--hairline); border-radius: var(--radius-lg); background: var(--paper-raised); max-width: 688px; }
 .context-editor__legend { font-size: 15px; line-height: 20px; font-weight: 700; padding: 0; }
 .context-editor__options { display: flex; flex-wrap: wrap; gap: 8px; }
