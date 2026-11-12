@@ -16,3 +16,7 @@ evaluation/runs/
 dist/
 coverage/
 .ozsb/
+
+# Stageshow skill: installed locally, never committed (docs/agent-settings/STAGESHOW.md)
+.claude/skills/stageshow/
+.claude/skills/.stageshow-*/

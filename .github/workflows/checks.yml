@@ -57,7 +57,9 @@ jobs:
 
   design-exports:
     name: Design token and renderer checks
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest moved to 26.04 on 11 November 2026 and the pinned Playwright 1.51
+    # refuses to install Chromium there. Unpin together with a deliberate Playwright upgrade.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -105,7 +107,9 @@ jobs:
 
   founder-ui:
     name: "Founder journey UI (slice 1A-UI): build, BFF boundary tests and browser tests"
-    runs-on: ubuntu-latest
+    # Pinned: ubuntu-latest moved to 26.04 on 11 November 2026 and the pinned Playwright 1.51
+    # refuses to install Chromium there. Unpin together with a deliberate Playwright upgrade.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

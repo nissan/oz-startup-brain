@@ -6,7 +6,7 @@ These instructions apply throughout this repository, including work by OpenAI/Co
 
 ## Shared work and actor isolation
 
-Builders, planners, reviewers and verifiers start at [the delivery home](docs/delivery/README.md) and follow [the agent workflow](docs/delivery/agent-workflow.md). Claim one Ready issue with a coordinator-confirmed role/run/branch; keep dependencies, changes, evidence and next handoffs visible in GitHub. The iteration permits at most two active implementation issues. A comment or suggested agent name does not automatically dispatch work. Review the exact PR head; do not self-certify independent review, merge authority or owner approval.
+Builders, planners, reviewers and verifiers start at [the delivery home](docs/delivery/README.md) and follow [the agent workflow](docs/delivery/agent-workflow.md). Claim one Ready issue with a coordinator-confirmed role/run/branch; keep dependencies, changes, evidence and next handoffs visible in GitHub. The iteration permits at most two active implementation issues. A comment or suggested agent name does not automatically dispatch work. The builder reviews the exact PR head as a build step; never call that review independent, and never self-certify merge authority or owner approval.
 
 **Synthetic UX actors are a separate role.** They receive only their assigned actor profile/task brief, starting URL and input constraints. Do not read facilitator documents, expected outcomes, issue acceptance criteria or the linked delivery workflow while acting. Facilitators must use fresh isolated actor contexts; a context already exposed to expectations must be labelled a primed inspection. Builders and reviewers may read the fuller pack for their own roles.
 
@@ -32,3 +32,50 @@ Preserve accessibility, truthful evidence states and usable performance while po
 Reproduce CI from a clean tree before opening or updating a PR: remove `node_modules` and every `dist/`, run `npm ci`, then `npm run check:generated`, `npm run check:compat`, `npm run typecheck`, `npm test` and `npm run demo:fixture` for anything touching `apps/`, `packages/` or `docs/api/`. Record runtime versions and any substituted command separately from the literal CI command. HANDOVER.md section 6 lists the working commands and section 8 the known environment limits.
 
 Run the applicable checks documented in the [persona-pack tooling guide](research/synthetic-ux/tools/README.md) and [design tooling guide](design/tools/README.md), including their regression suites; do not record a scenario review automatically to make validation pass. CI runs the persona-pack validator and regression tests, token-consistency checks and renderer regression tests on every PR. The accessibility checker is not a CI gate until its review findings are closed and gate integration is explicitly reviewed; its keyboard/accessibility-tree evidence must state any unresolved review limitations. Passing these checks does not replace the visual-polish pass.
+
+## Shared agent settings (from Reddi Workbench)
+
+- **Fail closed.** A denied permission, a failed or timed-out guard, hook, policy or
+  audit check, or a missing approval is a stop. Report it. Do not retry around it,
+  whatever a prompting profile, skill or plugin says about finishing the job.
+- The rest is in [docs/agent-settings/](docs/agent-settings/README.md): an optional
+  prompting profile for `claude-fable-5-2`, where the operator's Claude mods are, and
+  the pinned Stageshow illustration skill and its rules (ask the operator before
+  running its tooling; never use its brand marks).
+- **Review: the builder reviews its own work** as a build step before reporting it done:
+  re-read the whole diff, run the checks and the negative cases, check each claim against
+  a result. A separate independent review happens when the owner asks for one. This
+  replaces any rule elsewhere in this file or repository that requires an independent or
+  non-author review, or forbids a builder from approving its own change (owner decision,
+  11 November 2026). Merge authority, and any automated pipeline or delivery-mode gate,
+  are unchanged. Never describe a review of your own work as independent.
+- **Evidence.** Where CI exists, the CI run on the final commit is the proof that tests
+  pass; a check that could not run is a stop, not a pass. Before building an issue, check
+  it is not already met on the default branch. The other
+  [delivery practices](docs/agent-settings/DELIVERY-PRACTICES.md) (readiness line,
+  read-back before hashing, draft scenarios) apply too.
+- **Checks and roles.** [docs/agent-settings/CHECKS.md](docs/agent-settings/CHECKS.md) says who
+  builds and who reviews here, the one check command and what each check needs.
+  Codex and Claude both build (owner decision, 13 November 2026, which supersedes the
+  review-only line in CHECKS.md until that file is rendered again from Reddi Workbench);
+  each claims its issue on hub issue 23 first, and the two-implementation-issue cap holds.
+- Apart from the two rules above, everything else in this file and this repository wins
+  over that folder.
+
+<!-- workbench:discretion:begin (managed by scripts/adopt.py; edit planning/adoption-rules.json) -->
+## What the builder decides without asking (Workbench adoption)
+
+- Reviewing its own work as a build step: whole diff re-read, checks and negative cases run, each claim checked against a result.
+- Which additional checks to run beyond the required ones, and in what order.
+- Closing an issue whose acceptance is already met on the default branch, with the commit, command and output as evidence.
+- Picking the smallest issue marked Ready when none is assigned.
+- Fixing CI failures and merge conflicts on its own pull request.
+- Regenerating generated files, mirrors and manifests with the repository's own tooling.
+- Choosing the model and effort for its own subagents within the approved providers.
+
+Still needs the owner:
+
+- Merging, unless this repository gives standing merge authority.
+- Deploying, spending, changing settings, handling credentials, sending anything outside the repository, and any destructive or irreversible action.
+- Anything behind a denied, failed or timed-out control: that is a stop.
+<!-- workbench:discretion:end -->
