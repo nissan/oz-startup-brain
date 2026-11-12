@@ -56,7 +56,9 @@ Run the applicable checks documented in the [persona-pack tooling guide](researc
   read-back before hashing, draft scenarios) apply too.
 - **Checks and roles.** [docs/agent-settings/CHECKS.md](docs/agent-settings/CHECKS.md) says who
   builds and who reviews here, the one check command and what each check needs.
-  Codex builds; Claude reviews only when dispatched and does not build here.
+  Codex and Claude both build (owner decision, 13 November 2026, which supersedes the
+  review-only line in CHECKS.md until that file is rendered again from Reddi Workbench);
+  each claims its issue on hub issue 23 first, and the two-implementation-issue cap holds.
 - Apart from the two rules above, everything else in this file and this repository wins
   over that folder.
 
