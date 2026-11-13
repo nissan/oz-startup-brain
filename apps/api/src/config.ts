@@ -32,6 +32,10 @@ export interface ApiConfig {
   dailyQueryAllowance: number;
   maxConcurrentQueries: number;
   leaseMs: number;
+  /** Durable budget only: how long a reservation may stay open before it is settled at the reserved amount. Never shorter than the lease. */
+  reconcileMs: number;
+  /** Durable budget only: a cap across all consumers for the UTC day, or null for none. */
+  globalDailyAllowance: number | null;
   maxQuestionChars: number;
   maxRequestBytes: number;
   harness: HarnessConfig;
@@ -44,6 +48,7 @@ export const DEFAULTS = {
   dailyQueryAllowance: 500,
   maxConcurrentQueries: 4,
   leaseMs: 30_000,
+  reconcileMs: 120_000,
   maxQuestionChars: 2000,
   maxRequestBytes: 16_384,
 } as const;
@@ -158,6 +163,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, cwd = repoRoot(
     dailyQueryAllowance: int(env, 'OZSB_DAILY_QUERY_ALLOWANCE', DEFAULTS.dailyQueryAllowance, 0, 1_000_000),
     maxConcurrentQueries: int(env, 'OZSB_MAX_CONCURRENT_QUERIES', DEFAULTS.maxConcurrentQueries, 1, 64),
     leaseMs: DEFAULTS.leaseMs,
+    reconcileMs: int(env, 'OZSB_RECONCILE_MS', DEFAULTS.reconcileMs, DEFAULTS.leaseMs, 86_400_000),
+    globalDailyAllowance: env.OZSB_GLOBAL_DAILY_ALLOWANCE === undefined ? null : int(env, 'OZSB_GLOBAL_DAILY_ALLOWANCE', 0, 0, 100_000_000),
     maxQuestionChars: DEFAULTS.maxQuestionChars,
     maxRequestBytes: DEFAULTS.maxRequestBytes,
     harness,

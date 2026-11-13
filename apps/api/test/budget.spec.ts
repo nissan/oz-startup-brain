@@ -14,11 +14,11 @@ describe('in-process development budget', () => {
     expect(denied.body.error.code).toBe('budget_exhausted');
     expect(denied.body.error.retry_after_seconds).toBeGreaterThan(0);
     expect(denied.headers['retry-after']).toBeDefined();
-    expect(rt.budget.usage('tester')).toEqual({ admitted: 2, active: 0 });
+    expect(await rt.budget.usage('tester')).toEqual({ admitted: 2, active: 0 });
     await q(keys.queryOnly).expect(200); // a different consumer has its own allowance
     // Rejected calls never count.
     await request(app.getHttpServer()).post('/v1/queries').send({ question: 'x' }).expect(401);
-    expect(rt.budget.usage('tester').admitted).toBe(2);
+    expect((await rt.budget.usage('tester')).admitted).toBe(2);
     await app.close();
   });
 
@@ -37,10 +37,10 @@ describe('in-process development budget', () => {
     // Both remaining leases are abandoned; they are reclaimed once their lease expires.
     now = new Date('2026-11-05T10:00:31Z');
     expect('lease' in b.acquire('c')).toBe(true);
-    expect(b.usage('c').admitted).toBe(4);
+    expect(b.usageSync('c').admitted).toBe(4);
     now = new Date('2026-11-06T00:00:01Z');
     b.acquire('c');
-    expect(b.usage('c').admitted).toBe(1);
+    expect(b.usageSync('c').admitted).toBe(1);
   });
 
   it('computes retry-after to the next UTC day', () => {

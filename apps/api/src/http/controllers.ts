@@ -14,9 +14,13 @@ import type { Request } from 'express';
 import { RetrievalTimeoutError } from '../fixture/adapters';
 import { bodyErrorOf } from './body';
 import { ApiRuntime } from '../runtime';
-import { ApiError } from './errors';
+import { BudgetUnavailable } from '../budget-store';
+import { ApiError, budgetUnavailable } from './errors';
 import { identityOf, Public, RequireScope } from './auth.guard';
 import { requestIdOf } from './request-id';
+
+/** Cost units reserved for one query. With the fixture responder a query is one unit of the daily allowance. */
+const QUERY_RESERVE_UNITS = 1;
 
 const ref = (name: DefinitionName) => ({ $ref: `#/components/schemas/${name}` });
 const errorResponses = (...statuses: number[]) =>
@@ -115,7 +119,7 @@ export class V1Controller {
   @ApiBody({ schema: ref('QueryRequest') })
   @ApiResponse({ status: 200, schema: ref('QueryEnvelope') })
   @applyAll(errorResponses(400, 401, 403, 413, 429, 500, 503, 504))
-  query(@Req() req: Request, @Body() body: unknown): QueryEnvelope {
+  async query(@Req() req: Request, @Body() body: unknown): Promise<QueryEnvelope> {
     const requestId = requestIdOf(req);
     const identity = identityOf(req);
 
@@ -134,11 +138,19 @@ export class V1Controller {
     if (harness.currentFault() === 'budget_exhausted') {
       throw new ApiError(429, 'budget_exhausted', 'The query allowance is exhausted. Try again later.', 3600);
     }
-    const admission = budget.acquire(identity.consumerId);
-    if ('denied' in admission) {
-      const { code, retryAfterSeconds } = admission.denied;
+    let admitted: Awaited<ReturnType<typeof budget.admit>>;
+    try {
+      admitted = await budget.admit(identity.consumerId, requestId, QUERY_RESERVE_UNITS);
+    } catch (e) {
+      // Fail closed (API07): if the allowance cannot be checked, no work starts.
+      if (e instanceof BudgetUnavailable) throw budgetUnavailable();
+      throw e;
+    }
+    if ('denied' in admitted) {
+      const { code, retryAfterSeconds } = admitted.denied;
       throw new ApiError(429, code, code === 'budget_exhausted' ? 'The query allowance is exhausted. Try again later.' : 'Too many queries are in progress. Try again shortly.', retryAfterSeconds);
     }
+    const { admission } = admitted;
 
     // 3. Deterministic fixture responder.
     try {
@@ -148,7 +160,12 @@ export class V1Controller {
       if (e instanceof RetrievalTimeoutError) throw new ApiError(504, 'retrieval_timeout', 'Retrieval did not finish within its deadline. No answer was produced.');
       throw e;
     } finally {
-      admission.lease.release();
+      // The fixture responder makes no paid call: an admitted query costs exactly its reserved unit,
+      // whatever its outcome. A live responder reports its actual usage here instead (issue 103). If
+      // either call fails, the reservation stays open and is settled at the reserved amount at its
+      // deadline, and the slot is reclaimed at lease expiry: the same figures, later.
+      await admission.settle(QUERY_RESERVE_UNITS).catch(() => undefined);
+      await admission.release();
     }
   }
 

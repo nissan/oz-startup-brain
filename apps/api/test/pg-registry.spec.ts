@@ -107,9 +107,9 @@ describePg('durable credential registry (Postgres)', () => {
     try {
       // Three runners start together on an empty schema: exactly one applies the file, none fails.
       const results = await Promise.all([migrate(fresh.pool), migrate(fresh.pool), migrate(fresh.pool)]);
-      expect(results.flat()).toEqual(['001_credential_registry.sql']);
+      expect(results.flat()).toEqual(['001_credential_registry.sql', '002_budget_store.sql']);
       const names = await fresh.pool.query<{ name: string }>('SELECT name FROM ozsb_schema_migrations ORDER BY name');
-      expect(names.rows.map((r) => r.name)).toEqual(['001_credential_registry.sql']);
+      expect(names.rows.map((r) => r.name)).toEqual(['001_credential_registry.sql', '002_budget_store.sql']);
     } finally {
       await fresh.drop();
     }
@@ -154,7 +154,7 @@ describePg('durable credential mode over HTTP', () => {
     const res = await http().get('/v1/capabilities').set('X-API-Key', key).expect(200);
     expectContract('Capabilities', res.body);
     expect(res.body.credential_mode).toBe('durable');
-    expect(res.body.budget_store).toBe('in_process_development');
+    expect(res.body.budget_store).toBe('durable');
   });
 
   it('API04: both keys of a rotation draw on one allowance; revoking the old one fails its next request and the new one carries on', async () => {
@@ -164,7 +164,7 @@ describePg('durable credential mode over HTTP', () => {
     // Rotation window: both keys work, and both count against the same consumer.
     await query(newKey.rawKey).expect(200);
     await query(oldKey.rawKey).expect(200);
-    expect(rt.budget.usage('website').admitted).toBe(3);
+    expect((await rt.budget.usage('website')).admitted).toBe(3);
     // The allowance of 3 is spent between them: a second key did not buy a second allowance.
     const over = await query(newKey.rawKey).expect(429);
     expect(over.body.error.code).toBe('budget_exhausted');
@@ -176,7 +176,7 @@ describePg('durable credential mode over HTTP', () => {
     // The new key still authenticates, and is still inside the original (spent) allowance.
     await http().get('/v1/capabilities').set('X-API-Key', newKey.rawKey).expect(200);
     await query(newKey.rawKey).expect(429);
-    expect(rt.budget.usage('website').admitted).toBe(3);
+    expect((await rt.budget.usage('website')).admitted).toBe(3);
   });
 
   it('API05: revoking consumer A fails A\'s next request and leaves consumer B working', async () => {
@@ -187,7 +187,7 @@ describePg('durable credential mode over HTTP', () => {
     expect(await admin.revokeKey(a.keyId)).toBe(true);
     expect((await query(a.rawKey).expect(401)).body.error.code).toBe('unauthenticated');
     await query(b.rawKey).expect(200);
-    expect(rt.budget.usage('consumer-b').admitted).toBe(2);
+    expect((await rt.budget.usage('consumer-b')).admitted).toBe(2);
     // Revoking the whole consumer cuts off every key it holds, and still only that consumer.
     const b2 = await admin.rotate('consumer-b');
     expect(await admin.revokeConsumer('consumer-b')).toBe(true);
@@ -223,7 +223,8 @@ describePg('durable credential mode over HTTP', () => {
       }
       // No work started for a caller nobody could authenticate.
       expect(down.rt.retriever.calls).toBe(0);
-      expect(down.rt.budget.usage('during-outage').admitted).toBe(0);
+      // The budget shares the unreachable database, so it cannot even be read; nothing was admitted through it.
+      await expect(down.rt.budget.usage('during-outage')).rejects.toThrow('budget store unavailable');
       // A string that is not key-shaped needs no lookup and is still the generic 401.
       await server.get('/v1/capabilities').set('X-API-Key', 'nonsense').expect(401);
       await server.get('/v1/capabilities').expect(401);

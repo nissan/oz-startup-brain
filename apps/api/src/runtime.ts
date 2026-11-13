@@ -2,6 +2,8 @@ import { DevKeyRegistry } from './auth/dev-keys';
 import { PgCredentialRegistry, registryPool } from './auth/pg-registry';
 import type { CredentialRegistry } from './auth/registry';
 import { InProcessBudget } from './budget';
+import type { BudgetStore } from './budget-store';
+import { PgBudgetStore } from './pg-budget';
 import type { ApiConfig } from './config';
 import { FixtureGraph, FixtureRetriever } from './fixture/adapters';
 import { loadFixtureCorpus, type FixtureCorpus } from './fixture/corpus';
@@ -19,7 +21,7 @@ export class ApiRuntime {
   readonly retriever: FixtureRetriever;
   readonly graph: FixtureGraph;
   readonly responder: FixtureResponder;
-  readonly budget: InProcessBudget;
+  readonly budget: BudgetStore;
 
   constructor(readonly config: ApiConfig, budgetClock?: () => Date) {
     this.corpus = loadFixtureCorpus();
@@ -32,11 +34,23 @@ export class ApiRuntime {
     this.retriever = new FixtureRetriever(this.corpus, this.harness);
     this.graph = new FixtureGraph(this.harness);
     this.responder = new FixtureResponder(this.corpus, this.retriever, this.graph);
-    this.budget = new InProcessBudget(config.dailyQueryAllowance, config.maxConcurrentQueries, config.leaseMs, budgetClock);
+    // Durable credentials and the durable budget go together: both are needed before anything is live,
+    // and both use the one database. Each has its own small pool so one being exhausted cannot starve the other.
+    this.budget =
+      config.credentialMode === 'durable'
+        ? new PgBudgetStore(registryPool(config.databaseUrl!, { schema: config.databaseSchema ?? undefined }), {
+            dailyAllowance: config.dailyQueryAllowance,
+            maxConcurrent: config.maxConcurrentQueries,
+            leaseMs: config.leaseMs,
+            reconcileMs: config.reconcileMs,
+            globalDailyAllowance: config.globalDailyAllowance,
+            clock: budgetClock,
+          })
+        : new InProcessBudget(config.dailyQueryAllowance, config.maxConcurrentQueries, config.leaseMs, budgetClock);
   }
 
-  /** Releases what the process holds open (the registry's connections). */
-  close(): Promise<void> {
-    return this.registry.close();
+  /** Releases what the process holds open (database connections). */
+  async close(): Promise<void> {
+    await Promise.all([this.registry.close(), this.budget.close()]);
   }
 }

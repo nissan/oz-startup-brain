@@ -34,12 +34,12 @@ describe('bounded follow-ups over the real API (#45)', () => {
     const ctx = { jurisdiction: 'unknown', stage: 'unknown' };
     const standalone = await ask(prior, undefined, ctx);
     const before = rt.retriever.calls;
-    const admitted = rt.budget.usage('tester').admitted;
+    const admitted = (await rt.budget.usage('tester')).admitted;
     const e = await ask(follow, prior, ctx);
     expect(e.status).toBe('answer'); expect(e.answer!.summary).toContain(`Continuing with ${label}.`);
     expect(e.claims).toEqual(standalone.claims); expect(e.unresolved_conditions).toEqual(standalone.unresolved_conditions);
     expect(e.confirmed_context).toEqual(ctx); expect(rt.retriever.calls - before).toBe(1);
-    expect(rt.budget.usage('tester').admitted - admitted).toBe(1);
+    expect((await rt.budget.usage('tester')).admitted - admitted).toBe(1);
   });
   it('normalises case, whitespace and terminal punctuation only', async () => {
     const e = await ask(T03.toUpperCase().replaceAll(' ', '  \n').replace('?', '!!!'), A2);
@@ -102,9 +102,9 @@ describe('bounded follow-ups over the real API (#45)', () => {
     expect(JSON.stringify(e)).not.toContain('SECRET-MARKER');
   });
   it.each(['', ' \n\t', null, 7, 'x'.repeat(2001)])('rejects invalid preceding text before admission/retrieval: %j', async (prior) => {
-    const calls = rt.retriever.calls, admitted = rt.budget.usage('tester').admitted;
+    const calls = rt.retriever.calls, admitted = (await rt.budget.usage('tester')).admitted;
     await post({ question: T03, previous_question: prior }).expect(400);
-    expect(rt.retriever.calls).toBe(calls); expect(rt.budget.usage('tester').admitted).toBe(admitted);
+    expect(rt.retriever.calls).toBe(calls); expect((await rt.budget.usage('tester')).admitted).toBe(admitted);
   });
   it('accepts 2000 Unicode code points in both fields, but retains the byte cap', async () => {
     const max = '😀'.repeat(2000);

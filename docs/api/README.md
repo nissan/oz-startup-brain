@@ -83,7 +83,7 @@ So a call rejected at step 2 starts no validation, admission or retrieval, and u
 - **Key format:** keys look like `ozsb_<key_id>_<secret>`, with a 256-bit secret.
 - **Registry:** the registry (`OZSB_DEV_KEYS` as JSON, or `OZSB_DEV_KEYS_FILE`, default `.ozsb/dev-keys.json`) stores only SHA-256 digests. Each request's key is checked against them in constant time. The API refuses to start if the registry contains anything that looks like a raw key.
 - **Revocation and expiry:** to revoke a key, set its `revoked_at`; to make one expire, set its `expires_at`. Restart the API for either change to take effect.
-- **Budget:** a per-consumer, single-process counter with a daily allowance (`OZSB_DAILY_QUERY_ALLOWANCE`, default 500) and concurrency leases (`OZSB_MAX_CONCURRENT_QUERIES`, default 4; a lease expires after 30 s). This is not a durable or global spend cap and records no monetary reservations. API06 and API07 cannot pass in this mode.
+- **Budget:** a per-consumer, single-process counter with a daily allowance (`OZSB_DAILY_QUERY_ALLOWANCE`, default 500) and concurrency leases (`OZSB_MAX_CONCURRENT_QUERIES`, default 4; a lease expires after 30 s). This is not a durable or global spend cap and records no monetary reservations. API06 and API07 cannot pass in this mode. Durable mode uses the Postgres budget store instead; see the last section.
 - **Dependency advisories:** see [docs/dependency-advisories.md](../dependency-advisories.md) for every audit finding, its reachability and disposition; the two overrides in the root `package.json` are explained there.
 - **Never public:** the process refuses to start when `VERCEL`, `VERCEL_ENV` or `NODE_ENV=production` is set, in either credential mode, because the fixture responder is the only responder. `OZSB_RESPONDER` accepts only `fixture`. `OZSB_CREDENTIAL_MODE` accepts `development` (the default) or `durable`; any other value is a startup error.
 
@@ -130,7 +130,7 @@ Tests change the clock and fault through the in-process `HarnessControls.set()`,
 
 The fixture recognises the authored complete phrases in `apps/api/fixtures/corpus.json` for Round A2 and Gympie. Compatible follow-ups recompute evidence and dates; ambiguous/missing subjects abstain with `field: "subject"`. Abstention copy distinguishes missing antecedents, multiple subjects, a known subject without evidence for that question, and an out-of-inventory round. Generic questions after these topics (or after a registered follow-up) explain the fixture's limited recognition and ask for a supported question. The browser keeps only one answer-derived preceding question in memory; **Start a new question** clears it while retaining explicit situation choices. See [ADR 003](../decisions/003-bounded-fixture-follow-ups.md) for the retry/context/reset lifecycle. This is bounded fixture matching, not general conversation understanding. Only Gympie is in the locality inventory; arbitrary locality recognition is not supported. Unregistered, non-generic paraphrases such as “What is still unknown?” after A2 receive the neutral no-evidence response; that is a fixture limitation, not a continuity pass.
 
-## Durable credential registry (Postgres)
+## Durable credential registry and budget store (Postgres)
 
 `OZSB_CREDENTIAL_MODE=durable` checks keys against a Postgres database instead of the development file (issue 98; API04, API05). It is plain SQL through `pg`, so a local Postgres, Supabase or Neon all work. Nothing hosted is needed to build or test it, and no hosted database has been provisioned.
 
@@ -158,7 +158,21 @@ Behaviour to rely on:
 - **Startup does not need the database.** The pool connects on first use; an unreachable database is logged at startup and refuses requests until it returns.
 - **Refused combinations.** `durable` without `OZSB_DATABASE_URL`, `durable` together with `OZSB_DEV_KEYS` or `OZSB_DEV_KEYS_FILE`, and `OZSB_DATABASE_URL` without `durable` are startup errors. Messages name the variable and never print the URL.
 - `OZSB_DATABASE_SCHEMA` (optional) selects a schema other than the connection's default. It is sent as a startup option and needs a direct connection; leave it unset behind a transaction-mode pooler. This has not been tried against a hosted database yet.
-- The budget store is still `in_process_development` in both modes. Durable budgets are issue 99.
+- Durable mode also switches the budget to the Postgres store described next; `GET /v1/capabilities` then reports `budget_store: durable`.
+
+### Durable budget store
+
+In durable mode, query admission is decided in Postgres (issue 99; API06, API07), so the allowance holds across any number of API processes. `npm run keys -- migrate` creates its tables along with the registry's.
+
+- **Two things, expiring differently.** Admission takes a *concurrency slot* under a lease and makes a *reservation* of cost units. Completing a request releases the slot; an abandoned slot is reclaimed when its lease expires (30 s). A reservation is never released by lease expiry.
+- **Atomic.** Each admission runs in one transaction under a per-consumer lock. Concurrent requests cannot be admitted past `OZSB_DAILY_QUERY_ALLOWANCE` or `OZSB_MAX_CONCURRENT_QUERIES`. The rest get `429` with `retry_after_seconds` and `Retry-After` (seconds to the next UTC day for `budget_exhausted`, 1 for `concurrency_limited`).
+- **What counts.** Remaining allowance is the allowance minus settled usage minus open reservations in full.
+- **Settled exactly once.** A reservation is *reconciled* at the usage the request reports, or *settled conservatively* at the reserved amount if no report arrives within `OZSB_RECONCILE_MS` (default 120000; never shorter than the lease). A report that arrives after conservative settlement is recorded and applied once; any further report changes nothing.
+- **Units.** Amounts are whole cost units. The fixture responder makes no paid call, so one admitted query is one unit, reserved and settled as one, whatever its outcome. A live responder will report its real usage (issue 103).
+- **Optional cap across all consumers.** `OZSB_GLOBAL_DAILY_ALLOWANCE` (units per UTC day) is enforced in the same transaction. Unset means no global cap.
+- **Fails closed.** If the store cannot be used, `POST /v1/queries` answers `503 dependency_unavailable` and no work starts. Operations that cost nothing are unaffected.
+- **The ledger** is the `ozsb_budget_reservations` table: one row per admitted request with its request ID, reserved amount, status and settled amount.
+- Not included: per-visitor sub-quotas (issue 100) and real provider pricing.
 
 Tests for this mode need a Postgres they may create schemas in:
 

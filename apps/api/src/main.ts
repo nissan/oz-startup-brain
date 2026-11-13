@@ -23,7 +23,7 @@ async function main(): Promise<void> {
   const actualPort = typeof address === 'object' && address ? address.port : port;
   logger.log(
     `listening on http://${host}:${actualPort} — responder=fixture, credential_mode=${runtime.registry.kind} (${await runtime.registry.describe()}), ` +
-      `budget_store=in_process_development, clock=pinned ${runtime.harness.asOf()}, harness_controls=${runtime.harness.enabled ? 'enabled' : 'disabled'}. ` +
+      `budget_store=${runtime.budget.kind}, clock=pinned ${runtime.harness.asOf()}, harness_controls=${runtime.harness.enabled ? 'enabled' : 'disabled'}. ` +
       'Fictional fixture data only; never deploy this mode publicly.',
   );
 }

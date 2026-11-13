@@ -4,7 +4,10 @@
  * `in_process_development` in capabilities: it is not a global or durable spend cap, holds no monetary
  * reservations (there are no paid calls in slice 1A-0) and cannot satisfy API06/API07.
  */
-export type BudgetDenial = { code: 'budget_exhausted' | 'concurrency_limited'; retryAfterSeconds: number };
+import { randomUUID } from 'node:crypto';
+import { secondsUntilNextUtcDay, type Admission, type BudgetDenial, type BudgetStore, type BudgetUsage } from './budget-store';
+
+export { secondsUntilNextUtcDay, type BudgetDenial };
 
 export interface Lease {
   release(): void;
@@ -16,12 +19,7 @@ interface ConsumerState {
   leases: Map<number, number>; // lease id -> expiry (ms)
 }
 
-export function secondsUntilNextUtcDay(now: Date): number {
-  const next = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
-  return Math.max(1, Math.ceil((next - now.getTime()) / 1000));
-}
-
-export class InProcessBudget {
+export class InProcessBudget implements BudgetStore {
   readonly kind = 'in_process_development' as const;
   private readonly consumers = new Map<string, ConsumerState>();
   private nextLeaseId = 1;
@@ -64,7 +62,32 @@ export class InProcessBudget {
     };
   }
 
-  usage(consumerId: string): { admitted: number; active: number } {
+  /**
+   * The port's admission. This development store counts one admission per query and keeps no
+   * reservations, so the reserved amount is not used and settlement changes nothing.
+   */
+  admit(consumerId: string, _requestId: string, _reserve: number): Promise<{ admission: Admission } | { denied: BudgetDenial }> {
+    const result = this.acquire(consumerId);
+    if ('denied' in result) return Promise.resolve(result);
+    const { lease } = result;
+    return Promise.resolve({
+      admission: {
+        reservationId: randomUUID(),
+        release: () => Promise.resolve(lease.release()),
+        settle: () => Promise.resolve('reconciled' as const),
+      },
+    });
+  }
+
+  usage(consumerId: string): Promise<BudgetUsage> {
+    return Promise.resolve(this.usageSync(consumerId));
+  }
+
+  close(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  usageSync(consumerId: string): BudgetUsage {
     const s = this.consumers.get(consumerId);
     return { admitted: s?.admitted ?? 0, active: s?.leases.size ?? 0 };
   }

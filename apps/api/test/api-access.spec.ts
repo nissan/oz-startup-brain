@@ -86,8 +86,8 @@ describe('API access (fixture mode)', () => {
       }
       expect(rt.retriever.calls).toBe(0);
       expect(rt.graph.calls).toBe(0);
-      expect(rt.budget.usage('expired-consumer').admitted).toBe(0);
-      expect(rt.budget.usage('revoked-consumer').admitted).toBe(0);
+      expect((await rt.budget.usage('expired-consumer')).admitted).toBe(0);
+      expect((await rt.budget.usage('revoked-consumer')).admitted).toBe(0);
     });
 
     it('answers 401 rather than revealing body handling for an unauthenticated malformed or oversized body', async () => {
@@ -103,7 +103,7 @@ describe('API access (fixture mode)', () => {
       expectContract('ErrorResponse', res.body);
       expect(res.body.error.code).toBe('insufficient_scope');
       expect(rt.retriever.calls).toBe(0);
-      expect(rt.budget.usage('sources-reader').admitted).toBe(0);
+      expect((await rt.budget.usage('sources-reader')).admitted).toBe(0);
     });
 
     it('ignores client-supplied scopes and consumer IDs in headers and body', async () => {

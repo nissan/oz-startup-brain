@@ -21,7 +21,10 @@ export const describePg: jest.Describe = TEST_DATABASE_URL
   : (((name: string) => {
       // eslint-disable-next-line no-console
       console.warn(`SKIPPED (no OZSB_TEST_DATABASE_URL): ${name}`);
-      describe.skip(name, () => undefined);
+      // A suite file must hold at least one test, so the skip is itself a (skipped) test.
+      describe.skip(name, () => {
+        it('needs OZSB_TEST_DATABASE_URL', () => undefined);
+      });
     }) as unknown as jest.Describe);
 
 export interface TestSchema {
