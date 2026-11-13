@@ -44,7 +44,7 @@ curl -s -H "X-API-Key: $OZSB_API_KEY" -H 'Content-Type: application/json' \
   - a request field is newly required or narrowed;
   - a property is added to a response schema. v1 response schemas are closed, so this counts as breaking.
 
-  An additive request field, such as the later ADR 002 `task_intent`, passes. Update the baseline only when deliberately publishing a new contract version.
+  An additive request field, such as the later ADR 002 `task_intent`, passes. Update the baseline only when deliberately publishing a new contract version, or on a recorded owner decision. One such decision exists: on 13 November 2026 the owner approved adding the `503 dependency_unavailable` response to `GET /v1/capabilities` and `GET /v1/sources/{sourceId}` in the v1 baseline, so that a credential-registry outage is reported the same way on every authenticated operation (issue 98, PR 106). Those two response entries are the only change made to the baseline.
 - **Drift:** `npm run check:generated` regenerates the types, the OpenAPI document and the client, then fails if any committed file differs.
 
 | Endpoint | Scope | Notes |
@@ -154,7 +154,7 @@ Rotation is three steps: `rotate`, switch the consumer to the new key, then `rev
 Behaviour to rely on:
 
 - **State is read on every request.** There is no cache of a successful check, so revocation takes effect on the next request without a restart. Any recorded revocation counts at once; it does not depend on the server's clock.
-- **Fails closed.** If the database cannot be reached, no caller is authenticated. `POST /v1/queries` answers `503 dependency_unavailable` with `Retry-After`; `GET /v1/capabilities` and `GET /v1/sources/{id}` answer the generic `500`, because the frozen v1 contract does not document `503` for them. Neither response names the database. `/health/live` stays up.
+- **Fails closed.** If the database cannot be reached, no caller is authenticated. Every authenticated operation answers `503 dependency_unavailable` with `Retry-After: 5`, and the response does not name the database. `/health/live` stays up.
 - **Startup does not need the database.** The pool connects on first use; an unreachable database is logged at startup and refuses requests until it returns.
 - **Refused combinations.** `durable` without `OZSB_DATABASE_URL`, `durable` together with `OZSB_DEV_KEYS` or `OZSB_DEV_KEYS_FILE`, and `OZSB_DATABASE_URL` without `durable` are startup errors. Messages name the variable and never print the URL.
 - `OZSB_DATABASE_SCHEMA` (optional) selects a schema other than the connection's default. It is sent as a startup option and needs a direct connection; leave it unset behind a transaction-mode pooler. This has not been tried against a hosted database yet.

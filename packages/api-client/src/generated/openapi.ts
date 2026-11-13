@@ -386,6 +386,15 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
+            /** @description dependency_unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
         };
     };
     createQuery: {
@@ -531,6 +540,15 @@ export interface operations {
             };
             /** @description internal_error (no internal detail is returned) */
             500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description dependency_unavailable */
+            503: {
                 headers: {
                     [name: string]: unknown;
                 };

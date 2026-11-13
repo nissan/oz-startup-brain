@@ -204,24 +204,21 @@ describePg('durable credential mode over HTTP', () => {
     expect(rt.retriever.calls).toBe(before);
   });
 
-  it('fails closed when the registry is unreachable, with only documented statuses and no dependency detail; liveness stays up', async () => {
+  it('fails closed when the registry is unreachable: 503 on every authenticated operation, no dependency detail, liveness stays up', async () => {
     const key = (await admin.issue('during-outage', ALL_SCOPES)).rawKey;
     const down = await startApi({ OZSB_CREDENTIAL_MODE: 'durable', OZSB_DATABASE_URL: DEAD_URL });
     try {
       const server = request(down.app.getHttpServer());
-      // POST /v1/queries documents 503 in the frozen v1 contract, so the refusal says so.
-      const q = await server.post('/v1/queries').set('X-API-Key', key).send(ask);
-      expect(q.status).toBe(503);
-      expect(q.body.error.code).toBe('dependency_unavailable');
-      expect(q.headers['retry-after']).toBe('5');
-      // The other two operations do not document 503 in v1; they refuse with the generic 500 they do document.
-      const others = [await server.get('/v1/capabilities').set('X-API-Key', key), await server.get('/v1/sources/src_fixture_program_a').set('X-API-Key', key)];
-      for (const res of others) {
-        expect(res.status).toBe(500);
-        expect(res.body.error.code).toBe('internal_error');
-      }
-      for (const res of [q, ...others]) {
+      // All three authenticated operations document this 503 in v1 (owner decision, 13 November 2026).
+      for (const res of [
+        await server.post('/v1/queries').set('X-API-Key', key).send(ask),
+        await server.get('/v1/capabilities').set('X-API-Key', key),
+        await server.get('/v1/sources/src_fixture_program_a').set('X-API-Key', key),
+      ]) {
+        expect(res.status).toBe(503);
         expectContract('ErrorResponse', res.body);
+        expect(res.body.error.code).toBe('dependency_unavailable');
+        expect(res.headers['retry-after']).toBe('5');
         expect(JSON.stringify(res.body)).not.toMatch(/127\.0\.0\.1|postgres|ECONN|not-a-real-password|nobody|:9\b/i);
       }
       // No work started for a caller nobody could authenticate.
