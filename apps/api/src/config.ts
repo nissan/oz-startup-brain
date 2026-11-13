@@ -20,8 +20,12 @@ export interface HarnessConfig {
 
 export interface ApiConfig {
   responder: 'fixture';
-  credentialMode: 'development';
+  credentialMode: 'development' | 'durable';
+  /** Development mode only; empty in durable mode. */
   devKeys: DevKeyRecord[];
+  /** Durable mode only. A secret: never logged, never returned. */
+  databaseUrl: string | null;
+  databaseSchema: string | null;
   host: string;
   port: number;
   excerptMaxChars: number;
@@ -67,19 +71,39 @@ function isPublicDeployment(env: NodeJS.ProcessEnv): string | null {
 }
 
 /**
- * Reads and checks the process configuration. Slice 1A-0 supports exactly one mode: the fixture
- * responder with development credentials. Anything else, and every unsafe harness combination, is a
- * startup error rather than a silent fallback (docs/06-delivery.md, fixture-mode test controls).
+ * Reads and checks the process configuration. The fixture responder is the only responder. Keys come
+ * from the development registry (the default) or, with OZSB_CREDENTIAL_MODE=durable, from Postgres
+ * (issue 98). Anything else, and every unsafe harness combination, is a startup error rather than a
+ * silent fallback (docs/06-delivery.md, fixture-mode test controls).
  */
 export function loadConfig(env: NodeJS.ProcessEnv = process.env, cwd = repoRoot()): ApiConfig {
   const responder = env.OZSB_RESPONDER ?? 'fixture';
   if (responder !== 'fixture') throw new ConfigError(`OZSB_RESPONDER=${responder} is not available in slice 1A-0; only "fixture" is implemented`);
   const credentialMode = env.OZSB_CREDENTIAL_MODE ?? 'development';
-  if (credentialMode !== 'development') {
-    throw new ConfigError(`OZSB_CREDENTIAL_MODE=${credentialMode} is not available in slice 1A-0; the durable registry arrives in slice 1B`);
+  if (credentialMode !== 'development' && credentialMode !== 'durable') {
+    throw new ConfigError('OZSB_CREDENTIAL_MODE must be "development" or "durable"');
   }
+  // The fixture responder is the only one implemented, and it is never public whatever the credential mode.
   const publicDeployment = isPublicDeployment(env);
-  if (publicDeployment) throw new ConfigError(`development credential mode is never deployed publicly; refusing to start in ${publicDeployment}`);
+  if (publicDeployment) throw new ConfigError(`the fixture responder and development credential mode are never deployed publicly; refusing to start in ${publicDeployment}`);
+
+  let databaseUrl: string | null = null;
+  let databaseSchema: string | null = null;
+  if (credentialMode === 'durable') {
+    const url = env.OZSB_DATABASE_URL;
+    // Messages name the variable only. The value holds a password and is never echoed.
+    if (!url) throw new ConfigError('OZSB_CREDENTIAL_MODE=durable requires OZSB_DATABASE_URL');
+    if (!/^postgres(ql)?:\/\/[^\s]+$/.test(url)) throw new ConfigError('OZSB_DATABASE_URL must be a postgres:// or postgresql:// URL');
+    if (env.OZSB_DEV_KEYS !== undefined || env.OZSB_DEV_KEYS_FILE !== undefined) {
+      throw new ConfigError('OZSB_DEV_KEYS/OZSB_DEV_KEYS_FILE are for development credential mode; unset them when OZSB_CREDENTIAL_MODE=durable');
+    }
+    databaseUrl = url;
+    const schema = env.OZSB_DATABASE_SCHEMA;
+    if (schema !== undefined && !/^[a-z_][a-z0-9_]{0,62}$/.test(schema)) throw new ConfigError('OZSB_DATABASE_SCHEMA must be a lowercase identifier');
+    databaseSchema = schema ?? null;
+  } else if (env.OZSB_DATABASE_URL !== undefined) {
+    throw new ConfigError('OZSB_DATABASE_URL is set but OZSB_CREDENTIAL_MODE is not "durable"; refusing to guess which registry was meant');
+  }
 
   const host = env.OZSB_HOST ?? DEFAULTS.host;
   const port = int(env, 'PORT', DEFAULTS.port, 0, 65535);
@@ -104,26 +128,30 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, cwd = repoRoot(
     harness.startFault = fault;
   }
 
-  let registryText: string;
-  if (env.OZSB_DEV_KEYS !== undefined) {
-    registryText = env.OZSB_DEV_KEYS;
-  } else {
-    const file = env.OZSB_DEV_KEYS_FILE ?? DEFAULT_DEV_KEYS_FILE;
-    const path = isAbsolute(file) ? file : join(cwd, file);
-    if (!existsSync(path)) throw new ConfigError(`no development key registry at ${file}; run "npm run dev:keys" first or set OZSB_DEV_KEYS`);
-    registryText = readFileSync(path, 'utf8');
-  }
-  let devKeys: DevKeyRecord[];
-  try {
-    devKeys = parseRegistry(registryText);
-  } catch (e) {
-    throw new ConfigError(`development key registry is invalid: ${(e as Error).message}`);
+  let devKeys: DevKeyRecord[] = [];
+  if (credentialMode === 'development') {
+    let registryText: string;
+    if (env.OZSB_DEV_KEYS !== undefined) {
+      registryText = env.OZSB_DEV_KEYS;
+    } else {
+      const file = env.OZSB_DEV_KEYS_FILE ?? DEFAULT_DEV_KEYS_FILE;
+      const path = isAbsolute(file) ? file : join(cwd, file);
+      if (!existsSync(path)) throw new ConfigError(`no development key registry at ${file}; run "npm run dev:keys" first or set OZSB_DEV_KEYS`);
+      registryText = readFileSync(path, 'utf8');
+    }
+    try {
+      devKeys = parseRegistry(registryText);
+    } catch (e) {
+      throw new ConfigError(`development key registry is invalid: ${(e as Error).message}`);
+    }
   }
 
   return {
     responder: 'fixture',
-    credentialMode: 'development',
+    credentialMode,
     devKeys,
+    databaseUrl,
+    databaseSchema,
     host,
     port,
     excerptMaxChars: int(env, 'OZSB_EXCERPT_MAX_CHARS', DEFAULTS.excerptMaxChars, 0, 2000),

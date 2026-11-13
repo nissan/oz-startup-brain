@@ -70,7 +70,7 @@ export class V1Controller {
   @RequireScope('capabilities:read')
   @ApiOperation({ operationId: 'getCapabilities', summary: 'Modes, coverage, supported tasks, features and limits.' })
   @ApiResponse({ status: 200, schema: ref('Capabilities') })
-  @applyAll(errorResponses(401, 403, 500))
+  @applyAll(errorResponses(401, 403, 500, 503))
   capabilities(@Req() req: Request): Capabilities {
     const { config, corpus, harness } = this.rt;
     const value: Capabilities = {
@@ -157,7 +157,7 @@ export class V1Controller {
   @ApiOperation({ operationId: 'getSource', summary: 'Public citation metadata; a bounded excerpt only when rights_status is cleared.' })
   @ApiParam({ name: 'sourceId', schema: { type: 'string', pattern: SOURCE_ID_PATTERN } })
   @ApiResponse({ status: 200, schema: ref('SourceRecord') })
-  @applyAll(errorResponses(401, 403, 404, 500))
+  @applyAll(errorResponses(401, 403, 404, 500, 503))
   source(@Req() req: Request, @Param('sourceId') sourceId: string): SourceRecord {
     const s = this.rt.corpus.sources.find((x) => x.source_id === sourceId);
     if (!s) throw new ApiError(404, 'not_found', 'No such source.');

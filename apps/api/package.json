@@ -2,13 +2,14 @@
   "name": "@ozsb/api",
   "version": "0.1.0",
   "private": true,
-  "description": "Oz Startup Brain NestJS API. Slice 1A-0: fixture responder and development credential mode only.",
+  "description": "Oz Startup Brain NestJS API. Fixture responder; development or durable (Postgres) credential registry.",
   "main": "dist/src/main.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "start": "node dist/src/main.js",
     "dev:keys": "tsx scripts/dev-keys.ts",
+    "keys": "tsx scripts/keys.ts",
     "openapi": "tsx scripts/generate-openapi.ts",
     "test": "jest --runInBand"
   },
@@ -19,6 +20,7 @@
     "@nestjs/swagger": "11.4.7",
     "@ozsb/contracts": "1.0.0",
     "express": "5.2.1",
+    "pg": "8.23.1",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2"
   },
@@ -26,6 +28,7 @@
     "@nestjs/testing": "11.2.8",
     "@ozsb/api-client": "1.0.0",
     "@types/express": "5.0.6",
+    "@types/pg": "8.23.1",
     "@types/supertest": "7.2.1",
     "supertest": "7.3.1",
     "tsx": "4.23.15"

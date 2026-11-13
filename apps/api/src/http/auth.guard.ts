@@ -1,8 +1,9 @@
 import { CanActivate, ExecutionContext, Inject, Injectable, SetMetadata } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import type { Request } from 'express';
-import { DevKeyRegistry, type Identity, type Scope } from '../auth/dev-keys';
-import { insufficientScope, unauthenticated } from './errors';
+import type { Identity, Scope } from '../auth/dev-keys';
+import { CREDENTIAL_REGISTRY, RegistryUnavailable, type CredentialRegistry } from '../auth/registry';
+import { insufficientScope, registryUnavailable, unauthenticated } from './errors';
 
 export const REQUIRED_SCOPE = 'ozsb:requiredScope';
 export const PUBLIC_ROUTE = 'ozsb:public';
@@ -22,21 +23,30 @@ export function identityOf(req: Request): Identity {
 /**
  * Protects every route by default (ADR 001). Identity comes only from the verified X-API-Key header;
  * client-supplied scopes, consumer IDs or identity headers are never read. Runs before body
- * validation, budget admission and retrieval, so a rejected call starts no work.
+ * validation, budget admission and retrieval, so a rejected call starts no work. If the registry
+ * cannot be read the request is refused with a 503 that names no dependency.
  */
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     @Inject(Reflector) private readonly reflector: Reflector,
-    @Inject(DevKeyRegistry) private readonly registry: DevKeyRegistry,
+    @Inject(CREDENTIAL_REGISTRY) private readonly registry: CredentialRegistry,
   ) {}
 
-  canActivate(ctx: ExecutionContext): boolean {
+  async canActivate(ctx: ExecutionContext): Promise<boolean> {
     const targets = [ctx.getHandler(), ctx.getClass()];
     if (this.reflector.getAllAndOverride<boolean>(PUBLIC_ROUTE, targets)) return true;
     const req = ctx.switchToHttp().getRequest<Request>();
     const header = req.headers['x-api-key'];
-    const identity = this.registry.verify(Array.isArray(header) ? undefined : header);
+    let identity: Identity | null;
+    try {
+      identity = await this.registry.verify(Array.isArray(header) ? undefined : header);
+    } catch (e) {
+      // Fail closed (ADR 001): when the registry cannot be read, nobody is authenticated.
+      // Every authenticated operation documents this 503 (owner decision, 13 November 2026).
+      if (e instanceof RegistryUnavailable) throw registryUnavailable();
+      throw e;
+    }
     if (!identity) throw unauthenticated();
     const scope = this.reflector.getAllAndOverride<Scope | undefined>(REQUIRED_SCOPE, targets);
     if (!scope || !identity.scopes.has(scope)) throw insufficientScope();

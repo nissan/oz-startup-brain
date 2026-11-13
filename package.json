@@ -21,6 +21,7 @@
     "typecheck": "npm run build && npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "dev:keys": "tsx apps/api/scripts/dev-keys.ts",
+    "keys": "npm run keys -w @ozsb/api --",
     "api:start": "node apps/api/dist/src/main.js",
     "client:fixture": "node packages/api-client/dist/cli/fixture-client.js",
     "demo:fixture": "npm run build && node apps/api/scripts/demo-fixture.mjs",

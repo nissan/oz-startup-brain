@@ -1078,6 +1078,16 @@
               }
             },
             "description": "internal_error (no internal detail is returned)"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "dependency_unavailable"
           }
         },
         "security": [
@@ -1272,6 +1282,16 @@
               }
             },
             "description": "internal_error (no internal detail is returned)"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "dependency_unavailable"
           }
         },
         "security": [
